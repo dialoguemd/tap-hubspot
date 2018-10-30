@@ -57,3 +57,45 @@ models:
     tests:
       - unique:
           column_name: "concat(date_month, account_name)"
+
+  - name: xero_ltv_to_cac
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: cost_eae_qc
+        tests:
+          - not_null
+
+      - name: cost_eae_roc
+        tests:
+          - not_null
+
+      - name: cost_ae_qc
+        tests:
+          - not_null
+
+      - name: cost_ae_roc
+        tests:
+          - not_null
+
+      - name: mrr_signed
+        tests:
+          - not_null
+
+      - name: mrr_signed_eae_qc
+        tests:
+          - not_null
+
+      - name: mrr_signed_eae_roc
+        tests:
+          - not_null
+
+      - name: mrr_signed_ae_qc
+        tests:
+          - not_null
+
+      - name: mrr_signed_ae_roc
+        tests:
+          - not_null

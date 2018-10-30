@@ -8,3 +8,19 @@ models:
     columns:
       - name: line_amount_excl_tax
         description: Amount of the expense exclusive of taxes
+
+      - name: account_group
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['N/A', 'Sales Expenses', 'Customer Success',
+              'General Administration', 'Health Team', 'Marketing Expenses',
+              'Technology']
+
+      - name: cost_category
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['N/A', 'Sales and Marketing - Marketing Campaign',
+                'Sales and Marketing - SAAS', 'Sales & Marketing - Other',
+                'Sales and Marketing - Wages', Sales and Marketing - Professional Services]
