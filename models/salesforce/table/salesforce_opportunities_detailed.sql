@@ -2,16 +2,24 @@ with
 	opportunities as (
 		select *
 		from {{ ref('salesforce_opportunities') }}
-	),
+	)
 
-	accounts as (
+	, accounts as (
 		select *
 		from {{ ref('salesforce_accounts') }}
-	),
+	)
 
-	users as (
+	, users as (
 		select *
 		from {{ ref('salesforce_users') }}
+	)
+
+	, products as (
+		select opportunity_id
+			, array_agg(product_id) as product_ids
+			, array_agg(product_name) as product_names
+		from {{ ref('salesforce_opportunity_product_detailed') }}
+		group by 1
 	)
 
 select opportunities.*
@@ -29,8 +37,13 @@ select opportunities.*
 		accounts.billing_country_code,
 		users.country_code
 	) as country
+	-- hardcode virtual care if there is no product
+	, coalesce(products.product_ids, array['01t6A000002NnLXQA0']) as products_ids
+	, coalesce(products.product_names, array['Virtual Care']) as products_names
 from opportunities
 inner join accounts
 	using (account_id)
 inner join users
 	on opportunities.owner_id = users.user_id
+left join products
+	on opportunities.opportunity_id = products.opportunity_id

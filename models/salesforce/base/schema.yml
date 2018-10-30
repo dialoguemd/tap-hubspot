@@ -44,3 +44,30 @@ models:
           - accepted_values:
               values: ['N/A', '1-39', '40-99', '100-199',
               '200-499', '500-999', '1000+']
+
+  - name: salesforce_products
+
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+
+      - name: product_name
+          - unique
+          - not_null
+
+  - name: salesforce_opportunity_product
+
+    columns:
+      - name: product_id
+        tests:
+          - not_null
+
+      - name: opportunity_id
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(product_id, opportunity_id)"
