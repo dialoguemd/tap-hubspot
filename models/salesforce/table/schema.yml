@@ -1,0 +1,80 @@
+
+version: 2
+
+models:
+  - name: salesforce_activities
+    description: |
+      An activity is a event of task logged in Salesforce.
+
+      Tasks can be emails or calls, or any other SF task.
+
+    columns:
+      - name: activity_id
+        tests:
+          - unique
+          - not_null
+
+      - name: activity_date
+        tests:
+          - not_null
+
+      - name: owner_id
+        tests:
+          - not_null
+
+  - name: salesforce_activities_detailed
+    description: |
+      An activity is a event of task logged in Salesforce
+
+    columns:
+      - name: activity_id
+        tests:
+          - unique
+          - not_null
+
+      - name: activity_date
+        tests:
+          - not_null
+
+      - name: owner_id
+        tests:
+          - not_null
+
+  - name: salesforce_opportunities_detailed
+    description: |
+      Opportunities with added information from the owner and account
+
+    columns:
+      - name: opportunity_id
+        tests:
+          - unique
+          - not_null
+
+  - name: salesforce_opportunities_detailed_direct
+    description: |
+      Direct opportunities that are not purchase orders brought by a partner
+      or self-sign-up with no interaction with our sales team.
+
+      Right now, transactional partner opportunities are identified by their
+      owner (Cassandra or Audrey).
+
+      TODO:
+      - replace with a filter on team = Partnership (requires a cleanup in SF)
+
+  - name: salesforce_opportunities_all_stages
+    description: |
+      Table with one record per opportunity and stage through which it went.
+      Stages includes opportunities stage and activities (emails, calls, events)
+
+      For example, an opportunity that is currently at the initiate stage will
+      have 2 records, one with `status=Meeting Booked`, one with
+      `status=Initiate`
+
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(status, opportunity_id)"
