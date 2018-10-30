@@ -1,0 +1,10 @@
+
+version: 2
+
+models:
+  - name: xero_expenses
+    description: 'Xero expenses going in the P&L report'
+
+    columns:
+      - name: line_amount_excl_tax
+        description: Amount of the expense exclusive of taxes
