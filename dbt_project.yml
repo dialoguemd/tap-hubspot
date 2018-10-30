@@ -14,7 +14,7 @@ profile: 'dialogue'
 # in the "models/" directory. You probably won't need to change these!
 source-paths: ["models"]
 analysis-paths: ["analysis"] 
-test-paths: ["tests", "models/xero/tests"]
+test-paths: ["tests", "models/xero/tests", "models/salesforce/tests"]
 data-paths: ["data"]
 macro-paths: ["macros"]
 

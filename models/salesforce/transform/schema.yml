@@ -1,0 +1,66 @@
+
+version: 2
+
+models:
+  - name: salesforce_users_month
+    description: |
+      Table with one record per salesforce user between their creation date
+      and their last login
+
+  - name: salesforce_targets_monthly
+    description: |
+      For each AE and EAE active month, the table includes their target, taking
+      ramp time into account and their actual close MRR.
+
+  - name: salesforce_monthly_users_by_title
+    description: |
+      Number of users with a title that were active on this month
+
+  - name: salesforce_opportunities_stalled_period
+    description: |
+      Opportunities that were put in the `Stalled` or `Long term` stage with the
+      time range during which they where in this stage
+
+  - name: salesforce_pipeline_monthly
+    description: |
+      Monthly opportunities in the pipeline
+
+      An opportunity is in the pipeline for a given month if it was opened on
+      the first day of the month.
+      Stalled and long term opportunities are excluded from the pipeline for as
+      long as they stay in these stages.
+
+    columns:
+      - name: is_first_month_in_pipeline
+        description: |
+          True if this month is the first month of the opp in the pipeline.
+
+          The first month is the month right after the opportunity was added to
+          the pipeline. So if an opportunity has a meeting on Feb. 20th, its
+          first month in pipeline will be March.
+
+  - name: salesforce_ltv
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: mrr_signed
+        tests:
+          - not_null
+
+      - name: mrr_signed_eae_qc
+        tests:
+          - not_null
+
+      - name: mrr_signed_eae_roc
+        tests:
+          - not_null
+
+      - name: mrr_signed_ae_qc
+        tests:
+          - not_null
+
+      - name: mrr_signed_ae_roc
+        tests:
+          - not_null

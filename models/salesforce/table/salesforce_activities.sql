@@ -2,7 +2,7 @@ select id as activity_id
     , account_id
     , owner_id
     , status
-    , activity_date
+    , coalesce(activity_date, created_date) as activity_date
     , type
     , task_subtype
 from {{ ref('salesforce_tasks') }}
