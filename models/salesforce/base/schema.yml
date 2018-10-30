@@ -1,0 +1,46 @@
+
+version: 2
+
+models:
+  - name: salesforce_accounts
+
+    columns:
+      - name: account_id
+        tests:
+          - unique
+          - not_null
+
+  - name: salesforce_users
+
+    columns:
+      - name: user_id
+        tests:
+          - unique
+          - not_null
+
+      - name: started_date
+        tests:
+          - not_null
+
+  - name: salesforce_opportunities
+
+    columns:
+      - name: opportunity_id
+        tests:
+          - unique
+          - not_null
+
+      - name: revenue_type
+        tests:
+          - not_null
+
+      - name: self_signup_no_touch
+        tests:
+          - not_null
+
+      - name: segment
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['N/A', '1-39', '40-99', '100-199',
+              '200-499', '500-999', '1000+']

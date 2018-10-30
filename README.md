@@ -9,4 +9,15 @@
 - Join the [chat](http://ac-slackin.herokuapp.com/) on Slack for live questions and support.
 
 ---
-# catwalk
+
+### Documentation
+
+Run the following to generate and serve the documentation site:
+```
+dbt docs generate && dbt docs serve
+```
+
+
+### Conventions
+
+TODO: difference between `base`, `table`, `transform`

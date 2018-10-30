@@ -35,3 +35,5 @@ models:
           materialized: table
       scribe:
           materialized: table
+      dimension:
+          materialized: ephemeral
