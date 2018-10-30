@@ -2,7 +2,8 @@
 # Name your package! Package names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'dialogue_catwalk'
+
+name: 'dialogue'
 version: '1.0'
 
 # This setting configures which "profile" dbt uses for this project. Profiles contain
@@ -31,7 +32,10 @@ clean-targets:         # directories to be removed by `dbt clean`
 # as views (the default). Try changing `view` to `table` below, then re-running dbt
 models:
   dialogue:
-      example:
-          materialized: table
-      scribe:
-          materialized: table
+      meta_episodes:
+          transform:
+              materialized: ephemeral
+
+      messaging:
+          transform:
+              materialized: ephemeral
