@@ -44,7 +44,7 @@ models:
           - accepted_values:
               values: ['Sales Expenses', 'Customer Success',
               'General Administration', 'Health Team',
-              'Marketing Expenses', 'Technology']
+              'Marketing Expenses', 'Technology', 'N/A']
 
       - name: account_name
         tests:
