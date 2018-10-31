@@ -1,7 +1,6 @@
 with
 	pipeline as (
-		select *
-		from {{ ref('salesforce_pipeline_weighted_monthly') }}
+		select * from {{ ref('salesforce_pipeline_weighted_monthly') }}
 	)
 
 	, pipeline_lag as (

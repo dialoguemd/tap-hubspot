@@ -1,17 +1,14 @@
 with
 	opportunities as (
-		select *
-		from {{ ref('salesforce_opportunities') }}
+		select * from {{ ref('salesforce_opportunities') }}
 	)
 
 	, accounts as (
-		select *
-		from {{ ref('salesforce_accounts') }}
+		select * from {{ ref('salesforce_accounts') }}
 	)
 
 	, users as (
-		select *
-		from {{ ref('salesforce_users') }}
+		select * from {{ ref('salesforce_users') }}
 	)
 
 	, products as (
@@ -38,8 +35,20 @@ select opportunities.*
 		users.country_code
 	) as country
 	-- hardcode virtual care if there is no product
-	, coalesce(products.product_ids, array['01t6A000002NnLXQA0']) as products_ids
-	, coalesce(products.product_names, array['Virtual Care']) as products_names
+	, coalesce(products.product_ids, array['01t6A000002NnLXQA0']) as product_ids
+	, coalesce(products.product_names, array['Virtual Care']) as product_names
+	, '01t6A000002NnLSQA0' = any (
+			coalesce(products.product_names, array['Virtual Care'])
+	) as includes_24_7
+	, '01t6A000003s6n0QAA' = any (
+			coalesce(products.product_names, array['Virtual Care'])
+	) as includes_vaccination_campaign
+	, '01t6A000002NnLNQA0' = any (
+			coalesce(products.product_names, array['Virtual Care'])
+	) as includes_mental_health
+	, '01t6A000002NnLXQA0' = any (
+			coalesce(products.product_names, array['Virtual Care'])
+	) as includes_virtual_care
 from opportunities
 inner join accounts
 	using (account_id)

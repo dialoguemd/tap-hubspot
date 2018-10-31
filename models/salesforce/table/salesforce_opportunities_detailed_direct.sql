@@ -1,7 +1,6 @@
 with
   opportunities_detailed as (
-    select *
-    from {{ ref('salesforce_opportunities_detailed') }}
+    select * from {{ ref('salesforce_opportunities_detailed') }}
   )
 
 select *

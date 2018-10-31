@@ -9,6 +9,13 @@ models:
       - name: line_amount_excl_tax
         description: Amount of the expense exclusive of taxes
 
+  - name: xero_expenses_detailed
+    description: 'Xero expenses going in the P&L report with account grouping'
+
+    columns:
+      - name: line_amount_excl_tax
+        description: Amount of the expense exclusive of taxes
+
       - name: account_group
         tests:
           - not_null
@@ -17,7 +24,7 @@ models:
               'General Administration', 'Health Team', 'Marketing Expenses',
               'Technology']
 
-      - name: cost_category
+      - name: account_cost_category
         tests:
           - not_null
           - accepted_values:

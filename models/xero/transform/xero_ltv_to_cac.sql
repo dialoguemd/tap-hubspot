@@ -1,12 +1,10 @@
 with
 	cac as (
-		select *
-		from {{ ref('xero_cac') }}
-	),
+		select * from {{ ref('xero_cac') }}
+	)
 
-	ltv as (
-		select *
-		from {{ ref('salesforce_ltv')}}
+	, ltv as (
+		select * from {{ ref('salesforce_ltv')}}
 	)
 
 	select cac.date_month

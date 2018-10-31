@@ -1,12 +1,10 @@
 with
 	opportunities_direct as (
-		select *
-		from {{ ref('salesforce_opportunities_detailed_direct' )}}
+		select * from {{ ref('salesforce_opportunities_detailed_direct' )}}
 	)
 
 	, stalled_period as (
-		select *
-		from {{ ref('salesforce_opportunities_stalled_period') }}
+		select * from {{ ref('salesforce_opportunities_stalled_period') }}
 	)
 
 select opportunities_direct.*

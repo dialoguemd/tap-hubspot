@@ -1,12 +1,10 @@
 with
 	opportunities as (
-		select *
-		from {{ ref('salesforce_opportunities_detailed_direct') }}
+		select * from {{ ref('salesforce_opportunities_detailed_direct') }}
 	)
 
 	, probabilities as (
-		select *
-		from {{ ref('salesforce_pipeline_probabilities')}}
+		select * from {{ ref('salesforce_pipeline_probabilities')}}
 	)
 
 select opportunities.*

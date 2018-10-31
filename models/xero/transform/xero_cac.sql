@@ -48,43 +48,43 @@ with
 	, pl_rate_monthly as (
 		select xero_profit_and_loss.*
 			, coalesce(case
-				when xero_profit_and_loss.cost_category in (
+				when xero_profit_and_loss.account_cost_category in (
 					'Sales and Marketing - Professional Services',
 					'Sales and Marketing - Marketing Campaign',
 					'Sales and Marketing - SAAS',
 					'Sales & Marketing - Other'
 				) then coalesce(eae_headcount_ratio_monthly.eae_qc_perc, .6)
-				when xero_profit_and_loss.cost_category = 'Sales and Marketing - Wages'
+				when xero_profit_and_loss.account_cost_category = 'Sales and Marketing - Wages'
 				then coalesce(sales_cost_split_monthly.eae_qc_perc, .6)
 			end, 0) as eae_qc_perc
 			, coalesce(case
-				when xero_profit_and_loss.cost_category in (
+				when xero_profit_and_loss.account_cost_category in (
 					'Sales and Marketing - Professional Services',
 					'Sales and Marketing - Marketing Campaign',
 					'Sales and Marketing - SAAS',
 					'Sales & Marketing - Other'
 				) then coalesce(eae_headcount_ratio_monthly.eae_roc_perc, 0.05)
-				when xero_profit_and_loss.cost_category = 'Sales and Marketing - Wages'
+				when xero_profit_and_loss.account_cost_category = 'Sales and Marketing - Wages'
 				then coalesce(sales_cost_split_monthly.eae_roc_perc, .05)
 			end, 0) as eae_roc_perc
 			, coalesce(case
-				when xero_profit_and_loss.cost_category in (
+				when xero_profit_and_loss.account_cost_category in (
 					'Sales and Marketing - Professional Services',
 					'Sales and Marketing - Marketing Campaign',
 					'Sales and Marketing - SAAS',
 					'Sales & Marketing - Other'
 				) then coalesce(eae_headcount_ratio_monthly.ae_qc_perc, .35)
-				when xero_profit_and_loss.cost_category = 'Sales and Marketing - Wages'
+				when xero_profit_and_loss.account_cost_category = 'Sales and Marketing - Wages'
 				then coalesce(sales_cost_split_monthly.ae_qc_perc, .35)
 			end, 0) as ae_qc_perc
 			, coalesce(case
-			when xero_profit_and_loss.cost_category in (
+			when xero_profit_and_loss.account_cost_category in (
 				'Sales and Marketing - Professional Services',
 				'Sales and Marketing - Marketing Campaign',
 				'Sales and Marketing - SAAS',
 				'Sales & Marketing - Other'
 			) then eae_headcount_ratio_monthly.ae_roc_perc
-			when xero_profit_and_loss.cost_category = 'Sales and Marketing - Wages'
+			when xero_profit_and_loss.account_cost_category = 'Sales and Marketing - Wages'
 			then sales_cost_split_monthly.ae_roc_perc
 			end, 0) as ae_roc_perc
 		from xero_profit_and_loss

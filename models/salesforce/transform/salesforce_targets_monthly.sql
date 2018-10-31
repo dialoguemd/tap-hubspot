@@ -10,6 +10,8 @@ with
             , number_of_employees
             , owner_id
             , case
+            -- adjustment of JFT's sales closed in 2017 set to start in 2018
+            -- these deals where counted in his 2018 quota
                 when owner_id = '0056A000000qL2TQAU'
                     and close_date < '2018-01-01'
                     and i_date >= '2018-01-01'

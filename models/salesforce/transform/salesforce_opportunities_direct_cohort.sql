@@ -1,7 +1,6 @@
 with
     opportunities as (
-        select *
-        from {{ ref('salesforce_opportunities_detailed_direct') }}
+        select * from {{ ref('salesforce_opportunities_detailed_direct') }}
     )
 
     , opps_clean as (

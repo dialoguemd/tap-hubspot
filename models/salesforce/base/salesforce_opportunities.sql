@@ -12,6 +12,7 @@ select id as opportunity_id
 	, owner_id
 	, billing_start_date_c as billing_start_date
 	, i_date_c as i_date
+	, coalesce(billing_start_date_c, i_date_c) as launch_date
 	, coalesce(self_signup_no_touch_c, false) as self_signup_no_touch
 	, number_of_employees_c as number_of_employees
 	, amount::float as amount

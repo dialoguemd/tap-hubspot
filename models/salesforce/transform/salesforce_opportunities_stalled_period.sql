@@ -1,7 +1,6 @@
 with
 	opportunity_history as (
-		select *
-		from {{ ref('salesforce_opportunity_history') }}
+		select * from {{ ref('salesforce_opportunity_history') }}
 	)
 
 	, opportunity_history_rank as (

@@ -1,7 +1,6 @@
 with
 	opportunities_direct as (
-		select *
-		from {{ ref('salesforce_opportunities_detailed_direct' )}}
+		select * from {{ ref('salesforce_opportunities_detailed_direct' )}}
 	)
 
 	, dim_months as (

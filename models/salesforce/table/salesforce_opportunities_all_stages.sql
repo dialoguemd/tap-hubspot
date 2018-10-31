@@ -1,12 +1,10 @@
 with
     opportunities_direct as (
-        select *
-        from {{ ref('salesforce_opportunities_detailed_direct') }}
-    ),
+        select * from {{ ref('salesforce_opportunities_detailed_direct') }}
+    )
 
-    activities_detailed as (
-        select *
-        from {{ ref('salesforce_activities_detailed') }}
+    , activities_detailed as (
+        select * from {{ ref('salesforce_activities_detailed') }}
     )
 
 select 'Activity' as status
