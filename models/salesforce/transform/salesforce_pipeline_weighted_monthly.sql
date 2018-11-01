@@ -8,8 +8,11 @@ with
 	)
 
 	select pipeline_monthly.*
-	    , pipeline_monthly.amount * coalesce(probabilities.probability, 1) as amount_weighted
-	    , case stage_name_this_month
+		, coalesce(
+			pipeline_monthly.amount * coalesce(probabilities.probability, 0.01)
+			, 0
+		) as amount_weighted
+		, case stage_name_this_month
 			when 'Decide' then 0.9
 			when 'Justify' then 0.75
 			when 'Validate' then 0.5

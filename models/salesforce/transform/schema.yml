@@ -64,3 +64,9 @@ models:
       - name: mrr_signed_ae_roc
         tests:
           - not_null
+
+  - name: salesforce_pipeline_weighted_monthly
+    columns:
+      - name: amount_weighted
+        tests:
+          - not_null

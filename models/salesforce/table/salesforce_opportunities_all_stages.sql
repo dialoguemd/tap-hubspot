@@ -23,6 +23,7 @@ select 'Activity' as status
     , province
     , country
     , industry
+    , null as lead_source
 from activities_detailed
 union all
 select 'Meeting Booked' as status
@@ -41,6 +42,7 @@ select 'Meeting Booked' as status
     , province
     , country
     , industry
+    , lead_source
 from opportunities_direct
 where meeting_date is not null
 union all
@@ -60,6 +62,7 @@ select 'Initiate' as status
     , province
     , country
     , industry
+    , lead_source
 from opportunities_direct
 where initiate_date is not null
 union all
@@ -79,6 +82,7 @@ select 'Educate' as status
     , province
     , country
     , industry
+    , lead_source
 from opportunities_direct
 where educate_date is not null
 union all
@@ -98,6 +102,7 @@ select 'Validate' as status
     , province
     , country
     , industry
+    , lead_source
 from opportunities_direct
 where validate_date is not null
 union all
@@ -117,6 +122,7 @@ select 'Justify' as status
     , province
     , country
     , industry
+    , lead_source
 from opportunities_direct
 where justify_date is not null
 union all
@@ -136,6 +142,7 @@ select 'Decide' as status
     , province
     , country
     , industry
+    , lead_source
 from opportunities_direct
 where decide_date is not null
 union all
@@ -155,5 +162,6 @@ select 'Closed Won' as status
     , province
     , country
     , industry
+    , lead_source
 from opportunities_direct
 where is_closed and is_won
