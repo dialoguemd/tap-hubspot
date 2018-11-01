@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: episodes
+    description: A table containing episodes with details for analysis
+
+    columns:
+        - name: episode_id
+          description: This is a unique identifier for the episode
+          tests:
+              - unique
+              - not_null
+    tests:
+      - dbt_utils.recency:
+          field: created_at
+          datepart: day
+          interval: 1
