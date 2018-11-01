@@ -24,7 +24,8 @@
 * CTEs that are duplicated across models should be pulled out into their own models
 * CTEs should be formatted like this:
 ```
-with events as (
+with
+events as (
 
 	...
 
@@ -54,16 +55,13 @@ select * from filtered_events
 
 #### Example Code
 ```
-with my_data as (
-
+with
+my_data as (
     select * from {{ ref('my_data') }}
+)
 
-),
-
-some_cte as (
-
+, some_cte as (
     select * from {{ ref('some_cte') }}
-
 )
 
 select [distinct]
