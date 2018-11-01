@@ -15,7 +15,7 @@ profile: 'dialogue'
 # in the "models/" directory. You probably won't need to change these!
 source-paths: ["models"]
 analysis-paths: ["analysis"] 
-test-paths: ["tests"]
+test-paths: ["tests", "models/xero/tests", "models/salesforce/tests"]
 data-paths: ["data"]
 macro-paths: ["macros"]
 
@@ -32,10 +32,13 @@ clean-targets:         # directories to be removed by `dbt clean`
 # as views (the default). Try changing `view` to `table` below, then re-running dbt
 models:
   dialogue:
+      scribe:
+          materialized: table
+      dimension:
+          materialized: ephemeral
       meta_episodes:
           transform:
               materialized: ephemeral
-
       messaging:
           transform:
               materialized: ephemeral

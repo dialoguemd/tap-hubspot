@@ -1,0 +1,33 @@
+
+version: 2
+
+models:
+  - name: xero_expenses
+    description: 'Xero expenses going in the P&L report'
+
+    columns:
+      - name: line_amount_excl_tax
+        description: Amount of the expense exclusive of taxes
+
+  - name: xero_expenses_detailed
+    description: 'Xero expenses going in the P&L report with account grouping'
+
+    columns:
+      - name: line_amount_excl_tax
+        description: Amount of the expense exclusive of taxes
+
+      - name: account_group
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['N/A', 'Sales Expenses', 'Customer Success',
+              'General Administration', 'Health Team', 'Marketing Expenses',
+              'Technology']
+
+      - name: account_cost_category
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['N/A', 'Sales and Marketing - Marketing Campaign',
+                'Sales and Marketing - SAAS', 'Sales & Marketing - Other',
+                'Sales and Marketing - Wages', Sales and Marketing - Professional Services]
