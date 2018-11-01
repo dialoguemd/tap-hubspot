@@ -1,0 +1,76 @@
+
+version: 2
+
+models:
+  - name: scribe_contracts
+    columns:
+      - name: contract_id
+        tests:
+          - not_null
+          - unique
+
+      - name: during
+        tests:
+          - not_null
+
+      - name: organization_id
+        tests:
+          - not_null
+
+      - name: created
+        tests:
+          - not_null
+
+      - name: plan_id
+        tests:
+          - not_null
+
+      - name: participant_id
+        tests:
+          - not_null
+
+  - name: scribe_organizations
+    columns:
+      - name: organization_id
+        tests:
+          - not_null
+          - unique
+
+      - name: organization_name
+        tests:
+          - not_null
+
+  - name: scribe_users
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+          - unique
+
+  - name: scribe_plans
+    columns:
+      - name: plan_id
+        tests:
+          - not_null
+          - unique
+
+  - name: scribe_user_contract
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+      - name: contract_id
+        tests:
+          - not_null
+
+  - name: scribe_organizations_detailed
+    columns:
+      - name: organization_id
+        tests:
+          - not_null
+          - unique
+
+      - name: organization_name
+        tests:
+          - not_null
