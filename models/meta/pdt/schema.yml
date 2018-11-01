@@ -1,0 +1,64 @@
+version: 2
+
+models:
+  - name: pdt_episodes
+    description: A table containing episodes with details for analysis
+
+    columns:
+        - name: episode_id
+          description: This is a unique identifier for the episode
+          tests:
+              - unique
+              - not_null
+    tests:
+      - dbt_utils.recency:
+          field: created_at
+          datepart: day
+          interval: 1
+
+
+  - name: pdt_cp_activity
+    description: A table containing activities completed by practitioners in 
+      the Care Platform as estimated by `page` and `video` events
+
+    columns:
+        - name: time_spent
+          tests:
+              - not_null
+        - name: user_id
+          tests:
+              - not_null
+    tests:
+      - dbt_utils.recency:
+          field: activity_start
+          datepart: day
+          interval: 1
+
+
+  - name: pdt_cp_activity_detailed
+    description: CP Activity but with additional analytical details from 
+      episodes
+
+    columns:
+        - name: channel_id
+          tests:
+              - not_null
+    tests:
+      - dbt_utils.recency:
+          field: created_at_day
+          datepart: day
+          interval: 1
+
+  - name: pdt_chats_all_time
+    description: A table containing daily episode activity with details about
+      what activity was done in that episode on that day
+
+    columns:
+        - name: channel_id
+          tests:
+              - not_null
+    tests:
+      - dbt_utils.recency:
+          field: created_at_day
+          datepart: day
+          interval: 1

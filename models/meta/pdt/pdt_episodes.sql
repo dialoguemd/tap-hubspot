@@ -120,6 +120,8 @@ with messaging_channels as (
         , episodes_kpis.attr_psy_day_7
         , episodes_kpis.attr_nutr_day_7
 
+        , users.organization_name
+
   from messaging_channels as channels
   left join episodes_outcomes
     on channels.channel_id = episodes_outcomes.episode_id
@@ -139,4 +141,6 @@ with messaging_channels as (
     on channels.channel_id = episodes_kpis.episode_id
   left join test_users
     on channels.user_id = test_users.user_id::text
+  left join pdt.users
+    on channels.user_id = users.user_id
   where test_users.user_id is null

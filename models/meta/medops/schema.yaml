@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: medops_mau_by_org.sql
+
+    columns:
+        - name: organization_name
+          tests:
+              - not_null

@@ -3,7 +3,7 @@ with messaging_channels as (
     )
 
     , episodes_chats_all_time as (
-        select * from {{ ref('episodes_chats_all_time') }}
+        select * from {{ ref('pdt_chats_all_time') }}
     )
 
     select channels.channel_id as episode_id

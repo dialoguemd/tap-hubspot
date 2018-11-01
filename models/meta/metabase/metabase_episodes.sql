@@ -9,7 +9,7 @@
 -- 
 
 with episodes as (
-        select * from {{ ref('episodes') }}
+        select * from {{ ref('pdt_episodes') }}
     )
 
     select episodes.episode_id

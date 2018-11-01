@@ -1,8 +1,9 @@
 version: 2
 
 models:
-  - name: episodes
-    description: A table containing episodes with details for analysis
+  - name: metabase_episodes
+    description: A table containing episodes with details for analysis in
+      Metabase's webapp
 
     columns:
         - name: episode_id

@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: mental_health_pilot_patients
+    description: A table containing mental health pilot patients with details 
+      for analysis
+
+    columns:
+        - name: episode_id
+          tests:
+              - unique
+              - not_null
+
+  - name: mental_health_qnaire_answers
+    description: A table containing responses to the Stress Questionnaire 
+      that's used for triaging PSY Pilot patients
+
+    columns:
+        - name: stress_qnaire_completed_at
+          tests:
+              - not_null
+        - name: qnaire_tid
+          tests:
+              - unique
+              - not_null

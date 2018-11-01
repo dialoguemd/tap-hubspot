@@ -1,5 +1,9 @@
 with episodes_chats_all_time as (
-        select * from {{ ref('episodes_chats_all_time') }}
+        select * from {{ ref('pdt_chats_all_time') }}
+    )
+
+    , cp_activity as (
+        select * from {{ ref('pdt_cp_activity') }}
     )
 
     , ttr as (
@@ -72,7 +76,7 @@ with episodes_chats_all_time as (
                     and cp_activity.date < chats_all_time.created_at_day + interval '7 days'
                     ), 0) as attr_nutr_day_7
         from episodes_chats_all_time as chats_all_time
-        inner join pdt.cp_activity
+        inner join cp_activity
             on chats_all_time.channel_id = cp_activity.episode_id
         where chats_all_time.chat_type = 'New Episode'
             and cp_activity.is_active

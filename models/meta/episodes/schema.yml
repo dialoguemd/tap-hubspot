@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: episodes_kpis
+
+    columns:
+        - name: episode_id
+          tests:
+              - unique
+              - not_null
