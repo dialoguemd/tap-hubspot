@@ -1,0 +1,12 @@
+select issue_key
+	, status
+	, timestamp
+	, created_at
+	, issue_type
+	, squad
+	, sprint
+	, summary
+	, description
+	, project_name
+	, resolved_at
+from jira.issue_updated

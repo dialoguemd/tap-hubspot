@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: github_issues
+    description: A now deprecated table of issues that was used before moving
+      to Jira
+    columns:
+        - name: issue_id
+          tests:
+              - unique
+              - not_null
+        - name: state
+          tests:
+              - not_null
+        - name: created_at
+          tests:
+              - not_null

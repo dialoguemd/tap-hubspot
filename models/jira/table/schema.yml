@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: jira_issues
+    columns:
+        - name: issue_key
+          tests:
+              - unique
+              - not_null
+        - name: status
+          tests:
+              - not_null
+        - name: created_at
+          tests:
+              - not_null
+        - name: issue_type
+          tests:
+              - not_null
+        - name: project_name
+          tests:
+              - not_null
+    tests:
+      - dbt_utils.recency:
+          field: created_at
+          datepart: day
+          interval: 1
+      - dbt_utils.recency:
+          field: updated_at
+          datepart: day
+          interval: 1

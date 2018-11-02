@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: zendesk_problems
+    columns:
+        - name: ticket_id
+          tests:
+              - unique
+              - not_null
+
+  - name: zendesk_incidents
+    columns:
+        - name: ticket_id
+          tests:
+              - unique
+              - not_null
+    tests:
+      - dbt_utils.recency:
+          field: created_at
+          datepart: day
+          interval: 1
