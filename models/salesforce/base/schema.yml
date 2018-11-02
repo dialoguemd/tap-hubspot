@@ -3,7 +3,6 @@ version: 2
 
 models:
   - name: salesforce_accounts
-
     columns:
       - name: account_id
         tests:
@@ -11,7 +10,6 @@ models:
           - not_null
 
   - name: salesforce_users
-
     columns:
       - name: user_id
         tests:
@@ -23,7 +21,6 @@ models:
           - not_null
 
   - name: salesforce_opportunities
-
     columns:
       - name: opportunity_id
         tests:
@@ -46,7 +43,6 @@ models:
               '200-499', '500-999', '1000+']
 
   - name: salesforce_products
-
     columns:
       - name: product_id
         tests:
@@ -58,7 +54,6 @@ models:
           - not_null
 
   - name: salesforce_opportunity_product
-
     columns:
       - name: product_id
         tests:
@@ -71,3 +66,41 @@ models:
     tests:
       - unique:
           column_name: "concat(product_id, opportunity_id)"
+
+  - name: salesforce_scribe_organizations
+    columns:
+      - name: organization_id
+        tests:
+          - not_null
+          - unique
+
+      - name: organization_name
+        tests:
+          - not_null
+
+      - name: account_id
+        tests:
+          - not_null
+
+  - name: salesforce_scribe_organizations_detailed
+    columns:
+      - name: organization_id
+        tests:
+          - not_null
+          - unique
+
+      - name: organization_name
+        tests:
+          - not_null
+
+      - name: account_id
+        tests:
+          - not_null
+
+      - name: account_name
+        tests:
+          - not_null
+
+      - name: account_industry
+        tests:
+          - not_null

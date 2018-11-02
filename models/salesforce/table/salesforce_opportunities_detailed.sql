@@ -13,8 +13,8 @@ with
 
 	, products as (
 		select opportunity_id
-			, array_agg(product_id) as product_ids
-			, array_agg(product_name) as product_names
+			, array_agg(product_id order by product_id) as product_ids
+			, array_agg(product_name order by product_name) as product_names
 		from {{ ref('salesforce_opportunity_product_detailed') }}
 		group by 1
 	)
@@ -38,16 +38,16 @@ select opportunities.*
 	, coalesce(products.product_ids, array['01t6A000002NnLXQA0']) as product_ids
 	, coalesce(products.product_names, array['Virtual Care']) as product_names
 	, '01t6A000002NnLSQA0' = any (
-			coalesce(products.product_names, array['Virtual Care'])
+			coalesce(products.product_ids, array['01t6A000002NnLXQA0'])
 	) as includes_24_7
 	, '01t6A000003s6n0QAA' = any (
-			coalesce(products.product_names, array['Virtual Care'])
+			coalesce(products.product_ids, array['01t6A000002NnLXQA0'])
 	) as includes_vaccination_campaign
 	, '01t6A000002NnLNQA0' = any (
-			coalesce(products.product_names, array['Virtual Care'])
+			coalesce(products.product_ids, array['01t6A000002NnLXQA0'])
 	) as includes_mental_health
 	, '01t6A000002NnLXQA0' = any (
-			coalesce(products.product_names, array['Virtual Care'])
+			coalesce(products.product_ids, array['01t6A000002NnLXQA0'])
 	) as includes_virtual_care
 from opportunities
 inner join accounts

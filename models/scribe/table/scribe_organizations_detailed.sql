@@ -1,29 +1,29 @@
 with
-organization_address as (
-	select * from {{ ref('scribe_organization_address') }}
-)
+	organization_address as (
+		select * from {{ ref('scribe_organization_address') }}
+	)
 
-, organizations as (
-	select * from {{ ref('scribe_organizations') }}
-)
+	, organizations as (
+		select * from {{ ref('scribe_organizations') }}
+	)
 
-, organization_address_rank as (
-	select organization_id
-		, organization_address_id
-		, city
-		, row_number() over (
-			partition by organization_id
-			order by organization_address_id desc
-		) as rank
-	from organization_address
-)
+	, organization_address_rank as (
+		select organization_id
+			, organization_address_id
+			, city
+			, row_number() over (
+				partition by organization_id
+				order by organization_address_id desc
+			) as rank
+		from organization_address
+	)
 
-, organization_address_unique as (
-	select organization_id
-		, city
-	from organization_address_rank
-	where rank = 1
-)
+	, organization_address_unique as (
+		select organization_id
+			, city
+		from organization_address_rank
+		where rank = 1
+	)
 
 select organizations.organization_id
 	, organizations.organization_name

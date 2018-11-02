@@ -1,0 +1,26 @@
+
+version: 2
+
+models:
+  - name: meta_organizations
+    columns:
+      - name: organization_id
+        tests:
+          - not_null
+          - unique
+
+      - name: organization_name
+        tests:
+          - not_null
+
+      - name: account_id
+        tests:
+          - not_null
+
+      - name: account_name
+        tests:
+          - not_null
+
+      - name: account_industry
+        tests:
+          - not_null
