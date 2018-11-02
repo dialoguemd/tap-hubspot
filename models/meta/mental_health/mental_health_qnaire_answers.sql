@@ -53,6 +53,6 @@ select answers.qnaire_tid
            else 'High stress' end as stress_grouping
 from answers
 left join test_users
-  on answers.user_id = test_users.user_id::text
+  using (user_id)
 where test_users.user_id is null
 group by 1,2
