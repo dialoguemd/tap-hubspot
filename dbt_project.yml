@@ -24,6 +24,10 @@ clean-targets:         # directories to be removed by `dbt clean`
     - "target"
     - "dbt_modules"
 
+quoting:
+  identifier: false
+  schema: false
+
 # You can define configurations for models in the `source-paths` directory here.
 # Using these configurations, you can enable or disable models, change how they
 # are materialized, and more!
@@ -32,13 +36,17 @@ clean-targets:         # directories to be removed by `dbt clean`
 # as views (the default). Try changing `view` to `table` below, then re-running dbt
 models:
   dialogue:
-      scribe:
-          materialized: table
       dimension:
           materialized: ephemeral
+      meta:
+          materialized: table
       meta_episodes:
           transform:
               materialized: ephemeral
       messaging:
           transform:
               materialized: ephemeral
+      scribe:
+          materialized: table
+      wiw:
+          materialized: table
