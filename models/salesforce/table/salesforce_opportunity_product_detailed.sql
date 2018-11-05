@@ -14,6 +14,8 @@ with
 select opportunity_product.*
 	, products.product_name
 	, opportunities.opportunity_name
+	, opportunities.is_won
+	, opportunities.close_date
 from opportunity_product
 inner join products
 	on opportunity_product.product_id = products.product_id

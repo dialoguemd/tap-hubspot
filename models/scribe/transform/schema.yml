@@ -1,0 +1,93 @@
+
+version: 2
+
+models:
+  - name: scribe_organizations_day
+    description: |
+      Table with one record per organization and per month after their billing
+      start date
+
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+
+      - name: organization_id
+        tests:
+          - not_null
+
+      - name: organization_name
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_day, organization_id)"
+
+  - name: scribe_contract_organizations_daily
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: date_day
+        tests:
+          - not_null
+
+      - name: organization_id
+        tests:
+          - not_null
+
+      - name: organization_name
+        tests:
+          - not_null
+
+      - name: paid_employees
+        tests:
+          - not_null
+
+      - name: is_paid
+        tests:
+          - not_null
+
+      - name: billing_start_date
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_day, organization_id)"
+
+  - name: scribe_contract_organizations_monthly
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: organization_id
+        tests:
+          - not_null
+
+      - name: organization_name
+        tests:
+          - not_null
+
+      - name: paid_employees
+        tests:
+          - not_null
+
+      - name: min_paid_employees
+        tests:
+          - not_null
+
+      - name: max_paid_employees
+        tests:
+          - not_null
+
+      - name: price_monthly
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_month, organization_id)"

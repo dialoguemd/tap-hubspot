@@ -1,5 +1,9 @@
 select id as organization_id
 	, name as organization_name
-	, billing_start_date is not null or id = 60 as is_paid
-	, *
+	, created
+	, email_preference
+	, billing_method
+	, date_trunc('day', coalesce(billing_start_date, created)) as billing_start_date
+	, tax_province
+	, chargebee_id
 from scribe.organization

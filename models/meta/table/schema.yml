@@ -24,3 +24,33 @@ models:
       - name: account_industry
         tests:
           - not_null
+
+  - name: meta_accounts_monthly
+    columns:
+      - name: account_id
+        tests:
+          - not_null
+
+      - name: account_name
+        tests:
+          - not_null
+
+      - name: paid_employees
+        tests:
+          - not_null
+
+      - name: price_monthly
+        tests:
+          - not_null
+
+      - name: paid_employees_last_month
+        tests:
+          - not_null
+
+      - name: price_monthly_last_month
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_month, account_id)"

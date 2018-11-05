@@ -4,16 +4,16 @@ with
 			, opportunity_id
 			, product_2_id as product_id
 			, quantity
-			, list_price
+			, list_price::float as list_price
 			, name as opportunity_product_name
-			, subtotal
+			, subtotal::float as subtotal
 			, description
 			, created_by_id
 			, created_date
 			, pricebook_entry_id
-			, total_price
+			, total_price::float as total_price
 			, last_modified_date
-			, unit_price
+			, unit_price::float as unit_price
 			, service_date
 			, received_at
 			, last_modified_by_id
