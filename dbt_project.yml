@@ -50,3 +50,5 @@ models:
           materialized: table
       wiw:
           materialized: table
+      github:
+          materialized: table
