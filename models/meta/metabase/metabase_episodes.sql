@@ -17,7 +17,8 @@ with episodes as (
     )
 
     , users as (
-        select * from pdt.user
+        select * from pdt.users
+    )
 
     select episodes.episode_id
         , episodes.user_id
