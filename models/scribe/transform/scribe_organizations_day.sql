@@ -4,7 +4,8 @@ with
 	)
 
 select generate_series(
-		greatest(date_trunc('month', billing_start_date), '2016-01-01')
+	-- Dialogue's launch date
+		greatest(date_trunc('month', billing_start_date), '2016-09-01')
 		, date_trunc('month', current_date) + interval '1 month' - interval '1 day'
 		, '1 day'
 	) as date_day

@@ -15,10 +15,10 @@ with
 					, organizations_monthly.organization_name) as account_name
 			, bool_or(is_paid) as is_paid
 			, min(billing_start_date) as billing_start_date
-			, sum(organizations_monthly.paid_employees) as paid_employees
+			, sum(organizations_monthly.active_contracts) as active_contracts
 			-- if all orgs of an account had 0 employees
 			-- at some point in the month then the account in churned
-			, max(organizations_monthly.min_paid_employees) as min_paid_employees
+			, max(organizations_monthly.min_active_contracts) as min_active_contracts
 			, sum(organizations_monthly.price_monthly) as price_monthly
 		from organizations_monthly
 		left join sf_scribe_organizations
@@ -32,21 +32,21 @@ with
 			, account_name
 			, is_paid
 			, billing_start_date
-			, paid_employees
+			, active_contracts
 			, price_monthly
-			, min_paid_employees
+			, min_active_contracts
 			, coalesce(
-					lag(min_paid_employees) over(
+					lag(min_active_contracts) over(
 						partition by account_id
 						order by date_month
 					)
-				, 0) as min_paid_employees_last_month
+				, 0) as min_active_contracts_last_month
 			, coalesce(
-					lag(paid_employees) over(
+					lag(active_contracts) over(
 						partition by account_id
 						order by date_month
 					)
-				, 0) as paid_employees_last_month
+				, 0) as active_contracts_last_month
 			, coalesce(
 					lag(price_monthly) over(
 						partition by account_id
@@ -59,17 +59,17 @@ with
 select date_month
 	, account_id
 	, account_name
-	, paid_employees
-	, paid_employees_last_month
+	, active_contracts
+	, active_contracts_last_month
 	, is_paid
 	, billing_start_date
 	, price_monthly
 	, price_monthly_last_month
 	, price_monthly - price_monthly_last_month as price_difference_monthly
 	, case
-		when price_monthly_last_month = 0 or min_paid_employees_last_month = 0
+		when price_monthly_last_month = 0 or min_active_contracts_last_month = 0
 		then 'New'
-		when min_paid_employees = 0
+		when min_active_contracts = 0
 		then 'Churned'
 		when price_monthly = 0 and price_monthly_last_month > 0
 		then 'Churned'

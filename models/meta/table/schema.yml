@@ -35,7 +35,7 @@ models:
         tests:
           - not_null
 
-      - name: paid_employees
+      - name: active_contracts
         tests:
           - not_null
 
@@ -43,7 +43,7 @@ models:
         tests:
           - not_null
 
-      - name: paid_employees_last_month
+      - name: active_contracts_last_month
         tests:
           - not_null
 
