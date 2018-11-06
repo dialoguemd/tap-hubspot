@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: funnelio_performance_metrics
+
+    columns:
+        - name: date
+          tests:
+              - not_null
+        - name: platform
+          tests:
+              - not_null
+        - name: channel
+          tests:
+              - not_null
+        - name: clicks
+          tests:
+              - not_null
+        - name: impressions
+          tests:
+              - not_null
+        - name: cost
+          tests:
+              - not_null
+        - name: ctr
+          description: click through rate (clicks divide by impressions)
+          tests:
+              - not_null
+        - name: cpm
+          description: cost per mille (cost per thousand impressions)
+          tests:
+              - not_null
+        - name: cpc
+          description: cost per click
+          tests:
+              - not_null
+    tests:
+      - dbt_utils.recency:
+          field: date
+          datepart: day
+          interval: 1
+      - unique:
+          column_name: "concat(date, channel)"
