@@ -6,12 +6,12 @@
   {{ config(materialized='table') }}
 {% endif %}
 
--- 
+--
 
 with monthly_vids_by_org as (
-        select * from {{ ref( 'medops_vids_by_org_monthly' ) }}
+        select * from {{ ref( 'medops_videos_by_org_monthly' ) }}
     )
-    
+
     , ubi_consults as (
         select * from {{ ref( 'medops_ubisoft_clinic_consultation_count' ) }}
     )
@@ -22,6 +22,7 @@ with monthly_vids_by_org as (
 
     select paid_employees_monthly.month
         , paid_employees_monthly.organization_name
+        , paid_employees_monthly.account_name
         , coalesce(count_paid_employees, 0) as count_paid_employees
         , coalesce(count_videos, 0) as count_videos
         , coalesce(nurse_consultations, 0) as nurse_consultations

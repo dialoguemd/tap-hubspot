@@ -17,19 +17,25 @@ with priced_episodes as (
     )
 
     , episodes as (
-        select * from {{ ref( 'pdt_episodes' ) }}
+        select * from {{ ref( 'episodes' ) }}
     )
 
-    select organization_name
+    , organizations as (
+        select * from {{ ref( 'organizations' ) }}
+    )
+
+    select episodes.organization_name
+        , organizations.account_name
         , date_trunc('month', priced_episodes.date) as month
-        , coalesce(cc_cost,0) as cc_cost
-        , coalesce(nc_cost,0) as nc_cost
-        , coalesce(np_cost,0) as np_cost
-        , coalesce(gp_psy_cost,0) as gp_psy_cost
-        , coalesce(gp_other_cost,0) as gp_other_cost
+        , coalesce(priced_episodes.cc_cost,0) as cc_cost
+        , coalesce(priced_episodes.nc_cost,0) as nc_cost
+        , coalesce(priced_episodes.np_cost,0) as np_cost
+        , coalesce(priced_videos.gp_psy_cost,0) as gp_psy_cost
+        , coalesce(priced_videos.gp_other_cost,0) as gp_other_cost
     from priced_episodes
     left join priced_videos
         on priced_episodes.episode_id = priced_videos.episode_id
         and priced_episodes.date = priced_videos.date
     left join episodes
         on priced_episodes.episode_id = episodes.episode_id
+    left join organizations using (organization_id)

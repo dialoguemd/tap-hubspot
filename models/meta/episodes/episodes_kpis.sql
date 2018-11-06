@@ -1,9 +1,9 @@
 with episodes_chats_all_time as (
-        select * from {{ ref('pdt_chats_all_time') }}
+        select * from {{ ref('chats_all_time') }}
     )
 
     , cp_activity as (
-        select * from {{ ref('pdt_cp_activity') }}
+        select * from {{ ref('cp_activity') }}
     )
 
     , ttr as (

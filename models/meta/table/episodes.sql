@@ -121,6 +121,7 @@ with messaging_channels as (
         , episodes_kpis.attr_nutr_day_7
 
         , users.organization_name
+        , users.organization_id
 
   from messaging_channels as channels
   left join episodes_outcomes
