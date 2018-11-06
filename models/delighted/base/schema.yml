@@ -1,0 +1,21 @@
+
+version: 2
+
+models:
+  - name: delighted_nps_patient_survey
+    columns:
+      - name: email
+        tests:
+          - not_null
+
+      - name: score
+        tests:
+          - not_null
+
+      - name: category
+        tests:
+          - not_null
+
+      - name: received_at
+        tests:
+          - not_null
