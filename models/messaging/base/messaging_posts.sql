@@ -3,7 +3,7 @@ select post_id
     , user_id
     , mm_user_id
     , user_type
-    , channel_id
+    , channel_id as episode_id
     , timestamp as created_at
     , message_length
     , count_question_marks
