@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: tableau_product_one_metric
+    columns:
+        - name: user_id
+          tests:
+              - unique
+              - not_null
+        - name: count_episodes
+          tests:
+              - not_null

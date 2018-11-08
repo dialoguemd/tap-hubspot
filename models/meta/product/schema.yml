@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: product_bugs
+    columns:
+        - name: title
+          tests:
+              - unique
+              - not_null
+        - name: created_at
+          tests:
+              - not_null

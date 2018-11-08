@@ -18,4 +18,49 @@ models:
       - dbt_utils.recency:
           field: created_at
           datepart: day
-          interval: 1
+          interval: 3
+
+  - name: zendesk_problems_w_incident_detail
+    columns:
+        - name: problem_id
+          tests:
+              - not_null
+              - unique
+        - name: subject
+          tests:
+              - not_null
+        - name: last_reported_at
+          tests:
+              - not_null
+    tests:
+      - dbt_utils.recency:
+          field: last_reported_at
+          datepart: day
+          interval: 3
+
+  - name: zendesk_incidents_w_problem_detail
+    columns:
+        - name: incident_id
+          tests:
+              - not_null
+              - unique
+        - name: problem_id
+          tests:
+              - not_null
+        - name: reported_at
+          tests:
+              - not_null
+
+  - name: zendesk_links_current
+    columns:
+        - name: problem_id
+          tests:
+              - not_null
+              - unique
+
+  - name: zendesk_tickets_tagged
+    columns:
+        - name: ticket_id
+          tests:
+              - not_null
+              - unique

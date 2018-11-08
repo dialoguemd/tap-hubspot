@@ -29,7 +29,7 @@ with issue_created as (
         from coalesced
     )
 
-select issue_key
+select issue_key::text as issue_id
     , status
     , timestamp as updated_at
     , created_at

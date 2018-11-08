@@ -1,8 +1,8 @@
-select id as ticket_id
+select id::bigint as ticket_id
     , received_at
     , assignee_id
     , collaborator_ids
-    , created_at
+    , timezone('America/Montreal', created_at) as created_at
     , description
     , group_id
     , organization_id as zendesk_organization_id

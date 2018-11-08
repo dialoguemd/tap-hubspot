@@ -1,4 +1,4 @@
-select id as issue_id
+select id::text as issue_id
     , number
     , state
     , created_at

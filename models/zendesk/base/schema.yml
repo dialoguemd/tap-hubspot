@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: zendesk_groups
+    columns:
+        - name: group_name
+          tests:
+              - not_null
+              - unique
+        - name: group_id
+          tests:
+              - not_null
+              - unique
+
+  - name: zendesk_links
+    columns:
+        - name: issue_id
+          tests:
+              - not_null
+        - name: problem_id
+          tests:
+              - not_null
+        - name: created_at
+          tests:
+              - not_null
+
+  - name: zendesk_tickets
+    columns:
+        - name: created_at
+          tests:
+              - not_null
+        - name: ticket_id
+          tests:
+              - not_null
+              - unique

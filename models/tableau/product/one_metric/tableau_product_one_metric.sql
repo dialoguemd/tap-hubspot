@@ -23,31 +23,53 @@ with episodes as (
             , includes_cc_video
             , includes_psy_video
             , includes_video
-            , date_trunc('day', first_set_resolved_pending_at)
-                as resolved_at_day
+            , timezone('America/Montreal', first_message_patient) as episode_started
+            , date_trunc('day',
+                timezone('America/Montreal', first_set_resolved_pending_at)
+                ) as resolved_at_day
             , row_number() over(partition by user_id order by first_set_resolved_pending_at asc) as rank
         from episodes
-        where outcome not in ('inappropriate_profile'
-                            , 'follow_up'
-                            , 'patient_thanks'
-                            , 'episode_duplicate'
-                            , 'new_dependant'
-                            , 'test'
-                            , 'audit'
-                            , 'admin'
-                            , 'closed_after_follow_up')
+        where outcome
+                not in ('inappropriate_profile'
+                        , 'follow_up'
+                        , 'patient_thanks'
+                        , 'episode_duplicate'
+                        , 'new_dependant'
+                        , 'test'
+                        , 'audit'
+                        , 'admin'
+                        , 'closed_after_follow_up'
+                        , 'patient_unresponsive')
+            and issue_type
+                not in ('test'
+                        , 'admin')
+            and first_set_resolved_pending_at is not null
     )
     
     , first_ep_details as (
-        select eps_ranked.*
-            , chats.wait_time_first
-            , chats.wait_time_first_nurse
+        select eps_ranked.user_id
+            , eps_ranked.episode_id
+            , eps_ranked.attr_total
+            , eps_ranked.nps_score
+            , eps_ranked.issue_type
+            , eps_ranked.outcome
+            , eps_ranked.includes_np_video
+            , eps_ranked.includes_gp_video
+            , eps_ranked.includes_nc_video
+            , eps_ranked.includes_cc_video
+            , eps_ranked.includes_psy_video
+            , eps_ranked.includes_video
+            , eps_ranked.episode_started
+            , eps_ranked.resolved_at_day
+            , min(chats.wait_time_first) as wait_time_first
+            , min(chats.wait_time_first_nurse) as wait_time_first_nurse
         from eps_ranked
         left join chats
             on eps_ranked.user_id = chats.user_id
             and eps_ranked.episode_id = chats.episode_id
             and eps_ranked.resolved_at_day = chats.created_at_day
         where eps_ranked.rank = 1
+        group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14
     )
    
     , retention_stats as (
@@ -59,8 +81,8 @@ with episodes as (
         left join episodes
             on first_ep_details.user_id = episodes.user_id
             and tstzrange(
-                    first_ep_details.resolved_at_day,
-                    first_ep_details.resolved_at_day + interval '90 days'
+                    first_ep_details.episode_started,
+                    first_ep_details.episode_started + interval '120 days'
                 ) @>
                 timezone('America/Montreal',
                     episodes.first_message_patient)
@@ -74,4 +96,5 @@ select first_ep_details.*
 from retention_stats
 left join first_ep_details using (user_id)
 left join users using (user_id)
-where age_in_days > 90
+where age_in_days > 120
+    and count_episodes > 0
