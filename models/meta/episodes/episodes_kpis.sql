@@ -7,7 +7,7 @@ with episodes_chats_all_time as (
     )
 
     , ttr as (
-        select channel_id as episode_id
+        select episode_id
             , extract(epoch from (max(last_message_created_at) - min(first_message_created_at))) as ttr
         from episodes_chats_all_time
         group by 1
@@ -77,7 +77,7 @@ with episodes_chats_all_time as (
                     ), 0) as attr_nutr_day_7
         from episodes_chats_all_time as chats_all_time
         inner join cp_activity
-            on chats_all_time.channel_id = cp_activity.episode_id
+            using (episode_id)
         where chats_all_time.chat_type = 'New Episode'
             and cp_activity.is_active
         group by 1,2

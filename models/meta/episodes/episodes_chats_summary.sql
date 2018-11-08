@@ -6,9 +6,9 @@ with messaging_channels as (
         select * from {{ ref('pdt_chats_all_time') }}
     )
 
-    select channels.channel_id as episode_id
+    select channels.episode_id
         , channels.user_id
-        , 'https://zorro.dialogue.co/conversations/' || channels.channel_id as url_zorro
+        , 'https://zorro.dialogue.co/conversations/' || channels.episode_id as url_zorro
         , min(chats_all_time.first_message_created_at) as first_message_created_at
         , max(chats_all_time.last_message_created_at) as last_message_created_at
         , min(chats_all_time.first_message_care_team) as first_message_care_team
@@ -24,5 +24,5 @@ with messaging_channels as (
         , bool_or(chats_all_time.chat_type = 'Follow-up') as includes_follow_up
     from episodes_chats_all_time as chats_all_time
     left join messaging_channels as channels
-        on chats_all_time.channel_id = channels.channel_id
+        using (episode_id)
     group by 1,2,3

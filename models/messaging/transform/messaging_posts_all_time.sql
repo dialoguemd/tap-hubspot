@@ -12,7 +12,7 @@ select id as post_id
    , user_id
    , mm_user_id
    , user_type
-   , channel_id
+   , channel_id as episode_id
    , created_at
    , message_length
    , question_mark_count as count_question_marks

@@ -2,7 +2,7 @@
 version: 2
 
 models:
-  - name: careplatform_video_patient_stream_created
+  - name: careplatform_video_stream_created
     columns:
       - name: episode_id
         tests:

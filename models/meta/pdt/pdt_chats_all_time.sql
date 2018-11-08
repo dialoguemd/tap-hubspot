@@ -30,12 +30,12 @@ with messaging_posts_all_time as (
         select posts.created_at at time zone 'America/Montreal' as created_at
           , date_trunc('day', posts.created_at at time zone 'America/Montreal') as created_at_day
           , posts.user_id
-          , posts.channel_id
+          , posts.episode_id
           , posts.message_length
           , coalesce(users.is_care_team, false) as is_care_team
           , row_number()
               over (
-                partition by posts.channel_id
+                partition by posts.episode_id
                   , date_trunc('day', posts.created_at at time zone 'America/Montreal')
                   , coalesce(users.is_care_team, false)
                 order by posts.created_at
@@ -44,20 +44,20 @@ with messaging_posts_all_time as (
             (posts.created_at
             - lag(posts.created_at)
               over (
-                partition by posts.channel_id
+                partition by posts.episode_id
                   , date_trunc('day', posts.created_at at time zone 'America/Montreal')
                 order by posts.created_at
               ))) / 60.0 as time_since_last_message
           , lag(coalesce(users.is_care_team, false))
               over (
-                partition by posts.channel_id
+                partition by posts.episode_id
                   , date_trunc('day', posts.created_at at time zone 'America/Montreal')
                 order by posts.created_at
               ) as is_last_message_care_team
           , users.first_name || ' ' || users.last_name as user_name
           , users.main_specialization
           , row_number() over (
-              partition by posts.channel_id
+              partition by posts.episode_id
               order by posts.created_at
             ) as rank_chat_in_episode
         from messaging_posts_all_time as posts
@@ -69,7 +69,7 @@ with messaging_posts_all_time as (
     , chats as (
         select
             date_trunc('day', created_at) as created_at_day
-            , channel_id
+            , episode_id
             , min(created_at) filter(where is_care_team) as first_message_care_team
             , min(created_at) filter(where
                 main_specialization in ('Nurse Clinician', 'Nurse Practitioner')
@@ -102,11 +102,11 @@ with messaging_posts_all_time as (
 
     , first_patient_message_sequence as (
         select posts.created_at_day
-          , posts.channel_id
+          , posts.episode_id
           , max(posts.created_at) as end_of_first_patient_message_sequence
         from posts
         inner join chats
-          on posts.channel_id = chats.channel_id
+          on posts.episode_id = chats.episode_id
             and posts.created_at_day = chats.created_at_day
             and posts.created_at < chats.first_message_care_team
         where not posts.is_care_team
@@ -153,12 +153,12 @@ with messaging_posts_all_time as (
     )
 
     , episode_pending_resolved as (
-        select episode_id as channel_id
+        select set_episode_state.episode_id
           , date_trunc('day', timezone('America/Montreal', updated_at)) as created_at_day
           , min(timezone('America/Montreal', updated_at)) as first_set_resolved_pending_at
         from set_episode_state
         inner join chats
-        on set_episode_state.episode_id = chats.channel_id
+        on set_episode_state.episode_id = chats.episode_id
           and date_trunc('day', timezone('America/Montreal', set_episode_state.updated_at)) = chats.created_at_day
         where set_episode_state.episode_state in ('resolved', 'pending')
         and timezone('America/Montreal', set_episode_state.updated_at) >= chats.first_message_created_at
@@ -180,10 +180,10 @@ with messaging_posts_all_time as (
 
     , chats_full as (
         select chats.created_at_day
-        , chats.channel_id
+        , chats.episode_id
         , 'https://zorro.dialogue.co/conversations/'
-            || chats.channel_id as url_zorro
-        , 'careplatform://chat/' || chats.user_id || '/' || chats.channel_id as cp_deep_link
+            || chats.episode_id as url_zorro
+        , 'careplatform://chat/' || chats.user_id || '/' || chats.episode_id as cp_deep_link
         , chats.first_message_care_team
         , chats.first_message_nurse
         , chats.last_message_care_team
@@ -260,18 +260,18 @@ with messaging_posts_all_time as (
         left join wiw_opening_hours
         on chats.first_message_created_at <@ wiw_opening_hours.opening_span_est
         left join reminders
-        on chats.channel_id = reminders.episode_id
+        on chats.episode_id = reminders.episode_id
           and chats.first_message_created_at <@ reminders.reminder_opened_range
         left join episode_pending_resolved
-        on chats.channel_id = episode_pending_resolved.channel_id
+        on chats.episode_id = episode_pending_resolved.episode_id
           and chats.created_at_day = episode_pending_resolved.created_at_day
         left join first_patient_message_sequence
-        on chats.channel_id = first_patient_message_sequence.channel_id
+        on chats.episode_id = first_patient_message_sequence.episode_id
           and chats.created_at_day = first_patient_message_sequence.created_at_day
     )
 
     select chats_full.created_at_day
-        , chats_full.channel_id
+        , chats_full.episode_id
         , chats_full.first_message_care_team
         , chats_full.first_message_nurse
         , chats_full.last_message_care_team
@@ -325,5 +325,5 @@ with messaging_posts_all_time as (
           end as chat_type
     from chats_full
     left join videos
-    on chats_full.channel_id = videos.episode_id
+    on chats_full.episode_id = videos.episode_id
       and chats_full.created_at_day = videos.sent_at_day

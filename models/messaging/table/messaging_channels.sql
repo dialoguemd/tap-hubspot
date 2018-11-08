@@ -1,8 +1,11 @@
+
+{{ config(materialized='table') }}
+
 with posts_all_time as (
     select * from {{ ref('messaging_posts_all_time') }}
 )
 
-select channel_id
+select episode_id
     , min(created_at) as created_at
     , max(created_at) as updated_at
     , null::timestamptz as deleted_at
@@ -13,3 +16,4 @@ select channel_id
     , count(*) filter(where user_type in ('physician', 'patient')) as count_messages
 from posts_all_time
 group by 1
+having min(user_id) filter(where user_type = 'patient') is not null
