@@ -1,14 +1,14 @@
-with messaging_channels as (
+with channels as (
         select * from {{ ref('messaging_channels') }}
     )
 
-    , episodes_chats_all_time as (
-        select * from {{ ref('pdt_chats_all_time') }}
+    , chats_all_time as (
+        select * from {{ ref('chats_all_time') }}
     )
 
-    select channels.channel_id as episode_id
+    select channels.episode_id
         , channels.user_id
-        , 'https://zorro.dialogue.co/conversations/' || channels.channel_id as url_zorro
+        , 'https://zorro.dialogue.co/conversations/' || channels.episode_id as url_zorro
         , min(chats_all_time.first_message_created_at) as first_message_created_at
         , max(chats_all_time.last_message_created_at) as last_message_created_at
         , min(chats_all_time.first_message_care_team) as first_message_care_team
@@ -22,7 +22,13 @@ with messaging_channels as (
         , min(chats_all_time.first_set_resolved_pending_at) as first_set_resolved_pending_at
         , bool_or(chats_all_time.set_resolved_pending) as set_resolved_pending
         , bool_or(chats_all_time.chat_type = 'Follow-up') as includes_follow_up
-    from episodes_chats_all_time as chats_all_time
-    left join messaging_channels as channels
-        on chats_all_time.channel_id = channels.channel_id
+        , bool_or(chats_all_time.includes_video) as includes_video
+        , bool_or(chats_all_time.includes_np_video) as includes_np_video
+        , bool_or(chats_all_time.includes_gp_video) as includes_gp_video
+        , bool_or(chats_all_time.includes_nc_video) as includes_nc_video
+        , bool_or(chats_all_time.includes_cc_video) as includes_cc_video
+        , bool_or(chats_all_time.includes_psy_video) as includes_psy_video
+    from chats_all_time
+    left join channels
+        on chats_all_time.episode_id = channels.episode_id
     group by 1,2,3

@@ -25,7 +25,7 @@ with qnaire_answers as (
     )
 
     , episodes as (
-        select * from {{ ref('pdt_episodes') }}
+        select * from {{ ref('episodes') }}
     )
 
     , avg_wages_tmp as (

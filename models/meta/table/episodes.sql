@@ -8,7 +8,7 @@
 
 -- 
 
-with messaging_channels as (
+with channels as (
         select * from {{ ref('messaging_channels') }}
     )
 
@@ -48,9 +48,9 @@ with messaging_channels as (
         select * from {{ ref('episodes_nps') }}
     )
 
-    select channels.channel_id as episode_id
+    select channels.episode_id
         , channels.user_id
-        , 'https://zorro.dialogue.co/conversations/' || channels.channel_id as url_zorro
+        , 'https://zorro.dialogue.co/conversations/' || channels.episode_id as url_zorro
         , channels.count_messages
         , channels.created_at
         , channels.updated_at
@@ -90,6 +90,12 @@ with messaging_channels as (
         , episodes_chats_summary.first_set_resolved_pending_at
         , episodes_chats_summary.set_resolved_pending
         , episodes_chats_summary.includes_follow_up
+        , episodes_chats_summary.includes_video
+        , episodes_chats_summary.includes_np_video
+        , episodes_chats_summary.includes_gp_video
+        , episodes_chats_summary.includes_nc_video
+        , episodes_chats_summary.includes_cc_video
+        , episodes_chats_summary.includes_psy_video
 
         , episodes_nps.score
         , episodes_nps.category
@@ -121,24 +127,25 @@ with messaging_channels as (
         , episodes_kpis.attr_nutr_day_7
 
         , users.organization_name
+        , users.organization_id
 
-  from messaging_channels as channels
+  from channels
   left join episodes_outcomes
-    on channels.channel_id = episodes_outcomes.episode_id
+    on channels.episode_id = episodes_outcomes.episode_id
   left join episodes_issue_types
-    on channels.channel_id = episodes_issue_types.episode_id
+    on channels.episode_id = episodes_issue_types.episode_id
   left join episodes_priority_levels
-    on channels.channel_id = episodes_priority_levels.episode_id
+    on channels.episode_id = episodes_priority_levels.episode_id
   left join episodes_ratings
-    on channels.channel_id = episodes_ratings.episode_id
+    on channels.episode_id = episodes_ratings.episode_id
   left join episodes_subject
-    on channels.channel_id = episodes_subject.episode_id
+    on channels.episode_id = episodes_subject.episode_id
   left join episodes_chats_summary
-    on channels.channel_id = episodes_chats_summary.episode_id
+    on channels.episode_id = episodes_chats_summary.episode_id
   left join episodes_nps
-    on channels.channel_id = episodes_nps.episode_id
+    on channels.episode_id = episodes_nps.episode_id
   left join episodes_kpis
-    on channels.channel_id = episodes_kpis.episode_id
+    on channels.episode_id = episodes_kpis.episode_id
   left join test_users
     on channels.user_id = test_users.user_id::text
   left join pdt.users

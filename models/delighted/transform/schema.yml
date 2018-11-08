@@ -1,0 +1,30 @@
+
+version: 2
+
+models:
+  - name: delighted_nps_patient_monthly
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+          - unique
+
+      - name: nps
+        tests:
+          - not_null
+
+      - name: promoter_count
+        tests:
+          - not_null
+
+      - name: passive_count
+        tests:
+          - not_null
+
+      - name: detractor_count
+        tests:
+          - not_null
+
+      - name: respondent_count
+        tests:
+          - not_null
