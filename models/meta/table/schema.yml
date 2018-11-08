@@ -108,7 +108,7 @@ models:
       what activity was done in that episode on that day
 
     columns:
-        - name: channel_id
+        - name: episode_id
           tests:
               - not_null
     tests:

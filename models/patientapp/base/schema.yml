@@ -1,0 +1,9 @@
+
+version: 2
+
+models:
+  - name: patientapp_video_session_connect_success
+    columns:
+      - name: user_id
+        tests:
+          - not_null

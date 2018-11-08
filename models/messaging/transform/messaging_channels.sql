@@ -1,3 +1,6 @@
+
+{{ config(materialized='table') }}
+
 with posts_all_time as (
     select * from {{ ref('messaging_posts_all_time') }}
 )
@@ -13,3 +16,4 @@ select episode_id
     , count(*) filter(where user_type in ('physician', 'patient')) as count_messages
 from posts_all_time
 group by 1
+having min(user_id) filter(where user_type = 'patient') is not null

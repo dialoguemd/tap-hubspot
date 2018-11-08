@@ -10,14 +10,15 @@ select id as plan_id
 	, case
 		-- exception for WeSpeakStudent: org that paid by consult
 		when organization_id = '230' then 'fixed'
-		when organization_id = '61' then 'free'
+		-- exception for Dialogue
+		when organization_id in ('61', '18', '251') then 'free'
 		-- New organizations are always created with a charge_strategy
 		-- Some legacy free orgs did not have a charge_strategy
 		else coalesce(charge_strategy, 'free')
 	end as charge_strategy
 	, case
 		when organization_id = '230' then .1
-		when organization_id = '61' then 0
+		when organization_id in ('61', '18', '251') then 0
 		else coalesce(charge_price, 0)
 	end as charge_price
 from scribe.plan

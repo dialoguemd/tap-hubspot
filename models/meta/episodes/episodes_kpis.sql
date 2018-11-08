@@ -78,7 +78,7 @@ with chats_all_time as (
                     ), 0) as attr_nutr_day_7
         from chats_all_time
         inner join cp_activity
-            on chats_all_time.episode_id = cp_activity.episode_id
+            using (episode_id)
         where chats_all_time.chat_type = 'New Episode'
             and cp_activity.is_active
         group by 1,2

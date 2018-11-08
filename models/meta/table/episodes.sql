@@ -131,23 +131,23 @@ with channels as (
 
   from channels
   left join episodes_outcomes
-    on channels.episode_id = episodes_outcomes.episode_id
+    using (episode_id)
   left join episodes_issue_types
-    on channels.episode_id = episodes_issue_types.episode_id
+    using (episode_id)
   left join episodes_priority_levels
-    on channels.episode_id = episodes_priority_levels.episode_id
+    using (episode_id)
   left join episodes_ratings
-    on channels.episode_id = episodes_ratings.episode_id
+    using (episode_id)
   left join episodes_subject
-    on channels.episode_id = episodes_subject.episode_id
+    using (episode_id)
   left join episodes_chats_summary
-    on channels.episode_id = episodes_chats_summary.episode_id
+    using (episode_id)
   left join episodes_nps
-    on channels.episode_id = episodes_nps.episode_id
+    using (episode_id)
   left join episodes_kpis
-    on channels.episode_id = episodes_kpis.episode_id
+    using (episode_id)
   left join test_users
-    on channels.user_id = test_users.user_id::text
+    on channels.user_id = test_users.user_id
   left join pdt.users
     on channels.user_id = users.user_id
   where test_users.user_id is null

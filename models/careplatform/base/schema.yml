@@ -1,0 +1,15 @@
+
+version: 2
+
+models:
+  - name: careplatform_video_stream_created
+    columns:
+      - name: episode_id
+        tests:
+          - not_null
+
+  - name: careplatform_cp_video_session_remote_connected
+    columns:
+      - name: episode_id
+        tests:
+          - not_null

@@ -153,7 +153,7 @@ with messaging_posts_all_time as (
     )
 
     , episode_pending_resolved as (
-        select chats.episode_id
+        select set_episode_state.episode_id
           , date_trunc('day', timezone('America/Montreal', updated_at)) as created_at_day
           , min(timezone('America/Montreal', updated_at)) as first_set_resolved_pending_at
         from set_episode_state

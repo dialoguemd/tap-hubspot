@@ -1,0 +1,19 @@
+
+version: 2
+
+models:
+  - name: coredata_practitioners
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+          - unique
+
+      - name: main_specialization
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['N/A', 'Nurse Clinician', 'Family Physician',
+              'Care Coordinator', 'Physiotherapist',
+              'Nurse Practitioner', 'Psychologist', 'Nutritionist',
+              'Psychotherapist', 'Work & Life Coach']

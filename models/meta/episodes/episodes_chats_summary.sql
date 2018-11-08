@@ -30,5 +30,5 @@ with channels as (
         , bool_or(chats_all_time.includes_psy_video) as includes_psy_video
     from chats_all_time
     left join channels
-        on chats_all_time.episode_id = channels.episode_id
+        using (episode_id)
     group by 1,2,3
