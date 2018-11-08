@@ -9,11 +9,11 @@
 -- 
 
 with cp_activity as (
-        select * from {{ ref( 'pdt_cp_activity' ) }}
+        select * from {{ ref( 'cp_activity' ) }}
 		)
 
   , episodes as (
-        select * from {{ ref( 'pdt_episodes' ) }}
+        select * from {{ ref( 'episodes' ) }}
     )
 
   select cp_activity.*

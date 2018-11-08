@@ -1,9 +1,9 @@
-with messaging_channels as (
+with channels as (
         select * from {{ ref('messaging_channels') }}
     )
 
-    , episodes_chats_all_time as (
-        select * from {{ ref('pdt_chats_all_time') }}
+    , chats_all_time as (
+        select * from {{ ref('chats_all_time') }}
     )
 
     select channels.episode_id
@@ -22,7 +22,13 @@ with messaging_channels as (
         , min(chats_all_time.first_set_resolved_pending_at) as first_set_resolved_pending_at
         , bool_or(chats_all_time.set_resolved_pending) as set_resolved_pending
         , bool_or(chats_all_time.chat_type = 'Follow-up') as includes_follow_up
-    from episodes_chats_all_time as chats_all_time
-    left join messaging_channels as channels
+        , bool_or(chats_all_time.includes_video) as includes_video
+        , bool_or(chats_all_time.includes_np_video) as includes_np_video
+        , bool_or(chats_all_time.includes_gp_video) as includes_gp_video
+        , bool_or(chats_all_time.includes_nc_video) as includes_nc_video
+        , bool_or(chats_all_time.includes_cc_video) as includes_cc_video
+        , bool_or(chats_all_time.includes_psy_video) as includes_psy_video
+    from chats_all_time
+    left join channels
         using (episode_id)
     group by 1,2,3

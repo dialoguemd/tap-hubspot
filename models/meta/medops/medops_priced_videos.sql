@@ -1,5 +1,5 @@
 with cp_activity_detailed as (
-        select * from {{ ref( 'pdt_cp_activity_detailed' ) }}
+        select * from {{ ref( 'cp_activity_detailed' ) }}
     )
 
     , monthly_video_cost as (

@@ -1,24 +1,26 @@
 with messaging_posts as (
-    select * from {{ ref('messaging_posts') }}
-)
+       select * from {{ ref('messaging_posts') }}
+   )
+
+   , test_users as (
+      select * from {{ ref('test_users') }}
+   )
+
+   , mm_posts as (
+      select * from {{ ref('mm_posts') }}
+   )
+
+   , unioned as (
+      select *
+      from messaging_posts
+
+      union all
+
+      select *
+      from mm_posts
+   )
 
 select *
-from messaging_posts
-
-union all
-
-select id as post_id
-   , type as post_type
-   , user_id
-   , mm_user_id
-   , user_type
-   , channel_id as episode_id
-   , created_at
-   , message_length
-   , question_mark_count as count_question_marks
-   , next_appointment_time::timestamp as next_appointment
-   , includes_question_mark as is_question
-   , type != '' as is_internal_post
-   , mention
-from mm.posts
-where created_at < '2018-09-01 00:00:00.000+00'
+from unioned
+left join test_users using (user_id)
+where test_users.user_id is null

@@ -45,7 +45,7 @@ models:
               materialized: ephemeral
       messaging:
           transform:
-              materialized: ephemeral
+              materialized: view
       scribe:
           materialized: table
       wiw:

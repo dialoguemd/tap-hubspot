@@ -9,7 +9,15 @@
 -- 
 
 with episodes as (
-        select * from {{ ref('pdt_episodes') }}
+        select * from {{ ref('episodes') }}
+    )
+
+    , organizations as (
+        select * from {{ ref('organizations') }}
+    )
+
+    , users as (
+        select * from pdt.users
     )
 
     select episodes.episode_id
@@ -40,7 +48,6 @@ with episodes as (
         , episodes.attr_cc_day_7
         , episodes.attr_gp_day_7
     from episodes
-    left join pdt.users
-        on episodes.user_id = users.user_id
-    left join pdt.organizations
+    left join users using (user_id)
+    left join organizations
         on users.organization_id = organizations.organization_id

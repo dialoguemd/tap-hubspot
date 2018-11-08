@@ -8,10 +8,6 @@ models:
         tests:
           - not_null
 
-      - name: patient_id
-        tests:
-          - not_null
-
   - name: careplatform_cp_video_session_remote_connected
     columns:
       - name: episode_id

@@ -1,20 +1,21 @@
-with episodes_chats_all_time as (
-        select * from {{ ref('pdt_chats_all_time') }}
+
+with chats_all_time as (
+        select * from {{ ref('chats_all_time') }}
     )
 
     , cp_activity as (
-        select * from {{ ref('pdt_cp_activity') }}
+        select * from {{ ref('cp_activity') }}
     )
 
     , ttr as (
         select episode_id
             , extract(epoch from (max(last_message_created_at) - min(first_message_created_at))) as ttr
-        from episodes_chats_all_time
+        from chats_all_time
         group by 1
     )
 
     , episode_activity as (
-        select episode_id
+        select chats_all_time.episode_id
             , first_message_created_at
             , coalesce(sum(time_spent), 0) as attr_total
             , coalesce(sum(time_spent) filter(where main_specialization = 'Nurse Clinician'), 0) as attr_nc
@@ -75,7 +76,7 @@ with episodes_chats_all_time as (
                     main_specialization = 'Nutritionist'
                     and cp_activity.date < chats_all_time.created_at_day + interval '7 days'
                     ), 0) as attr_nutr_day_7
-        from episodes_chats_all_time as chats_all_time
+        from chats_all_time
         inner join cp_activity
             using (episode_id)
         where chats_all_time.chat_type = 'New Episode'

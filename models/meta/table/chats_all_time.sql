@@ -168,13 +168,19 @@ with messaging_posts_all_time as (
     , videos as (
         select date_trunc('day', timezone('America/Montreal', careplatform_video_stream_created.created_at)) as sent_at_day
           , careplatform_video_stream_created.episode_id
-          , min(timezone('America/Montreal', careplatform_video_stream_created.created_at)) as first_video_gp_np_started_at
+          , string_agg(distinct care_team_user.main_specialization, ', ')
+              as main_specializations
+          , min(
+              timezone('America/Montreal', careplatform_video_stream_created.created_at)
+              ) filter (
+                  where main_specialization in
+                    ('Family Physician', 'Nurse Practitioner')
+                )
+              as first_video_w_gp_np_started_at
         from careplatform_video_stream_created
         inner join pdt.users as care_team_user
           on careplatform_video_stream_created.practitioner_id = care_team_user.user_id
             and care_team_user.is_care_team
-            and care_team_user.main_specialization
-              in ('Family Physician', 'Nurse Practitioner')
         group by 1,2
     )
 
@@ -314,7 +320,22 @@ with messaging_posts_all_time as (
         , chats_full.initiator = 'care-team' and chats_full.has_open_reminder as is_follow_up
         , rank_chat_in_episode = 1 as first_chat_in_episode
         , videos.episode_id is not null as includes_video
-        , videos.first_video_gp_np_started_at as video_start_time
+        , coalesce(
+            videos.main_specializations like '%Nurse Practitioner%',
+            false) as includes_np_video
+        , coalesce(
+            videos.main_specializations like '%Family Physician%',
+            false) as includes_gp_video
+        , coalesce(
+            videos.main_specializations like '%Nurse Clinician%',
+            false) as includes_nc_video
+        , coalesce(
+            videos.main_specializations like '%Care Coordinator%',
+            false) as includes_cc_video
+        , coalesce(
+            videos.main_specializations like '%Psychologist%',
+            false) as includes_psy_video
+        , videos.first_video_w_gp_np_started_at as video_start_time_gp_np
         , case
             when rank_chat_in_episode = 1 then 'New Episode'
             when initiator = 'care-team' and has_open_reminder then 'Follow-up'

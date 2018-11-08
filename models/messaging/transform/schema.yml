@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: messaging_channels
+    columns:
+        - name: episode_id
+          tests:
+              - unique
+              - not_null
+        - name: user_id
+          tests:
+              - not_null
+    tests:
+      - dbt_utils.recency:
+          field: created_at
+          datepart: day
+          interval: 1

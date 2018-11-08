@@ -22,6 +22,7 @@ with maus as (
 
     select paid_employees_monthly.month
         , paid_employees_monthly.organization_name
+        , paid_employees_monthly.account_name
         , paid_employees_monthly.count_paid_employees
         , maus.count_mau
         , daus.count_dau

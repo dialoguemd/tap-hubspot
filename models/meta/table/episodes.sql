@@ -8,7 +8,7 @@
 
 -- 
 
-with messaging_channels as (
+with channels as (
         select * from {{ ref('messaging_channels') }}
     )
 
@@ -90,6 +90,12 @@ with messaging_channels as (
         , episodes_chats_summary.first_set_resolved_pending_at
         , episodes_chats_summary.set_resolved_pending
         , episodes_chats_summary.includes_follow_up
+        , episodes_chats_summary.includes_video
+        , episodes_chats_summary.includes_np_video
+        , episodes_chats_summary.includes_gp_video
+        , episodes_chats_summary.includes_nc_video
+        , episodes_chats_summary.includes_cc_video
+        , episodes_chats_summary.includes_psy_video
 
         , episodes_nps.score
         , episodes_nps.category
@@ -121,8 +127,9 @@ with messaging_channels as (
         , episodes_kpis.attr_nutr_day_7
 
         , users.organization_name
+        , users.organization_id
 
-  from messaging_channels as channels
+  from channels
   left join episodes_outcomes
     using (episode_id)
   left join episodes_issue_types
