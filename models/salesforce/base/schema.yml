@@ -42,6 +42,12 @@ models:
               values: ['N/A', '1-39', '40-99', '100-199',
               '200-499', '500-999', '1000+']
 
+      - name: value_period
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['N/A', 'Monthly', 'One Time', 'Annual']
+
   - name: salesforce_products
     columns:
       - name: product_id

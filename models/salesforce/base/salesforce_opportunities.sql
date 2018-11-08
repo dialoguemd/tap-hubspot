@@ -108,5 +108,11 @@ select id as opportunity_id
 		else '1000+'
 	end as segment
 	, probability::float / 100 as probability
+	, case
+		when value_period_c is null then 'Monthly'
+		when value_period_c = 'one_time' then 'One Time'
+		else value_period_c
+	end as value_period
+	, pilot_c is not null and pilot_c = 'Yes' as is_pilot
 from salesforce.opportunities
 where not is_deleted
