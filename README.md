@@ -29,3 +29,26 @@ dbt docs generate && dbt docs serve
 ## Conventions
 
 TODO: difference between `base`, `table`, `transform`
+
+## Run DBT in prod
+
+
+1. Set a target in your profile pointing at prod (`analytics` schema)
+```
+dialogue:
+  outputs:
+    prod:
+      type: postgres
+      threads: 8
+      host: analytics.cot2yvki2gdh.ca-central-1.rds.amazonaws.com
+      port: 5432
+      user: [username]
+      pass: [password]
+      dbname: analytics
+      schema: analytics
+```
+
+2. Run
+```
+dbt seed --full-refresh --target prod && dbt run --target prod
+```
