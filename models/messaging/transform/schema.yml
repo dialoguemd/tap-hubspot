@@ -1,6 +1,52 @@
+
 version: 2
 
 models:
+  - name: messaging_posts_daily
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+
+      - name: user_id
+        tests:
+          - not_null
+
+      - name: episode_id
+        tests:
+          - not_null
+
+      - name: post_count
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_day, user_id, episode_id)"
+
+      - dbt_utils.recency:
+          field: date_day
+          datepart: day
+          interval: 1
+
+  - name: messaging_posts_all_time
+    columns:
+      - name: post_id
+        tests:
+          - not_null
+
+      - name: created_at
+        tests:
+          - not_null
+
+      - name: episode_id
+        tests:
+          - not_null
+
+      - name: is_internal_post
+        tests:
+          - not_null
+
   - name: messaging_channels
     columns:
         - name: episode_id

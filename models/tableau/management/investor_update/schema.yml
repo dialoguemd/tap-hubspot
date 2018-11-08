@@ -1,0 +1,22 @@
+
+version: 2
+
+models:
+  - name: tableau_monthly_service_level
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+          - unique
+
+      - name: episode_count
+        tests:
+          - not_null
+
+      - name: first_response_time_90p
+        tests:
+          - not_null
+
+      - name: time_to_resolve_median
+        tests:
+          - not_null

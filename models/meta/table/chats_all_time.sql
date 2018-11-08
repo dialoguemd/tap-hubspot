@@ -322,19 +322,19 @@ with messaging_posts_all_time as (
         , videos.episode_id is not null as includes_video
         , coalesce(
             videos.main_specializations like '%Nurse Practitioner%',
-            false) as includes_np_video
+            false) as includes_video_np
         , coalesce(
             videos.main_specializations like '%Family Physician%',
-            false) as includes_gp_video
+            false) as includes_video_gp
         , coalesce(
             videos.main_specializations like '%Nurse Clinician%',
-            false) as includes_nc_video
+            false) as includes_video_nc
         , coalesce(
             videos.main_specializations like '%Care Coordinator%',
-            false) as includes_cc_video
+            false) as includes_video_cc
         , coalesce(
             videos.main_specializations like '%Psychologist%',
-            false) as includes_psy_video
+            false) as includes_video_psy
         , videos.first_video_w_gp_np_started_at as video_start_time_gp_np
         , case
             when rank_chat_in_episode = 1 then 'New Episode'

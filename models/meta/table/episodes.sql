@@ -91,11 +91,11 @@ with channels as (
         , episodes_chats_summary.set_resolved_pending
         , episodes_chats_summary.includes_follow_up
         , episodes_chats_summary.includes_video
-        , episodes_chats_summary.includes_np_video
-        , episodes_chats_summary.includes_gp_video
-        , episodes_chats_summary.includes_nc_video
-        , episodes_chats_summary.includes_cc_video
-        , episodes_chats_summary.includes_psy_video
+        , episodes_chats_summary.includes_video_np
+        , episodes_chats_summary.includes_video_gp
+        , episodes_chats_summary.includes_video_nc
+        , episodes_chats_summary.includes_video_cc
+        , episodes_chats_summary.includes_video_psy
 
         , episodes_nps.score
         , episodes_nps.category

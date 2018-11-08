@@ -17,11 +17,11 @@ with episodes as (
             , score as nps_score
             , issue_type
             , outcome
-            , includes_np_video
-            , includes_gp_video
-            , includes_nc_video
-            , includes_cc_video
-            , includes_psy_video
+            , includes_video_np
+            , includes_video_gp
+            , includes_video_nc
+            , includes_video_cc
+            , includes_video_psy
             , includes_video
             , timezone('America/Montreal', first_message_patient) as episode_started
             , date_trunc('day',

@@ -23,11 +23,11 @@ with channels as (
         , bool_or(chats_all_time.set_resolved_pending) as set_resolved_pending
         , bool_or(chats_all_time.chat_type = 'Follow-up') as includes_follow_up
         , bool_or(chats_all_time.includes_video) as includes_video
-        , bool_or(chats_all_time.includes_np_video) as includes_np_video
-        , bool_or(chats_all_time.includes_gp_video) as includes_gp_video
-        , bool_or(chats_all_time.includes_nc_video) as includes_nc_video
-        , bool_or(chats_all_time.includes_cc_video) as includes_cc_video
-        , bool_or(chats_all_time.includes_psy_video) as includes_psy_video
+        , bool_or(chats_all_time.includes_video_np) as includes_video_np
+        , bool_or(chats_all_time.includes_video_gp) as includes_video_gp
+        , bool_or(chats_all_time.includes_video_nc) as includes_video_nc
+        , bool_or(chats_all_time.includes_video_cc) as includes_video_cc
+        , bool_or(chats_all_time.includes_video_psy) as includes_video_psy
     from chats_all_time
     left join channels
         using (episode_id)

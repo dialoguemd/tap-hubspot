@@ -1,6 +1,6 @@
 with accounts_monthly as (
 		select *
-		from {{ ref('meta_accounts_monthly') }}
+		from {{ ref('accounts_monthly') }}
 		where date_month >= '2018-09-01'
 			and date_month < current_date - interval '1 month'
 	)

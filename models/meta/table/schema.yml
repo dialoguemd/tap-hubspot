@@ -2,7 +2,7 @@
 version: 2
 
 models:
-  - name: meta_organizations
+  - name: organizations
     columns:
       - name: organization_id
         tests:
@@ -55,6 +55,65 @@ models:
       - unique:
           column_name: "concat(date_month, account_id)"
 
+  - name: video_started
+    columns:
+      - name: timestamp
+        tests:
+          - not_null
+
+      - name: patient_id
+        tests:
+          - not_null
+
+      - name: main_specialization
+        tests:
+          - not_null
+
+  - name: videos_daily
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+
+      - name: patient_id
+        tests:
+          - not_null
+
+      - name: includes_video_gp
+        tests:
+          - not_null
+
+      - name: includes_video_np
+        tests:
+          - not_null
+
+      - name: includes_video_nc
+        tests:
+          - not_null
+
+      - name: includes_video_cc
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_day, patient_id)"
+
+  - name: active_users
+    columns:
+      - name: dau_id
+        tests:
+          - not_null
+          - unique
+
+      - name: patient_id
+        tests:
+          - not_null
+
+      - name: date_day
+        tests:
+          - not_null
+
   - name: episodes
     description: A table containing episodes with details for analysis
 
@@ -69,7 +128,6 @@ models:
           field: created_at
           datepart: day
           interval: 1
-
 
   - name: cp_activity
     description: A table containing activities completed by practitioners in

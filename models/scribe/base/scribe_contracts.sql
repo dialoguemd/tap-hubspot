@@ -6,7 +6,7 @@ select id as contract_id
 	) as during
 	, plan_id
 	, plan_organization_id as organization_id
-	, participant_id
+	, participant_id::text as participant_id
 	, admin_area_id
 	, admin_area_country_id
 	, admin_area_iso_code
