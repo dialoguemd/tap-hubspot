@@ -28,7 +28,7 @@ with accounts_monthly as (
 
 	, sf_opportunities_won_monthly as (
 		select *
-			, date_trunc('month', sf_opportunities_won_monthly.billing_start_date)
+			, date_trunc('month', sf_opportunities_won.billing_start_date)
 				as billing_start_month
 			, generate_series(greatest('2018-09-01', close_date)
 				, date_trunc('month', current_date) - interval '1 month'
@@ -73,7 +73,7 @@ with accounts_monthly as (
 			 , coalesce(sf_opportunities_won_monthly.amount, 0) as sf_amount
 			 , coalesce(accounts_monthly.price_monthly, 0) as scribe_price_monthly
 			 , coalesce(sf_opportunities_won_monthly.number_of_employees, 0) as sf_number_of_employees
-			 , coalesce(accounts_monthly.paid_employees, 0) as scribe_paid_employees
+			 , coalesce(accounts_monthly.active_contracts, 0) as scribe_active_contracts
 			 , coalesce(sf_opportunities_won_monthly.opps_won, 0) as opps_won
 		from sf_opportunities_won_monthly
 		full outer join accounts_monthly

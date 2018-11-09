@@ -53,11 +53,11 @@ with episodes as (
             , eps_ranked.nps_score
             , eps_ranked.issue_type
             , eps_ranked.outcome
-            , eps_ranked.includes_np_video
-            , eps_ranked.includes_gp_video
-            , eps_ranked.includes_nc_video
-            , eps_ranked.includes_cc_video
-            , eps_ranked.includes_psy_video
+            , eps_ranked.includes_video_np
+            , eps_ranked.includes_video_gp
+            , eps_ranked.includes_video_nc
+            , eps_ranked.includes_video_cc
+            , eps_ranked.includes_video_psy
             , eps_ranked.includes_video
             , eps_ranked.episode_started
             , eps_ranked.resolved_at_day
