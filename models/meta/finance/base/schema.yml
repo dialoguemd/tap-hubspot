@@ -1,0 +1,46 @@
+
+version: 2
+
+models:
+  - name: finance_gm_breakdown
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: gm_source
+        tests:
+          - not_null
+
+      - name: value
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_month, gm_source)"
+
+  - name: finance_runway
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+          - unique
+
+      - name: forecast
+        tests:
+          - not_null
+
+  - name: finance_opex
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: department
+        tests:
+          - not_null
+
+      - name: delta
+        tests:
+          - not_null
