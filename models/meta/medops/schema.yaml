@@ -1,9 +1,56 @@
 version: 2
 
 models:
-  - name: medops_mau_by_org.sql
-
+  - name: medops_mau_by_org
     columns:
         - name: organization_name
           tests:
               - not_null
+
+  - name: medops_priced_videos
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+        - name: date
+          tests:
+              - not_null
+    tests:
+        - unique:
+          column_name: "concat(date, episode_id)"
+
+  - name: medops_priced_episodes
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+        - name: date
+          tests:
+              - not_null
+    tests:
+        - unique:
+          column_name: "concat(date, episode_id)"
+
+  - name: medops_daily_time_spent
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+        - name: date
+          tests:
+              - not_null
+    tests:
+        - unique:
+          column_name: "concat(date, episode_id)"
+
+  - name: medops_est_costs_by_org_monthly
+    columns:
+        - name: organization_name
+          tests:
+              - not_null
+        - name: month
+          tests:
+              - not_null
+    tests:
+        - unique:
+          column_name: "concat(organization_name, month)"

@@ -1,21 +1,25 @@
-with cp_activity_detailed as (
-        select * from {{ ref( 'cp_activity_detailed' ) }}
+with videos as (
+        select * from {{ ref( 'videos_by_ep_daily' ) }}
     )
 
     , monthly_video_cost as (
         select * from {{ ref( 'medops_video_cost_monthly' ) }}
     )
 
-	select episode_id
-        , date_trunc('day', date) as date
-        , count(*) filter(where issue_type = 'psy') * per_video_cost * 2 as gp_psy_cost
-        , count(*) filter(where issue_type <> 'psy') * per_video_cost as gp_other_cost
-	from cp_activity_detailed
-	left join monthly_video_cost
-		on date_trunc('month', cp_activity_detailed.date) = monthly_video_cost.month
-	where cp_activity_detailed.main_specialization = 'Family Physician'
-		and activity = 'video'
-		and is_active
-		and time_spent > 60
-	group by 1,2,per_video_cost
-	
+    , episodes as (
+        select * from {{ ref( 'episodes' ) }}
+    )
+
+select videos.episode_id
+    , videos.date_day as date
+    , count(*) filter(where episodes.issue_type = 'psy')
+		* monthly_video_cost.per_video_cost * 2 as gp_psy_cost
+    , count(*) filter(where episodes.issue_type <> 'psy'
+			or episodes.issue_type is null)
+		* monthly_video_cost.per_video_cost as gp_other_cost
+from videos
+left join episodes using (episode_id)
+left join monthly_video_cost
+	on date_trunc('month', videos.date_day) = monthly_video_cost.month
+where videos.includes_video_gp
+group by 1,2,per_video_cost

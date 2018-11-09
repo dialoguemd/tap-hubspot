@@ -3,8 +3,8 @@ with careplatform_pages as (
 )
 
 select pages.user_id
-    , date_trunc('day', timezone('UTC',timestamp)) as date
-    , timezone('UTC', timestamp) as timestamp
+    , date_trunc('day', timezone('America/Montreal',timestamp)) as date
+    , timezone('America/Montreal', timestamp) as timestamp
     , case
         when path in ('/','/pending', '/resolved', '/care-plans', '/reminders', '/mentions', '/login','/reminders/completed','/snoozed') then 'dashboard'
         when path like '/chat/%'  then 'chat'
@@ -24,4 +24,4 @@ select pages.user_id
         else episode_id
       end as episode_id
 from careplatform_pages as pages
-where date_trunc('day', timezone('UTC', timestamp)) > '2018-01-01'
+where date_trunc('day', timezone('America/Montreal', timestamp)) >= '2018-01-01'

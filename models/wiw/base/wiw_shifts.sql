@@ -3,7 +3,7 @@ select shift_id
 	, employee_code as user_id
 	, start_time
 	, end_time
-	, tstzrange(start_time, end_time, '[]') as shift_schedule
+	, tstzrange(start_time_est, end_time_est, '[]') as shift_schedule
 	, start_time_est
 	, end_time_est
     , start_date_est
