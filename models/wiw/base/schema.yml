@@ -1,0 +1,93 @@
+
+version: 2
+
+models:
+  - name: wiw_shifts
+    description: |
+      When I Work shifts
+
+    columns:
+      - name: shift_id
+        tests:
+          - not_null
+          - unique
+
+      - name: user_id
+        tests:
+          - not_null
+
+      - name: start_time
+        tests:
+          - not_null
+
+      - name: end_time
+        tests:
+          - not_null
+
+      - name: shift_schedule
+        tests:
+          - not_null
+
+      - name: start_time_est
+        tests:
+          - not_null
+
+      - name: end_time_est
+        tests:
+          - not_null
+
+      - name: start_date_est
+        tests:
+          - not_null
+
+      - name: end_date_est
+        tests:
+          - not_null
+
+      - name: hours
+        tests:
+          - not_null
+
+      - name: break_time
+        tests:
+          - not_null
+
+      - name: email
+        tests:
+          - not_null
+
+      - name: first_name
+        tests:
+          - not_null
+
+      - name: last_name
+        tests:
+          - not_null
+
+      - name: full_name
+        tests:
+          - not_null
+
+      - name: position_id
+        tests:
+          - not_null
+
+      - name: position_name
+        tests:
+          - not_null
+
+      - name: location_id
+        tests:
+          - not_null
+
+      - name: location_name
+        tests:
+          - not_null
+
+      - name: cost
+        tests:
+          - not_null
+
+      - name: hourly_rate
+        tests:
+          - not_null

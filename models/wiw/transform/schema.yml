@@ -1,0 +1,17 @@
+
+version: 2
+
+models:
+  - name: wiw_fte_monthly
+    description: |
+      Monthly number of full-time equivalent employees on the virtual care platform
+
+    columns:
+      - name: start_month
+        tests:
+          - not_null
+          - unique
+
+      - name: ftes
+        tests:
+          - not_null
