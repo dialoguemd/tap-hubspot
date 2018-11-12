@@ -49,6 +49,14 @@ models:
         tests:
           - not_null
 
+      - name: admin_area_name
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Prince Edward Island', 'Alberta', 'Ontario',
+              'Saskatchewan', 'British Columbia', 'Manitoba', 'Quebec',
+              'New Brunswick', 'Nova Scotia', 'Yukon']
+
   - name: scribe_users_detailed
     columns:
       - name: user_id
@@ -104,6 +112,14 @@ models:
         tests:
           - not_null
 
+      - name: province
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Prince Edward Island', 'Alberta', 'Ontario',
+              'Saskatchewan', 'British Columbia', 'Manitoba', 'Quebec',
+              'New Brunswick', 'Nova Scotia', 'Yukon']
+
   - name: scribe_user_contract_detailed
     columns:
       - name: contract_id
@@ -149,6 +165,14 @@ models:
           - not_null
           - accepted_values:
               values: ['fr', 'en']
+
+      - name: residence_province
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Prince Edward Island', 'Alberta', 'Ontario',
+              'Saskatchewan', 'British Columbia', 'Manitoba', 'Quebec',
+              'New Brunswick', 'Nova Scotia', 'Yukon']
 
     tests:
       - unique:

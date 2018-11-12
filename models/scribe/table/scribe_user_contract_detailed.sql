@@ -4,7 +4,7 @@ with
 	)
 
 	, contracts as (
-		select * from {{ ref('scribe_contracts') }}
+		select * from {{ ref('scribe_contracts_detailed') }}
 	)
 
 	, organizations as (
@@ -24,7 +24,7 @@ select contracts.contract_id
 	, organizations.organization_name
 	, organizations.is_paid as organization_is_paid
 	, user_contract.user_id = contracts.participant_id as is_employee
-	, users.residence_province
+	, coalesce(users.residence_province, contracts.admin_area_name) as residence_province
 	, users.country
 	, users.birthday
 	, users.gender
