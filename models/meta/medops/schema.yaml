@@ -54,3 +54,16 @@ models:
     tests:
         - unique:
           column_name: "concat(organization_name, month)"
+
+
+  - name: medops_time_to_next_apt
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+        - name: triggered_at
+          tests:
+              - not_null
+    tests:
+        - unique:
+          column_name: "concat(episode_id, triggered_at)"
