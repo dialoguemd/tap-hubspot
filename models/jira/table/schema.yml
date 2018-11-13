@@ -3,7 +3,7 @@ version: 2
 models:
   - name: jira_issues
     columns:
-        - name: issue_key
+        - name: issue_id
           tests:
               - unique
               - not_null
