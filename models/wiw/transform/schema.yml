@@ -2,6 +2,22 @@
 version: 2
 
 models:
+  - name: wiw_costs_daily
+
+    columns:
+        - name: start_date
+          tests:
+              - not_null
+        - name: position_name
+          tests:
+              - not_null
+        - name: cost
+          tests:
+              - not_null
+    tests:
+      - unique:
+          column_name: "concat(start_date, position_name)"
+
   - name: wiw_fte_monthly
     description: |
       Monthly number of full-time equivalent employees on the virtual care platform
