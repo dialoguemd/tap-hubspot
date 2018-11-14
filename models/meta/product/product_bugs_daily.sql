@@ -1,4 +1,4 @@
-with jira_issues as (
+with bugs as (
         select * from {{ ref( 'product_bugs' ) }}
     )
 

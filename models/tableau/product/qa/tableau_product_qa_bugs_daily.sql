@@ -16,4 +16,4 @@ from dates
 left join bugs
 	on dates.date_day >= bugs.created_at
 	and (dates.date_day <= bugs.closed_at or bugs.closed_at is null)
-	and bugs.issue_type = 'P2 Bug'
+where bugs.issue_type = 'P2 Bug'
