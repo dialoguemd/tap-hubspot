@@ -99,6 +99,40 @@ models:
       - unique:
           column_name: "concat(date_day, patient_id)"
 
+  - name: videos_by_ep_daily
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+
+      - name: episode_id
+        tests:
+          - not_null
+
+      - name: patient_id
+        tests:
+          - not_null
+
+      - name: includes_video_gp
+        tests:
+          - not_null
+
+      - name: includes_video_np
+        tests:
+          - not_null
+
+      - name: includes_video_nc
+        tests:
+          - not_null
+
+      - name: includes_video_cc
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_day_est, episode_id, patient_id)"
+
   - name: active_users
     columns:
       - name: dau_id

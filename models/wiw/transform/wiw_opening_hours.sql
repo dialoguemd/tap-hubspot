@@ -38,13 +38,13 @@ with wiw_shifts as (
     )
 
     , shifts as (
-          select date_trunc('day', start_time at time zone 'America/Montreal') as date
-        , min(start_time at time zone 'America/Montreal') as shift_start_time_est
-        , max(end_time at time zone 'America/Montreal') as shift_end_time_est
-        , tsrange(min(start_time at time zone 'America/Montreal'), max(end_time at time zone 'America/Montreal')) as shift_span_est
-      from wiw_shifts
-      where location_name = 'Virtual Care Platform'
-      group by 1
+        select date_trunc('day', start_time at time zone 'America/Montreal') as date
+            , min(start_time_est) as shift_start_time_est
+            , max(end_time_est) as shift_end_time_est
+            , tsrange(min(start_time_est), max(end_time_est)) as shift_span_est
+        from wiw_shifts
+        where location_name = 'Virtual Care Platform'
+        group by 1
     )
 
     select opening_hours.date

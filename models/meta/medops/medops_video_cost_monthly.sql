@@ -7,6 +7,9 @@ with monthly_count_videos as (
     )
 
     select month
-        , fl_gp_cost / (other_video_count + 2*psy_video_count) as per_video_cost
+        , coalesce(fl_cost.fl_gp_cost
+            / (monthly_count_videos.other_video_count
+                + 2*monthly_count_videos.psy_video_count),0)
+        as per_video_cost
     from monthly_count_videos
     left join fl_cost using (month)

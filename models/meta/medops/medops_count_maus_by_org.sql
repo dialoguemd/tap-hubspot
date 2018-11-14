@@ -3,12 +3,14 @@ with chats_all_time as (
     )
 
 	, users as (
-		select * from pdt.users
+		select * from {{ ref( 'user_contract' ) }}
 	)
 
-	select organization_name
-	    , date_trunc('month', created_at_day) as month
-	    , count(distinct user_id) as count_mau
-	from chats_all_time
-	inner join users using (user_id)
-	group by 1,2
+select users.organization_name
+    , date_trunc('month', chats_all_time.created_at_day) as month
+    , count(distinct users.user_id) as count_mau
+from chats_all_time
+inner join users using (user_id)
+-- Before this date not all users had organizations
+where created_at_day > '2017-10-01'
+group by 1,2

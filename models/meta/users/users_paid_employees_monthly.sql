@@ -23,5 +23,5 @@ with users as (
         on (months.month + interval '1 month') > users.created_at
         and (users.deactivated_at > months.month or users.deactivated_at is null)
         and is_employee
-    left join organizations using (organization_id)
+    inner join organizations using (organization_id)
     group by 1,2,3

@@ -14,11 +14,6 @@ models:
           tests:
               - unique
               - not_null
-    tests:
-      - dbt_utils.recency:
-          field: created_at
-          datepart: day
-          interval: 3
 
   - name: zendesk_problems_w_incident_detail
     columns:
@@ -32,11 +27,6 @@ models:
         - name: last_reported_at
           tests:
               - not_null
-    tests:
-      - dbt_utils.recency:
-          field: last_reported_at
-          datepart: day
-          interval: 3
 
   - name: zendesk_incidents_w_problem_detail
     columns:

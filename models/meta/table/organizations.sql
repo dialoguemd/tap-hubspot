@@ -1,6 +1,6 @@
 with
 	scribe_organizations as (
-		select * from {{ ref('scribe_organizations') }}
+		select * from {{ ref('scribe_organizations_detailed') }}
 	)
 
 	, salesforce_organizations as (

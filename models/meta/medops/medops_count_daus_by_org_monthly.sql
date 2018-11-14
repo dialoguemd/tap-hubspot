@@ -3,13 +3,16 @@ with chats_all_time as (
     )
 
 	, users as (
-		select * from pdt.users
+		select * from {{ ref( 'user_contract' ) }}
 	)
 
-	select organization_name
-	    , date_trunc('month', created_at_day) as month
-	    , count(*) as count_dau
-	from chats_all_time
-	left join users using (user_id)
-	where chats_all_time.user_id is not null
-	group by 1,2
+select users.organization_name
+    , date_trunc('month', chats_all_time.created_at_day) as month
+    , count(chats_all_time.user_id) as count_dau
+from chats_all_time
+inner join users
+		on chats_all_time.user_id = users.user_id
+		and chats_all_time.created_at_day <@
+			tsrange(timezone('America/Montreal', lower(users.during)),
+			timezone('America/Montreal', upper(users.during)))
+group by 1,2

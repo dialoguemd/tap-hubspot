@@ -16,8 +16,7 @@ select contracts.contract_id
 	, contracts.admin_area_id
 	, contracts.admin_area_country_id
 	, contracts.admin_area_iso_code
-	, coalesce(contracts.admin_area_name,
-		case organizations.province
+	, coalesce(case organizations.province
 			when 'QC' then 'Quebec'
 			when 'ON' then 'Ontario'
 			when 'MB' then 'Manitoba'
@@ -27,8 +26,11 @@ select contracts.contract_id
 			when 'BC' then 'British Columbia'
 			when 'NB' then 'New Brunswick'
 			when 'NS' then 'Nova Scotia'
+			when 'PE' then 'Prince Edward Island'
+			when 'NL' then 'Newfoundland and Labrador'
 			else organizations.province
-		end
+		end,
+		contracts.admin_area_name
 	) as admin_area_name
 	, organizations.charge_price
 	, organizations.charge_strategy

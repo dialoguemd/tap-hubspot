@@ -4,13 +4,13 @@ models:
   - name: countdown_qnaire_completion_stats
 
     columns:
-        - name: cd_qnaire
+        - name: qnaire
           tests:
               - not_null
         - name: started_at
           tests:
               - not_null
-        - name: cd_qnaire_tid
+        - name: qnaire_tid
           tests:
               - not_null
               - unique

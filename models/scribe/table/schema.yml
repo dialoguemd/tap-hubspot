@@ -55,7 +55,8 @@ models:
           - accepted_values:
               values: ['Prince Edward Island', 'Alberta', 'Ontario',
               'Saskatchewan', 'British Columbia', 'Manitoba', 'Quebec',
-              'New Brunswick', 'Nova Scotia', 'Yukon']
+              'New Brunswick', 'Nova Scotia', 'Yukon',
+              'Newfoundland and Labrador']
 
   - name: scribe_users_detailed
     columns:
@@ -118,7 +119,8 @@ models:
           - accepted_values:
               values: ['Prince Edward Island', 'Alberta', 'Ontario',
               'Saskatchewan', 'British Columbia', 'Manitoba', 'Quebec',
-              'New Brunswick', 'Nova Scotia', 'Yukon']
+              'New Brunswick', 'Nova Scotia', 'Yukon',
+              'Newfoundland and Labrador']
 
   - name: scribe_user_contract_detailed
     columns:
@@ -172,7 +174,8 @@ models:
           - accepted_values:
               values: ['Prince Edward Island', 'Alberta', 'Ontario',
               'Saskatchewan', 'British Columbia', 'Manitoba', 'Quebec',
-              'New Brunswick', 'Nova Scotia', 'Yukon']
+              'New Brunswick', 'Nova Scotia', 'Yukon',
+              'Newfoundland and Labrador']
 
     tests:
       - unique:

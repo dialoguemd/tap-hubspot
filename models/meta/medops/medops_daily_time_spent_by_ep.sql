@@ -5,7 +5,7 @@ with cp_activity as (
     select episode_id
         , date_trunc('day', activity_start) as date
         , coalesce(
-            sum(time_spent,0)
+            sum(time_spent)
             filter(where main_specialization = 'Care Coordinator')*1.0
             , 0)
             / 3600 as cc_time

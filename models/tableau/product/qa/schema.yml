@@ -18,8 +18,3 @@ models:
         - name: subject
           tests:
               - not_null
-    tests:
-      - dbt_utils.recency:
-          field: reported_at
-          datepart: day
-          interval: 3

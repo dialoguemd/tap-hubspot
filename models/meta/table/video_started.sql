@@ -21,6 +21,7 @@ with
 
 	, videos as (
 		select timestamp
+			, timezone('America/Montreal',timestamp) as timestamp_est
 			, patient_id
 			, episode_id
 			, user_id as careplatform_user_id
@@ -29,7 +30,9 @@ with
 
 		union all
 
-		select cp_video_session_remote_connected.timestamp
+		select timestamp
+			, timezone('America/Montreal',
+				cp_video_session_remote_connected.timestamp) as timestamp_est
 			, channels.user_id as patient_id
 			, channels.episode_id
 			, cp_video_session_remote_connected.user_id as careplatform_user_id
@@ -42,6 +45,7 @@ with
 		union all
 
 		select timestamp
+			, timezone('America/Montreal',timestamp) as timestamp_est
 			, user_id as patient_id
 			, null as episode_id
 			, null as careplatform_user_id
@@ -49,7 +53,15 @@ with
 		where timestamp < '2017-11-01'
 	)
 
-select videos.*
+select videos.careplatform_user_id
+	, date_trunc('day',
+		timezone('America/Montreal',timestamp))::timestamp as date_day_est
+	, date_trunc('day', timestamp)::timestamptz as date_day
+	, videos.timestamp_est
+	, videos.timestamp
+	, 'video'::text as activity
+	, videos.patient_id
+	, videos.episode_id
 	, coalesce(practitioners.main_specialization, 'N/A') as main_specialization
 from videos
 left join practitioners

@@ -3,11 +3,16 @@ select shift_id
 	, employee_code as user_id
 	, start_time
 	, end_time
-	, tstzrange(start_time_est, end_time_est, '[]') as shift_schedule
-	, start_time_est
-	, end_time_est
-    , start_date_est
-    , end_date_est
+	, tstzrange(start_time, end_time,'[]') as shift_schedule
+	, tsrange(timezone('America/Montreal', start_time),
+				timezone('America/Montreal', end_time),
+				'[]') as shift_schedule_est
+	, timezone('America/Montreal', start_time) as start_time_est
+	, timezone('America/Montreal', end_time) as end_time_est
+	, date_trunc('day', timezone('America/Montreal', start_time))
+		as start_date_est
+	, date_trunc('day', timezone('America/Montreal', end_time))
+		as end_date_est
 	, hours
 	, break_time
 	, email
