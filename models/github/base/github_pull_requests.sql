@@ -1,0 +1,1 @@
+select * from github.pull_requests

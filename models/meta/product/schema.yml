@@ -10,3 +10,22 @@ models:
         - name: created_at
           tests:
               - not_null
+
+  - name: product_bugs_daily
+    columns:
+        - name: date
+          tests:
+              - unique
+              - not_null
+        - name: all_bugs
+          tests:
+              - not_null
+
+  - name: product_failure_rate
+    columns:
+        - name: all_bugs
+          tests:
+              - not_null
+        - name: count_deploys
+          tests:
+              - not_null

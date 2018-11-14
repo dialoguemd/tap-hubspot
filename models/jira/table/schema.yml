@@ -16,6 +16,9 @@ models:
         - name: issue_type
           tests:
               - not_null
+              - relationships:
+                  to: ref('valid_jira_issue_types')
+                  field: issue_type
         - name: project_name
           tests:
               - not_null

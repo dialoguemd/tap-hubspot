@@ -15,3 +15,31 @@ models:
         - name: created_at
           tests:
               - not_null
+
+  - name: github_repositories
+    description: A now deprecated table of issues that was used before moving
+      to Jira
+    columns:
+        - name: name
+          tests:
+              - unique
+              - not_null
+        - name: created_at
+          tests:
+              - not_null
+        - name: pushed_at
+          tests:
+              - not_null
+
+  - name: github_pull_requests
+    columns:
+        - name: html_url
+          tests:
+              - unique
+              - not_null
+        - name: base_branch
+          tests:
+              - not_null
+        - name: created_at
+          tests:
+              - not_null
