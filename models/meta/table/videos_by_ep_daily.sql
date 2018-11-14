@@ -20,4 +20,6 @@ select date_trunc('day', videos.timestamp_est) as date_day_est
 from videos
 left join episodes_subject
 	using (episode_id)
+-- Videos did not have episode_id until Nov 2017
+where videos.timestamp_est > '2017-11-01'
 group by 1,2,3

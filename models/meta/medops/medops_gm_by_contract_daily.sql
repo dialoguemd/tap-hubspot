@@ -51,13 +51,13 @@ with user_contract as (
         where user_contract.is_employee
     )
 
-select daily_revenue.date_day
-    , daily_revenue.contract_id
-    , daily_revenue.charge_price
-    , daily_revenue.charge_strategy
-    , daily_revenue.organization_name
-    , daily_revenue.account_name
-    , daily_revenue.residence_province
+select coalesce(daily_revenue.date_day, daily_costs.date_day) as date_day
+    , coalesce(daily_revenue.contract_id, 0) as contract_id
+    , coalesce(daily_revenue.charge_price, 0) as charge_price
+    , coalesce(daily_revenue.charge_strategy, 'free') as charge_strategy
+    , coalesce(daily_revenue.organization_name, 'N/A') as organization_name
+    , coalesce(daily_revenue.account_name, 'N/A') as account_name
+    , coalesce(daily_revenue.residence_province, 'N/A') as residence_province
     , coalesce(sum(daily_costs.cc_cost), 0) as cc_cost
     , coalesce(sum(daily_costs.nc_cost), 0) as nc_cost
     , coalesce(sum(daily_costs.np_cost), 0) as np_cost
@@ -71,6 +71,7 @@ select daily_revenue.date_day
 from daily_revenue
 left join user_contract using (contract_id)
 -- TODO: some daily_costs are not joining so costs are understated
+-- TODO: remove coalesce to N/A once all costs are joined to rev
 full outer join daily_costs
     on user_contract.user_id = daily_costs.user_id
     and daily_revenue.date_day = daily_costs.date_day

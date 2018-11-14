@@ -101,7 +101,7 @@ models:
 
   - name: videos_by_ep_daily
     columns:
-      - name: date_day
+      - name: date_day_est
         tests:
           - not_null
 
