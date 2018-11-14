@@ -8,7 +8,7 @@
 
 --
 
-with monthly_vids_by_org as (
+with videos as (
         select * from {{ ref( 'medops_videos_by_org_monthly' ) }}
     )
 
@@ -23,16 +23,16 @@ with monthly_vids_by_org as (
     select paid_employees_monthly.month
         , paid_employees_monthly.organization_name
         , paid_employees_monthly.account_name
-        , coalesce(cpaid_employees_monthly.ount_paid_employees, 0) as count_paid_employees
-        , coalesce(monthly_vids_by_org.count_videos, 0) as count_videos
+        , coalesce(paid_employees_monthly.count_paid_employees, 0) as count_paid_employees
+        , coalesce(videos.count_videos, 0) as count_videos
         , coalesce(ubi_consults.nurse_consultations, 0) as nurse_consultations
         , coalesce(ubi_consults.gp_consultations, 0) as gp_consultations
         , coalesce(ubi_consults.mental_health_consultations, 0) as mental_health_consultations
-        , coalesce(monthly_vids_by_org.count_videos, 0) /count_paid_employees::float as video_rate
+        , coalesce(videos.count_videos, 0) /count_paid_employees::float as video_rate
     from paid_employees_monthly
-    left join monthly_vids_by_org as vids
-        on paid_employees_monthly.month = vids.month
-        and paid_employees_monthly.organization_name = vids.organization_name
+    left join videos
+        on paid_employees_monthly.month = videos.month
+        and paid_employees_monthly.organization_name = videos.organization_name
     left join ubi_consults
         on paid_employees_monthly.month = ubi_consults.month
         and paid_employees_monthly.organization_name = 'Ubisoft Divertissements Inc. (Bureau de Montreal)'
