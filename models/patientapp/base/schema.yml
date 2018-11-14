@@ -7,3 +7,15 @@ models:
       - name: user_id
         tests:
           - not_null
+
+  - name: patientapp_submit_post_success
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+      - name: platform_name
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['iOS', 'Android', 'Desktop']

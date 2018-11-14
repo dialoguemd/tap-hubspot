@@ -61,7 +61,7 @@ select active_daily.*
 	, user_contract.account_name
 	, user_contract.country
 	, user_contract.residence_province
-	, extract('year' from date_day - user_contract.birthday) as age
+	, extract('year' from age(active_daily.date_day, user_contract.birthday)) as age
 	, user_contract.gender
 	, case
 		when active_daily.date_day < user_contract.billing_start_date

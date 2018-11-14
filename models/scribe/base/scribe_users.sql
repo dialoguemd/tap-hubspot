@@ -12,8 +12,8 @@ select id as user_id
     , first_name
     , last_name
     , first_name || ' ' || last_name as user_name
-    , gender
-    , language
+    , coalesce(gender, 'N/A') as gender
+    , coalesce(upper(language), 'N/A') as language
     , case
         when residence_province = 'QC' then 'Quebec'
         when residence_province = 'ON' then 'Ontario'

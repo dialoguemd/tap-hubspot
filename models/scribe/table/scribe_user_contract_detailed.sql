@@ -37,25 +37,25 @@ select contracts.contract_id
 	as is_child
 	, case
 		when user_contract.user_id = contracts.participant_id
-		then 'employee'
+		then 'Employee'
 		when users.is_child
 		-- case when the user was added as a child but is more than 14 years old
 			and (
 				users.birthday is null
-				or users.birthday < lower(contracts.during) - interval '1 year' * 14
+				or extract('year' from age(lower(contracts.during), users.birthday)) < 14
 			)
-		then 'child'
-		else 'dependent'
+		then 'Child'
+		else 'Dependent'
 	end as family_member_type
 	, users.signed_up_at
 	, users.is_signed_up
-	, coalesce(users.language,
-      case
+	, case
+		when users.language <> 'N/A' then users.language
         when organizations.email_preference in ('bilingual-french-english', 'french')
-        then 'fr'
+        then 'FR'
         when organizations.email_preference in ('bilingual-english-french', 'english')
-        then 'en'
-      end) as language
+        then 'EN'
+      end as language
 from user_contract
 inner join contracts
 	using (contract_id)

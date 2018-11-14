@@ -1,3 +1,6 @@
+
+{{ config(materialized='table') }}
+
 with messaging_posts as (
        select * from {{ ref('messaging_posts') }}
    )

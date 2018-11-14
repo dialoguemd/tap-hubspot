@@ -160,13 +160,13 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['employee', 'child', 'dependent']
+              values: ['Employee', 'Child', 'Dependent']
 
       - name: language
         tests:
           - not_null
           - accepted_values:
-              values: ['fr', 'en']
+              values: ['FR', 'EN']
 
       - name: residence_province
         tests:
