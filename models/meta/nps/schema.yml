@@ -1,0 +1,19 @@
+
+version: 2
+
+models:
+  - name: nps_patient_survey_light
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+      - name: score
+        tests:
+          - not_null
+
+      - name: category
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['promoter', 'passive', 'detractor']

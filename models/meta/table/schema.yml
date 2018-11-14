@@ -208,3 +208,23 @@ models:
           field: created_at_day
           datepart: day
           interval: 1
+
+  - name: nps_patient_survey
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+      - name: score
+        tests:
+          - not_null
+
+      - name: category
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['promoter', 'passive', 'detractor']
+
+      - name: organization_id
+        tests:
+          - not_null
