@@ -7,6 +7,6 @@ models:
           tests:
               - unique
               - not_null
-        - name: count_deploys
+        - name: deploys_count
           tests:
               - not_null
