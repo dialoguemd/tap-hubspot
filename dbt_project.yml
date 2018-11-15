@@ -54,3 +54,5 @@ models:
           materialized: table
       coredata:
           materialized: table
+      xero:
+          materialized: table
