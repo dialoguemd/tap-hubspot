@@ -20,4 +20,4 @@ from time_spent
 left join episodes using (episode_id)
 left join hourly_cost
 	on date_trunc('month', time_spent.date)
-        = hourly_cost.month
+        = hourly_cost.date_month

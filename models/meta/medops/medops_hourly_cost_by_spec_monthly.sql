@@ -7,7 +7,7 @@ with daily_time_spent_by_ep as (
     )
 
     , monthly_activities as (
-        select date_trunc('month', date) as month
+        select date_trunc('month', date) as date_month
             , sum(cc_time) as cc_time
             , sum(nc_time) as nc_time
             , sum(np_time) as np_time
@@ -15,7 +15,7 @@ with daily_time_spent_by_ep as (
         group by 1
     )
     
-    select month
+    select date_month
         , coalesce(fl_costs.fl_cc_cost*1.0
             / monthly_activities.cc_time, 0) as cc_hourly
         , coalesce(fl_costs.fl_nc_cost*1.0
@@ -23,4 +23,4 @@ with daily_time_spent_by_ep as (
         , coalesce(fl_costs.fl_np_cost*1.0
             / monthly_activities.np_time, 0) as np_hourly
     from monthly_activities
-    left join fl_costs using (month)
+    left join fl_costs using (date_month)

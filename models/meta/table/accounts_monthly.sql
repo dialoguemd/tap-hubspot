@@ -31,6 +31,7 @@ with
 			, account_id
 			, account_name
 			, is_paid
+			, date_trunc('month', billing_start_date) as billing_start_month
 			, billing_start_date
 			, active_contracts
 			, price_monthly
@@ -62,12 +63,13 @@ select date_month
 	, active_contracts
 	, active_contracts_last_month
 	, is_paid
+	, billing_start_month
 	, billing_start_date
 	, price_monthly
 	, price_monthly_last_month
 	, price_monthly - price_monthly_last_month as price_difference_monthly
 	, case
-		when price_monthly_last_month = 0 or min_active_contracts_last_month = 0
+		when billing_start_month = date_month
 		then 'New'
 		when min_active_contracts = 0
 		then 'Churned'

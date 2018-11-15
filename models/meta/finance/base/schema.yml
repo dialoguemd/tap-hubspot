@@ -44,3 +44,17 @@ models:
       - name: delta
         tests:
           - not_null
+
+  - name: finance_revenue_monthly
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: telehealth_revenue
+        tests:
+          - not_null
+
+      - name: mrr
+        tests:
+          - not_null

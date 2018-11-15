@@ -138,7 +138,6 @@ models:
       - name: dau_id
         tests:
           - not_null
-          - unique
 
       - name: patient_id
         tests:

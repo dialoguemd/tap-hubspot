@@ -19,6 +19,10 @@ with
 		select * from {{ ref('coredata_practitioners')}}
 	)
 
+	, test_users as (
+		select * from {{ ref('test_users')}}
+	)
+
 	, videos as (
 		select timestamp
 			, timezone('America/Montreal',timestamp) as timestamp_est
@@ -66,3 +70,6 @@ select videos.careplatform_user_id
 from videos
 left join practitioners
 	on videos.careplatform_user_id = practitioners.user_id
+left join test_users
+	on videos.patient_id = test_users.user_id
+where test_users.user_id is null
