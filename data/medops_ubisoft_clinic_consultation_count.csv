@@ -1,4 +1,4 @@
-month,nurse_consultations,gp_consultations,mental_health_consultations
+date_month,nurse_consultations,gp_consultations,mental_health_consultations
 1/1/2018,460,314,21
 2/1/2018,388,312,23
 3/1/2018,427,318,28

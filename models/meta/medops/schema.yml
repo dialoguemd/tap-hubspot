@@ -33,28 +33,28 @@ models:
         - name: organization_name
           tests:
               - not_null
-        - name: month
+        - name: date_month
           tests:
               - not_null
     tests:
         - unique:
-            column_name: "concat(organization_name, month)"
+            column_name: "concat(organization_name, date_month)"
 
   - name: medops_count_maus_by_org
     columns:
         - name: organization_name
           tests:
               - not_null
-        - name: month
+        - name: date_month
           tests:
               - not_null
     tests:
         - unique:
-            column_name: "concat(organization_name, month)"
+            column_name: "concat(organization_name, date_month)"
 
   - name: medops_count_videos_monthly
     columns:
-        - name: month
+        - name: date_month
           tests:
               - not_null
               - unique
@@ -85,7 +85,7 @@ models:
 
   - name: medops_est_costs_by_org_monthly
     columns:
-        - name: month
+        - name: date_month
           tests:
               - not_null
         - name: organization_name
@@ -93,7 +93,7 @@ models:
               - not_null
     tests:
         - unique:
-            column_name: "concat(organization_name, month)"
+            column_name: "concat(organization_name, date_month)"
 
   - name: medops_gm_by_contract_daily
     columns:
@@ -120,7 +120,7 @@ models:
 
   - name: medops_hourly_cost_by_spec_monthly
     columns:
-        - name: month
+        - name: date_month
           tests:
               - not_null
               - unique
@@ -172,7 +172,7 @@ models:
 
   - name: medops_usage_by_org_monthly
     columns:
-        - name: month
+        - name: date_month
           tests:
               - not_null
         - name: organization_name
@@ -189,11 +189,11 @@ models:
               - not_null
     tests:
         - unique:
-            column_name: "concat(month, organization_name)"
+            column_name: "concat(date_month, organization_name)"
 
   - name: medops_video_cost_monthly
     columns:
-        - name: month
+        - name: date_month
           tests:
               - not_null
               - unique
@@ -203,7 +203,7 @@ models:
 
   - name: medops_video_rate_by_org_monthly
     columns:
-        - name: month
+        - name: date_month
           tests:
               - not_null
         - name: organization_name
@@ -217,11 +217,11 @@ models:
               - not_null
     tests:
         - unique:
-            column_name: "concat(month, organization_name)"
+            column_name: "concat(date_month, organization_name)"
 
   - name: medops_videos_by_org_monthly
     columns:
-        - name: month
+        - name: date_month
           tests:
               - not_null
         - name: organization_name
@@ -232,4 +232,4 @@ models:
               - not_null
     tests:
         - unique:
-            column_name: "concat(month, organization_name)"
+            column_name: "concat(date_month, organization_name)"

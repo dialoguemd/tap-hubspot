@@ -21,6 +21,6 @@ select videos.episode_id
 from videos
 left join episodes using (episode_id)
 left join monthly_video_cost
-	on date_trunc('month', videos.date_day_est) = monthly_video_cost.month
+	on date_trunc('month', videos.date_day_est) = monthly_video_cost.date_month
 where videos.includes_video_gp
 group by 1,2,3,per_video_cost

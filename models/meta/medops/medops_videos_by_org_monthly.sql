@@ -7,7 +7,7 @@ with videos as (
     )
 
 select patients.organization_name
-    , date_trunc('month', videos.date_day_est) as month
+    , date_trunc('month', videos.date_day_est) as date_month
     , count(distinct
 		concat(patients.user_id,
 				date_trunc('day',

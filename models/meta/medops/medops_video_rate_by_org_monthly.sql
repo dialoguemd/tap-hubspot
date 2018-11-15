@@ -20,7 +20,7 @@ with videos as (
         select * from {{ ref( 'users_paid_employees_monthly' ) }}
     )
 
-    select paid_employees_monthly.month
+    select paid_employees_monthly.date_month
         , paid_employees_monthly.organization_name
         , paid_employees_monthly.account_name
         , coalesce(paid_employees_monthly.count_paid_employees, 0) as count_paid_employees
@@ -31,8 +31,8 @@ with videos as (
         , coalesce(videos.count_videos, 0) /count_paid_employees::float as video_rate
     from paid_employees_monthly
     left join videos
-        on paid_employees_monthly.month = videos.month
+        on paid_employees_monthly.date_month = videos.date_month
         and paid_employees_monthly.organization_name = videos.organization_name
     left join ubi_consults
-        on paid_employees_monthly.month = ubi_consults.month
+        on paid_employees_monthly.date_month = ubi_consults.date_month
         and paid_employees_monthly.organization_name = 'Ubisoft Divertissements Inc. (Bureau de Montreal)'

@@ -39,5 +39,5 @@ models:
           field: date
           datepart: day
           interval: 1
-      - unique:
-          column_name: "concat(date, channel)"
+      # - unique:
+      #     column_name: "concat(date, channel)"

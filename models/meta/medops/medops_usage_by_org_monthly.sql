@@ -20,7 +20,7 @@ with maus as (
         select * from {{ ref( 'users_paid_employees_monthly' ) }}
     )
 
-    select paid_employees_monthly.month
+    select paid_employees_monthly.date_month
         , paid_employees_monthly.organization_name
         , paid_employees_monthly.account_name
         , paid_employees_monthly.count_paid_employees
@@ -30,8 +30,8 @@ with maus as (
         , coalesce(daus.count_dau, 0)/paid_employees_monthly.count_paid_employees::float as dau_rate
     from paid_employees_monthly
     left join maus
-        on paid_employees_monthly.month = maus.month
+        on paid_employees_monthly.date_month = maus.date_month
         and paid_employees_monthly.organization_name = maus.organization_name
     left join daus
-        on paid_employees_monthly.month = daus.month
+        on paid_employees_monthly.date_month = daus.date_month
         and paid_employees_monthly.organization_name = daus.organization_name

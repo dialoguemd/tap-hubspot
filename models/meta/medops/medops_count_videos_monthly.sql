@@ -10,7 +10,7 @@ with videos as (
 		select * from {{ ref( 'organizations' ) }}
 	)
 
-	select date_trunc('month', date_day_est) as month
+	select date_trunc('month', date_day_est) as date_month
 		, count(*)
 			filter(where issue_type = 'psy') as psy_video_count
 		, count(*)

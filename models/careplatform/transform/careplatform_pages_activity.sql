@@ -47,5 +47,5 @@ select pages.user_id as careplatform_user_id
       end as episode_id
     , coalesce(practitioners.main_specialization, 'N/A') as main_specialization
 from careplatform_pages as pages
-left join practitioners using (user_id)
+inner join practitioners using (user_id)
 where date_trunc('day', timestamp) >= '2018-01-01'

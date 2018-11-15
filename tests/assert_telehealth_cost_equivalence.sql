@@ -1,4 +1,4 @@
-with seed as (
+with costs as (
       select * from {{ ref( 'medops_fl_costs_by_main_spec' ) }}
    )
    
@@ -7,7 +7,7 @@ with seed as (
    )
    
    , monthly_costs as (
-      select date_trunc('month', date_day) as month
+      select date_trunc('month', date_day) as date_month
           , sum(cc_cost) as cc_cost
           , sum(nc_cost) as nc_cost
           , sum(np_cost) as np_cost
@@ -19,11 +19,11 @@ with seed as (
    
     , compared as (
       select round(((gp_psy_cost + gp_other_cost) / fl_gp_cost)::numeric, 4) as gp
-          , round(cc_cost / fl_cc_cost, 4) as cc
-          , round(nc_cost / fl_nc_cost, 4) as nc
-          , round(np_cost / fl_np_cost, 4) as np
-      from seed
-      left join monthly_costs using (month)
+          , round((cc_cost / fl_cc_cost)::numeric, 4) as cc
+          , round((nc_cost / fl_nc_cost)::numeric, 4) as nc
+          , round((np_cost / fl_np_cost)::numeric, 4) as np
+      from costs
+      left join monthly_costs using (date_month)
     )
 
 select *

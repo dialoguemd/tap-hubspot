@@ -25,6 +25,7 @@ with pages as (
         union
         select *
         from videos
+        where careplatform_user_id is not null
     )
 
     , fill_patient_id as (
