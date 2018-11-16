@@ -11,6 +11,10 @@ with
 		select * from {{ ref('salesforce_users') }}
 	)
 
+	, contacts as (
+		select * from {{ ref('salesforce_contacts') }}
+	)
+
 	, products as (
 		select opportunity_id
 			, array_agg(product_id order by product_id) as product_ids
@@ -20,19 +24,19 @@ with
 	)
 
 select opportunities.*
-	, users.name as owner_name
-	, users.title as owner_title
-	, users.province as owner_province
-	, users.started_date as owner_started_date
+	, owners.name as owner_name
+	, owners.title as owner_title
+	, owners.province as owner_province
+	, owners.started_date as owner_started_date
 	, accounts.industry
 	, accounts.account_name
 	, coalesce(
 		accounts.billing_state_code,
-		users.state_code
+		owners.state_code
 	) as province
 	, coalesce(
 		accounts.billing_country_code,
-		users.country_code
+		owners.country_code
 	) as country
 	-- hardcode virtual care if there is no product
 	, coalesce(products.product_ids, array['01t6A000002NnLXQA0']) as product_ids
@@ -49,10 +53,18 @@ select opportunities.*
 	, '01t6A000002NnLXQA0' = any (
 			coalesce(products.product_ids, array['01t6A000002NnLXQA0'])
 	) as includes_virtual_care
+	, partner_contacts.contact_id as partner_contact_id
+	, partner_contacts.contact_name as partner_contact_name
+	, partners.account_id as partner_account_id
+	, partners.account_name as partner_name
 from opportunities
 inner join accounts
 	using (account_id)
-inner join users
-	on opportunities.owner_id = users.user_id
+inner join users as owners
+	on opportunities.owner_id = owners.user_id
 left join products
 	on opportunities.opportunity_id = products.opportunity_id
+left join contacts as partner_contacts
+	on opportunities.partner_individual_id = partner_contacts.contact_id
+left join accounts as partners
+	on opportunities.partner_id = partners.account_id
