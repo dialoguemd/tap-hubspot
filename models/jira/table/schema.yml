@@ -22,12 +22,13 @@ models:
         - name: project_name
           tests:
               - not_null
+    # TODO find solution for recency excl. weekends
     tests:
       - dbt_utils.recency:
           field: created_at
           datepart: day
-          interval: 1
+          interval: 3
       - dbt_utils.recency:
           field: updated_at
           datepart: day
-          interval: 1
+          interval: 3

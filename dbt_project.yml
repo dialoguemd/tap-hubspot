@@ -40,9 +40,6 @@ models:
           materialized: ephemeral
       meta:
           materialized: table
-      meta_episodes:
-          transform:
-              materialized: ephemeral
       messaging:
           transform:
               materialized: view

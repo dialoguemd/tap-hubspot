@@ -204,9 +204,9 @@ models:
               - not_null
     tests:
       - dbt_utils.recency:
-          field: created_at_day
-          datepart: day
-          interval: 1
+          field: last_message_created_at
+          datepart: hour
+          interval: 24
 
   - name: nps_patient_survey
     columns:

@@ -34,10 +34,6 @@ models:
           description: cost per click
           tests:
               - not_null
-    tests:
-      - dbt_utils.recency:
-          field: date
-          datepart: day
-          interval: 1
+    # tests:
       # - unique:
       #     column_name: "concat(date, channel)"
