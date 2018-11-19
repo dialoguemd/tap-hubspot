@@ -49,19 +49,11 @@ models:
         tests:
           - not_null
 
-      - name: mrr_signed_eae_qc
+      - name: mrr_signed_eae
         tests:
           - not_null
 
-      - name: mrr_signed_eae_roc
-        tests:
-          - not_null
-
-      - name: mrr_signed_ae_qc
-        tests:
-          - not_null
-
-      - name: mrr_signed_ae_roc
+      - name: mrr_signed_ae
         tests:
           - not_null
 

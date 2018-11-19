@@ -21,8 +21,6 @@ select profit_and_loss_monthly.date_month as pl_date_month
 	, cac.date_month as cac_date_month
 	, cac.cost_total as cac_cost_total
 from profit_and_loss_monthly
-full outer join cac
-	on profit_and_loss_monthly.date_month = cac.date_month
-		and profit_and_loss_monthly.cost_total::int = cac.cost_total::int
-where cac.date_month is null
-	or profit_and_loss_monthly.date_month is null
+inner join cac
+	on profit_and_loss_monthly.date_month = cac.date_month	
+where profit_and_loss_monthly.cost_total::int <> cac.cost_total::int

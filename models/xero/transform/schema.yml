@@ -2,34 +2,6 @@
 version: 2
 
 models:
-  - name: xero_cac
-
-    columns:
-      - name: date_month
-        tests:
-          - not_null
-          - unique
-
-      - name: cost_eae_qc
-        tests:
-          - not_null
-
-      - name: cost_eae_roc
-        tests:
-          - not_null
-
-      - name: cost_ae_qc
-        tests:
-          - not_null
-
-      - name: cost_ae_roc
-        tests:
-          - not_null
-
-      - name: cost_total
-        tests:
-          - not_null
-
   - name: xero_profit_and_loss
     description: 'Monthly P&L report by expense account'
 
@@ -58,44 +30,18 @@ models:
       - unique:
           column_name: "concat(date_month, account_name)"
 
-  - name: xero_ltv_to_cac
+  - name: xero_cac
+
     columns:
       - name: date_month
         tests:
           - not_null
+          - unique
 
-      - name: cost_eae_qc
+      - name: cost_eae
         tests:
           - not_null
 
-      - name: cost_eae_roc
-        tests:
-          - not_null
-
-      - name: cost_ae_qc
-        tests:
-          - not_null
-
-      - name: cost_ae_roc
-        tests:
-          - not_null
-
-      - name: mrr_signed
-        tests:
-          - not_null
-
-      - name: mrr_signed_eae_qc
-        tests:
-          - not_null
-
-      - name: mrr_signed_eae_roc
-        tests:
-          - not_null
-
-      - name: mrr_signed_ae_qc
-        tests:
-          - not_null
-
-      - name: mrr_signed_ae_roc
+      - name: cost_ae
         tests:
           - not_null

@@ -9,25 +9,17 @@ models:
       - name: line_amount_excl_tax
         description: Amount of the expense exclusive of taxes
 
-  - name: xero_expenses_detailed
-    description: 'Xero expenses going in the P&L report with account grouping'
+  - name: eae_compensation_percentage_monthly
+    description: |
+      Monthly percentage of account executive total compensation
+      associated to the enterprise segment
 
     columns:
-      - name: line_amount_excl_tax
-        description: Amount of the expense exclusive of taxes
-
-      - name: account_group
+      - name: date_month
         tests:
           - not_null
-          - accepted_values:
-              values: ['N/A', 'Sales Expenses', 'Customer Success',
-              'General Administration', 'Health Team', 'Marketing Expenses',
-              'Technology']
+          - unique
 
-      - name: account_cost_category
+      - name: eae_compensation_percentage
         tests:
           - not_null
-          - accepted_values:
-              values: ['N/A', 'Sales and Marketing - Marketing Campaign',
-                'Sales and Marketing - SAAS', 'Sales & Marketing - Other',
-                'Sales and Marketing - Wages', Sales and Marketing - Professional Services]

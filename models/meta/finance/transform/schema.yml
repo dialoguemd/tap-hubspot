@@ -1,0 +1,32 @@
+
+version: 2
+
+models:
+
+  - name: finance_ltv_to_cac
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: cost_total
+        tests:
+          - not_null
+
+      - name: cost_eae
+        tests:
+          - not_null
+
+      - name: cost_ae
+
+      - name: mrr_signed
+        tests:
+          - not_null
+
+      - name: mrr_signed_eae
+        tests:
+          - not_null
+
+      - name: mrr_signed_ae
+        tests:
+          - not_null
