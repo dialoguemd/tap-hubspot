@@ -2,7 +2,7 @@
 version: 2
 
 models:
-  - name: wiw_costs_daily
+  - name: wiw_costs_by_position_daily
 
     columns:
         - name: start_date
@@ -29,5 +29,40 @@ models:
           - unique
 
       - name: ftes
+        tests:
+          - not_null
+
+  - name: wiw_costs_weekly
+    columns:
+      - name: start_week
+        tests:
+          - not_null
+          - unique
+
+      - name: virtual_costs_fl
+        tests:
+          - not_null
+
+      - name: virtual_video_costs_fl
+        tests:
+          - not_null
+
+      - name: virtual_chat_costs_fl
+        tests:
+          - not_null
+
+      - name: virtual_costs_gp_fl
+        tests:
+          - not_null
+
+      - name: virtual_costs_np_fl
+        tests:
+          - not_null
+
+      - name: virtual_costs_nc_fl
+        tests:
+          - not_null
+
+      - name: virtual_costs_cc_fl
         tests:
           - not_null

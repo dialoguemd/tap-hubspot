@@ -121,3 +121,33 @@ models:
       - name: active_contracts_unpaid
         tests:
           - not_null
+
+  - name: scribe_contracts_daily
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+          - unique
+
+      - name: contract_count
+        tests:
+          - not_null
+
+      - name: contract_paid_count
+        tests:
+          - not_null
+
+  - name: scribe_contracts_weekly
+    columns:
+      - name: date_week
+        tests:
+          - not_null
+          - unique
+
+      - name: contract_count
+        tests:
+          - not_null
+
+      - name: contract_paid_count
+        tests:
+          - not_null

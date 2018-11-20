@@ -2,9 +2,7 @@
 version: 2
 
 models:
-  - name: wiw_shifts
-    description: |
-      When I Work shifts
+  - name: wiw_shifts_detailed
 
     columns:
       - name: shift_id
@@ -91,14 +89,3 @@ models:
       - name: hourly_rate
         tests:
           - not_null
-
-  - name: wiw_users_snapshot_2018_09
-    description: |
-      Snapshot of WIW user hourly rates
-      before GP were moved to pay per consult
-
-    columns:
-      - name: wiw_user_id
-        tests:
-          - not_null
-          - unique

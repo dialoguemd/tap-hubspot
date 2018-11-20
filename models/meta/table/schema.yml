@@ -147,6 +147,80 @@ models:
         tests:
           - not_null
 
+  - name: active_users_weekly
+    columns:
+      - name: date_week
+        tests:
+          - not_null
+          - unique
+
+      - name: waus
+        tests:
+          - not_null
+
+      - name: daus
+        tests:
+          - not_null
+
+      - name: daus_chat
+        tests:
+          - not_null
+
+      - name: daus_video_gp_np
+        tests:
+          - not_null
+
+      - name: waus_paid
+        tests:
+          - not_null
+
+      - name: daus_paid
+        tests:
+          - not_null
+
+      - name: daus_chat_paid
+        tests:
+          - not_null
+
+  - name: active_users_monthly
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+          - unique
+
+      - name: maus
+        tests:
+          - not_null
+
+      - name: daus
+        tests:
+          - not_null
+          
+      - name: daus_chat
+        tests:
+          - not_null
+          
+      - name: daus_video_gp_np
+        tests:
+          - not_null
+          
+      - name: maus_paid
+        tests:
+          - not_null
+          
+      - name: daus_paid
+        tests:
+          - not_null
+          
+      - name: daus_chat_paid
+        tests:
+          - not_null
+          
+      - name: daus_video_gp_np_paid
+        tests:
+          - not_null
+
   - name: episodes
     description: A table containing episodes with details for analysis
 
