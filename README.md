@@ -52,3 +52,19 @@ dialogue:
 ```
 dbt seed --full-refresh --target prod && dbt run --target prod
 ```
+
+## Data pipeline refresh schedule
+
+**Morning**
+
+- 05:30 EST / 00:30 UTC ==== Lambdas ETL
+- 05:45 EST / 00:30 UTC ==== Segment
+- 06:30 EST / 01:30 UTC ==== Sinter
+- 07:30 EST / 02:30 UTC ==== Tableau
+
+**Afternoon**
+
+- 12:00 EST / 07:00 UTC ==== Lambdas ETL
+- 12:15 EST / 07:15 UTC ==== Segment
+- 13:00 EST / 08:00 UTC ==== Sinter
+- 14:00 EST / 09:00 UTC ==== Tableau
