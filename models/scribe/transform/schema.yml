@@ -151,3 +151,93 @@ models:
       - name: contract_paid_count
         tests:
           - not_null
+
+  - name: scribe_organization_province_split
+    description: |
+      Ratio of signed up users per province by organization
+
+    columns:
+      - name: organization_id
+        tests:
+          - not_null
+          - unique
+
+      - name: qc_perc
+        tests:
+          - not_null
+
+      - name: on_perc
+        tests:
+          - not_null
+
+      - name: roc_perc
+        tests:
+          - not_null
+
+  - name: scribe_organizations_daily
+    description: |
+      Number of daily active contracts by organization
+
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+
+      - name: organization_id
+        tests:
+          - not_null
+
+      - name: active_contracts
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_day, organization_id)"
+
+  - name: scribe_organizations_weekly
+    description: |
+      Number of weekly active contracts by organization
+
+    columns:
+      - name: date_week
+        tests:
+          - not_null
+
+      - name: organization_id
+        tests:
+          - not_null
+
+      - name: active_contracts
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_week, organization_id)"
+
+  - name: scribe_organization_mrr_by_province_weekly
+    description: |
+      Estimated split of MRR by province by organization
+      Estimate is based on percentage of signup by province per organization
+
+    columns:
+      - name: date_week
+        tests:
+          - not_null
+
+      - name: mrr_qc
+        tests:
+          - not_null
+
+      - name: mrr_on
+        tests:
+          - not_null
+
+      - name: mrr_roc
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_week, organization_id)"

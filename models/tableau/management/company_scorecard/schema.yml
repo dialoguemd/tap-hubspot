@@ -1,0 +1,10 @@
+
+version: 2
+
+models:
+  - name: tableau_scorecard_organization_mrr_by_province
+    columns:
+      - name: date_week
+        tests:
+          - not_null
+          - unique
