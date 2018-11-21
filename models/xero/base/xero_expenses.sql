@@ -1,7 +1,5 @@
 select *
-	, case
-		when line_amount_types = 'Inclusive'
-		then line_amount - tax_amount
-		else line_amount
-	end as line_amount_excl_tax
+	, date as date_day
+	, date_trunc('week', date) as date_week
+	, date_trunc('month', date) as date_month
 from xero.expenses

@@ -8,13 +8,13 @@ with
 	)
 
 select xero_profit_and_loss.date_month
-	, sum(xero_profit_and_loss.amount_excl_tax
+	, sum(xero_profit_and_loss.amount
 		* eae_comp.eae_compensation_percentage
 	) as cost_eae
-	, sum(xero_profit_and_loss.amount_excl_tax
+	, sum(xero_profit_and_loss.amount
 		*  (1-eae_comp.eae_compensation_percentage)
 	) as cost_ae
-	, sum(xero_profit_and_loss.amount_excl_tax) as cost_total
+	, sum(xero_profit_and_loss.amount) as cost_total
 from xero_profit_and_loss
 inner join eae_comp
 	using (date_month)

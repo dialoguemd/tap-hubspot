@@ -1,0 +1,58 @@
+account_budget_category,budget_department
+CS Compensation,Customer Success
+CS Events,Customer Success
+CS SAAS,Customer Success
+CS Customer Related,Customer Success
+CS Meals & Entertainement Internal,Customer Success
+CS Other,Customer Success
+Marketing Compensation,Sales & Partnership
+Marketing Campaign,Sales & Partnership
+Marketing Consultant,Sales & Partnership
+Marketing SAAS,Sales & Partnership
+Marketing Training,Sales & Partnership
+Marketing Travel (if necessary),Sales & Partnership
+Marketing Events (not incl. in S&P events budget),Sales & Partnership
+Marketing Other,Sales & Partnership
+Tech Comp,Tech
+Tech Consultant,Tech
+Tech SAAS,Tech
+Tech Hardware & Equipment,Tech
+Tech Training,Tech
+Tech Other,Tech
+Sales & Partn Compensation,Sales & Partnership
+Sales & Partn M&E - External,Sales & Partnership
+Sales & Partn M&E - Internal (Not incl travel),Sales & Partnership
+Sales & Partn SAAS,Sales & Partnership
+Sales & Partn Training,Sales & Partnership
+Sales & Partn Travel,Sales & Partnership
+Sales & Partn Events,Sales & Partnership
+Sales & Partn Other,Sales & Partnership
+Medops Compensation (OPEX only),MedOps
+Medops Consultants,MedOps
+Medops Licences,MedOps
+Medops QA,MedOps
+Medops training,MedOps
+Medops Meal & Enter Internal,MedOps
+Medops SAAS,MedOps
+Medops Micro-Clinics,MedOps
+Medops Other,MedOps
+G&A Compensation,G&A
+G&A Accounting,G&A
+G&A Consulting,G&A
+G&A Travel National,G&A
+G&A Travel International,G&A
+G&A Germany,G&A
+G&A France,G&A
+G&A Groceries,G&A
+G&A Office expenses,G&A
+G&A M&E Internal,G&A
+G&A M&E External,G&A
+G&A Recruitment,G&A
+G&A HR Consulting,G&A
+G&A Insurance,G&A
+G&A Interest,G&A
+G&A Legal,G&A
+G&A SAAS,G&A
+G&A Training,G&A
+G&A Rent,G&A
+G&A Other,G&A

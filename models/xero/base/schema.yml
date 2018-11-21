@@ -5,10 +5,6 @@ models:
   - name: xero_expenses
     description: 'Xero expenses going in the P&L report'
 
-    columns:
-      - name: line_amount_excl_tax
-        description: Amount of the expense exclusive of taxes
-
   - name: eae_compensation_percentage_monthly
     description: |
       Monthly percentage of account executive total compensation
@@ -21,5 +17,58 @@ models:
           - unique
 
       - name: eae_compensation_percentage
+        tests:
+          - not_null
+
+  - name: xero_account_budget_categories
+    description: |
+      Mapping between Xero account categories and budget categories
+
+      source: https://docs.google.com/spreadsheets/d/1-pD13TVWXX2jLITIpZWLZrkA8IL9SAYFcHnoquK3P8g/edit?ts=5be35814#gid=30023288
+
+    columns:
+      - name: xero_account_name
+        tests:
+          - not_null
+          - unique
+
+      - name: account_budget_category
+        tests:
+          - not_null
+
+  - name: xero_budget_monthly
+    description: |
+      Monthly budget by account
+
+      source: https://docs.google.com/spreadsheets/d/1-pD13TVWXX2jLITIpZWLZrkA8IL9SAYFcHnoquK3P8g/edit?ts=5be35814#gid=0
+
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: account_budget_category
+        tests:
+          - not_null
+
+      - name: amount
+        tests:
+          - not_null
+
+    tests:
+        - unique:
+            column_name: "concat(date_month, account_budget_category)"
+
+  - name: xero_budget_departments
+    description: |
+      Mapping between budget categories and company departments
+
+    columns:
+      - name: account_budget_category
+        tests:
+          - not_null
+          - unique
+
+      - name: budget_department
         tests:
           - not_null

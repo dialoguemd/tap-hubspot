@@ -7,9 +7,6 @@ models:
     description: 'Xero expenses going in the P&L report with account grouping'
 
     columns:
-      - name: line_amount_excl_tax
-        description: Amount of the expense exclusive of taxes
-
       - name: account_group
         tests:
           - not_null
@@ -25,3 +22,29 @@ models:
               values: ['N/A', 'Sales and Marketing - Marketing Campaign',
                 'Sales and Marketing - SAAS', 'Sales & Marketing - Other',
                 'Sales and Marketing - Wages', Sales and Marketing - Professional Services]
+
+      - name: account_budget_category
+        tests:
+          - not_null
+
+  - name: xero_budget_monthly_detailed
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: account_budget_category
+        tests:
+          - not_null
+
+      - name: amount
+        tests:
+          - not_null
+
+      - name: budget_department
+        tests:
+          - not_null
+
+    tests:
+        - unique:
+            column_name: "concat(date_month, account_budget_category)"

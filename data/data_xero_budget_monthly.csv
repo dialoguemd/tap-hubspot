@@ -1,0 +1,172 @@
+account_budget_category,date_month,amount
+CS Compensation,2018-10-01,37013
+CS Compensation,2018-11-01,40350
+CS Compensation,2018-12-01,40350
+CS Events,2018-10-01,0
+CS Events,2018-11-01,1000
+CS Events,2018-12-01,0
+CS SAAS,2018-10-01,2178
+CS SAAS,2018-11-01,2178
+CS SAAS,2018-12-01,2178
+CS Customer Related,2018-10-01,1370
+CS Customer Related,2018-11-01,2420
+CS Customer Related,2018-12-01,970
+CS Meals & Entertainement Internal,2018-10-01,0
+CS Meals & Entertainement Internal,2018-11-01,350
+CS Meals & Entertainement Internal,2018-12-01,0
+CS Other,2018-10-01,100
+CS Other,2018-11-01,400
+CS Other,2018-12-01,100
+Marketing Compensation,2018-10-01,14167
+Marketing Compensation,2018-11-01,14167
+Marketing Compensation,2018-12-01,27917
+Marketing Campaign,2018-10-01,19500
+Marketing Campaign,2018-11-01,13500
+Marketing Campaign,2018-12-01,13500
+Marketing Consultant,2018-10-01,3000
+Marketing Consultant,2018-11-01,3000
+Marketing Consultant,2018-12-01,3000
+Marketing SAAS,2018-10-01,579
+Marketing SAAS,2018-11-01,579
+Marketing SAAS,2018-12-01,579
+Marketing Training,2018-10-01,0
+Marketing Training,2018-11-01,0
+Marketing Training,2018-12-01,0
+Marketing Travel (if necessary),2018-10-01,0
+Marketing Travel (if necessary),2018-11-01,0
+Marketing Travel (if necessary),2018-12-01,0
+Marketing Events (not incl. in S&P events budget),2018-10-01,44824
+Marketing Events (not incl. in S&P events budget),2018-11-01,18650
+Marketing Events (not incl. in S&P events budget),2018-12-01,0
+Marketing Other,2018-10-01,2000
+Marketing Other,2018-11-01,0
+Marketing Other,2018-12-01,0
+Tech Comp,2018-10-01,220725
+Tech Comp,2018-11-01,241975
+Tech Comp,2018-12-01,241975
+Tech Consultant,2018-10-01,34055
+Tech Consultant,2018-11-01,24055
+Tech Consultant,2018-12-01,14055
+Tech SAAS,2018-10-01,5609
+Tech SAAS,2018-11-01,5959
+Tech SAAS,2018-12-01,8826
+Tech Hardware & Equipment,2018-10-01,0
+Tech Hardware & Equipment,2018-11-01,300
+Tech Hardware & Equipment,2018-12-01,0
+Tech Training,2018-10-01,2250
+Tech Training,2018-11-01,1050
+Tech Training,2018-12-01,1050
+Tech Other,2018-10-01,7100
+Tech Other,2018-11-01,100
+Tech Other,2018-12-01,100
+Sales & Partn Compensation,2018-10-01,101375
+Sales & Partn Compensation,2018-11-01,107000
+Sales & Partn Compensation,2018-12-01,115750
+Sales & Partn M&E - External,2018-10-01,2000
+Sales & Partn M&E - External,2018-11-01,2000
+Sales & Partn M&E - External,2018-12-01,2100
+Sales & Partn M&E - Internal (Not incl travel),2018-10-01,200
+Sales & Partn M&E - Internal (Not incl travel),2018-11-01,200
+Sales & Partn M&E - Internal (Not incl travel),2018-12-01,350
+Sales & Partn SAAS,2018-10-01,6453
+Sales & Partn SAAS,2018-11-01,6453
+Sales & Partn SAAS,2018-12-01,6453
+Sales & Partn Training,2018-10-01,400
+Sales & Partn Training,2018-11-01,0
+Sales & Partn Training,2018-12-01,0
+Sales & Partn Travel,2018-10-01,4650
+Sales & Partn Travel,2018-11-01,1550
+Sales & Partn Travel,2018-12-01,2700
+Sales & Partn Events,2018-10-01,0
+Sales & Partn Events,2018-11-01,0
+Sales & Partn Events,2018-12-01,0
+Sales & Partn Other,2018-10-01,3200
+Sales & Partn Other,2018-11-01,3200
+Sales & Partn Other,2018-12-01,7300
+Medops Compensation (OPEX only),2018-10-01,93056
+Medops Compensation (OPEX only),2018-11-01,93056
+Medops Compensation (OPEX only),2018-12-01,93056
+Medops Consultants,2018-10-01,2500
+Medops Consultants,2018-11-01,2500
+Medops Consultants,2018-12-01,2500
+Medops Licences,2018-10-01,20000
+Medops Licences,2018-11-01,11150
+Medops Licences,2018-12-01,11150
+Medops QA,2018-10-01,27743
+Medops QA,2018-11-01,27743
+Medops QA,2018-12-01,27743
+Medops training,2018-10-01,1950
+Medops training,2018-11-01,3750
+Medops training,2018-12-01,2950
+Medops Meal & Enter Internal,2018-10-01,0
+Medops Meal & Enter Internal,2018-11-01,600
+Medops Meal & Enter Internal,2018-12-01,0
+Medops SAAS,2018-10-01,6955
+Medops SAAS,2018-11-01,6955
+Medops SAAS,2018-12-01,6955
+Medops Micro-Clinics,2018-10-01,0
+Medops Micro-Clinics,2018-11-01,0
+Medops Micro-Clinics,2018-12-01,0
+Medops Other,2018-10-01,2000
+Medops Other,2018-11-01,0
+Medops Other,2018-12-01,0
+G&A Compensation,2018-10-01,106208
+G&A Compensation,2018-11-01,112875
+G&A Compensation,2018-12-01,118292
+G&A Accounting,2018-10-01,8380
+G&A Accounting,2018-11-01,3200
+G&A Accounting,2018-12-01,3200
+G&A Consulting,2018-10-01,25000
+G&A Consulting,2018-11-01,25000
+G&A Consulting,2018-12-01,10000
+G&A Travel National,2018-10-01,1360
+G&A Travel National,2018-11-01,1415
+G&A Travel National,2018-12-01,1360
+G&A Travel International,2018-10-01,5000
+G&A Travel International,2018-11-01,18000
+G&A Travel International,2018-12-01,3000
+G&A Germany,2018-10-01,98831
+G&A Germany,2018-11-01,68456
+G&A Germany,2018-12-01,102244
+G&A France,2018-10-01,23333
+G&A France,2018-11-01,0
+G&A France,2018-12-01,0
+G&A Groceries,2018-10-01,3000
+G&A Groceries,2018-11-01,3000
+G&A Groceries,2018-12-01,3000
+G&A Office expenses,2018-10-01,3500
+G&A Office expenses,2018-11-01,3500
+G&A Office expenses,2018-12-01,18000
+G&A M&E Internal,2018-10-01,2000
+G&A M&E Internal,2018-11-01,2000
+G&A M&E Internal,2018-12-01,2000
+G&A M&E External,2018-10-01,4000
+G&A M&E External,2018-11-01,4000
+G&A M&E External,2018-12-01,4000
+G&A Recruitment,2018-10-01,9121
+G&A Recruitment,2018-11-01,7850
+G&A Recruitment,2018-12-01,6500
+G&A HR Consulting,2018-10-01,0
+G&A HR Consulting,2018-11-01,45000
+G&A HR Consulting,2018-12-01,0
+G&A Insurance,2018-10-01,1500
+G&A Insurance,2018-11-01,1500
+G&A Insurance,2018-12-01,1500
+G&A Interest,2018-10-01,4500
+G&A Interest,2018-11-01,4500
+G&A Interest,2018-12-01,4500
+G&A Legal,2018-10-01,12500
+G&A Legal,2018-11-01,58000
+G&A Legal,2018-12-01,13000
+G&A SAAS,2018-10-01,10000
+G&A SAAS,2018-11-01,10000
+G&A SAAS,2018-12-01,10000
+G&A Training,2018-10-01,0
+G&A Training,2018-11-01,0
+G&A Training,2018-12-01,1000
+G&A Rent,2018-10-01,15789
+G&A Rent,2018-11-01,15789
+G&A Rent,2018-12-01,15789
+G&A Other,2018-10-01,500
+G&A Other,2018-11-01,500
+G&A Other,2018-12-01,500
