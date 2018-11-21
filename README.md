@@ -57,14 +57,14 @@ dbt seed --full-refresh --target prod && dbt run --target prod
 
 **Morning**
 
-- 05:30 EST / 00:30 UTC ==== Lambdas ETL
-- 05:45 EST / 00:30 UTC ==== Segment
-- 06:30 EST / 01:30 UTC ==== Sinter
-- 07:30 EST / 02:30 UTC ==== Tableau
+- 05:00 UTC / 00:00 EST ==== Segment
+- 05:30 UTC / 00:30 EST ==== Lambdas ETL
+- 06:00 UTC / 01:00 EST ==== Sinter
+- 07:00 UTC / 02:00 EST ==== Tableau
 
 **Afternoon**
 
-- 12:00 EST / 07:00 UTC ==== Lambdas ETL
-- 12:15 EST / 07:15 UTC ==== Segment
-- 13:00 EST / 08:00 UTC ==== Sinter
-- 14:00 EST / 09:00 UTC ==== Tableau
+- 17:00 UTC / 12:00 EST ==== Segment
+- 17:30 UTC / 12:30 EST ==== Lambdas ETL
+- 18:00 UTC / 13:00 EST ==== Sinter
+- 19:00 UTC / 14:00 EST ==== Tableau
