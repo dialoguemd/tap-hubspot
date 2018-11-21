@@ -1,7 +1,7 @@
 with
 	organizations_day as (
 		select * from {{ ref('scribe_organizations_day') }}
-		{% if target.name not in ['analytics_dev', 'analytics'] %}
+		{% if target.name == 'dev' %}
 		  where date_day > current_date - interval '1 months'
 		{% endif %}
 	)

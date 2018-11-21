@@ -14,7 +14,7 @@ select dates.date_day
 from dates
 inner join contracts
   on dates.date_day <@ contracts.during
-{% if target.name not in ['analytics_dev', 'analytics'] %}
+{% if target.name == 'dev' %}
   where date_day > current_date - interval '1 months'
 {% endif %}
 group by 1
