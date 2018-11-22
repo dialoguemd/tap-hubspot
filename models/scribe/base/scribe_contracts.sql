@@ -1,9 +1,8 @@
 select id as contract_id
 	, created
-	, tstzrange(
-		date_trunc('day', lower(tstzrange(during)))
-		, date_trunc('day', upper(tstzrange(during))) + interval '1 day'
-	) as during
+	, lower(tstzrange(during)) as during_start
+	, upper(tstzrange(during)) as during_end
+	, tstzrange(during) as during
 	, plan_id
 	, plan_organization_id as organization_id
 	, participant_id::text as participant_id

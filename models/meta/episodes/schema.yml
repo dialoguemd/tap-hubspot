@@ -8,3 +8,12 @@ models:
           tests:
               - unique
               - not_null
+
+  - name: episodes_valid_outcome_issue_type_pairs
+    description: A list of issue_type and outcome pairs that are
+      included in our definition of Fully Resolved (See OMTM dashboard)
+    columns:
+        - name: valid_pairs
+          tests:
+              - unique
+              - not_null

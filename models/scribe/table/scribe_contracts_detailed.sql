@@ -9,6 +9,8 @@ with
 
 select contracts.contract_id
 	, contracts.created
+	, contracts.during_start
+	, contracts.during_end
 	, contracts.during
 	, contracts.plan_id
 	, contracts.organization_id

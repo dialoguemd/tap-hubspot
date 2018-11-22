@@ -3,16 +3,31 @@ with
 		select * from {{ ref('scribe_organizations_detailed') }}
 	)
 
-select generate_series(
-	-- Dialogue's launch date
-		greatest(date_trunc('month', billing_start_date), '2016-09-01')
-		, date_trunc('month', current_date) + interval '1 month' - interval '1 day'
-		, '1 day'
-	) as date_day
+	, organizations_day as (
+		select generate_series(
+			-- Dialogue's launch date
+				greatest(date_trunc('month', billing_start_date), '2016-09-01')
+				, date_trunc('month', current_date)
+					+ interval '1 month' - interval '1 day'
+				, '1 day'
+			) as date_day
+			, organization_id
+			, organization_name
+			, is_paid
+			, billing_start_date
+			, charge_strategy
+			, charge_price
+		from organizations
+	)
+
+select date_day
+	, tstzrange(date_day,
+		date_day + interval '1 day')
+		as date_day_range
 	, organization_id
 	, organization_name
 	, is_paid
 	, billing_start_date
 	, charge_strategy
 	, charge_price
-from organizations
+from organizations_day

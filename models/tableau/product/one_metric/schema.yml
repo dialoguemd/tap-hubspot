@@ -10,3 +10,29 @@ models:
         - name: count_episodes
           tests:
               - not_null
+
+  - name: tableau_product_one_metric_resolution_rate
+    columns:
+        - name: episode_id
+          tests:
+              - unique
+              - not_null
+        - name: patient_id
+          tests:
+              - not_null
+        - name: is_signed_up
+          tests:
+              - not_null
+
+  - name: tableau_product_one_metric_user_resolve_details
+    columns:
+        - name: contract_id
+          tests:
+              - unique
+              - not_null
+        - name: invited_at
+          tests:
+              - not_null
+        - name: days_since_invite
+          tests:
+              - not_null

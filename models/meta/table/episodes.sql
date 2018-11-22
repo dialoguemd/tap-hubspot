@@ -68,6 +68,10 @@ with channels as (
         , episodes_issue_types.issue_type
         , episodes_issue_types.issue_type_set_timestamp
 
+        , (coalesce(episodes_issue_types.issue_type, 'n/a') ||
+            '-' || coalesce(episodes_outcomes.outcome, 'n/a'))
+            as issue_type_outcome_pair
+
         , episodes_priority_levels.first_priority_level
         , episodes_priority_levels.priority_level
         , episodes_priority_levels.priority_levels_ordered

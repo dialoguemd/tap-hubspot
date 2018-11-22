@@ -25,4 +25,7 @@ with cp_activity as (
         and is_active
         and time_spent > 0
         and episode_id is not null
+        {% if target.name == 'dev' %}
+        and activity_start > current_date - interval '1 months'
+        {% endif %}
     group by 1,2

@@ -126,10 +126,12 @@ with messaging_posts_all_time as (
           , careplatform_reminder_created.episode_id as episode_id
           , timezone('America/Montreal', careplatform_reminder_created.due_at) as due_at
           , timezone('America/Montreal', reminders_completed.completed_at) as completed_at
-          , tsrange(
-              date_trunc('day', timezone('America/Montreal', careplatform_reminder_created.due_at)),
-              timezone('America/Montreal', reminders_completed.completed_at)
-            ) as reminder_opened_range
+          , generate_series(
+              date_trunc('day', timezone('America/Montreal',careplatform_reminder_created.due_at)),
+              date_trunc('day', timezone('America/Montreal',
+                reminders_completed.completed_at)),
+              '1 day'
+            ) as reminder_open_date
         from careplatform_reminder_created
         left join reminders_completed
           on careplatform_reminder_created.reminder_id = reminders_completed.reminder_id
@@ -138,6 +140,14 @@ with messaging_posts_all_time as (
             <> date_trunc('day', timezone('America/Montreal', careplatform_reminder_created.due_at))
           and date_trunc('day', timezone('America/Montreal', careplatform_reminder_created.due_at))
             <= date_trunc('day', timezone('America/Montreal', reminders_completed.completed_at))
+    )
+
+    , reminders_daily as (
+      select episode_id
+        , reminder_open_date
+        , count(*) as count_reminders_open
+      from reminders
+      group by 1,2
     )
 
     , set_episode_state as (
@@ -256,7 +266,7 @@ with messaging_posts_all_time as (
           end as time_since_last_message
         , chats.avg_wait_time_following_messages
         , wiw_opening_hours.date is not null as is_first_message_in_opening_hours
-        , reminders.episode_id is not null as has_open_reminder
+        , reminders_daily.episode_id is not null as has_open_reminder
         , episode_pending_resolved.first_set_resolved_pending_at is not null
             as set_resolved_pending
         , episode_pending_resolved.first_set_resolved_pending_at as first_set_resolved_pending_at
@@ -265,9 +275,9 @@ with messaging_posts_all_time as (
         from chats
         left join wiw_opening_hours
         on chats.first_message_created_at <@ wiw_opening_hours.opening_span_est
-        left join reminders
-        on chats.episode_id = reminders.episode_id
-          and chats.first_message_created_at <@ reminders.reminder_opened_range
+        left join reminders_daily
+        on chats.episode_id = reminders_daily.episode_id
+          and chats.created_at_day = reminders_daily.reminder_open_date
         left join episode_pending_resolved
         on chats.episode_id = episode_pending_resolved.episode_id
           and chats.created_at_day = episode_pending_resolved.created_at_day
