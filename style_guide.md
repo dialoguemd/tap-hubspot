@@ -1,12 +1,21 @@
 ## Catwalk Style Guide
 
-### Model Configuration and Naming Conventions
+### Model Configuration
 * If a particular configuration applies to all models in a directory, it should be specified in the project
+
+### Model Naming
+* Models based on events should conform to the segment naming convention of object-action, e.g. `careplatform_reminder_created` (https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework)
+* Models should have folder prefixes before their actual names up to two levels deep; when a third folder layer is present, use only the first and last folder levels(e.g. for `tableau/medops/medops_scorecard/file` the file name is `tableau_medops_scorecard_chats.sql`, not `tabelau_medops_chats.sql` or `tableau_medops_medops_scorecard_chats.sql`)
+    * Folder names that are excluded from this convention include `meta`, `base`, `transform`, and `table`. These should never appear in a model's name
+* Business objects, exceptionally, require no folder prefixes in their names and are stored in `meta/table`
+* All seeds should be prefixed with `data_` and should have their own base model in the most relevant folder; this base model should then be identified as a seed base model in its `schema.yml`
 
 #### Field Naming Conventions
 * ID and Name fields are always prefixed by the object name
-* `timestamp` is the time that the event occurred, the data originated, etc; no other timestamps should be present in raw data
-* `blank_at` is the form for timestamps when in a transformed model (e.g. `created_at`, `activated_at`)
+* In models that include multiple timestamps, use the `action_at` naming convention (e.g. `created_at`, `activated_at`)
+* `timestamp` is the naming convention for event timestamps when in a base model
+* `date_day`, `date_month`, etc. is the naming convention for aggregated and time series data (as to not use the reserved `date` keyword)
+* In models with multiple CTEs or sources, all fields should be prefixed with their source for readability and ease of debugging (e.g. `episode_kpis.ttr_total`)
 
 #### Base Models
 * Only base models should select from source tables / views
@@ -16,25 +25,28 @@
 * Base models should perform all field naming to force field names to conform to standard field naming conventions
 * Source fields that use reserved words must be renamed in base models
 
+#### Meta Models
+* Models that depend on other models are stored within the `meta` folder and then in the folder corresponding to their subject
+
 #### CTEs
 * All `{{ ref('...') }}` statements should be placed in CTEs at the top of the file, like python `import`
-* Where performance permits, CTEs should perform a single, logical unit of work.
+* Where performance permits, CTEs should perform a single, logical unit of work
 * CTE names should be as verbose as needed to convey what they do
-* CTEs with confusing or noteable logic should be commented
+* CTEs with confusing or notable logic should be commented
 * CTEs that are duplicated across models should be pulled out into their own models
 * CTEs should be formatted like this:
 ```
 with
 events as (
 
-	...
+    ...
 
 ),
 
 -- CTE comments go here
 filtered_events as (
 
-	...
+    ...
 
 )
 
@@ -95,5 +107,4 @@ having count(*) > 1
 ### Testing (to be reviewed later)
 * Every model should be tested in a schema.yml file
 * At minimum, unique and foreign key constraints should be tested (if applicable)
-* The output of dbt test should be pasted into PRs
 * Any failing tests should be fixed or explained prior to requesting a review
