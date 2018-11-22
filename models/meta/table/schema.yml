@@ -281,6 +281,10 @@ models:
           field: last_message_created_at
           datepart: hour
           interval: 24
+      # TODO: investigate why chats are not unique on episode_id || created_at
+      # - unique:
+      #     column_name: "concat(created_at_day, episode_id)"
+
 
   - name: nps_patient_survey
     columns:

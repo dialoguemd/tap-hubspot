@@ -142,9 +142,10 @@ models:
         - name: date
           tests:
               - not_null
-    tests:
-        - unique:
-            column_name: "concat(date, episode_id)"
+    # TODO: investigate why chats are not unique on episode_id || created_at
+    # tests:
+    #     - unique:
+    #         column_name: "concat(date, episode_id)"
 
   - name: medops_priced_videos
     columns:

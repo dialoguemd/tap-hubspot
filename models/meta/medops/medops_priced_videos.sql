@@ -11,8 +11,9 @@ with videos as (
     )
 
 select videos.episode_id
+    , episodes.organization_name
     , videos.date_day_est as date
-    , episodes.user_id
+    , episodes.patient_id
     , count(*) filter(where episodes.issue_type = 'psy')
 		* monthly_video_cost.per_video_cost * 2 as gp_psy_cost
     , count(*) filter(where episodes.issue_type <> 'psy'
@@ -23,4 +24,4 @@ left join episodes using (episode_id)
 left join monthly_video_cost
 	on date_trunc('month', videos.date_day_est) = monthly_video_cost.date_month
 where videos.includes_video_gp
-group by 1,2,3,per_video_cost
+group by 1,2,3,4,per_video_cost
