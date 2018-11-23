@@ -20,6 +20,8 @@ with
 			, user_contract.user_id
 			, contracts.organization_id
 			, contracts.participant_id
+			, contracts.charge_price
+			, contracts.charge_strategy
 
 			-- Organize during fields for filtering out overlapping contracts
 			, contracts.during_start
@@ -37,7 +39,11 @@ with
 			, organizations.organization_name
 			, organizations.is_paid as organization_is_paid
 			, user_contract.user_id = contracts.participant_id as is_employee
-			, coalesce(users.residence_province, contracts.admin_area_name) as residence_province
+			, coalesce(
+				users.residence_province,
+				organizations.province,
+				contracts.admin_area_name
+				) as residence_province
 			, users.country
 			, users.birthday
 			, users.gender
@@ -82,6 +88,8 @@ select contract_id
 	, user_id
 	, organization_id
 	, participant_id
+	, charge_price
+	, charge_strategy
 	-- correct during_start to eliminate overlap
 	-- TODO: add a data test to test all known use cases
 	, case when previous_during_start is null then during_start

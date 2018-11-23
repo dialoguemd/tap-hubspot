@@ -1,13 +1,5 @@
 with user_contract as (
-        select * from {{ ref ( 'scribe_user_contract_detailed' ) }}
-    )
-
-    , contracts as (
-        select * from {{ ref ( 'scribe_contracts_detailed' ) }}
-    )
-
-    , organizations as (
-        select * from {{ ref ( 'organizations' ) }}
+        select * from {{ ref ( 'user_contract' ) }}
     )
 
     , daily_costs as (
@@ -25,29 +17,25 @@ with user_contract as (
     
     , daily_revenue as (
         select days.date_day
-            , contracts.contract_id
-            , contracts.organization_name
-            , organizations.account_name
-            , coalesce(user_contract.residence_province, organizations.province)
-                as residence_province
-            , contracts.charge_strategy
-            , case when contracts.charge_strategy = 'dynamic'
-                    then contracts.charge_price
+            , user_contract.contract_id
+            , user_contract.organization_name
+            , user_contract.account_name
+            , user_contract.residence_province
+            , user_contract.charge_strategy
+            , case when user_contract.charge_strategy = 'dynamic'
+                    then user_contract.charge_price
                     / days.days_in_month
-                when contracts.charge_strategy = 'auto_dynamic'
+                when user_contract.charge_strategy = 'auto_dynamic'
                     then 15 / days.days_in_month
-                when contracts.organization_id = '230'
+                when user_contract.organization_id = '230'
                     then 1 / days.days_in_month
-                when contracts.charge_strategy = 'fixed'
+                when user_contract.charge_strategy = 'fixed'
                     then 9 / days.days_in_month
                 else 0
             end as charge_price
         from days
-        inner join contracts
-            on contracts.during @> days.date_day
-        left join organizations
-            using (organization_id)
-        inner join user_contract using (contract_id)
+        inner join user_contract
+            on days.date_day <@ user_contract.during
         where user_contract.is_employee
     )
 
