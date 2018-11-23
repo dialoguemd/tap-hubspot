@@ -37,7 +37,7 @@ from user_contract
 inner join users
 	on user_contract.user_id = users.user_id
 left join episode_details
-	on user_contract.user_id = episode_details.user_id
+	on user_contract.user_id = episode_details.patient_id
 	and user_contract.during_est @> episode_details.episode_started_at
 where (episode_details.rank = 1 or episode_details.rank is null)
 	and lower(user_contract.family_member_type) = 'employee'
