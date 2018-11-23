@@ -5,14 +5,14 @@ CS SAAS,Customer Success
 CS Customer Related,Customer Success
 CS Meals & Entertainement Internal,Customer Success
 CS Other,Customer Success
-Marketing Compensation,Sales & Partnership
-Marketing Campaign,Sales & Partnership
-Marketing Consultant,Sales & Partnership
-Marketing SAAS,Sales & Partnership
-Marketing Training,Sales & Partnership
-Marketing Travel (if necessary),Sales & Partnership
-Marketing Events (not incl. in S&P events budget),Sales & Partnership
-Marketing Other,Sales & Partnership
+Marketing Compensation,Marketing
+Marketing Campaign,Marketing
+Marketing Consultant,Marketing
+Marketing SAAS,Marketing
+Marketing Training,Marketing
+Marketing Travel (if necessary),Marketing
+Marketing Events (not incl. in S&P events budget),Marketing
+Marketing Other,Marketing
 Tech Comp,Tech
 Tech Consultant,Tech
 Tech SAAS,Tech
@@ -21,7 +21,7 @@ Tech Training,Tech
 Tech Other,Tech
 Sales & Partn Compensation,Sales & Partnership
 Sales & Partn M&E - External,Sales & Partnership
-Sales & Partn M&E - Internal (Not incl travel),Sales & Partnership
+Sales & Partn M&E - Internal,Sales & Partnership
 Sales & Partn SAAS,Sales & Partnership
 Sales & Partn Training,Sales & Partnership
 Sales & Partn Travel,Sales & Partnership
