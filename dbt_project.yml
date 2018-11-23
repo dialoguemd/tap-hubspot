@@ -37,20 +37,22 @@ quoting:
 # as views (the default). Try changing `view` to `table` below, then re-running dbt
 models:
   dialogue:
+      coredata:
+          materialized: table
       dimension:
           materialized: ephemeral
-      meta:
+      github:
           materialized: table
       messaging:
           transform:
               materialized: view
+      meta:
+          materialized: table
       scribe:
           materialized: table
+      usher:
+          materialized: table
       wiw:
-          materialized: table
-      github:
-          materialized: table
-      coredata:
           materialized: table
       xero:
           materialized: table

@@ -2,6 +2,38 @@
 version: 2
 
 models:
+  - name: assigned_time
+    columns:
+      - name: episode_id
+        tests:
+          - not_null
+      - name: assigned_at
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(assigned_at, episode_id)"
+
+  - name: assigned_time_detailed
+    columns:
+      - name: episode_id
+        tests:
+          - not_null
+      - name: assigned_at
+        tests:
+          - not_null
+      - name: main_specialization
+        tests:
+          - not_null
+      - name: assignment_type
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(assigned_at, episode_id)"
+
   - name: organizations
     columns:
       - name: organization_id

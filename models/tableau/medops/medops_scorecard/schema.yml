@@ -1,0 +1,16 @@
+
+version: 2
+
+models:
+  - name: tableau_medops_scorecard_stats_by_shift
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+      - name: user_id
+        tests:
+          - not_null
+      - name: shift_id
+        tests:
+          - not_null
+          - unique
