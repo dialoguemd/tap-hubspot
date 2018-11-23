@@ -28,21 +28,24 @@ with qnaire_answers as (
         select * from {{ ref('episodes') }}
     )
 
-    , avg_wages_tmp as (
-        select users.main_specialization
-            , date_trunc('month', shifts.start_date_est) as month
-            , sum(cost) / sum(hours) as hourly_cost
-        from wiw_shifts as shifts
-        left join pdt.users on shifts.user_id = users.user_id
-        where location_name = 'Virtual Care Platform'
-        group by 1,2
+    , user_contracts as (
+        select * from {{ ref('scribe_user_contract_detailed') }}
     )
 
-    , avg_wages as (
-        select month
-            , avg(hourly_cost) filter(where main_specialization = 'Nurse Clinician') as nc_wage
-            , avg(hourly_cost) filter(where main_specialization = 'Care Coordinator') as cc_wage
-        from avg_wages_tmp
+    , practitioners as (
+        select * from {{ ref('coredata_practitioners') }}
+    )
+
+    , priced_episode_days as (
+        select * from {{ ref('medops_priced_episodes') }}
+    )
+
+    , priced_episodes as (
+        select episode_id
+            , sum(priced_episode_days.cc_cost) as est_cc_cost
+            , sum(priced_episode_days.nc_cost) as est_nc_cost
+            , sum(priced_episode_days.np_cost) as est_np_cost
+        from priced_episode_days
         group by 1
     )
 
@@ -78,11 +81,36 @@ with qnaire_answers as (
         group by 1
     )
 
-    select qnaire_answers.*
-        , users.age
-        , users.gender
-        , users.organization_name
-        , episodes.episode_id
+    select episodes.episode_id
+        , qnaire_answers.qnaire_tid
+        , qnaire_answers.stress_qnaire_completed_at
+        , qnaire_answers.depression_score
+        , qnaire_answers.depression_flag
+        , qnaire_answers.anxiety_score
+        , qnaire_answers.anxiety_flag
+        , qnaire_answers.stress_score
+        , qnaire_answers.stress_grouping
+        , case
+            when qnaire_answers.anxiety_flag is true
+                or qnaire_answers.depression_flag is true
+                then 'Group 3: MH Concern'
+            when qnaire_answers.stress_grouping
+                in ('No stress', 'Low stress')
+                then 'Group 1: No or Low Stress'
+            when qnaire_answers.stress_grouping
+                in ('Moderate stress', 'High stress')
+                then 'Group 2: Moderate or High Stress'
+            when episodes.outcome = 'patient_unresponsive'
+                then 'Group 5: Patient Drop Off'
+            else 'Group 4: No Questionnaire Given'
+            end as mh_grouping
+        , extract('year' from
+            age(episodes.first_message_patient,
+                user_contracts.birthday)
+            ) as age
+        , user_contracts.gender
+        , user_contracts.organization_name
+        , episodes.first_message_patient as created_at
         , episodes.first_priority_level
         , episodes.priority_level as current_priority_level
         , episodes.priority_levels_ordered
@@ -98,17 +126,21 @@ with qnaire_answers as (
         , episodes.attr_cc as active_time_cc
         , episodes.attr_gp as active_time_gp
         , episodes.attr_psy as active_time_psy
-        -- 0.45 is the estimated CP focus multiplier of NCs
-        , coalesce(episodes.attr_nc / 60 / 0.45 * avg_wages.nc_wage, 0) as est_nc_cost
-        -- 0.6 is the estimated CP focus multiplier of CCs
-        , coalesce(episodes.attr_nc / 60 / 0.6 * avg_wages.cc_wage, 0) as est_cc_cost
+        , priced_episodes.est_cc_cost
+        , priced_episodes.est_nc_cost
+        , priced_episodes.est_np_cost
         , coalesce(priced_videos.gp_price, 0) as gp_cost
         , coalesce(priced_videos.psy_price, 0) as psy_cost
-    from qnaire_answers
-    inner join episodes
-        on qnaire_answers.user_id = episodes.user_id
+    from episodes
+    left join qnaire_answers
+        on episodes.episode_id = qnaire_answers.episode_id
+    left join priced_episodes
+        on episodes.episode_id = priced_episodes.episode_id
+    left join priced_videos
+        on episodes.episode_id = priced_videos.episode_id
+    left join user_contracts
+        on qnaire_answers.user_id = user_contracts.user_id
+        and qnaire_answers.stress_qnaire_completed_at
+            <@ user_contracts.during
+    where (response_rank = 1 or response_rank is null)
         and episodes.issue_type = 'psy-pilot'
-    left join priced_videos on episodes.episode_id = priced_videos.episode_id
-    left join avg_wages on date_trunc('month', episodes.created_at) = avg_wages.month
-    left join pdt.users on qnaire_answers.user_id = users.user_id
-    where response_rank = 1

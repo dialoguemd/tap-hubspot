@@ -19,6 +19,7 @@ with countdown_question_replied as (
   ,answers as (
   select qnaire_tid
           , user_id
+          , episode_id
           , replied_at
           , case when question_name like '%q1' then 'Little interest or pleasure in doing things'
                  when question_name like '%q2' then 'Feeling down, depressed, hopeless'
@@ -37,9 +38,9 @@ with countdown_question_replied as (
       where qnaire_name = 'stress'
   )
 
-
 select answers.qnaire_tid
     , answers.user_id
+    , answers.episode_id
     , row_number() over (partition by answers.user_id order by max(replied_at)) as response_rank
     , max(replied_at) as stress_qnaire_completed_at
     , sum(reply_value) filter(where question_category = 'Depression') as depression_score
@@ -48,11 +49,11 @@ select answers.qnaire_tid
     , case when sum(reply_value) filter(where question_category = 'Anxiety') >= 3 then true else false end as anxiety_flag
     , sum(reply_value) filter(where question_category = 'Stress') as stress_score
     , case when sum(reply_value) filter(where question_category = 'Stress') = 0 then 'No stress'
-           when sum(reply_value) filter(where question_category = 'Stress') < 5 then 'Low stress'
-           when sum(reply_value) filter(where question_category = 'Stress') < 10 then 'Moderate stress'
+           when sum(reply_value) filter(where question_category = 'Stress') <= 5 then 'Low stress'
+           when sum(reply_value) filter(where question_category = 'Stress') <= 10 then 'Moderate stress'
            else 'High stress' end as stress_grouping
 from answers
 left join test_users
   using (user_id)
 where test_users.user_id is null
-group by 1,2
+group by 1,2,3
