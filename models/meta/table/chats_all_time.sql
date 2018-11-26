@@ -287,6 +287,7 @@ with messaging_posts_all_time as (
     )
 
     select chats_full.created_at_day
+        , date_trunc('week', chats_full.created_at_day) as date_week
         , chats_full.episode_id
         , chats_full.first_message_care_team
         , chats_full.first_message_nurse

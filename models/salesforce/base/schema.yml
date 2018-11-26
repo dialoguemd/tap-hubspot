@@ -48,6 +48,19 @@ models:
           - accepted_values:
               values: ['N/A', 'Monthly', 'One Time', 'Annual']
 
+      - name: partner_influence
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['N/A', 'Full involvement', 'No involvement',
+                'Introduced', 'Meeting Booked']
+
+      - name: channel
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Direct', 'Partner']
+
   - name: salesforce_products
     columns:
       - name: product_id
@@ -56,22 +69,13 @@ models:
           - not_null
 
       - name: product_name
+        tests:
           - unique
           - not_null
-
-  - name: salesforce_opportunity_product
-    columns:
-      - name: product_id
-        tests:
-          - not_null
-
-      - name: opportunity_id
-        tests:
-          - not_null
-
-    tests:
-      - unique:
-          column_name: "concat(product_id, opportunity_id)"
+          - accepted_values:
+              values: ['24/7', 'Stress Management & Well-Being',
+                'Virtual Care', 'Vaccination Campaign', 'Family Plan',
+                'Individual Plan']
 
   - name: salesforce_scribe_organizations
     columns:

@@ -28,6 +28,4 @@ select start_date_est as start_date
 		filter(where location_name = 'Ubisoft')
 			as ubisoft_hours
 from shifts
-where start_date_est
-	< date_trunc('week', current_date)
 group by 1,2

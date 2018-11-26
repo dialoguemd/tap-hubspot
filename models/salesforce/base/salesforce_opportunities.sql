@@ -1,6 +1,7 @@
 select id as opportunity_id
 	, name as opportunity_name
-	, partner_influence_c as partner_influence
+	, channel_c as channel
+	, coalesce(partner_influence_c, 'N/A') as partner_influence
 	, partner_type_c as partner_type
 	, partner_c as partner_id
 	, individual_s_name_c as partner_individual_id

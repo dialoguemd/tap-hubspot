@@ -78,3 +78,20 @@ models:
     tests:
       - unique:
           column_name: "concat(status, opportunity_id)"
+
+  - name: salesforce_opportunity_product_detailed
+    columns:
+      - name: product_id
+        tests:
+          - not_null
+
+      - name: opportunity_id
+        tests:
+          - not_null
+
+      - name: product_name
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['24/7', 'Stress Management & Well-Being',
+                'Virtual Care']

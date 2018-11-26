@@ -20,6 +20,14 @@ models:
         tests:
           - not_null
 
+      - name: date_week
+        tests:
+          - not_null
+
+      - name: date_month
+        tests:
+          - not_null
+
   - name: delighted_nps_dm_survey
     columns:
       - name: email

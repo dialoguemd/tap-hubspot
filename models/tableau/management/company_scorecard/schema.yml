@@ -8,3 +8,68 @@ models:
         tests:
           - not_null
           - unique
+    tests:
+      - dbt_utils.recency:
+          field: date_week
+          datepart: day
+          interval: 7
+
+  - name: tableau_scorecard_mrr_weekly
+    columns:
+      - name: date_week
+        tests:
+          - not_null
+          - unique
+    tests:
+      - dbt_utils.recency:
+          field: date_week
+          datepart: day
+          interval: 7
+
+  - name: tableau_scorecard_new_services
+    columns:
+      - name: date_week
+        tests:
+          - not_null
+          - unique
+    tests:
+      - dbt_utils.recency:
+          field: date_week
+          datepart: day
+          interval: 7
+
+  - name: tableau_scorecard_nps
+    columns:
+      - name: date_week
+        tests:
+          - not_null
+          - unique
+    tests:
+      - dbt_utils.recency:
+          field: date_week
+          datepart: day
+          interval: 7
+
+  - name: tableau_scorecard_organization_mrr_by_province
+    columns:
+      - name: date_week
+        tests:
+          - not_null
+          - unique
+    tests:
+      - dbt_utils.recency:
+          field: date_week
+          datepart: day
+          interval: 7
+
+  - name: tableau_scorecard_slas
+    columns:
+      - name: date_week
+        tests:
+          - not_null
+          - unique
+    tests:
+      - dbt_utils.recency:
+          field: date_week
+          datepart: day
+          interval: 7

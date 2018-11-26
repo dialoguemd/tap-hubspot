@@ -62,3 +62,22 @@ models:
       - name: amount_weighted
         tests:
           - not_null
+
+  - name: salesforce_new_services_won_weekly
+    columns:
+      - name: date_quarter
+        tests:
+          - not_null
+
+      - name: date_week
+        tests:
+          - not_null
+          - unique
+
+      - name: mrr_stress_mgmt
+        tests:
+          - not_null
+
+      - name: mrr_24_7
+        tests:
+          - not_null

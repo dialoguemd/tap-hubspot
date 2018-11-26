@@ -44,5 +44,5 @@ select date_trunc('week', start_date) as start_week
 				'Evening Shift Nurse', 'Nurse Practitioner', 'GP'))
 		, 0
 	) as virtual_costs_cc_fl
-from wiw_costs_daily
+from costs_daily
 group by 1

@@ -28,3 +28,31 @@ models:
       - name: respondent_count
         tests:
           - not_null
+
+
+  - name: delighted_nps_patient_weekly
+    columns:
+      - name: date_week
+        tests:
+          - not_null
+          - unique
+
+      - name: nps
+        tests:
+          - not_null
+
+      - name: promoter_count
+        tests:
+          - not_null
+
+      - name: passive_count
+        tests:
+          - not_null
+
+      - name: detractor_count
+        tests:
+          - not_null
+
+      - name: respondent_count
+        tests:
+          - not_null
