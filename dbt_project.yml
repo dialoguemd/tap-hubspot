@@ -56,3 +56,20 @@ models:
           materialized: table
       xero:
           materialized: table
+
+archive:
+    - source_schema: analytics
+      target_schema: archive
+      tables:
+        - source_table: nps_patient_list
+          target_table: nps_patient_list_archived
+          updated_at: timestamp
+          unique_key: concat(user_id, timestamp)
+
+    - source_schema: analytics
+      target_schema: archive
+      tables:
+        - source_table: nps_dm_list
+          target_table: nps_dm_list_archived
+          updated_at: timestamp
+          unique_key: concat(email, timestamp)

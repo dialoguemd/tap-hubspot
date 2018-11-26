@@ -3,7 +3,7 @@ with
 		select * from {{ ref('delighted_nps_patient_survey') }}
 	)
 
-select date_trunc('month', received_at) as date_month
+select date_trunc('month', timestamp) as date_month
   , round(100.0 * (count(*) filter(where category = 'promoter')
       - count(*) filter (where category = 'detractor')
     ) / count(*)) as nps
@@ -12,5 +12,5 @@ select date_trunc('month', received_at) as date_month
   , count(*) filter(where category = 'detractor') as detractor_count
   , count(*) as respondent_count
 from nps_survey
-where date_trunc('month', received_at) < date_trunc('month', current_date)
+where date_trunc('month', timestamp) < date_trunc('month', current_date)
 group by 1

@@ -1,9 +1,8 @@
 select email
-	, user_id
-	, episode_id
+	, organization_id
 	, score
 	, category
 	, tags
 	, comment
 	, created_at as timestamp
-from delighted.nps_survey
+from delighted.nps_survey_dm

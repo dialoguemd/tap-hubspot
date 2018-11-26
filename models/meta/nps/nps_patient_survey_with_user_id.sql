@@ -7,13 +7,13 @@ with
 		select * from {{ ref('scribe_users') }}
 	)
 
-select episode_id
-	, score
-	, category
-	, tags
-	, comment
-	, received_at
+select nps_survey.episode_id
+	, nps_survey.score
+	, nps_survey.category
+	, nps_survey.tags
+	, nps_survey.comment
+	, nps_survey.timestamp
 	, users.user_id
 from nps_survey
 inner join users
-	on nps_survey.email = users.email
+	using (email)

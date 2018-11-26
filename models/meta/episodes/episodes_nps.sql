@@ -7,7 +7,7 @@ with delighted_nps_patient_survey as (
             , user_id
             , score
             , category
-            , row_number() over (partition by episode_id order by received_at desc) as rank
+            , row_number() over (partition by episode_id order by timestamp desc) as rank
          from delighted_nps_patient_survey
          where score is not null
     )

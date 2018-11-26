@@ -241,3 +241,25 @@ models:
     tests:
       - unique:
           column_name: "concat(date_week, organization_id)"
+
+  - name: scribe_organizations_active_today
+    columns:
+      - name: organization_id
+        tests:
+          - not_null
+          - unique
+
+      - name: organization_name
+        tests:
+          - not_null
+
+      - name: email_preference
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['english', 'french', 'bilingual-french-english',
+                'bilingual-english-french']
+
+      - name: is_paid
+        tests:
+          - not_null

@@ -22,4 +22,4 @@ select nps_survey.*
 from nps_survey
 inner join user_contract
 	on nps_survey.user_id = user_contract.user_id
-		and nps_survey.received_at <@ user_contract.during
+		and nps_survey.timestamp <@ user_contract.during

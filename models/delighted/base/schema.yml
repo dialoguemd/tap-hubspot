@@ -16,6 +16,24 @@ models:
         tests:
           - not_null
 
-      - name: received_at
+      - name: timestamp
+        tests:
+          - not_null
+
+  - name: delighted_nps_dm_survey
+    columns:
+      - name: email
+        tests:
+          - not_null
+
+      - name: score
+        tests:
+          - not_null
+
+      - name: category
+        tests:
+          - not_null
+
+      - name: timestamp
         tests:
           - not_null
