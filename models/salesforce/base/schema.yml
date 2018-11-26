@@ -110,3 +110,18 @@ models:
       - name: account_industry
         tests:
           - not_null
+
+  - name: salesforce_employment_start_dates
+    description: |
+      Sales rep employment start dates used to exclude ramp-up time
+      from the LTV:CAC calculation
+
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+          - unique
+
+      - name: start_date
+        tests:
+          - not_null
