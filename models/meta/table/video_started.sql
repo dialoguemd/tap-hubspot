@@ -28,7 +28,7 @@ with
 			, timezone('America/Montreal',timestamp) as timestamp_est
 			, patient_id
 			, episode_id
-			, user_id as careplatform_user_id
+			, practitioner_id as careplatform_user_id
 		from video_stream_created
 		where timestamp > '2018-04-10'
 

@@ -176,12 +176,12 @@ with messaging_posts_all_time as (
     )
 
     , videos as (
-        select date_trunc('day', timezone('America/Montreal', careplatform_video_stream_created.created_at)) as sent_at_day
+        select date_trunc('day', careplatform_video_stream_created.timestamp_est) as sent_at_day
           , careplatform_video_stream_created.episode_id
           , string_agg(distinct care_team_user.main_specialization, ', ')
               as main_specializations
           , min(
-              timezone('America/Montreal', careplatform_video_stream_created.created_at)
+              careplatform_video_stream_created.timestamp_est
               ) filter (
                   where main_specialization in
                     ('Family Physician', 'Nurse Practitioner')

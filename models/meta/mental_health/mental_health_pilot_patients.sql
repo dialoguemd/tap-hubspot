@@ -52,32 +52,34 @@ with qnaire_answers as (
     , videos as (
         select video_start.episode_id
             , video_start.practitioner_id
-            , date_trunc('day', timezone('America/Montreal', video_start.created_at)) as date
+            , date_trunc('day', video_start.timestamp_est) as date_day_est
             , extract(epoch from
-                max(timezone('America/Montreal', video_end.ended_at))
-                    - min(timezone('America/Montreal', video_start.created_at))
+                max(video_end.timestamp_est)
+                    - min(video_start.timestamp_est)
                     ) as video_length
         from careplatform_video_stream_created as video_start
         left join careplatform_video_stream_ended as video_end
             on video_start.episode_id = video_end.episode_id
-            and date_trunc('day', timezone('America/Montreal', video_start.created_at))
-                = date_trunc('day', timezone('America/Montreal', video_end.ended_at))
+            and date_trunc('day', video_start.timestamp_est)
+                = date_trunc('day', video_end.timestamp_est)
         group by 1,2,3
     )
 
     , priced_videos as (
         -- TODO Replace with an appointment-based rather than actual
         -- video length event to align with compensation strategy
-        select episode_id
-            , sum(case when video_length < 900 then 45
-                else 90 end) filter(where main_specialization = 'Family Physician') as gp_price
-            , sum(case when video_length < 900 then 45
-                else 90 end) filter(where main_specialization = 'Psychologist') as psy_price
+        select videos.episode_id
+            , sum(case when videos.video_length < 900 then 45 else 90 end)
+                filter(where practitioners.main_specialization
+                    = 'Family Physician') as gp_price
+            , sum(case when videos.video_length < 900 then 45 else 90 end)
+                filter(where practitioners.main_specialization
+                    = 'Psychologist') as psy_price
         from videos
-        left join pdt.users
-            on videos.practitioner_id = users.user_id
-        where video_length between 60 and 324000
-            and main_specialization in ('Family Physician', 'Psychologist')
+        inner join practitioners
+            on videos.practitioner_id = practitioners.user_id
+        where videos.video_length between 60 and 324000
+            and practitioners.main_specialization in ('Family Physician', 'Psychologist')
         group by 1
     )
 

@@ -165,6 +165,24 @@ models:
       - unique:
           column_name: "concat(date_day_est, episode_id, patient_id)"
 
+  - name: videos_detailed
+    description: a table with one record per video with details about video
+      start time, specialization of practitioner, and duration; there is a
+      data test to validate than no more than 4% of videos have an undefined
+      video length in a given week (`assert_videos_length`)
+    columns:
+      - name: date_day_est
+        tests:
+          - not_null
+
+      - name: episode_id
+        tests:
+          - not_null
+
+      - name: main_specialization
+        tests:
+          - not_null
+
   - name: active_users
     columns:
       - name: dau_id
