@@ -115,7 +115,7 @@ with messaging_posts_all_time as (
 
     , reminders_completed as (
         select reminder_id
-          , min(updated_at) as completed_at
+          , min(timestamp) as completed_at
         from careplatform_reminders_status_updated
         where reminder_status = 'completed'
         group by 1

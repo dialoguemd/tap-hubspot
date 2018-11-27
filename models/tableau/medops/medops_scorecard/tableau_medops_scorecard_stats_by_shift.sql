@@ -18,6 +18,10 @@ with responses as (
         select * from {{ ref('episodes') }}
     )
 
+    , reminders as (
+        select * from {{ ref('careplatform_reminders_status_updated') }}
+    )
+
     , shifts as (
         select date_trunc('day', wiw_shifts.start_time_est) as date_day
             , wiw_shifts.shift_id
@@ -31,6 +35,18 @@ with responses as (
         inner join practitioners using (user_id)
         where location_name = 'Virtual Care Platform'
             and date_trunc('day', start_time_est) < current_date
+    )
+
+    , reminders_by_shift as (
+        select shifts.date_day
+            , shifts.shift_id
+            , count(reminders.*) as reminders_completed_count
+        from shifts
+        left join reminders
+            on shifts.shift_schedule_est @> reminders.timestamp_est
+            and shifts.user_id = reminders.user_id
+        where reminder_status = 'completed'
+        group by 1,2
     )
 
     , assignments_by_shift as (
@@ -66,6 +82,7 @@ select shifts.date_day
     , shifts.main_specialization
     , shifts.position_name
     , shifts.hours
+    , reminders_by_shift.reminders_completed_count
     , assignments_by_shift.frt_sum
     , assignments_by_shift.frt_count
     , assignments_by_shift.dispatch_time_sum
@@ -76,4 +93,5 @@ select shifts.date_day
     , assignments_by_shift.rt_count
 from shifts
 inner join assignments_by_shift using (shift_id)
+left join reminders_by_shift using (shift_id)
 where shifts.date_day < date_trunc('week', current_date)
