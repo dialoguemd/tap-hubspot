@@ -22,7 +22,13 @@ with
 		group by 1,2,3,4
 	)
 
-select *
+select date_trunc('quarter', dates.date_week) as date_quarter
+	, dates.date_week
+	, new_services_cum.mrr_stress_mgmt
+	, new_services_cum.mrr_24_7
+	, new_services_cum.mrr_stress_mgmt_cum
+	, new_services_cum.mrr_24_7_cum
 from dates
 left join new_services_cum
-	using (date_week)
+	on dates.date_week = new_services_cum.date_week
+		and new_services_cum.date_week < date_trunc('week', current_date)

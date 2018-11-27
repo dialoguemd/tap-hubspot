@@ -17,5 +17,6 @@ select dates.date_week
     , sum(organization_weekly.mrr_roc) / sum(organization_weekly.mrr) as mrr_roc_perc
 from dates
 left join organization_weekly
-	using (date_week)
+	on dates.date_week = organization_weekly.date_week
+		and organization_weekly.date_week < date_trunc('week', current_date)
 group by 1

@@ -21,4 +21,5 @@ from dates
 left join chats
 	on dates.date_week = chats.date_week
 		and chats.is_first_message_in_opening_hours
+		and chats.date_week < date_trunc('week', current_date)
 group by 1
