@@ -16,6 +16,10 @@ with assignments as (
         select * from {{ ref('coredata_practitioners') }}
     )
 
+    , responses as (
+        select * from {{ ref('messaging_practitioner_responses') }}
+    )
+
     , ranked as (
         select assignments.episode_id
             , assignments.assigned_user_id
@@ -45,6 +49,34 @@ with assignments as (
         group by 1,2,3,4,5,practitioners.main_specialization
     )
 
+    , ranked_w_responses as (
+        select ranked.episode_id
+            , ranked.assigned_user_id
+            , ranked.user_id
+            , ranked.assigned_at
+            , ranked.unassigned_at
+            , ranked.main_specialization
+            , ranked.first_post_at
+            , ranked.first_response_time_min
+            , ranked.dispatch_time_min
+            , ranked.count_posts
+            , ranked.assignment_rank
+            , sum(responses.in_chat_time) as rt_sum
+            , count(responses.in_chat_time) as rt_count
+        from ranked
+        left join responses
+            on ranked.user_id = responses.user_id
+            and tstzrange(
+                ranked.assigned_at,
+                ranked.unassigned_at
+                ) @> responses.created_at
+            and tstzrange(
+                ranked.assigned_at,
+                ranked.unassigned_at
+                ) @> responses.previous_post_at
+        group by 1,2,3,4,5,6,7,8,9,10,11
+    )
+
 select episode_id
     , assigned_user_id
     , user_id
@@ -57,4 +89,6 @@ select episode_id
     , first_response_time_min
     , dispatch_time_min
     , count_posts
-from ranked
+    , rt_sum
+    , rt_count
+from ranked_w_responses

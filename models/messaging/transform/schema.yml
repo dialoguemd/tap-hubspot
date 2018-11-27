@@ -34,6 +34,7 @@ models:
       - name: post_id
         tests:
           - not_null
+          # - unique
 
       - name: created_at
         tests:
@@ -61,3 +62,36 @@ models:
           field: created_at
           datepart: day
           interval: 1
+
+  - name: messaging_posts_w_lag_detail
+    description: messaging posts with detail about the previous message
+      that was sent by another user; the previous message has a timestamp
+      and user_type for calculating response times
+    columns:
+        - name: post_id
+          tests:
+              - not_null
+              # - unique
+        - name: user_id
+          tests:
+              - not_null
+
+  - name: messaging_practitioner_responses
+    description: a subset of `messaging_posts_w_lag_detail` that includes only
+      posts sent by a physician following a post by a patient; this is then
+      joined into assigned time to calculate average response time to patients
+      by practitioners
+    columns:
+        - name: post_id
+          tests:
+              - not_null
+              # - unique
+        - name: date_day
+          tests:
+              - not_null
+        - name: episode_id
+          tests:
+              - not_null
+        - name: in_chat_time
+          tests:
+              - not_null

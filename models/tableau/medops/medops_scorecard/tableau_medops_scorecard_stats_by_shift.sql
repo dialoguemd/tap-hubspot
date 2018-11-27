@@ -1,5 +1,5 @@
-with chats as (
-        select * from {{ ref('chats_all_time') }}
+with responses as (
+        select * from {{ ref('messaging_practitioner_responses') }}
     )
 
     , wiw_shifts as (
@@ -33,18 +33,6 @@ with chats as (
             and date_trunc('day', start_time_est) < current_date
     )
 
-    , chats_by_shift as (
-        select shifts.date_day
-            , shifts.shift_id
-            , sum(chats.avg_wait_time_following_messages) as rt_sum
-            , count(chats.avg_wait_time_following_messages) as rt_count
-        from shifts
-        left join chats
-            on shifts.shift_schedule_est @> chats.first_message_care_team
-            and shifts.user_id = chats.first_care_team_user_id
-        group by 1,2
-    )
-
     , assignments_by_shift as (
         select shifts.date_day
             , shifts.shift_id
@@ -58,6 +46,8 @@ with chats as (
             , count(assignments.dispatch_time_min)
                 filter (where assignments.assignment_type = 'First Assignment')
                 as first_dispatch_time_count
+            , sum(assignments.rt_sum) as rt_sum
+            , sum(assignments.rt_count) as rt_count
         from shifts
         left join assignments
             on shifts.shift_schedule_est @>
@@ -76,15 +66,14 @@ select shifts.date_day
     , shifts.main_specialization
     , shifts.position_name
     , shifts.hours
-    , chats_by_shift.rt_sum
-    , chats_by_shift.rt_count
     , assignments_by_shift.frt_sum
     , assignments_by_shift.frt_count
     , assignments_by_shift.dispatch_time_sum
     , assignments_by_shift.dispatch_time_count
     , assignments_by_shift.first_dispatch_time_sum
     , assignments_by_shift.first_dispatch_time_count
+    , assignments_by_shift.rt_sum
+    , assignments_by_shift.rt_count
 from shifts
-inner join chats_by_shift using (shift_id)
 inner join assignments_by_shift using (shift_id)
 where shifts.date_day < date_trunc('week', current_date)
