@@ -50,6 +50,8 @@ models:
           materialized: table
       scribe:
           materialized: table
+      tableau:
+          materialized: table
       usher:
           materialized: table
       wiw:
