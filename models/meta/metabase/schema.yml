@@ -16,3 +16,10 @@ models:
           field: created_at
           datepart: day
           interval: 1
+
+  - name: metabase_patients
+    columns:
+        - name: patient_id
+          tests:
+              - unique
+              - not_null

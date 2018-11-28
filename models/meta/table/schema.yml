@@ -365,3 +365,89 @@ models:
       - name: account_name
         tests:
           - not_null
+
+  - name: practitioners
+    description: |
+      List of care practitioners on the care platform
+
+    columns:
+      - name: user_id
+        tests:
+            - not_null
+            - unique
+
+      - name: main_specialization
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['N/A', 'Nurse Clinician', 'Family Physician',
+              'Care Coordinator', 'Physiotherapist',
+              'Nurse Practitioner', 'Psychologist', 'Nutritionist',
+              'Psychotherapist', 'Work & Life Coach']
+
+  - name: user_contract
+    columns:
+      - name: contract_id
+        tests:
+          - not_null
+
+      - name: user_id
+        tests:
+          - not_null
+
+      - name: organization_id
+        tests:
+          - not_null
+
+      - name: participant_id
+        tests:
+          - not_null
+
+      - name: during
+        tests:
+          - not_null
+
+      - name: organization_is_paid
+        tests:
+          - not_null
+
+      - name: is_employee
+        tests:
+          - not_null
+
+      - name: is_child
+        tests:
+          - not_null
+
+      - name: family_member_type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Employee', 'Child', 'Dependent']
+
+      - name: language
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['FR', 'EN']
+
+      - name: residence_province
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Prince Edward Island', 'Alberta', 'Ontario',
+              'Saskatchewan', 'British Columbia', 'Manitoba', 'Quebec',
+              'New Brunswick', 'Nova Scotia', 'Yukon',
+              'Newfoundland and Labrador']
+
+      - name: account_id
+        tests:
+          - not_null
+
+      - name: account_name
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(user_id, contract_id)"

@@ -30,4 +30,5 @@ select id as user_id
     end as residence_province
     , auth_id
     , coalesce(status, 'invited') as status
+    , family_id
 from scribe.users

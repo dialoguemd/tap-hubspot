@@ -9,5 +9,5 @@ select channel_id as episode_id
         when answers like '[4]' then 4
         when answers like '[5]' then 5
         end as rating
-    , timestamp as submitted_at
+    , timestamp
 from patientapp.submit_answer_post_request
