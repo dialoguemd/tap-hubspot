@@ -141,8 +141,8 @@ with qnaire_answers as (
     left join priced_videos
         on episodes.episode_id = priced_videos.episode_id
     left join user_contracts
-        on qnaire_answers.user_id = user_contracts.user_id
-        and qnaire_answers.stress_qnaire_completed_at
-            <@ user_contracts.during
+        on episodes.user_id = user_contracts.user_id
+        and episodes.first_message_patient
+            <@ user_contracts.during_est
     where (response_rank = 1 or response_rank is null)
         and episodes.issue_type = 'psy-pilot'
