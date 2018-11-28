@@ -12,4 +12,8 @@ select id as post_id
    , type != '' as is_internal_post
    , mention
 from mm.posts
-where created_at < '2018-09-01 00:00:00.000+00'
+where
+{% if target.name == 'dev' %}
+    created_at > '2018-08-01 00:00:00.000+00' and
+{% endif %}
+    created_at < '2018-09-01 00:00:00.000+00'

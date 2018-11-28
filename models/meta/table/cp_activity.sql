@@ -1,19 +1,19 @@
--- Target-dependent config
-
-{% if target.name == 'dev' %}
-  {{ config(materialized='view') }}
-{% else %}
-  {{ config(materialized='table') }}
-{% endif %}
-
--- 
+{{ config(materialized='table') }}
 
 with pages as (
-        select * from {{ ref( 'careplatform_pages_activity' ) }}
+        select * from {{ ref('careplatform_pages_activity') }}
     )
 
     , videos as (
-        select * from {{ ref( 'video_started' ) }}
+        select * from {{ ref('video_started') }}
+    )
+
+    , shifts as (
+        select * from {{ ref('wiw_shifts') }}
+    )
+
+    , practitioners as (
+        select * from {{ ref('practitioners') }}
     )
 
     , make_union as (
@@ -96,14 +96,6 @@ with pages as (
         from all_activity_tmp
   )
 
-  , shifts as (
-        select * from {{ ref( 'wiw_shifts' ) }}
-  )
-
-  , users as (
-        select * from pdt.users
-  )
-
 select all_activity.date
     , all_activity.activity_start
     , all_activity.activity_end
@@ -114,7 +106,7 @@ select all_activity.date
     , all_activity.is_child
     , all_activity.child_id
     , all_activity.user_id
-    , users.main_specialization
+    , practitioners.main_specialization
     , all_activity.is_active
     , shifts.shift_id
     , shifts.position_name as shift_position
@@ -122,8 +114,8 @@ select all_activity.date
     , shifts.start_time_est as shift_start
     , shifts.end_time_est as shift_end
 from all_activity
-left join users
-    on all_activity.user_id = users.user_id
+left join practitioners
+    using (user_id)
 left join shifts
     on all_activity.user_id = shifts.user_id
     and all_activity.activity_start <@ shifts.shift_schedule_est

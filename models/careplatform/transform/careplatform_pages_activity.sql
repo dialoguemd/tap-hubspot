@@ -1,5 +1,5 @@
 with careplatform_pages as (
-        select * from {{ ref( 'careplatform_pages' ) }}
+        select * from {{ ref('careplatform_pages') }}
     )
 
     , practitioners as (

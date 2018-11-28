@@ -12,6 +12,7 @@ select contracts.contract_id
 	, contracts.during_start
 	, contracts.during_end
 	, contracts.during
+	, contracts.during_est
 	, contracts.plan_id
 	, contracts.organization_id
 	, contracts.participant_id

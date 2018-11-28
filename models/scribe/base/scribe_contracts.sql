@@ -3,6 +3,10 @@ select id as contract_id
 	, lower(tstzrange(during)) as during_start
 	, upper(tstzrange(during)) as during_end
 	, tstzrange(during) as during
+	, tsrange(
+		timezone('America/Montreal', lower(tstzrange(during)))
+		, timezone('America/Montreal', upper(tstzrange(during)))
+	) as during_est
 	, plan_id
 	, plan_organization_id as organization_id
 	, participant_id::text as participant_id

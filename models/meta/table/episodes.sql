@@ -48,6 +48,10 @@ with channels as (
         select * from {{ ref('episodes_nps') }}
     )
 
+    , user_contract as (
+        select * from {{ ref('scribe_user_contract_detailed') }}
+    )
+
     select channels.episode_id
         , channels.user_id
         , 'https://zorro.dialogue.co/conversations/' || channels.episode_id as url_zorro
@@ -131,10 +135,12 @@ with channels as (
         , episodes_kpis.attr_psy_day_7
         , episodes_kpis.attr_nutr_day_7
 
-        , users.organization_name
-        , users.organization_id
+        , user_contract.organization_name
+        , user_contract.organization_id
 
   from channels
+  left join test_users
+    using (user_id)
   left join episodes_outcomes
     using (episode_id)
   left join episodes_issue_types
@@ -151,8 +157,7 @@ with channels as (
     using (episode_id)
   left join episodes_kpis
     using (episode_id)
-  left join test_users
-    on channels.user_id = test_users.user_id
-  left join pdt.users
-    on channels.user_id = users.user_id
+  left join user_contract
+    on channels.user_id = user_contract.user_id
+        and episodes_chats_summary.first_message_created_at <@ user_contract.during_est
   where test_users.user_id is null

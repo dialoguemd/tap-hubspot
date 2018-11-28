@@ -26,18 +26,22 @@ with messaging_posts_all_time as (
         select * from {{ ref('wiw_opening_hours') }}
     )
 
+    , practitioners as (
+        select * from {{ ref('practitioners') }}
+    )
+
     , posts as (
         select posts.created_at at time zone 'America/Montreal' as created_at
           , date_trunc('day', posts.created_at at time zone 'America/Montreal') as created_at_day
           , posts.user_id
           , posts.episode_id
           , posts.message_length
-          , coalesce(users.is_care_team, false) as is_care_team
+          , practitioners.user_id is not null as is_care_team
           , row_number()
               over (
                 partition by posts.episode_id
                   , date_trunc('day', posts.created_at at time zone 'America/Montreal')
-                  , coalesce(users.is_care_team, false)
+                  , practitioners.user_id is not null
                 order by posts.created_at
               ) as rank_user
           , extract('epoch' from
@@ -48,21 +52,21 @@ with messaging_posts_all_time as (
                   , date_trunc('day', posts.created_at at time zone 'America/Montreal')
                 order by posts.created_at
               ))) / 60.0 as time_since_last_message
-          , lag(coalesce(users.is_care_team, false))
+          , lag(practitioners.user_id is not null)
               over (
                 partition by posts.episode_id
                   , date_trunc('day', posts.created_at at time zone 'America/Montreal')
                 order by posts.created_at
               ) as is_last_message_care_team
-          , users.first_name || ' ' || users.last_name as user_name
-          , users.main_specialization
+          , practitioners.user_name
+          , practitioners.main_specialization
           , row_number() over (
               partition by posts.episode_id
               order by posts.created_at
             ) as rank_chat_in_episode
         from messaging_posts_all_time as posts
-        inner join pdt.users
-          on posts.user_id = users.user_id
+        left join practitioners
+          using (user_id)
         where not posts.is_internal_post
     )
 
@@ -178,19 +182,18 @@ with messaging_posts_all_time as (
     , videos as (
         select date_trunc('day', careplatform_video_stream_created.timestamp_est) as sent_at_day
           , careplatform_video_stream_created.episode_id
-          , string_agg(distinct care_team_user.main_specialization, ', ')
+          , string_agg(distinct practitioners.main_specialization, ', ')
               as main_specializations
           , min(
               careplatform_video_stream_created.timestamp_est
               ) filter (
-                  where main_specialization in
+                  where practitioners.main_specialization in
                     ('Family Physician', 'Nurse Practitioner')
                 )
               as first_video_w_gp_np_started_at
         from careplatform_video_stream_created
-        inner join pdt.users as care_team_user
-          on careplatform_video_stream_created.practitioner_id = care_team_user.user_id
-            and care_team_user.is_care_team
+        inner join practitioners
+          on careplatform_video_stream_created.practitioner_id = practitioners.user_id
         group by 1,2
     )
 

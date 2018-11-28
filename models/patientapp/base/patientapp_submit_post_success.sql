@@ -26,6 +26,9 @@ select id as event_id
 	, channel_id as episode_id
 	, context_user_agent
 from patientapp.submit_post_success
+{% if target.name == 'dev' %}
+	where timestamp > current_timestamp - interval '1 months'
+{% endif %}
 
 -- Query to extract platform and browser name from the user agent
 --
