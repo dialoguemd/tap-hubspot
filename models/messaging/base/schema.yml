@@ -1,0 +1,15 @@
+
+version: 2
+
+models:
+  - name: messaging_posts
+    columns:
+      - name: created_at
+        tests:
+          - not_null
+
+    tests:
+      - dbt_utils.recency:
+          field: created_at
+          datepart: hour
+          interval: 15

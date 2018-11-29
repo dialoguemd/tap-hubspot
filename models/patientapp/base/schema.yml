@@ -19,3 +19,9 @@ models:
           - not_null
           - accepted_values:
               values: ['iOS', 'Android', 'Desktop']
+
+    tests:
+      - dbt_utils.recency:
+          field: timestamp
+          datepart: hour
+          interval: 15

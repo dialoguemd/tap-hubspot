@@ -28,6 +28,12 @@ models:
         tests:
           - not_null
 
+    tests:
+      - dbt_utils.recency:
+          field: timestamp
+          datepart: hour
+          interval: 24
+
   - name: delighted_nps_dm_survey
     columns:
       - name: email

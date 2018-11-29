@@ -1,0 +1,14 @@
+
+version: 2
+
+models:
+  - name: countdown_tracks
+    columns:
+      - name: timestamp
+        tests:
+          - not_null
+    tests:
+      - dbt_utils.recency:
+          field: timestamp
+          datepart: hour
+          interval: 15

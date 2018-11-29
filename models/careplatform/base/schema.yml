@@ -51,3 +51,14 @@ models:
       - name: timestamp
         tests:
           - not_null
+
+  - name: careplatform_tracks
+    columns:
+      - name: timestamp
+        tests:
+          - not_null
+    tests:
+      - dbt_utils.recency:
+          field: timestamp
+          datepart: hour
+          interval: 15

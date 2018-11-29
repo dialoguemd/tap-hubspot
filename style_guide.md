@@ -108,3 +108,4 @@ having count(*) > 1
 * Every model should be tested in a schema.yml file
 * At minimum, unique and foreign key constraints should be tested (if applicable)
 * Any failing tests should be fixed or explained prior to requesting a review
+* Every Segment schema should be tested for recency. The prefered way of testing is to check that the last timestamp was received less than 15 hours ago in the tracks table.

@@ -1,0 +1,16 @@
+
+version: 2
+
+models:
+
+  - name: usher_tracks
+    columns:
+      - name: timestamp
+        tests:
+          - not_null
+
+    tests:
+      - dbt_utils.recency:
+          field: timestamp
+          datepart: hour
+          interval: 15
