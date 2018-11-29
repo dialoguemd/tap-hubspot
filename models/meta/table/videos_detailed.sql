@@ -8,12 +8,16 @@ with
 	)
 
 	, practitioners as (
-		select * from {{ ref('coredata_practitioners') }}
+		select * from {{ ref('practitioners') }}
 	)
 
 	, episodes_subject as (
 		select * from {{ ref('episodes_subject') }}
-	)	
+	)
+
+	, episodes_issue_types as (
+		select * from {{ ref('episodes_issue_types') }}
+	)
 
 	, video_end as (
 		select episode_id
@@ -48,12 +52,18 @@ with
 
 select videos.date_day_est
 	, videos.careplatform_user_id
+	, practitioners.user_name
 	, videos.episode_id
 	, videos.main_specialization
 	, coalesce(episodes_subject.episode_subject, videos.patient_id)
 		as patient_id
 	, videos.timestamp_est
 	, videos.video_length
+	, episodes_issue_types.issue_type
 from videos
 left join episodes_subject
 	using (episode_id)
+left join episodes_issue_types
+	using (episode_id)
+left join practitioners
+	on videos.careplatform_user_id = practitioners.user_id
