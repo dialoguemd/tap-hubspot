@@ -23,12 +23,20 @@ with videos as (
 select paid_employees_monthly.date_month
     , paid_employees_monthly.organization_name
     , paid_employees_monthly.account_name
-    , coalesce(paid_employees_monthly.count_paid_employees, 0) as count_paid_employees
-    , coalesce(videos.count_videos, 0) as count_videos
-    , coalesce(ubi_consults.nurse_consultations, 0) as nurse_consultations
-    , coalesce(ubi_consults.gp_consultations, 0) as gp_consultations
-    , coalesce(ubi_consults.mental_health_consultations, 0) as mental_health_consultations
-    , coalesce(videos.count_videos, 0) /count_paid_employees::float as video_rate
+    , coalesce(paid_employees_monthly.count_paid_employees, 0)
+        as count_paid_employees
+    , coalesce(videos.count_videos, 0)
+        as count_videos
+    , coalesce(ubi_consults.nurse_consultations, 0)
+        as nurse_consultations
+    , coalesce(ubi_consults.gp_consultations, 0)
+        as gp_consultations
+    , coalesce(ubi_consults.mental_health_consultations, 0)
+        as mental_health_consultations
+    , case
+        when count_paid_employees <> 0
+        then coalesce(videos.count_videos, 0)::float / count_paid_employees
+    end as video_rate
 from paid_employees_monthly
 left join videos using (date_month, organization_name)
 left join ubi_consults
