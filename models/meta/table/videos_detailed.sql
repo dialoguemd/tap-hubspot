@@ -32,9 +32,10 @@ with
 		select video_start.episode_id
 			, video_start.patient_id
 		    , video_start.careplatform_user_id
-		    , video_start.date_day_est
-		    , video_start.timestamp_est
 		    , video_start.main_specialization
+		    , video_start.date_day_est
+		    , video_start.timestamp_est as started_at_est
+		    , min(video_end.timestamp_est) as ended_at_est
 		    , extract(epoch from min(video_end.timestamp_est)
 		    	- video_start.timestamp_est)/60 as video_length
 		from video_start
@@ -57,7 +58,8 @@ select videos.date_day_est
 	, videos.main_specialization
 	, coalesce(episodes_subject.episode_subject, videos.patient_id)
 		as patient_id
-	, videos.timestamp_est
+	, videos.started_at_est
+	, videos.ended_at_est
 	, videos.video_length
 	, episodes_issue_types.issue_type
 from videos

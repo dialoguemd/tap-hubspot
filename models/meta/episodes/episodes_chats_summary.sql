@@ -12,6 +12,8 @@ with channels as (
         , min(chats_all_time.first_message_created_at) as first_message_created_at
         , max(chats_all_time.last_message_created_at) as last_message_created_at
         , min(chats_all_time.first_message_care_team) as first_message_care_team
+        , min(chats_all_time.first_message_nurse) as first_message_nurse
+        , min(chats_all_time.first_message_shift_manager) as first_message_shift_manager
         , max(chats_all_time.last_message_care_team) as last_message_care_team
         , min(chats_all_time.first_message_patient) as first_message_patient
         , max(chats_all_time.last_message_patient) as last_message_patient

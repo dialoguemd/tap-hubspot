@@ -30,6 +30,10 @@ with messaging_posts_all_time as (
         select * from {{ ref('practitioners') }}
     )
 
+    , wiw_shifts as (
+        select * from {{ ref('wiw_shifts') }}
+    )
+
     , posts as (
         select posts.created_at at time zone 'America/Montreal' as created_at
           , date_trunc('day', posts.created_at at time zone 'America/Montreal') as created_at_day
@@ -60,6 +64,7 @@ with messaging_posts_all_time as (
               ) as is_last_message_care_team
           , practitioners.user_name
           , practitioners.main_specialization
+          , wiw_shifts.position_name
           , row_number() over (
               partition by posts.episode_id
               order by posts.created_at
@@ -67,6 +72,9 @@ with messaging_posts_all_time as (
         from messaging_posts_all_time as posts
         left join practitioners
           using (user_id)
+        left join wiw_shifts
+          on posts.user_id = wiw_shifts.user_id
+          and posts.created_at <@ wiw_shifts.shift_schedule
         where not posts.is_internal_post
     )
 
@@ -78,6 +86,10 @@ with messaging_posts_all_time as (
             , min(created_at) filter(where
                 main_specialization in ('Nurse Clinician', 'Nurse Practitioner')
               ) as first_message_nurse
+            , min(created_at) filter(where
+                main_specialization = 'Care Coordinator'
+                and position_name = 'Shift Manager'
+              ) as first_message_shift_manager
             , max(created_at) filter(where is_care_team) as last_message_care_team
             , min(created_at) filter(where not is_care_team) as first_message_patient
             , max(created_at) filter(where not is_care_team) as last_message_patient
@@ -90,7 +102,7 @@ with messaging_posts_all_time as (
             , max(user_id) filter(where not is_care_team) as user_id
             , max(user_id) filter(where rank_user=1 and is_care_team)
                 as first_care_team_user_id
-            , max(user_name) filter(where rank_user=1 and is_care_team)
+            , max(user_name) filter(where rank_user=1)
                 as first_care_team_user_name
             -- time between first nurse message and last user message (in his first burst)
             , max(time_since_last_message) filter(where
@@ -205,6 +217,7 @@ with messaging_posts_all_time as (
         , 'careplatform://chat/' || chats.user_id || '/' || chats.episode_id as cp_deep_link
         , chats.first_message_care_team
         , chats.first_message_nurse
+        , chats.first_message_shift_manager
         , chats.last_message_care_team
         , chats.first_message_patient
         , chats.last_message_patient
@@ -219,6 +232,7 @@ with messaging_posts_all_time as (
         , chats.user_id
         , chats.first_message_care_team is not null as includes_care_team_message
         , chats.first_message_nurse is not null as includes_nurse_message
+        , chats.first_message_shift_manager is not null as includes_sm_message
         , chats.first_message_patient is not null as includes_patient_message
         , case
             when chats.first_message_patient is not null
@@ -247,6 +261,12 @@ with messaging_posts_all_time as (
             else null
           end as wait_time_first_nurse
         , case
+            when chats.first_message_patient < chats.first_message_shift_manager
+            then extract('epoch' from chats.first_message_shift_manager - chats.first_message_patient)
+              / 60.0
+            else null
+          end as wait_time_first_sm
+        , case
             when chats.first_message_patient < chats.first_message_care_team
             then extract('epoch'
                 from chats.first_message_care_team
@@ -262,6 +282,14 @@ with messaging_posts_all_time as (
               ) / 60.0
             else null
           end as wait_time_end_of_first_message_sequence_nurse
+        , case
+            when chats.first_message_patient < chats.first_message_shift_manager
+            then extract('epoch'
+                from chats.first_message_shift_manager
+                - first_patient_message_sequence.end_of_first_patient_message_sequence
+              ) / 60.0
+            else null
+          end as wait_time_end_of_first_message_sequence_sm
         , case
             when chats.first_message_patient < chats.first_message_care_team
             then chats.time_since_last_message
@@ -294,6 +322,7 @@ with messaging_posts_all_time as (
         , chats_full.episode_id
         , chats_full.first_message_care_team
         , chats_full.first_message_nurse
+        , chats_full.first_message_shift_manager
         , chats_full.last_message_care_team
         , chats_full.first_message_patient
         , chats_full.last_message_patient
@@ -309,13 +338,16 @@ with messaging_posts_all_time as (
         , chats_full.user_id
         , chats_full.includes_care_team_message
         , chats_full.includes_nurse_message
+        , chats_full.includes_sm_message
         , chats_full.includes_patient_message
         , chats_full.timespan
         , chats_full.initiator
         , chats_full.wait_time_first
         , chats_full.wait_time_first_nurse
+        , chats_full.wait_time_first_sm
         , chats_full.wait_time_end_of_first_message_sequence
         , chats_full.wait_time_end_of_first_message_sequence_nurse
+        , chats_full.wait_time_end_of_first_message_sequence_sm
         , chats_full.rank_chat_in_episode
         , chats_full.url_zorro
         , chats_full.cp_deep_link

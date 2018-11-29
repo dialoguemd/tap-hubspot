@@ -1,78 +1,40 @@
-with assignments as (
-        select * from {{ ref('assigned_time') }}
-        {% if target.name == 'dev' %}
-        where assigned_at > current_date - interval '4 weeks'
-        {% endif %}
-    )
-
-    , posts as (
-        select * from {{ ref('messaging_posts_all_time') }}
-        {% if target.name == 'dev' %}
-        where created_at > current_date - interval '4 weeks'
-        {% endif %}
-    )
-
-    , practitioners as (
-        select * from {{ ref('coredata_practitioners') }}
+with assigned_time as (
+        select * from {{ ref('assigned_time_w_posts') }}
     )
 
     , responses as (
         select * from {{ ref('messaging_practitioner_responses') }}
+        {% if target.name == 'dev' %}
+        where created_at > current_date - interval '1 weeks'
+        {% else %}
+        where created_at > current_date - interval '6 months'
+        {% endif %}
     )
 
-    , ranked as (
-        select assignments.episode_id
-            , assignments.assigned_user_id
-            , assignments.user_id
-            , assignments.assigned_at
-            , assignments.unassigned_at
-            , coalesce(practitioners.main_specialization, 'N/A')
-                as main_specialization
-            , min(posts.created_at) as first_post_at
-            , extract(epoch from min(posts.created_at)
-                - min(assignments.assigned_at))/60 as first_response_time_min
-            , extract(epoch from min(assignments.unassigned_at)
-                - min(assignments.assigned_at))/60 as dispatch_time_min
-            , count(posts.*) as count_posts
-            , row_number() over (partition by assignments.episode_id,
-                practitioners.main_specialization order by assignments.assigned_at)
-                as assignment_rank
-        from assignments
-        left join posts
-            on assignments.user_id = posts.user_id
-            and is_internal_post is false
-            and tstzrange(
-                assignments.assigned_at,
-                assignments.unassigned_at
-                ) @> posts.created_at
-        left join practitioners on assignments.user_id = practitioners.user_id
-        group by 1,2,3,4,5,practitioners.main_specialization
-    )
-
-    , ranked_w_responses as (
-        select ranked.episode_id
-            , ranked.assigned_user_id
-            , ranked.user_id
-            , ranked.assigned_at
-            , ranked.unassigned_at
-            , ranked.main_specialization
-            , ranked.first_post_at
-            , ranked.first_response_time_min
-            , ranked.dispatch_time_min
-            , ranked.count_posts
-            , ranked.assignment_rank
+    , assigned_time_detailed as (
+        select assigned_time.episode_id
+            , assigned_time.assigned_user_id
+            , assigned_time.user_id
+            , assigned_time.assigned_at
+            , assigned_time.unassigned_at
+            , assigned_time.main_specialization
+            , assigned_time.first_post_at
+            , assigned_time.first_response_time_min
+            , assigned_time.dispatch_time_min
+            , assigned_time.count_posts
+            , assigned_time.assignment_rank
             , sum(responses.in_chat_time) as rt_sum
             , count(responses.in_chat_time) as rt_count
-        from ranked
+        from assigned_time
         left join responses
-            on ranked.user_id = responses.user_id
+            on assigned_time.user_id = responses.user_id
             and tstzrange(
-                ranked.assigned_at,
-                ranked.unassigned_at
+                assigned_time.assigned_at,
+                assigned_time.unassigned_at
                 ) @> responses.created_at
             and tstzrange(
-                ranked.assigned_at,
-                ranked.unassigned_at
+                assigned_time.assigned_at,
+                assigned_time.unassigned_at
                 ) @> responses.previous_post_at
         group by 1,2,3,4,5,6,7,8,9,10,11
     )
@@ -91,4 +53,4 @@ select episode_id
     , count_posts
     , rt_sum
     , rt_count
-from ranked_w_responses
+from assigned_time_detailed

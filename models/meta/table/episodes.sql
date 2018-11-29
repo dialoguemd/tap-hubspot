@@ -48,6 +48,10 @@ with channels as (
         select * from {{ ref('episodes_nps') }}
     )
 
+    , episodes_created_sequence as (
+        select * from {{ ref('episodes_created_sequence_detailed') }}
+    )
+
     , user_contract as (
         select * from {{ ref('scribe_user_contract_detailed') }}
     )
@@ -92,6 +96,8 @@ with channels as (
         , episodes_chats_summary.last_message_care_team
         , episodes_chats_summary.first_message_patient
         , episodes_chats_summary.last_message_patient
+        , episodes_chats_summary.first_message_nurse
+        , episodes_chats_summary.first_message_shift_manager
         , episodes_chats_summary.messages_total
         , episodes_chats_summary.messages_patient
         , episodes_chats_summary.messages_care_team
@@ -135,12 +141,18 @@ with channels as (
         , episodes_kpis.attr_psy_day_7
         , episodes_kpis.attr_nutr_day_7
 
+        , episodes_created_sequence.channel_selected
+        , episodes_created_sequence.dxa_started_at
+        , episodes_created_sequence.dxa_completed_at
+        , episodes_created_sequence.channel_select_started_at
+        , episodes_created_sequence.channel_select_completed_at
+        , episodes_created_sequence.video_started_at
+        , episodes_created_sequence.video_ended_at
+
         , user_contract.organization_name
         , user_contract.organization_id
 
   from channels
-  left join test_users
-    using (user_id)
   left join episodes_outcomes
     using (episode_id)
   left join episodes_issue_types
@@ -157,7 +169,12 @@ with channels as (
     using (episode_id)
   left join episodes_kpis
     using (episode_id)
+  left join episodes_created_sequence
+    using (episode_id)
   left join user_contract
     on channels.user_id = user_contract.user_id
-        and episodes_chats_summary.first_message_created_at <@ user_contract.during_est
+        and episodes_chats_summary.first_message_created_at
+        <@ user_contract.during_est
+  left join test_users
+    on channels.user_id = test_users.user_id
   where test_users.user_id is null

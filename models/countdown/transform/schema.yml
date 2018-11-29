@@ -14,3 +14,11 @@ models:
           tests:
               - not_null
               - unique
+
+  - name: countdown_episode_started_sequence
+
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique

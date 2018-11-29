@@ -16,7 +16,7 @@ select videos.date_day_est
 		as includes_video_cc
 	, bool_or(videos.main_specialization = 'N/A')
 		as includes_video_unidentified
-	, min(videos.timestamp_est) as first_timestamp_est
+	, min(videos.started_at_est) as first_timestamp_est
 	, sum(videos.video_length) as video_length
 from videos
 group by 1,2,3

@@ -2,8 +2,8 @@ with assignments as (
         select * from {{ ref('usher_episode_assigned') }}
     )
 
-	, giveups as (
-		select * from {{ ref('unresponsive_snooze_workflow_finished') }}
+	, snoozed as (
+		select * from {{ ref('careplatform_snooze_started') }}
 	)
 
 	, state_changes as (
@@ -20,15 +20,15 @@ with assignments as (
         select episode_id
             , null as assigned_user_id
             , user_id
-            , workflow_finished_at as assigned_at
-        from giveups
+            , timestamp as assigned_at
+        from snoozed
         union all
         select episode_id
             , null as assigned_user_id
             , user_id
             , updated_at as assigned_at
         from state_changes
-        where episode_state = 'pending'
+        where episode_state in ('pending', 'resolved')
 	)
 
     , assignments_tmp as (

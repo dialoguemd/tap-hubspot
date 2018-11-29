@@ -1,0 +1,1 @@
+select * from careplatform.snooze_button_clicked_success
