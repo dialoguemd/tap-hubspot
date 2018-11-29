@@ -10,10 +10,6 @@ with choozle as (
 		select * from {{ ref( 'funnelio_google' ) }}
 	)
 
-	, google_search_console as (
-		select * from {{ ref( 'funnelio_google_search_console' ) }}
-	)
-
 	, linkedin as (
 		select * from {{ ref( 'funnelio_linkedin' ) }}
 	)
@@ -36,8 +32,6 @@ with choozle as (
 		select * from facebook
 		union all
 		select * from google
-		union all
-		select * from google_search_console
 		union all
 		select * from linkedin
 		union all

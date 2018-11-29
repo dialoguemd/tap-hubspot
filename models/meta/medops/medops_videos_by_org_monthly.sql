@@ -1,24 +1,24 @@
-with videos as (
-		select * from {{ ref( 'videos_by_ep_daily' ) }}
-    )
+with
+	videos as (
+		select * from {{ ref('videos_by_ep_daily') }}
+	)
 
-    , users as (
-		select * from {{ ref( 'user_contract' ) }}
-    )
+	, user_contract as (
+		select * from {{ ref('user_contract') }}
+	)
 
-select patients.organization_name
-    , date_trunc('month', videos.date_day_est) as date_month
-    , count(distinct
-		concat(patients.user_id,
+select user_contract.organization_id
+	, user_contract.organization_name
+	, date_trunc('month', videos.date_day_est) as date_month
+	, count(distinct
+		concat(user_contract.user_id,
 				date_trunc('day',
 				videos.date_day_est)
 			)
 		) as count_videos
 from videos
-inner join users as patients
-	on videos.patient_id = patients.user_id
-	and tsrange(timezone('America/Montreal', lower(patients.during)),
-		timezone('America/Montreal', upper(patients.during)))
-		@> videos.date_day_est
+inner join user_contract
+	on videos.patient_id = user_contract.user_id
+	and videos.date_day_est <@ user_contract.during_est
 where videos.includes_video_gp
-group by 1,2
+group by 1,2,3
