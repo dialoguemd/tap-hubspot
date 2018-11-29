@@ -23,3 +23,15 @@ models:
           tests:
               - unique
               - not_null
+
+  - name: metabase_bonjour_sante
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+        - name: triggered_at
+          tests:
+              - not_null
+    tests:
+      - unique:
+          column_name: "concat(triggered_at, episode_id)"
