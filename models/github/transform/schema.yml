@@ -1,12 +1,27 @@
 version: 2
 
 models:
+  - name: github_deploys
+    columns:
+      - name: number
+        tests:
+            - not_null
+      - name: repo_name
+        tests:
+            - not_null
+      - name: created_at
+        tests:
+            - not_null
+    tests:
+      - unique:
+          column_name: "concat(number, repo_name)"
+
   - name: github_deploys_daily
     columns:
-        - name: merged_at_date
-          tests:
-              - unique
-              - not_null
-        - name: deploys_count
-          tests:
-              - not_null
+      - name: merged_at_date
+        tests:
+            - unique
+            - not_null
+      - name: deploys_count
+        tests:
+            - not_null
