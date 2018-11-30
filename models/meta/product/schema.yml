@@ -29,6 +29,18 @@ models:
           tests:
               - not_null
 
+  - name: product_star_rating
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+        - name: rating
+          tests:
+              - not_null
+              - accepted_values:
+                  values: [0, 1, 2, 3, 4, 5]
+
   - name: product_mean_time_to_resolve
     columns:
         - name: issue_id
@@ -60,3 +72,4 @@ models:
         - name: all_bugs
           tests:
               - not_null
+

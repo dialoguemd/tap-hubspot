@@ -6,6 +6,7 @@ with patientapp_answer_submitted as (
         select episode_id
             , user_id
             , rating
+            , timestamp
             , row_number() over (
                 partition by episode_id order by timestamp desc
             ) as rank
@@ -15,5 +16,7 @@ with patientapp_answer_submitted as (
 
 select episode_id
     , rating
+    , user_id
+    , timestamp
 from all_ratings
 where rank = 1

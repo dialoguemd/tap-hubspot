@@ -149,8 +149,10 @@ with channels as (
         , episodes_created_sequence.video_started_at
         , episodes_created_sequence.video_ended_at
 
-        , user_contract.organization_name
         , user_contract.organization_id
+        , user_contract.organization_name
+        , user_contract.account_id
+        , user_contract.account_name
 
   from channels
   left join episodes_outcomes
