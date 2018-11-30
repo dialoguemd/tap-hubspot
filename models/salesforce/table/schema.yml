@@ -94,4 +94,4 @@ models:
           - not_null
           - accepted_values:
               values: ['24/7', 'Stress Management & Well-Being',
-                'Virtual Care']
+                'Virtual Care', 'Pharmacogenetics']

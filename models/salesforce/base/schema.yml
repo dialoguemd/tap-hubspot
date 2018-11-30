@@ -75,7 +75,7 @@ models:
           - accepted_values:
               values: ['24/7', 'Stress Management & Well-Being',
                 'Virtual Care', 'Vaccination Campaign', 'Family Plan',
-                'Individual Plan']
+                'Individual Plan', 'Pharmacogenetics']
 
   - name: salesforce_scribe_organizations
     columns:
