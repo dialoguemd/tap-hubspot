@@ -176,7 +176,7 @@ models:
         - name: date_month
           tests:
               - not_null
-        - name: organization_name
+        - name: organization_id
           tests:
               - not_null
         - name: count_paid_employees
@@ -190,7 +190,7 @@ models:
               - not_null
     tests:
         - unique:
-            column_name: "concat(date_month, organization_name)"
+            column_name: "concat(date_month, organization_id)"
 
   - name: medops_video_cost_monthly
     columns:
@@ -207,7 +207,7 @@ models:
         - name: date_month
           tests:
               - not_null
-        - name: organization_name
+        - name: organization_id
           tests:
               - not_null
         - name: count_paid_employees
@@ -218,14 +218,14 @@ models:
               - not_null
     tests:
         - unique:
-            column_name: "concat(date_month, organization_name)"
+            column_name: "concat(date_month, organization_id)"
 
   - name: medops_videos_by_org_monthly
     columns:
         - name: date_month
           tests:
               - not_null
-        - name: organization_name
+        - name: organization_id
           tests:
               - not_null
         - name: count_videos
@@ -233,7 +233,7 @@ models:
               - not_null
     tests:
         - unique:
-            column_name: "concat(date_month, organization_name)"
+            column_name: "concat(date_month, organization_id)"
 
   - name: medops_gm1_weekly
     columns:

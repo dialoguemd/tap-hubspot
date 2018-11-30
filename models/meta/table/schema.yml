@@ -57,6 +57,20 @@ models:
         tests:
           - not_null
 
+  - name: organizations_monthly
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+      - name: organization_name
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_month, organization_id)"
+
+
   - name: meta_accounts_monthly
     columns:
       - name: account_id
