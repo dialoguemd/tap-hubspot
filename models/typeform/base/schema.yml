@@ -1,0 +1,45 @@
+
+version: 2
+
+models:
+  - name: typeform_responses
+    columns:
+      - name: response_id
+        tests:
+          - not_null
+
+      - name: question_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('typeform_responses')
+              field: question_id
+
+    tests:
+      - unique:
+          column_name: "concat(response_id, question_id)"
+
+  - name: typeform_questions
+    columns:
+      - name: question_id
+        tests:
+          - not_null
+          - unique
+
+  - name: typeform_organization_mapping
+    description: |
+      Mapping between responses and organizations to back-fill data
+      when Typeform was not set up to capture organization IDs
+    columns:
+      - name: response_id
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              to: ref('typeform_responses')
+              field: response_id
+
+      - name: organization_id
+        tests:
+          - not_null
+

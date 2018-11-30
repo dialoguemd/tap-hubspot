@@ -13,6 +13,7 @@ select nps_survey.episode_id
 	, nps_survey.tags
 	, nps_survey.comment
 	, nps_survey.timestamp
+	, nps_survey.updated_at
 	, users.user_id
 from nps_survey
 inner join users

@@ -1,0 +1,20 @@
+
+version: 2
+
+models:
+  - name: typeform_responses_detailed
+    columns:
+      - name: response_id
+        tests:
+          - not_null
+
+      - name: question_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('typeform_responses')
+              field: question_id
+
+    tests:
+      - unique:
+          column_name: "concat(response_id, question_id)"
