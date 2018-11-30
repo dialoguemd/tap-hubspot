@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: gm_by_contract_daily
+    tests:
+        - unique:
+            column_name: "concat(date_day, contract_id)"
+
+  - name: gm_weekly
+    columns:
+        - name: date_week
+          tests:
+              - not_null
+              - unique

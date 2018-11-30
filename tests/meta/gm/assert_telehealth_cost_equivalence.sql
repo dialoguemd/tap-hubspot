@@ -1,11 +1,11 @@
 with costs as (
       select * from {{ ref( 'medops_fl_costs_by_main_spec' ) }}
    )
-   
+
    , costs_by_ep as (
-      select * from {{ ref( 'medops_est_costs_by_ep_daily' ) }}  
+      select * from {{ ref( 'medops_est_costs_by_ep_daily' ) }}
    )
-   
+
    , monthly_costs as (
       select date_trunc('month', date_day) as date_month
           , sum(cc_cost) as cc_cost
@@ -16,7 +16,7 @@ with costs as (
       from costs_by_ep
       group by 1
    )
-   
+
     , compared as (
       select round(((gp_psy_cost + gp_other_cost) / fl_gp_cost)::numeric, 4) as gp
           , round((cc_cost / fl_cc_cost)::numeric, 4) as cc

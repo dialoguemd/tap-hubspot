@@ -1,6 +1,6 @@
 with
 	gm as (
-		select * from {{ ref('medops_gm1_weekly')}}
+		select * from {{ ref('gm_weekly')}}
 	)
 
 	, dates as (

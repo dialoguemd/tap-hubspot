@@ -2,7 +2,7 @@ with
 	videos as (
 		select * from {{ ref('videos_detailed') }}
 	)
-	
+
 	, null_fraction as (
 		select date_trunc('week', date_day_est) as week
 			, count(*) filter (where video_length is null)

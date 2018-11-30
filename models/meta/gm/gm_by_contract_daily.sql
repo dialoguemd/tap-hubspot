@@ -1,3 +1,14 @@
+{{
+  config({
+    "materialized":"incremental",
+    "sql_where":"date_day > (select max(date_day) from {{this}})",
+    "post-hook": [
+       "DROP INDEX IF EXISTS {{ this.schema }}.index_gm_by_contract_date_day",
+       "CREATE INDEX IF NOT EXISTS index_gm_by_contract_date_day ON {{ this }}(date_day)"
+    ]
+  })
+}}
+
 with user_contract as (
         select * from {{ ref ( 'user_contract' ) }}
     )
@@ -14,7 +25,7 @@ with user_contract as (
         select * from days_tmp
         where date_day >= '2018-04-01'
     )
-    
+
     , daily_revenue as (
         select days.date_day
             , user_contract.contract_id
@@ -37,6 +48,10 @@ with user_contract as (
         inner join user_contract
             on days.date_day <@ user_contract.during
         where user_contract.is_employee
+            and days.date_day < current_date
+            {% if adapter.already_exists(this.schema, this.table) and not flags.FULL_REFRESH %}
+            and days.date_day > (select max(date_day) from {{ this }})
+            {% endif %}
     )
 
 select coalesce(daily_revenue.date_day, daily_costs.date_day) as date_day

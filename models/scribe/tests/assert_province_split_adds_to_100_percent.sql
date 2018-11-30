@@ -1,3 +1,5 @@
+{{ config(materialized='ephemeral') }}
+
 with
 	province_split as (
 		select * from {{ ref('scribe_organization_province_split') }}
