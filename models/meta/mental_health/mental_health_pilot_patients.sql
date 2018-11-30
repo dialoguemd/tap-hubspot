@@ -84,6 +84,7 @@ with qnaire_answers as (
     )
 
     select episodes.episode_id
+        , episodes.patient_id
         , qnaire_answers.qnaire_tid
         , qnaire_answers.stress_qnaire_completed_at
         , qnaire_answers.depression_score
