@@ -1,4 +1,4 @@
-select timestamp as created_at
+select timestamp
     , reminder_id
     , reminder_episode_id as episode_id
     , reminder_due_at as due_at

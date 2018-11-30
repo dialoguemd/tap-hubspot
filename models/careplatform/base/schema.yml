@@ -4,17 +4,19 @@ version: 2
 # TODO: rename all timestamps to timestamp and add tests
 
 models:
-  - name: careplatform_pages
-    columns:
-      - name: timestamp
-        tests:
-          - not_null
-
   - name: careplatform_reminder_created
     columns:
       - name: episode_id
         tests:
           - not_null
+      - name: timestamp
+        tests:
+          - not_null
+    tests:
+      - dbt_utils.recency:
+          field: timestamp
+          datepart: hour
+          interval: 15
 
   - name: careplatform_reminders_status_updated
     columns:
@@ -51,14 +53,3 @@ models:
       - name: timestamp
         tests:
           - not_null
-
-  - name: careplatform_tracks
-    columns:
-      - name: timestamp
-        tests:
-          - not_null
-    tests:
-      - dbt_utils.recency:
-          field: timestamp
-          datepart: hour
-          interval: 15

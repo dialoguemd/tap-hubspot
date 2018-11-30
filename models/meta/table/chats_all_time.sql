@@ -152,7 +152,7 @@ with messaging_posts_all_time as (
         left join reminders_completed
           on careplatform_reminder_created.reminder_id = reminders_completed.reminder_id
         where -- exclude same day reminders
-          date_trunc('day', timezone('America/Montreal', careplatform_reminder_created.created_at))
+          date_trunc('day', timezone('America/Montreal', careplatform_reminder_created.timestamp))
             <> date_trunc('day', timezone('America/Montreal', careplatform_reminder_created.due_at))
           and date_trunc('day', timezone('America/Montreal', careplatform_reminder_created.due_at))
             <= date_trunc('day', timezone('America/Montreal', reminders_completed.completed_at))
