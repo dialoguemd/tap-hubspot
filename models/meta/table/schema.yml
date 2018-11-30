@@ -211,6 +211,12 @@ models:
         tests:
           - not_null
 
+      - name: family_member_type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Employee', 'Dependent', 'Child']
+
   - name: active_users_weekly
     columns:
       - name: date_week

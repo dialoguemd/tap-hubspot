@@ -52,12 +52,13 @@ select active_daily.*
 	, user_contract.is_employee as is_employee
 	, case
 		when user_contract.is_employee
-		then 'employee'
+		then 'Employee'
 		else user_contract.family_member_type
 	end as family_member_type
 	, user_contract.language
 	, user_contract.organization_id
 	, user_contract.organization_name
+	, user_contract.account_id
 	, user_contract.account_name
 	, user_contract.country
 	, user_contract.residence_province

@@ -1,6 +1,17 @@
 version: 2
 
 models:
+  - name: user_activated
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+          - unique
+
+      - name: activated_at
+        tests:
+          - not_null
+
   - name: users_paid_employees_monthly
     columns:
         - name: organization_id
