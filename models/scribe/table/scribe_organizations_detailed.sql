@@ -95,6 +95,7 @@ select organizations.organization_id
 		when tax_province = 'BC' then 'British Columbia'
 		when tax_province = 'NB' then 'New Brunswick'
 		when tax_province = 'NS' then 'Nova Scotia'
+		when tax_province = 'NL' then 'Newfoundland and Labrador'
 		when tax_province is not null then tax_province
 		else 'Quebec'
 	end as province
