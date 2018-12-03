@@ -1,0 +1,6 @@
+"id","label","localized_name","localized_description","created"
+1,"nurse","{""en"": ""Nurse"", ""fr"": ""Infirmière""}","{""en"": ""Chat with a nurse"", ""fr"": ""Clavarder avec une nurse""}","2017-03-22 21:05:28.376143+00"
+2,"family","{""en"": ""Family"", ""fr"": ""Famille""}","{""en"": ""Add family members"", ""fr"": ""Ajouter les membres de la famille""}","2017-03-22 21:05:28.376143+00"
+3,"24_7","{""en"": ""24/7"", ""fr"": ""24/7""}","{""en"": ""24/7 service"", ""fr"": ""Service 24/7""}","2018-07-20 16:06:12.085901+00"
+4,"mental_health","{""en"": ""Mental Health"", ""fr"": ""Santé mentale""}","{""en"": ""Mental health service"", ""fr"": ""Service de santé mentale""}","2018-07-20 16:06:12.085901+00"
+5,"biogeniq","{""en"": ""BioGeniq"", ""fr"": ""BioGeniq""}","{""en"": ""BioGeniq service"", ""fr"": ""Service BioGeniq""}","2018-10-23 15:05:38.96002+00"

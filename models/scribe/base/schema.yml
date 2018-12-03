@@ -146,3 +146,19 @@ models:
           field: timestamp
           datepart: hour
           interval: 15
+
+  - name: scribe_administrator
+    description: |
+      Manual import from scribe DB on December 2nd 2018
+
+  - name: scribe_feature
+    description: |
+      Manual import from scribe DB on December 2nd 2018
+
+  - name: scribe_organization_administrator
+    description: |
+      Manual import from scribe DB on December 2nd 2018
+
+  - name: scribe_plan_feature
+    description: |
+      Manual import from scribe DB on December 2nd 2018
