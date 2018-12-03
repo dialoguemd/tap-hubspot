@@ -43,3 +43,10 @@ models:
         - name: created_at
           tests:
               - not_null
+
+  - name: github_repo_whitelist
+    columns:
+        - name: repo_name
+          tests:
+              - unique
+              - not_null

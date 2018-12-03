@@ -2,8 +2,8 @@ with prs as (
 		select * from {{ ref( 'github_pull_requests' ) }}
 	)
 
-	, nonprod_repos as (
-		select * from {{ ref( 'github_nonprod_repos' ) }}
+	, whitelist as (
+		select * from {{ ref( 'github_repo_whitelist' ) }}
 	)
 
 select prs.number 
@@ -18,10 +18,22 @@ select prs.number
 			replace(prs.html_url, 'https://github.com/dialoguemd/', ''),
 			'/',1),
 		null) as repo_name
+	, case
+		when whitelist.stage = 'Production'
+			and whitelist.type = 'Code'
+			and prs.merged_at > whitelist.whitelist_date
+			then 'Production'
+		when whitelist.stage = 'Development'
+			and whitelist.type = 'Code'
+			and prs.merged_at > whitelist.whitelist_date
+			then 'Non-Prod'
+		when whitelist.stage = 'Data-Infrastructure'
+			then 'Data-Infrastructure'
+		else 'Other'
+		end as type_development
 from prs
-left join nonprod_repos using (repo_name)
+left join whitelist using (repo_name)
 where (prs.base_branch = 'master'
 		or (prs.base_branch = 'beta' and prs.repo_name = 'care-platform'))
 	and prs.merged_at is not null
 	and date_trunc('week', current_date) <> date_trunc('week', prs.merged_at)
-	and nonprod_repos.repo_name is null

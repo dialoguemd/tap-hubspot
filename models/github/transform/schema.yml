@@ -14,7 +14,7 @@ models:
             - not_null
     tests:
       - unique:
-          column_name: "concat(number, repo_name)"
+          column_name: "concat(created_at, repo_name)"
 
   - name: github_deploys_daily
     columns:
