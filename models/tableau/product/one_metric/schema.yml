@@ -36,3 +36,19 @@ models:
         - name: days_since_invite
           tests:
               - not_null
+
+  - name: tableau_one_metric_cumulative_full_resolves
+    columns:
+        - name: week
+          tests:
+              - unique
+              - not_null
+        - name: count_fully_resolved
+          tests:
+              - not_null
+        - name: count_episodes
+          tests:
+              - not_null
+        - name: full_resolve_rate
+          tests:
+              - not_null
