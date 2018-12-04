@@ -8,6 +8,7 @@ with
 			, count(*) filter (where video_length is null)
 				/ count(*)::float as fraction
 		from videos
+		where date_day_est < current_date
 		group by 1
 	)
 
