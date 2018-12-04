@@ -34,6 +34,11 @@ with messaging_posts_all_time as (
         select * from {{ ref('wiw_shifts') }}
     )
 
+    , outcomes as (
+        select * from {{ ref('careplatform_episode_properties_updated') }}
+        where episode_property_type = 'outcome'
+    )
+
     , posts as (
         select posts.created_at at time zone 'America/Montreal' as created_at
           , date_trunc('day', posts.created_at at time zone 'America/Montreal') as created_at_day
@@ -90,12 +95,17 @@ with messaging_posts_all_time as (
                 main_specialization = 'Care Coordinator'
                 and position_name = 'Shift Manager'
               ) as first_message_shift_manager
-            , max(created_at) filter(where is_care_team) as last_message_care_team
-            , min(created_at) filter(where not is_care_team) as first_message_patient
-            , max(created_at) filter(where not is_care_team) as last_message_patient
+            , max(created_at)
+              filter(where is_care_team) as last_message_care_team
+            , min(created_at)
+              filter(where not is_care_team and user_id is not null) as first_message_patient
+            , max(created_at)
+              filter(where not is_care_team and user_id is not null) as last_message_patient
             , count(*) as messages_total
-            , count(*) filter(where not is_care_team) as messages_patient
-            , count(*) filter(where is_care_team) as messages_care_team
+            , count(*)
+              filter(where not is_care_team and user_id is not null) as messages_patient
+            , count(*)
+              filter(where is_care_team) as messages_care_team
             , sum(message_length) as messages_length_total
             , min(created_at) as first_message_created_at
             , max(created_at) as last_message_created_at
@@ -164,6 +174,17 @@ with messaging_posts_all_time as (
         , count(*) as count_reminders_open
       from reminders
       group by 1,2
+    )
+
+    , episode_outcomes as (
+        select episode_id
+          , date_trunc('day', updated_at) as created_at_day
+          , bool_or(episode_property_value = 'patient_thanks')
+            as includes_patient_thanks_outcome
+          , string_agg(distinct episode_property_value, ', ')
+            as outcomes
+        from outcomes
+        group by 1,2
     )
 
     , set_episode_state as (
@@ -303,6 +324,8 @@ with messaging_posts_all_time as (
         , episode_pending_resolved.first_set_resolved_pending_at as first_set_resolved_pending_at
         , first_patient_message_sequence.end_of_first_patient_message_sequence
         , chats.rank_chat_in_episode
+        , episode_outcomes.outcomes
+        , episode_outcomes.includes_patient_thanks_outcome
         from chats
         left join wiw_opening_hours
         on chats.first_message_created_at <@ wiw_opening_hours.opening_span_est
@@ -315,6 +338,9 @@ with messaging_posts_all_time as (
         left join first_patient_message_sequence
         on chats.episode_id = first_patient_message_sequence.episode_id
           and chats.created_at_day = first_patient_message_sequence.created_at_day
+        left join episode_outcomes
+          on chats.episode_id = episode_outcomes.episode_id
+          and chats.created_at_day = episode_outcomes.created_at_day
     )
 
     select chats_full.created_at_day
@@ -357,6 +383,8 @@ with messaging_posts_all_time as (
         , chats_full.has_open_reminder
         , chats_full.set_resolved_pending
         , chats_full.first_set_resolved_pending_at
+        , chats_full.outcomes
+        , chats_full.includes_patient_thanks_outcome
         , case
           when chats_full.set_resolved_pending
           then extract('epoch'
