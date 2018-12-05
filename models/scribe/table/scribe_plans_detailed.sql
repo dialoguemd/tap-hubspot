@@ -39,7 +39,7 @@ select plans.plan_id
 		end as charge_price_mental_health
 	, case when plan_features.has_24_7
 		-- The current price is the old price plus 17%
-		then plans.charge_price - (plans.charge_price / 1.17) :: float
+		then plans.charge_price * 0.17 / 1.17 :: float
 		else 0
 		end as charge_price_24_7
 	, plan_features.features
