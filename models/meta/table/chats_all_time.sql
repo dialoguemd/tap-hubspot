@@ -98,9 +98,9 @@ with messaging_posts_all_time as (
             , max(created_at)
               filter(where is_care_team) as last_message_care_team
             , min(created_at)
-              filter(where not is_care_team and user_id is not null) as first_message_patient
+              filter(where user_type = 'patient') as first_message_patient
             , max(created_at)
-              filter(where not is_care_team and user_id is not null) as last_message_patient
+              filter(where user_type = 'patient') as last_message_patient
             , count(*) as messages_total
             , count(*)
               filter(where not is_care_team and user_id is not null) as messages_patient

@@ -8,7 +8,7 @@ with
 	)
 
 	, plans as (
-		select * from {{ ref('scribe_plans') }}
+		select * from {{ ref('scribe_plans_detailed') }}
 	)
 
 	, organization_address_rank as (
@@ -47,6 +47,8 @@ select organizations.organization_id
 		then 0
 		else plans.charge_price
 	end as charge_price
+	, plans.charge_price_mental_health
+	, plans.charge_price_24_7
 	, case 
 		when organization_name like '%Toronto'
 			or organization_name like '%Ontario'

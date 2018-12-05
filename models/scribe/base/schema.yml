@@ -109,17 +109,6 @@ models:
       - unique:
           column_name: "concat(user_id, contract_id)"
 
-  - name: scribe_organizations_detailed
-    columns:
-      - name: organization_id
-        tests:
-          - not_null
-          - unique
-
-      - name: organization_name
-        tests:
-          - not_null
-
   - name: scribe_child_added
     columns:
       - name: child_id
