@@ -43,6 +43,7 @@ with messaging_posts_all_time as (
         select posts.created_at at time zone 'America/Montreal' as created_at
           , date_trunc('day', posts.created_at at time zone 'America/Montreal') as created_at_day
           , posts.user_id
+          , posts.user_type
           , posts.episode_id
           , posts.message_length
           , practitioners.user_id is not null as is_care_team
