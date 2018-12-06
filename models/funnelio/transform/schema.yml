@@ -4,7 +4,7 @@ models:
   - name: funnelio_performance_metrics
 
     columns:
-        - name: date
+        - name: date_day
           tests:
               - not_null
         - name: platform
@@ -34,6 +34,6 @@ models:
           description: cost per click
           tests:
               - not_null
-    # tests:
-      # - unique:
-      #     column_name: "concat(date, channel)"
+    tests:
+      - unique:
+          column_name: "concat(date_day, channel)"

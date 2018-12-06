@@ -42,7 +42,9 @@ with choozle as (
 		select * from twitter
 	)
 
-select date
+select date_day
+	, date_trunc('week', date_day) as date_week
+	, date_trunc('month', date_day) as date_month
 	, platform
 	, channel
 	, cost

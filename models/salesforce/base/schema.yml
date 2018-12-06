@@ -129,3 +129,10 @@ models:
       - name: start_date
         tests:
           - not_null
+
+  - name: salesforce_inbound_lead_sources
+    columns:
+      - name: lead_source
+        tests:
+          - not_null
+          - unique

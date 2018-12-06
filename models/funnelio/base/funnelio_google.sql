@@ -4,5 +4,5 @@ select common_clicks as clicks
     , common_impressions as impressions
     , channel
     , event as platform
-    , date_trunc('day', timestamp) as date
+    , date_trunc('day', timestamp) as date_day
 from funnelio.google

@@ -23,6 +23,10 @@ with
 		group by 1
 	)
 
+	, inbound_lead_sources as (
+		select * from {{ ref('salesforce_inbound_lead_sources') }}
+	)
+
 select opportunities.*
 	, owners.name as owner_name
 	, owners.title as owner_title
@@ -57,6 +61,7 @@ select opportunities.*
 	, partner_contacts.contact_name as partner_contact_name
 	, partners.account_id as partner_account_id
 	, partners.account_name as partner_name
+	, inbound_lead_sources.lead_source is not null as is_inbound
 from opportunities
 inner join accounts
 	using (account_id)
@@ -68,3 +73,5 @@ left join contacts as partner_contacts
 	on opportunities.partner_individual_id = partner_contacts.contact_id
 left join accounts as partners
 	on opportunities.partner_id = partners.account_id
+left join inbound_lead_sources
+	using (lead_source)

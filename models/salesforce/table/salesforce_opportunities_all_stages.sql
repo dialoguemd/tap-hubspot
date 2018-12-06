@@ -24,6 +24,7 @@ select 'Activity' as status
     , country
     , industry
     , null as lead_source
+    , false as is_inbound
 from activities_detailed
 union all
 select 'Meeting Booked' as status
@@ -43,6 +44,7 @@ select 'Meeting Booked' as status
     , country
     , industry
     , lead_source
+    , is_inbound
 from opportunities_direct
 where meeting_date is not null
 union all
@@ -63,6 +65,7 @@ select 'Initiate' as status
     , country
     , industry
     , lead_source
+    , is_inbound
 from opportunities_direct
 where initiate_date is not null
 union all
@@ -83,6 +86,7 @@ select 'Educate' as status
     , country
     , industry
     , lead_source
+    , is_inbound
 from opportunities_direct
 where educate_date is not null
 union all
@@ -103,6 +107,7 @@ select 'Validate' as status
     , country
     , industry
     , lead_source
+    , is_inbound
 from opportunities_direct
 where validate_date is not null
 union all
@@ -123,6 +128,7 @@ select 'Justify' as status
     , country
     , industry
     , lead_source
+    , is_inbound
 from opportunities_direct
 where justify_date is not null
 union all
@@ -143,6 +149,7 @@ select 'Decide' as status
     , country
     , industry
     , lead_source
+    , is_inbound
 from opportunities_direct
 where decide_date is not null
 union all
@@ -163,5 +170,6 @@ select 'Closed Won' as status
     , country
     , industry
     , lead_source
+    , is_inbound
 from opportunities_direct
 where is_closed and is_won
