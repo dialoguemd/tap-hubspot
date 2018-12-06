@@ -104,13 +104,13 @@ with messaging_posts_all_time as (
               filter(where user_type = 'patient') as last_message_patient
             , count(*) as messages_total
             , count(*)
-              filter(where not is_care_team and user_id is not null) as messages_patient
+              filter(where user_type = 'patient') as messages_patient
             , count(*)
               filter(where is_care_team) as messages_care_team
             , sum(message_length) as messages_length_total
             , min(created_at) as first_message_created_at
             , max(created_at) as last_message_created_at
-            , max(user_id) filter(where not is_care_team) as user_id
+            , max(user_id) filter(where user_type = 'patient') as user_id
             , max(user_id) filter(where rank_user=1 and is_care_team)
                 as first_care_team_user_id
             , max(user_name) filter(where rank_user=1)
