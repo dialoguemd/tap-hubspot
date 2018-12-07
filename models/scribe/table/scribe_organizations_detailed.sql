@@ -104,5 +104,5 @@ select organizations.organization_id
 from organizations
 left join organization_address_unique
 	using (organization_id)
-left join plans
-	on organizations.organization_id = plans.organization_id
+inner join plans
+	using (organization_id)
