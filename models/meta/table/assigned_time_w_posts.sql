@@ -43,7 +43,7 @@ select assignments.episode_id
     , extract(epoch from min(posts.created_at)
         - assignments.assigned_at)/60 as first_response_time_min
     , extract(epoch from assignments.unassigned_at
-        - assignments.assigned_at)/60 as dispatch_time_min
+        - assignments.assigned_at)/60 as assigned_time_min
     , count(posts.*) as count_posts
     , row_number() over (partition by assignments.episode_id,
         practitioners.main_specialization order by assignments.assigned_at)

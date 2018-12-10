@@ -20,7 +20,7 @@ with assigned_time as (
             , assigned_time.main_specialization
             , assigned_time.first_post_at
             , assigned_time.first_response_time_min
-            , assigned_time.dispatch_time_min
+            , assigned_time.assigned_time_min
             , assigned_time.count_posts
             , assigned_time.assignment_rank
             , sum(responses.in_chat_time) as rt_sum
@@ -49,7 +49,7 @@ select episode_id
     , unassigned_at
     , first_post_at
     , first_response_time_min
-    , dispatch_time_min
+    , assigned_time_min
     , count_posts
     , rt_sum
     , rt_count
