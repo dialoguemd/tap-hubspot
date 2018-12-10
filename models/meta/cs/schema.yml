@@ -1,0 +1,199 @@
+version: 2
+
+models:
+  - name: cs_activity_by_org_monthly
+    description: organization level activity (chats, videos) aggregated on a
+      monthly level with columns for each of the three different family member
+      types
+    tests:
+        - unique:
+            column_name: "concat(date_month, organization_id)"
+
+  - name: cs_activity_cum_by_org_monthly
+    description: organization level activity (chats, videos) aggregated on a
+      monthly level cumulatively with columns for each of the three different
+      family member types
+    tests:
+        - unique:
+            column_name: "concat(date_month, organization_id)"
+
+  - name: cs_usage_by_org_by_fmt_monthly
+    description: organization level usage (invite, sign up, activation)
+      aggregated on a monthly level and by family member type for the given
+      month and cumulatively
+    tests:
+        - unique:
+            column_name: "concat(date_month, organization_id, family_member_type)"
+
+  - name: cs_usage_by_org_monthly
+    description: a normalized version of cs_usage_by_org_by_fmt_monthly where
+      the family member type column has been flattened into family member type
+      specific columns (e.g. child_signed_up_count_cum)
+    tests:
+        - unique:
+            column_name: "concat(date_month, organization_id)"
+
+  - name: cs_organization_monthly
+    description: the aggregation of activity, activity cumulative, and usage,
+      primarily used in power the CS Organization Monthly tableau dashboard
+    tests:
+        - unique:
+            column_name: "concat(date_month, organization_id)"
+    columns:
+        - name: total_daus
+          tests:
+              - not_null
+        - name: total_active_on_chat
+          tests:
+              - not_null
+        - name: total_active_on_video
+          tests:
+              - not_null
+        - name: total_active_on_video_gp
+          tests:
+              - not_null
+        - name: total_daus_cum
+          tests:
+              - not_null
+        - name: total_active_on_chat_cum
+          tests:
+              - not_null
+        - name: total_active_on_video_cum
+          tests:
+              - not_null
+        - name: total_active_on_video_gp_cum
+          tests:
+              - not_null
+        - name: employee_invited_count_cum
+          tests:
+              - not_null
+        - name: employee_invited_count
+          tests:
+              - not_null
+        - name: employee_signed_up_count_cum
+          tests:
+              - not_null
+        - name: employee_signed_up_count
+          tests:
+              - not_null
+        - name: employee_activated_count_cum
+          tests:
+              - not_null
+        - name: employee_activated_count
+          tests:
+              - not_null
+        - name: total_active_users_employee
+          tests:
+              - not_null
+        - name: total_daus_employee
+          tests:
+              - not_null
+        - name: total_active_on_chat_employee
+          tests:
+              - not_null
+        - name: total_active_on_video_employee
+          tests:
+              - not_null
+        - name: total_active_on_video_gp_employee
+          tests:
+              - not_null
+        - name: total_daus_employee_cum
+          tests:
+              - not_null
+        - name: total_active_on_chat_employee_cum
+          tests:
+              - not_null
+        - name: total_active_on_video_employee_cum
+          tests:
+              - not_null
+        - name: total_active_on_video_gp_employee_cum
+          tests:
+              - not_null
+        - name: dependent_invited_count_cum
+          tests:
+              - not_null
+        - name: dependent_invited_count
+          tests:
+              - not_null
+        - name: dependent_signed_up_count_cum
+          tests:
+              - not_null
+        - name: dependent_signed_up_count
+          tests:
+              - not_null
+        - name: dependent_activated_count_cum
+          tests:
+              - not_null
+        - name: dependent_activated_count
+          tests:
+              - not_null
+        - name: total_active_users_dependent
+          tests:
+              - not_null
+        - name: total_daus_dependent
+          tests:
+              - not_null
+        - name: total_active_on_chat_dependent
+          tests:
+              - not_null
+        - name: total_active_on_video_dependent
+          tests:
+              - not_null
+        - name: total_active_on_video_gp_dependent
+          tests:
+              - not_null
+        - name: total_daus_dependent_cum
+          tests:
+              - not_null
+        - name: total_active_on_chat_dependent_cum
+          tests:
+              - not_null
+        - name: total_active_on_video_dependent_cum
+          tests:
+              - not_null
+        - name: total_active_on_video_gp_dependent_cum
+          tests:
+              - not_null
+        - name: child_invited_count_cum
+          tests:
+              - not_null
+        - name: child_invited_count
+          tests:
+              - not_null
+        - name: child_signed_up_count_cum
+          tests:
+              - not_null
+        - name: child_signed_up_count
+          tests:
+              - not_null
+        - name: child_activated_count_cum
+          tests:
+              - not_null
+        - name: child_activated_count
+          tests:
+              - not_null
+        - name: total_active_users_child
+          tests:
+              - not_null
+        - name: total_daus_child
+          tests:
+              - not_null
+        - name: total_active_on_chat_child
+          tests:
+              - not_null
+        - name: total_active_on_video_child
+          tests:
+              - not_null
+        - name: total_active_on_video_gp_child
+          tests:
+              - not_null
+        - name: total_daus_child_cum
+          tests:
+              - not_null
+        - name: total_active_on_chat_child_cum
+          tests:
+              - not_null
+        - name: total_active_on_video_child_cum
+          tests:
+              - not_null
+        - name: total_active_on_video_gp_child_cum
