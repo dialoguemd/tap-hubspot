@@ -43,6 +43,7 @@ with messaging_posts_all_time as (
         select posts.created_at at time zone 'America/Montreal' as created_at
           , date_trunc('day', posts.created_at at time zone 'America/Montreal') as created_at_day
           , posts.user_id
+          , posts.user_type
           , posts.episode_id
           , posts.message_length
           , practitioners.user_id is not null as is_care_team
@@ -98,18 +99,18 @@ with messaging_posts_all_time as (
             , max(created_at)
               filter(where is_care_team) as last_message_care_team
             , min(created_at)
-              filter(where not is_care_team and user_id is not null) as first_message_patient
+              filter(where user_type = 'patient') as first_message_patient
             , max(created_at)
-              filter(where not is_care_team and user_id is not null) as last_message_patient
+              filter(where user_type = 'patient') as last_message_patient
             , count(*) as messages_total
             , count(*)
-              filter(where not is_care_team and user_id is not null) as messages_patient
+              filter(where user_type = 'patient') as messages_patient
             , count(*)
               filter(where is_care_team) as messages_care_team
             , sum(message_length) as messages_length_total
             , min(created_at) as first_message_created_at
             , max(created_at) as last_message_created_at
-            , max(user_id) filter(where not is_care_team) as user_id
+            , max(user_id) filter(where user_type = 'patient') as user_id
             , max(user_id) filter(where rank_user=1 and is_care_team)
                 as first_care_team_user_id
             , max(user_name) filter(where rank_user=1)
@@ -124,6 +125,8 @@ with messaging_posts_all_time as (
             , min(rank_chat_in_episode) as rank_chat_in_episode
         from posts
         group by 1,2
+        having min(created_at) filter(where user_type = 'patient') is not null
+          or min(created_at) filter(where is_care_team) is not null
     )
 
     , first_patient_message_sequence as (
@@ -135,7 +138,7 @@ with messaging_posts_all_time as (
           on posts.episode_id = chats.episode_id
             and posts.created_at_day = chats.created_at_day
             and posts.created_at < chats.first_message_care_team
-        where not posts.is_care_team
+        where user_type = 'patient'
         group by 1,2
     )
 

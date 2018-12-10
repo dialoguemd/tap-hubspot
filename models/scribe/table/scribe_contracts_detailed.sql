@@ -36,6 +36,8 @@ select contracts.contract_id
 		contracts.admin_area_name
 	) as admin_area_name
 	, organizations.charge_price
+	, organizations.charge_price_mental_health
+	, organizations.charge_price_24_7
 	, organizations.charge_strategy
 	, organizations.organization_name
 	, organizations.billing_start_date

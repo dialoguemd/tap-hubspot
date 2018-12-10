@@ -11,9 +11,11 @@ with
 			, billing_start_date
 			, charge_strategy
 			, charge_price
+			, charge_price_mental_health
+			, charge_price_24_7
 			, avg(active_contracts) as active_contracts
 		from organizations_daily
-		group by 1,2,3,4,5,6,7
+		group by 1,2,3,4,5,6,7,8,9
 	)
 
 select date_week
@@ -23,6 +25,8 @@ select date_week
 	, billing_start_date
 	, charge_strategy
 	, charge_price
+	, charge_price_mental_health
+	, charge_price_24_7
 	, active_contracts
 	, case
 		when charge_strategy = 'free' then 0

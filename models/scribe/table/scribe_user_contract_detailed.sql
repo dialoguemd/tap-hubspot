@@ -21,6 +21,8 @@ with
 			, contracts.organization_id
 			, contracts.participant_id
 			, contracts.charge_price
+			, contracts.charge_price_mental_health
+			, contracts.charge_price_24_7
 			, contracts.charge_strategy
 
 			-- Organize during fields for filtering out overlapping contracts
@@ -89,6 +91,8 @@ select contract_id
 	, organization_id
 	, participant_id
 	, charge_price
+	, charge_price_mental_health
+	, charge_price_24_7
 	, charge_strategy
 	-- correct during_start to eliminate overlap
 	-- TODO: add a data test to test all known use cases

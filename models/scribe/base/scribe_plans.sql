@@ -1,6 +1,6 @@
 select id as plan_id
 	, organization_id
-	, created
+	, created as created_at
 	, during
 	, description_en
 	, description_fr

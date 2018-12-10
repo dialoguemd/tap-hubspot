@@ -17,6 +17,8 @@ with
 			, billing_start_date
 			, charge_strategy
 			, charge_price
+			, charge_price_mental_health
+			, charge_price_24_7
 		from organizations
 	)
 
@@ -30,4 +32,6 @@ select date_day
 	, billing_start_date
 	, charge_strategy
 	, charge_price
+	, charge_price_mental_health
+	, charge_price_24_7
 from organizations_day
