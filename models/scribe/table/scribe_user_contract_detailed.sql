@@ -22,6 +22,8 @@ with
 			, contracts.participant_id
 			, contracts.charge_price
 			, contracts.charge_strategy
+			, date_trunc('month', contracts.during_start) as invited_month
+            , date_trunc('month', users.signed_up_at) as signed_up_month
 
 			-- Organize during fields for filtering out overlapping contracts
 			, contracts.during_start
@@ -123,6 +125,8 @@ select contract_id
 	, signed_up_at
 	, is_signed_up
 	, language
+	, invited_month
+	, signed_up_month
 from detailed
 -- Filter out all user_contracts that have a previous_during_end that is 
 -- greater than its during end (i.e. the contract in question starts after
