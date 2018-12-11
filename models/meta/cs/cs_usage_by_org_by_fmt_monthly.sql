@@ -39,14 +39,16 @@ select months.date_month
         filter (where months.date_month = users.invited_month)
             as invited_count
     , count(users.user_id)
-        filter (where users.is_signed_up)
+        filter (where users.is_signed_up
+            and months.date_month >= users.signed_up_at)
             as signed_up_count_cum
     , count(users.user_id)
         filter (where users.is_signed_up
             and months.date_month = users.signed_up_month)
             as signed_up_count
     , count(users.user_id)
-        filter (where users.is_activated)
+        filter (where users.is_activated
+            and months.date_month >= users.activated_at)
             as activated_count_cum
     , count(users.user_id)
         filter (where users.is_activated
