@@ -58,3 +58,8 @@ models:
       - name: mrr
         tests:
           - not_null
+
+  - name: finance_revenue_adjustment
+    tests:
+      - unique:
+          column_name: "concat(account, month)"

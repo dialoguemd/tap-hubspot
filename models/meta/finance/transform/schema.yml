@@ -30,3 +30,8 @@ models:
       - name: mrr_signed_ae
         tests:
           - not_null
+
+  - name: finance_revenue_adjusted_monthly
+    tests:
+      - unique:
+          column_name: "concat(account, month)"
