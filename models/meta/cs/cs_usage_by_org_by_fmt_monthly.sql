@@ -24,7 +24,7 @@ with user_contract as (
         from user_contract
         left join activated_at
             on user_contract.user_id = activated_at.user_id
-            and user_contract.during @> activated_at.activated_at
+            and user_contract.during_end >= activated_at.activated_at
     )
 
 select months.date_month

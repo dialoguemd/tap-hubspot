@@ -1,10 +1,13 @@
-with
-    activity as (
+with usage as (
+        select * from {{ ref('cs_usage_by_org_monthly')}}
+    )
+
+    , activity as (
         select * from {{ ref('cs_activity_by_org_monthly')}}
     )
 
-select organization_id
-    , date_month
+select usage.organization_id
+    , usage.date_month
 
     -- Jinja loop for keeping window functions clean
     {% for field in 
@@ -26,9 +29,11 @@ select organization_id
         "total_active_on_video_gp_child"] 
     %}
 
-    , sum({{field}}) over (partition by organization_id order by date_month)
+    , sum(activity.{{field}}) over (partition by usage.organization_id order by usage.date_month)
         as {{field}}_cum
 
     {% endfor %}
 
-from activity
+from usage
+left join activity
+    using (organization_id, date_month)
