@@ -30,11 +30,14 @@ models:
           interval: 1
 
   - name: messaging_posts_all_time
+    description: a union of old mm_posts and new messaging_posts to combine
+      data from the old ETL and the new; this is an incremental model with
+      an index on created_at
     columns:
       - name: post_id
         tests:
           - not_null
-          # - unique
+          - unique
 
       - name: created_at
         tests:
@@ -71,7 +74,7 @@ models:
         - name: post_id
           tests:
               - not_null
-              # - unique
+              - unique
         - name: user_id
           tests:
               - not_null
@@ -85,7 +88,7 @@ models:
         - name: post_id
           tests:
               - not_null
-              # - unique
+              - unique
         - name: date_day
           tests:
               - not_null
