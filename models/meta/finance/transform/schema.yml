@@ -30,3 +30,21 @@ models:
       - name: mrr_signed_ae
         tests:
           - not_null
+
+  - name: finance_revenue_adjusted_monthly
+    description: This is a journal entry level model that allows us to test for
+      uniqueness on the account description + month basis; this is necessary
+      because of the fuzzy join used
+    tests:
+      - unique:
+          column_name: "concat(account, month)"
+
+  - name: finance_revenue_adjusted_by_account_monthly
+    description: One record per account per month of their adjusted revenue as
+      it's listed in Xero; this information is extracted from Xero and then
+      joined to our DB's organization names.
+      NB - ideally in the future we would have organization_ids on invoices so
+      this fuzzy joining is not necessary
+    tests:
+      - unique:
+          column_name: "concat(account_name, month)"

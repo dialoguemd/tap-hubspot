@@ -58,3 +58,14 @@ models:
       - name: mrr
         tests:
           - not_null
+
+  - name: finance_revenue_adjustment
+    description: This seed is an extract from Xero; the data is one record
+      per journal entry where every journal entry is associated with an
+      account and a month. The entry descriptions are then joined to
+      organization names to produce revenue per account per month. The seed
+      is downloaded from this google sheet -
+      https://docs.google.com/spreadsheets/d/17xtKWgnFBFfWaZQZVhoD3l_KOp5pfmgi250Zgswrch8/edit#gid=405697240
+    tests:
+      - unique:
+          column_name: "concat(account, month)"
