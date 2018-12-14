@@ -79,11 +79,11 @@ with responses as (
             , sum(assignments.assigned_time_min) as assigned_time_sum
             , count(assignments.assigned_time_min) as assigned_time_count
             , sum(assignments.assigned_time_min)
-                filter (where assignments.assignment_type = 'First Assignment')
-                as first_assigned_time_sum
+                filter (where assignments.count_posts > 3)
+                as filtered_assigned_time_sum
             , count(assignments.assigned_time_min)
-                filter (where assignments.assignment_type = 'First Assignment')
-                as first_assigned_time_count
+                filter (where assignments.count_posts > 3)
+                as filtered_assigned_time_count
             , sum(assignments.rt_sum) as rt_sum
             , sum(assignments.rt_count) as rt_count
             , sum(sm_details.sm_frt) as sm_frt_sum
@@ -132,8 +132,8 @@ select shifts.date_day
     , assignments_by_shift.frt_count
     , assignments_by_shift.assigned_time_sum
     , assignments_by_shift.assigned_time_count
-    , assignments_by_shift.first_assigned_time_sum
-    , assignments_by_shift.first_assigned_time_count
+    , assignments_by_shift.filtered_assigned_time_sum
+    , assignments_by_shift.filtered_assigned_time_count
     , assignments_by_shift.rt_sum
     , assignments_by_shift.rt_count
     , assignments_by_shift.time_to_dxa_sum
