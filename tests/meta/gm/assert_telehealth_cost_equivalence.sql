@@ -18,12 +18,15 @@ with costs as (
    )
 
     , compared as (
-      select round(((gp_psy_cost + gp_other_cost) / fl_gp_cost)::numeric, 4) as gp
+      select date_month
+          , round(((gp_psy_cost + gp_other_cost) / fl_gp_cost)::numeric, 4) as gp
           , round((cc_cost / fl_cc_cost)::numeric, 4) as cc
           , round((nc_cost / fl_nc_cost)::numeric, 4) as nc
           , round((np_cost / fl_np_cost)::numeric, 4) as np
       from costs
       left join monthly_costs using (date_month)
+      -- Filter for after April only because of video refactor and tracking changes
+      where date_month > '2018-04-01'
     )
 
 select *
