@@ -12,74 +12,41 @@ with qnaire_answers as (
         select * from {{ ref('mental_health_qnaire_answers') }}
     )
 
-    , wiw_shifts as (
-        select * from {{ ref('wiw_shifts') }}
-    )
-
-    , careplatform_video_stream_created as (
-        select * from {{ ref('careplatform_video_stream_created') }}
-    )
-
-    , careplatform_video_stream_ended as (
-        select * from {{ ref('careplatform_video_stream_ended') }}
-    )
-
-    , episodes as (
-        select * from {{ ref('episodes') }}
-    )
-
     , user_contracts as (
         select * from {{ ref('scribe_user_contract_detailed') }}
     )
 
-    , practitioners as (
-        select * from {{ ref('coredata_practitioners') }}
+    , videos_detailed as (
+        select * from {{ ref('videos_detailed') }}
     )
 
-    , priced_episode_days as (
-        select * from {{ ref('medops_priced_episodes') }}
+    , est_costs_daily as (
+        select * from {{ ref('medops_est_costs_by_ep_daily') }}
     )
 
     , priced_episodes as (
         select episode_id
-            , sum(priced_episode_days.cc_cost) as est_cc_cost
-            , sum(priced_episode_days.nc_cost) as est_nc_cost
-            , sum(priced_episode_days.np_cost) as est_np_cost
-        from priced_episode_days
+            , sum(cc_cost) as est_cc_cost
+            , sum(nc_cost) as est_nc_cost
+            , sum(np_cost) as est_np_cost
+            , sum(gp_psy_cost) as est_gp_psy_cost
+            , sum(gp_other_cost) as est_gp_other_cost
+        from est_costs_daily
         group by 1
     )
 
-    , videos as (
-        select video_start.episode_id
-            , video_start.practitioner_id
-            , date_trunc('day', video_start.timestamp_est) as date_day_est
-            , extract(epoch from
-                max(video_end.timestamp_est)
-                    - min(video_start.timestamp_est)
-                    ) as video_length
-        from careplatform_video_stream_created as video_start
-        left join careplatform_video_stream_ended as video_end
-            on video_start.episode_id = video_end.episode_id
-            and date_trunc('day', video_start.timestamp_est)
-                = date_trunc('day', video_end.timestamp_est)
-        group by 1,2,3
-    )
-
-    , priced_videos as (
-        -- TODO Replace with an appointment-based rather than actual
-        -- video length event to align with compensation strategy
-        select videos.episode_id
-            , sum(case when videos.video_length < 900 then 45 else 90 end)
-                filter(where practitioners.main_specialization
-                    = 'Family Physician') as gp_price
-            , sum(case when videos.video_length < 900 then 45 else 90 end)
-                filter(where practitioners.main_specialization
-                    = 'Psychologist') as psy_price
-        from videos
-        inner join practitioners
-            on videos.practitioner_id = practitioners.user_id
-        where videos.video_length between 60 and 324000
-            and practitioners.main_specialization in ('Family Physician', 'Psychologist')
+    , videos_per_episode as (
+        select episode_id
+            , count(video_length)
+                filter (where main_specialization = 'Family Physician') as gp_videos_count
+            , count(video_length)
+                filter (where main_specialization = 'Psychologist') as psy_videos_count
+            , avg(video_length) as video_length_avg
+            , min(video_length) as video_length_min
+            , max(video_length) as video_length_max
+            , min(started_at_est) as video_first_started_at
+        from videos_detailed
+        where video_length > 2
         group by 1
     )
 
@@ -132,15 +99,23 @@ with qnaire_answers as (
         , priced_episodes.est_cc_cost
         , priced_episodes.est_nc_cost
         , priced_episodes.est_np_cost
-        , coalesce(priced_videos.gp_price, 0) as gp_cost
-        , coalesce(priced_videos.psy_price, 0) as psy_cost
+        , priced_episodes.est_gp_other_cost as gp_cost
+        , priced_episodes.est_gp_psy_cost as psy_cost
+        , videos_per_episode.gp_videos_count
+        , videos_per_episode.psy_videos_count
+        , videos_per_episode.video_length_avg
+        , videos_per_episode.video_length_min
+        , videos_per_episode.video_length_max
+        , videos_per_episode.video_first_started_at
+        , extract(epoch from videos_per_episode.video_first_started_at
+            - episodes.first_message_patient)/3600 as time_to_video_hours
     from episodes
     left join qnaire_answers
-        on episodes.episode_id = qnaire_answers.episode_id
+        using (episode_id)
     left join priced_episodes
-        on episodes.episode_id = priced_episodes.episode_id
-    left join priced_videos
-        on episodes.episode_id = priced_videos.episode_id
+        using (episode_id)
+    left join videos_per_episode
+        using (episode_id)
     left join user_contracts
         on episodes.user_id = user_contracts.user_id
         and episodes.first_message_patient

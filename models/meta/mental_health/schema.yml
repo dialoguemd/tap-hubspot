@@ -23,3 +23,14 @@ models:
           tests:
               - unique
               - not_null
+
+  - name: mental_health_eligible_episodes
+    description: A list of episodes that are eligible for the PSY Pilot program
+      but were for some reason not enrolled (i.e. psy issue type, plan has mental
+      health, is started after October 31, and is an employee)
+
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique

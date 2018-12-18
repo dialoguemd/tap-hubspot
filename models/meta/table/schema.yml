@@ -102,6 +102,9 @@ models:
           column_name: "concat(date_month, account_id)"
 
   - name: video_started
+    description: a video start model to join the various events used for
+      tracking this over time; this table is also tested in a data test on
+      uniqueness of patients to test for an edge case found in certain records
     columns:
       - name: timestamp
         tests:

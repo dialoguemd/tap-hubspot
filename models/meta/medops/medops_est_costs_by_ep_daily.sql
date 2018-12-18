@@ -11,7 +11,7 @@ with priced_episodes as (
     )
 
 select coalesce(priced_episodes.episode_id, priced_videos.episode_id) as episode_id
-    , coalesce(episodes.episode_subject, episodes.user_id) as user_id
+    , episodes.patient_id as user_id
     , coalesce(priced_episodes.date, priced_videos.date) as date_day
     , coalesce(priced_episodes.cc_cost,0) as cc_cost
     , coalesce(priced_episodes.nc_cost,0) as nc_cost
