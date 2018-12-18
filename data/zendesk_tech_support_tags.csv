@@ -5,6 +5,7 @@ login,feature
 mentions,feature
 notifications,feature
 questionnaires,feature
+episode-properties,feature
 signup,feature
 dxa,feature
 notes,feature
