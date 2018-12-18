@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: survey_onboarding
+    description: the responses from HR admins to our post-onboarding survey
+      that assesses the quality of CS's onboarding process
+
+    columns:
+        - name: response_id
+          tests:
+              - not_null
+        - name: form_submitted_at
+          tests:
+              - not_null
+        - name: question_id
+          tests:
+              - not_null
+    tests:
+        - unique:
+            column_name: "concat(response_id, question_id)" 
