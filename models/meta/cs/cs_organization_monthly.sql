@@ -15,6 +15,8 @@ select usage.date_month
 	, usage.organization_name
 	, usage.organization_id
 	, usage.account_name
+	, usage.billing_start_month
+	, usage.months_since_billing_start
 
 	, coalesce(activity.total_daus,0) as total_daus
 	, coalesce(activity.total_active_on_chat,0) as total_active_on_chat

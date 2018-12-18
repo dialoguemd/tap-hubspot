@@ -31,6 +31,8 @@ select months.date_month
     , users.organization_name
     , users.organization_id
     , users.account_name
+    , date_trunc('month', users.billing_start_date)
+        as billing_start_month
     , users.family_member_type
 
     , count(users.user_id) 
@@ -57,4 +59,4 @@ select months.date_month
 from months
 inner join users
  on months.month_range && users.during
-group by 1,2,3,4,5
+group by 1,2,3,4,5,6
