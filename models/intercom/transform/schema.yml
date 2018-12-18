@@ -1,0 +1,10 @@
+
+version: 2
+
+models:
+  - name: intercom_conversations_detailed
+    columns:
+      - name: conversation_id
+        tests:
+          - not_null
+          - unique

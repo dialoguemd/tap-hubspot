@@ -38,3 +38,10 @@ models:
           field: created_at
           datepart: day
           interval: 3
+
+  - name: zendesk_ticket_metrics
+    columns:
+        - name: ticket_id
+          tests:
+              - not_null
+              - unique

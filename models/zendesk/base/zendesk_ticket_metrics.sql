@@ -1,0 +1,6 @@
+select ticket_id::bigint 
+	, reply_time_in_minutes_business as first_response_time_minutes_biz
+	, reply_time_in_minutes_calendar as first_response_time_minutes
+	, first_resolution_time_in_minutes_business as time_to_resolve_minutes_biz
+	, first_resolution_time_in_minutes_calendar as time_to_resolve_minutes
+from zendesk.ticket_metrics

@@ -54,3 +54,17 @@ models:
           tests:
               - not_null
               - unique
+
+  - name: zendesk_tickets_detailed
+    columns:
+        - name: ticket_id
+          tests:
+              - not_null
+              - unique
+
+  - name: zendesk_support_ticket_metrics
+    columns:
+        - name: ticket_id
+          tests:
+              - not_null
+              - unique

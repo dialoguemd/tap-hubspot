@@ -197,3 +197,12 @@ models:
           tests:
               - not_null
         - name: total_active_on_video_gp_child_cum
+
+  - name: cs_nps_follow_ups
+    columns:
+        - name: score
+          tests:
+            - not_null
+        - name: nps_completed_at
+          tests:
+            - not_null
