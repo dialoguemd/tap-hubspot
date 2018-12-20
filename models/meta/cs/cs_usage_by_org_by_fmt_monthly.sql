@@ -35,24 +35,26 @@ select months.date_month
         as billing_start_month
     , users.family_member_type
 
-    , count(users.user_id) 
+    -- Count distinct to not double count users with multiple contracts
+    -- in the same month
+    , count(distinct users.user_id)
             as invited_count_cum
-    , count(users.user_id) 
+    , count(distinct users.user_id)
         filter (where months.date_month = users.invited_month)
             as invited_count
-    , count(users.user_id)
+    , count(distinct users.user_id)
         filter (where users.is_signed_up
             and months.date_month >= users.signed_up_at)
             as signed_up_count_cum
-    , count(users.user_id)
+    , count(distinct users.user_id)
         filter (where users.is_signed_up
             and months.date_month = users.signed_up_month)
             as signed_up_count
-    , count(users.user_id)
+    , count(distinct users.user_id)
         filter (where users.is_activated
             and months.date_month >= users.activated_at)
             as activated_count_cum
-    , count(users.user_id)
+    , count(distinct users.user_id)
         filter (where users.is_activated
             and months.date_month = users.activated_month)
             as activated_count
