@@ -30,7 +30,11 @@ select users.user_id
 	, users.email
 	, posts_daily.episode_id
 	, coalesce(
-		lower(users.language),
+		case
+			when lower(users.language)
+				in ('en', 'fr')
+			then lower(users.language)
+		end,
 		case
 			when organizations.email_preference
 				in ('bilingual-french-english', 'french')
