@@ -9,6 +9,8 @@ select
         else reply_values::json->>0
       end)
     as episode_subject
+    , max(replied_at) as timestamp
+    , max(date_trunc('week', replied_at)) as date_week
 from question_replied
 where question_name = 'episode_subject'
 group by 1
