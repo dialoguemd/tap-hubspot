@@ -15,13 +15,46 @@ with
 		select * from {{ ref('salesforce_contacts') }}
 	)
 
+	, opportunity_product as (
+		select * from {{ ref('salesforce_opportunity_product_detailed') }}
+	)
+
 	, products as (
 		select opportunity_id
 			, array_agg(product_id order by product_id) as product_ids
 			, array_agg(product_name order by product_name) as product_names
-		from {{ ref('salesforce_opportunity_product_detailed') }}
+
+		{% for col in ["list_price", "unit_price", "total_price", "quantity"] %}
+			, max(
+				case
+					when product_id = '01t6A000002NnLXQA0'
+					then {{col}}
+					else null
+				end) as {{col}}_virtual_care
+			, max(
+				case
+					when product_id = '01t6A000002NnLSQA0'
+					then {{col}}
+					else null
+				end) as {{col}}_24_7
+			, max(
+				case
+					when product_id = '01t6A000003s6n0QAA'
+					then {{col}}
+					else null
+				end) as {{col}}_vaccination_campaign
+			, max(
+				case
+					when product_id = '01t6A000002NnLNQA0'
+					then {{col}}
+					else null
+				end) as {{col}}_mental_health
+		{% endfor %}
+
+		from opportunity_product
 		group by 1
 	)
+
 
 	, inbound_lead_sources as (
 		select * from {{ ref('salesforce_inbound_lead_sources') }}
@@ -57,6 +90,14 @@ select opportunities.*
 	, '01t6A000002NnLXQA0' = any (
 			coalesce(products.product_ids, array['01t6A000002NnLXQA0'])
 	) as includes_virtual_care
+
+	{% for col in ["list_price", "unit_price", "total_price", "quantity"] %}
+	, {{col}}_virtual_care
+	, {{col}}_24_7
+	, {{col}}_vaccination_campaign
+	, {{col}}_mental_health
+	{% endfor %}
+
 	, partner_contacts.contact_id as partner_contact_id
 	, partner_contacts.contact_name as partner_contact_name
 	, partners.account_id as partner_account_id
