@@ -13,3 +13,12 @@ models:
           field: created_at
           datepart: hour
           interval: 15
+
+  - name: messaging_dxa_cc
+    columns:
+      - name: timestamp
+        tests:
+          - not_null
+      - name: cc
+        tests:
+          - not_null
