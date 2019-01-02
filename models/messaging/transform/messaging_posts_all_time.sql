@@ -53,6 +53,10 @@ select post_id
     -- of timestamps; take the later to not interfere also with the incremental
     -- materialization of the model
     , max(created_at) as created_at
+    , max(timezone('America/Montreal', created_at)) as created_at_est
+    , date_trunc('day',
+        max(timezone('America/Montreal', created_at))
+      ) as created_at_day_est
 from unioned
 left join test_users using (user_id)
 where test_users.user_id is null

@@ -34,6 +34,31 @@ models:
       - unique:
           column_name: "concat(assigned_at, episode_id)"
 
+  - name: chats
+    columns:
+      - name: episode_id
+        tests:
+          - not_null
+      - name: date_day_est
+        tests:
+          - not_null
+      - name: initiator
+        tests:
+          - not_null
+      - name: has_open_reminder
+        tests:
+          - not_null
+      - name: set_resolved_pending
+        tests:
+          - not_null
+      - name: chat_type
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(episode_id, date_day_est)"
+
   - name: organizations
     columns:
       - name: organization_id

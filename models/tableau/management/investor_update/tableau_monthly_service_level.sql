@@ -1,6 +1,6 @@
 with
 	chats as (
-		select * from {{ ref('chats_all_time') }}
+		select * from {{ ref('chats') }}
 	)
 
 select date_trunc('month', created_at_day) as date_month

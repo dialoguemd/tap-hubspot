@@ -4,7 +4,7 @@ with
 	)
 
 	, chats_all_time as (
-		select * from {{ ref('chats_all_time') }}
+		select * from {{ ref('chats') }}
 	)
 
 	, posts as (

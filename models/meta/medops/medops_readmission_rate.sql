@@ -3,7 +3,7 @@ with episodes as (
     )
 
     , chats_all_time as (
-        select * from {{ ref ( 'chats_all_time' ) }}
+        select * from {{ ref ( 'chats' ) }}
     )
 
     , chats as (
@@ -26,7 +26,7 @@ with episodes as (
         select chats.episode_id
             , case 
                 when chats.chat_type = 'Other initiated by patient'
-                    and chats.outcomes = 'patient_thanks'
+                    and chats.invalid_outcomes = 'patient_thanks'
                     then 'Patient thanks'
                 when chats.chat_type = 'Other initiated by patient'
                     and chats.previous_chat_type = 'Follow-up'

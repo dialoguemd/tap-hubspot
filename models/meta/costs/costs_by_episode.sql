@@ -7,7 +7,7 @@ with time_spent as (
     )
 
     , chats as (
-        select * from {{ ref( 'chats_all_time' ) }}
+        select * from {{ ref( 'chats' ) }}
     )
 
     , episodes as (

@@ -4,7 +4,7 @@ with
 	)
 
 	, chats as (
-		select * from {{ ref('chats_all_time') }}
+		select * from {{ ref('chats') }}
 	)
 
 select dates.date_week

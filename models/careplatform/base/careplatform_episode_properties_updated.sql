@@ -8,4 +8,6 @@ select episode_id
                properties_outcome)
                as episode_property_value
     , timestamp as updated_at
+    , date_trunc('day', timestamp) as date_day
+    , date_trunc('day', timezone('America/Montreal', timestamp)) as date_day_est
 from careplatform.update_episode_properties
