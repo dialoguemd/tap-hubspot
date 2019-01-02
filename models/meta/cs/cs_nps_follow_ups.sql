@@ -51,11 +51,11 @@ select follow_ups.score
     , follow_ups.admin_first_message
     , follow_ups.user_first_message
     , extract(epoch from follow_ups.admin_first_message
-        - follow_ups.nps_completed_at)/3600
+        - follow_ups.nps_completed_at)/3600 :: float
         as time_to_follow_up_calendar
     , case when follow_ups.admin_first_message is not null
-        then count(working_minutes.minute)/60 end
-        as time_to_follow_up_business
+        then count(working_minutes.minute)/60 :: float
+        end as time_to_follow_up_business
 from follow_ups
 left join working_minutes
     on follow_ups.time_to_respond
