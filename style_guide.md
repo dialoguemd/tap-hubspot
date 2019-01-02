@@ -16,6 +16,8 @@
 * `timestamp` is the naming convention for event timestamps when in a base model
 * `date_day`, `date_month`, etc. is the naming convention for aggregated and time series data (as to not use the reserved `date` keyword)
 * In models with multiple CTEs or sources, all fields should be prefixed with their source for readability and ease of debugging (e.g. `episode_kpis.ttr_total`)
+* Filtration should be indicated in the suffix of field names such as `messages_care_team` and `messages_patient`; if combined with aggregation the filtration suffix should preced the aggregation suffix
+* Aggregation should be indicated in the suffix of field names such as `cost_avg`, `rt_sum`, `rt_count`, etc. ; aggregation suffixes should be used for all numerical columns and whenever there is possible ambiguity about a column's purpose
 
 #### Base Models
 * Only base models should select from source tables / views
@@ -27,6 +29,8 @@
 
 #### Meta Models
 * Models that depend on other models are stored within the `meta` folder and then in the folder corresponding to their subject
+* Aggregate timeseries models should be suffixed by their timeframe in the form of `_daily`, `_weekly`, `_monthly`, etc.
+* Other aggregates should be suffixed by their aggregate dimension, e.g. `usage_daus_by_org_monthly`
 
 #### CTEs
 * All `{{ ref('...') }}` statements should be placed in CTEs at the top of the file, like python `import`

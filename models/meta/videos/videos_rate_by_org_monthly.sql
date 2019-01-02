@@ -1,4 +1,4 @@
-    -- Target-dependent config
+-- Target-dependent config
 
 {% if target.name == 'dev' %}
   {{ config(materialized='view') }}
@@ -9,7 +9,7 @@
 --
 
 with videos as (
-        select * from {{ ref('medops_videos_by_org_monthly') }}
+        select * from {{ ref('videos_by_org_monthly') }}
     )
 
     , ubi_consults as (

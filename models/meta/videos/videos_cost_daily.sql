@@ -4,7 +4,7 @@ with
 	)
 
 	, video_started as (
-		select * from {{ ref('video_started') }}
+		select * from {{ ref('videos_started') }}
 	)
 
 	, daily_costs as (

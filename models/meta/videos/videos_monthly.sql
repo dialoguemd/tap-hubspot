@@ -1,5 +1,5 @@
 with videos as (
-		select * from {{ ref( 'videos_detailed' ) }}
+		select * from {{ ref( 'videos' ) }}
 	)
 
 select date_trunc('month', date_day_est) as date_month

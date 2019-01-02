@@ -1,16 +1,19 @@
 with priced_episodes as (
-        select * from {{ ref( 'medops_priced_episodes' ) }}
+        select * from {{ ref( 'costs_by_episode' ) }}
     )
-    
+
     , priced_videos as (
-        select * from {{ ref( 'medops_priced_videos' ) }}
+        select * from {{ ref( 'costs_by_video' ) }}
     )
 
     , episodes as (
         select * from {{ ref( 'episodes' ) }}
     )
 
-select coalesce(priced_episodes.episode_id, priced_videos.episode_id) as episode_id
+select coalesce(
+        priced_episodes.episode_id,
+        priced_videos.episode_id
+        ) as episode_id
     , episodes.patient_id as user_id
     , coalesce(priced_episodes.date, priced_videos.date) as date_day
     , coalesce(priced_episodes.cc_cost,0) as cc_cost

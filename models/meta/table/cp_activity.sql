@@ -5,7 +5,7 @@ with pages as (
     )
 
     , videos as (
-        select * from {{ ref('video_started') }}
+        select * from {{ ref('videos_started') }}
     )
 
     , shifts as (

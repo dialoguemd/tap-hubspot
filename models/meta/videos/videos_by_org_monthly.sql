@@ -1,6 +1,6 @@
 with
 	videos as (
-		select * from {{ ref('videos_by_ep_daily') }}
+		select * from {{ ref('videos_by_episode_daily') }}
 	)
 
 	, user_contract as (

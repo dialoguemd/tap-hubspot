@@ -1,6 +1,6 @@
 with
 	video_start as (
-		select * from {{ ref('video_started') }}
+		select * from {{ ref('videos_started') }}
 	)
 
 	, video_stream_ended as (

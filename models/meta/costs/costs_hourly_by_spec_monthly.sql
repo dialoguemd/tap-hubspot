@@ -1,9 +1,9 @@
 with daily_time_spent_by_ep as (
-    select * from {{ ref( 'medops_daily_time_spent_by_ep' ) }}
+    select * from {{ ref( 'costs_time_spent_by_episode_daily' ) }}
     )
 
     , fl_costs as (
-        select * from {{ ref( 'medops_fl_costs_by_main_spec' ) }}
+        select * from {{ ref( 'costs_fl_by_main_spec' ) }}
     )
 
     , monthly_activities as (
@@ -14,7 +14,7 @@ with daily_time_spent_by_ep as (
         from daily_time_spent_by_ep
         group by 1
     )
-    
+
     select date_month
         , coalesce(fl_costs.fl_cc_cost*1.0
             / monthly_activities.cc_time, 0) as cc_hourly

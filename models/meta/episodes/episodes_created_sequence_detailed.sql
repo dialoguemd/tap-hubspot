@@ -1,11 +1,11 @@
 with
 	sequence as (
-        select * from {{ ref('countdown_episode_started_sequence') }}
-    )
+		select * from {{ ref('countdown_episode_started_sequence') }}
+	)
 
-    , videos_detailed as (
-    	select * from {{ ref('videos_detailed') }}
-    )
+	, videos_detailed as (
+		select * from {{ ref('videos') }}
+	)
 
 	, videos as (
 		select episode_id

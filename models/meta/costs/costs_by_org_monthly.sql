@@ -6,10 +6,10 @@
   {{ config(materialized='table') }}
 {% endif %}
 
--- 
+--
 
 with est_costs_daily as (
-        select * from {{ ref( 'medops_est_costs_by_ep_daily' ) }}
+        select * from {{ ref( 'costs_by_episode_daily' ) }}
     )
 
     , organizations as (

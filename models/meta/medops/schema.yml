@@ -1,216 +1,19 @@
 version: 2
 
 models:
-  - name: medops_cost_per_video_daily
-    columns:
-        - name: date
-          tests:
-              - not_null
-              - unique
-
-        - name: count_videos
-          tests:
-              - not_null
-
-        - name: cost_per_video
-          tests:
-              - not_null
-
-  - name: medops_count_daus_by_org_daily
-    columns:
-        - name: organization_name
-          tests:
-              - not_null
-        - name: day
-          tests:
-              - not_null
-    tests:
-        - unique:
-            column_name: "concat(organization_name, day)"
-
-  - name: medops_count_daus_by_org_monthly
-    columns:
-        - name: organization_name
-          tests:
-              - not_null
-        - name: date_month
-          tests:
-              - not_null
-    tests:
-        - unique:
-            column_name: "concat(organization_name, date_month)"
-
-  - name: medops_count_maus_by_org
-    columns:
-        - name: organization_name
-          tests:
-              - not_null
-        - name: date_month
-          tests:
-              - not_null
-    tests:
-        - unique:
-            column_name: "concat(organization_name, date_month)"
-
-  - name: medops_count_videos_monthly
-    columns:
-        - name: date_month
-          tests:
-              - not_null
-              - unique
-
-  - name: medops_daily_time_spent_by_ep
-    columns:
-        - name: date
-          tests:
-              - not_null
-        - name: episode_id
-          tests:
-              - not_null
-    tests:
-        - unique:
-            column_name: "concat(episode_id, date)"
-
-  - name: medops_est_costs_by_ep_daily
-    columns:
-        - name: date_day
-          tests:
-              - not_null
-        - name: episode_id
-          tests:
-              - not_null
-    tests:
-        - unique:
-            column_name: "concat(episode_id, date_day)"
-
-  - name: medops_est_costs_by_org_monthly
-    columns:
-        - name: date_month
-          tests:
-              - not_null
-        - name: organization_name
-          tests:
-              - not_null
-    tests:
-        - unique:
-            column_name: "concat(organization_name, date_month)"
-
-  - name: medops_hourly_cost_by_spec_monthly
-    columns:
-        - name: date_month
-          tests:
-              - not_null
-              - unique
-        - name: cc_hourly
-          tests:
-              - not_null
-        - name: nc_hourly
-          tests:
-              - not_null
-        - name: np_hourly
-          tests:
-              - not_null
-
-  - name: medops_priced_episodes
-    columns:
-        - name: episode_id
-          tests:
-              - not_null
-        - name: date
-          tests:
-              - not_null
-    # TODO: investigate why chats are not unique on episode_id || created_at
-    # tests:
-    #     - unique:
-    #         column_name: "concat(date, episode_id)"
-
-  - name: medops_priced_videos
-    columns:
-        - name: episode_id
-          tests:
-              - not_null
-        - name: date
-          tests:
-              - not_null
-    tests:
-        - unique:
-            column_name: "concat(date, episode_id)"
-
   - name: medops_time_to_next_apt
     columns:
         - name: episode_id
           tests:
               - not_null
+
         - name: triggered_at
           tests:
               - not_null
+
     tests:
         - unique:
             column_name: "concat(episode_id, triggered_at)"
-
-  - name: medops_usage_by_org_monthly
-    columns:
-        - name: date_month
-          tests:
-              - not_null
-        - name: organization_id
-          tests:
-              - not_null
-        - name: count_paid_employees
-          tests:
-              - not_null
-        - name: mau_rate
-          tests:
-              - not_null
-        - name: dau_rate
-          tests:
-              - not_null
-    tests:
-        - unique:
-            column_name: "concat(date_month, organization_id)"
-
-  - name: medops_video_cost_monthly
-    columns:
-        - name: date_month
-          tests:
-              - not_null
-              - unique
-        - name: per_video_cost
-          tests:
-              - not_null
-
-  - name: medops_video_rate_by_org_monthly
-    columns:
-        - name: date_month
-          tests:
-              - not_null
-        - name: organization_id
-          tests:
-              - not_null
-        - name: count_paid_employees
-          tests:
-              - not_null
-        - name: video_rate
-          tests:
-              - not_null
-    tests:
-        - unique:
-            column_name: "concat(date_month, organization_id)"
-
-  - name: medops_videos_by_org_monthly
-    columns:
-        - name: date_month
-          tests:
-              - not_null
-        - name: organization_id
-          tests:
-              - not_null
-        - name: count_videos
-          tests:
-              - not_null
-    tests:
-        - unique:
-            column_name: "concat(date_month, organization_id)"
 
   - name: medops_readmission_rate
     columns:
@@ -218,9 +21,30 @@ models:
           tests:
               - not_null
               - unique
+
         - name: new_episode_count
           tests:
               - not_null
+
         - name: readmission_count
+          tests:
+              - not_null
+
+  - name: medops_ubisoft_clinic_consultation_count
+    columns:
+        - name: date_month
+          tests:
+              - not_null
+              - unique
+
+        - name: nurse_consultations
+          tests:
+              - not_null
+
+        - name: gp_consultations
+          tests:
+              - not_null
+
+        - name: mental_health_consultations
           tests:
               - not_null

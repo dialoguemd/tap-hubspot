@@ -1,6 +1,6 @@
 with
 	videos as (
-		select * from {{ ref('video_started') }}
+		select * from {{ ref('videos_started') }}
 	)
 
 	, episodes_subject as (

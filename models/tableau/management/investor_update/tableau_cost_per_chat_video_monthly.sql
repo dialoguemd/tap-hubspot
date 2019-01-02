@@ -8,7 +8,7 @@ with
 	)
 
 	, costs as (
-		select * from {{ ref('medops_fl_costs_by_main_spec') }}
+		select * from {{ ref('costs_fl_by_main_spec') }}
 	)
 
 	, active_contracts as (

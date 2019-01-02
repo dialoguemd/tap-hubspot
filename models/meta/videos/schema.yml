@@ -1,0 +1,158 @@
+version: 2
+
+models:
+  - name: videos_started
+    description: a video start model to join the various events used for
+      tracking this over time; this table is also tested in a data test on
+      uniqueness of patients to test for an edge case found in certain records
+    columns:
+      - name: timestamp
+        tests:
+          - not_null
+
+      - name: patient_id
+        tests:
+          - not_null
+
+      - name: main_specialization
+        tests:
+          - not_null
+
+  - name: videos_daily
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+
+      - name: patient_id
+        tests:
+          - not_null
+
+      - name: includes_video_gp
+        tests:
+          - not_null
+
+      - name: includes_video_np
+        tests:
+          - not_null
+
+      - name: includes_video_nc
+        tests:
+          - not_null
+
+      - name: includes_video_cc
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_day, patient_id)"
+
+  - name: videos_by_episode_daily
+    columns:
+      - name: date_day_est
+        tests:
+          - not_null
+
+      - name: episode_id
+        tests:
+          - not_null
+
+      - name: patient_id
+        tests:
+          - not_null
+
+      - name: includes_video_gp
+        tests:
+          - not_null
+
+      - name: includes_video_np
+        tests:
+          - not_null
+
+      - name: includes_video_nc
+        tests:
+          - not_null
+
+      - name: includes_video_cc
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_day_est, episode_id)"
+
+  - name: videos_cost_daily
+    columns:
+      - name: date
+        tests:
+          - not_null
+          - unique
+
+      - name: cost
+        tests:
+          - not_null
+
+      - name: count_videos
+        tests:
+          - not_null
+
+      - name: cost_per_video
+        tests:
+          - not_null
+
+  - name: videos_cost_monthly
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+          - unique
+
+      - name: per_video_cost
+        tests:
+          - not_null
+
+  - name: videos_monthly
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+          - unique
+
+      - name: psy_video_count
+        tests:
+          - not_null
+
+      - name: other_video_count
+        tests:
+          - not_null
+
+  - name: video_rate_by_org_monthly
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: organization_id
+        tests:
+          - not_null
+
+      - name: organization_name
+        tests:
+          - not_null
+
+      - name: count_paid_employees
+        tests:
+          - not_null
+
+      - name: count_videos
+        tests:
+          - not_null
+
+      - name: video_rate
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_month, organization_id)"

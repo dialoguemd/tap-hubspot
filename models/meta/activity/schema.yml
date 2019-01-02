@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: activity_monthly
+    columns:
+        - name: date_month
+          tests:
+              - not_null
+        - name: organization_name
+          tests:
+              - not_null
+        - name: account_name
+          tests:
+              - not_null
+        - name: organization_id
+          tests:
+              - not_null
+    tests:
+        - unique:
+            column_name: "concat(organization_id, date_month)"

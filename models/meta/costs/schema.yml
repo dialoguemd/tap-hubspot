@@ -1,0 +1,95 @@
+version: 2
+
+models:
+  - name: costs_by_episode_daily
+    columns:
+        - name: date_day
+          tests:
+              - not_null
+        - name: episode_id
+          tests:
+              - not_null
+    tests:
+        - unique:
+            column_name: "concat(episode_id, date_day)"
+
+  - name: costs_by_episode
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+        - name: date
+          tests:
+              - not_null
+    tests:
+        - unique:
+            column_name: "concat(date, episode_id)"
+
+  - name: costs_by_org_monthly
+    columns:
+        - name: date_month
+          tests:
+              - not_null
+        - name: organization_name
+          tests:
+              - not_null
+    tests:
+        - unique:
+            column_name: "concat(organization_name, date_month)"
+
+  - name: costs_by_video
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+        - name: date
+          tests:
+              - not_null
+    tests:
+        - unique:
+            column_name: "concat(date, episode_id)"
+
+  - name: costs_fl_by_main_spec
+    columns:
+        - name: date_month
+          tests:
+              - not_null
+              - unique
+        - name: fl_gp_cost
+              - not_null
+        - name: fl_np_cost
+              - not_null
+        - name: fl_nc_cost
+              - not_null
+        - name: fl_cc_cost
+              - not_null
+        - name: other_cost
+              - not_null
+
+  - name: costs_hourly_by_spec_monthly
+    columns:
+        - name: date_month
+          tests:
+              - not_null
+              - unique
+        - name: cc_hourly
+          tests:
+              - not_null
+        - name: nc_hourly
+          tests:
+              - not_null
+        - name: np_hourly
+          tests:
+              - not_null
+
+  - name: costs_time_spent_by_episode_daily
+    columns:
+        - name: date
+          tests:
+              - not_null
+        - name: episode_id
+          tests:
+              - not_null
+    tests:
+        - unique:
+            column_name: "concat(episode_id, date)"

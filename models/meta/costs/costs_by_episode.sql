@@ -1,9 +1,9 @@
 with time_spent as (
-        select * from {{ ref( 'medops_daily_time_spent_by_ep' ) }}
+        select * from {{ ref( 'costs_time_spent_by_episode_daily' ) }}
     )
 
     , hourly_cost as (
-        select * from {{ ref( 'medops_hourly_cost_by_spec_monthly' ) }}
+        select * from {{ ref( 'costs_hourly_by_spec_monthly' ) }}
     )
 
     , chats as (

@@ -17,11 +17,11 @@ with qnaire_answers as (
     )
 
     , videos_detailed as (
-        select * from {{ ref('videos_detailed') }}
+        select * from {{ ref('videos') }}
     )
 
     , est_costs_daily as (
-        select * from {{ ref('medops_est_costs_by_ep_daily') }}
+        select * from {{ ref('costs_by_episode_daily') }}
     )
 
     , priced_episodes as (
