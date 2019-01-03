@@ -28,7 +28,7 @@ select time_spent.episode_id
 from time_spent
 left join chats
     on time_spent.episode_id = chats.episode_id
-    and time_spent.date = chats.created_at_day
+    and time_spent.date = chats.date_day_est
 left join episodes
     on time_spent.episode_id = episodes.episode_id
 left join hourly_cost

@@ -13,7 +13,7 @@ with
 
 select practitioners.user_name
 	, practitioners.main_specialization
-	, chats_all_time.created_at_day as date_day
+	, chats_all_time.date_day_est as date_day
 	, chats_all_time.url_zorro
 	, chats_all_time.user_id as patient_id
 	, chats_all_time.chat_type
@@ -22,6 +22,6 @@ inner join posts
 	using (episode_id)
 inner join practitioners
 	on posts.user_id = practitioners.user_id
-where chats_all_time.created_at_day > (current_date - interval '90 days')
+where chats_all_time.date_day_est > (current_date - interval '90 days')
 	and not posts.is_internal_post
 group by 1,2,3,4,5,6

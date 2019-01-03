@@ -9,14 +9,14 @@ with episodes as (
     , chats as (
         select episode_id
             , chat_type
-            , created_at_day
-            , outcomes
+            , date_day_est
+            , invalid_outcomes
             , includes_patient_message
             , lag(chat_type)
-                over (partition by episode_id order by created_at_day)
+                over (partition by episode_id order by date_day_est)
                 as previous_chat_type
             , lag(includes_patient_message)
-                over (partition by episode_id order by created_at_day)
+                over (partition by episode_id order by date_day_est)
                 as previous_includes_pm
         from chats_all_time
         group by 1,2,3,4,5
@@ -36,16 +36,16 @@ with episodes as (
                     then 'Readmission by patient'
                 else chats.chat_type
                 end as chat_type
-            , chats.created_at_day
+            , chats.date_day_est
             , extract(epoch 
-                from age(date_trunc('day', chats.created_at_day),
+                from age(date_trunc('day', chats.date_day_est),
                 date_trunc('day', episodes.first_set_resolved_pending_at))
               )/86400 as time_since_first_resolve
         from chats
         left join episodes using (episode_id)
     )
 
-select date_trunc('week', created_at_day) as week
+select date_trunc('week', date_day_est) as week
     , count(*)
         filter (where chat_type = 'Readmission by patient'
             and time_since_first_resolve < 14) as readmission_count

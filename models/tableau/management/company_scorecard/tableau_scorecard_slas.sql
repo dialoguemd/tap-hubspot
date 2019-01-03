@@ -8,7 +8,7 @@ with
 	)
 
 select dates.date_week
-	, percentile_disc(0.9) within group (order by chats.wait_time_first)
+	, percentile_disc(0.9) within group (order by chats.wait_time_first_care_team)
 		as frt_90th_percentile
 	, percentile_disc(0.9)
 		within group (order by chats.wait_time_first_nurse)

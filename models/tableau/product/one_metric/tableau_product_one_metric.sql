@@ -61,13 +61,13 @@ with episodes as (
 			, eps_ranked.includes_video
 			, eps_ranked.episode_started
 			, eps_ranked.resolved_at_day
-			, min(chats.wait_time_first) as wait_time_first
+			, min(chats.wait_time_first_care_team) as wait_time_first
 			, min(chats.wait_time_first_nurse) as wait_time_first_nurse
 		from eps_ranked
 		left join chats
 			on eps_ranked.user_id = chats.user_id
 			and eps_ranked.episode_id = chats.episode_id
-			and eps_ranked.resolved_at_day = chats.created_at_day
+			and eps_ranked.resolved_at_day = chats.date_day_est
 		where eps_ranked.rank = 1
 		group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14
 	)

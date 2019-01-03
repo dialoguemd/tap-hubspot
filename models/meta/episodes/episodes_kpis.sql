@@ -25,56 +25,56 @@ with chats_all_time as (
             , coalesce(sum(time_spent) filter(where main_specialization = 'Psychologist'), 0) as attr_psy
             , coalesce(sum(time_spent) filter(where main_specialization = 'Nutritionist'), 0) as attr_nutr
 
-            , coalesce(sum(time_spent) filter(where cp_activity.date = chats_all_time.created_at_day), 0) as attr_total_day_1
+            , coalesce(sum(time_spent) filter(where cp_activity.date = chats_all_time.date_day_est), 0) as attr_total_day_1
             , coalesce(sum(time_spent) filter(where
                     main_specialization = 'Nurse Clinician'
-                    and cp_activity.date = chats_all_time.created_at_day
+                    and cp_activity.date = chats_all_time.date_day_est
                 ), 0) as attr_nc_day_1
             , coalesce(sum(time_spent) filter(where
                     main_specialization = 'Nurse Practitioner'
-                    and cp_activity.date = chats_all_time.created_at_day
+                    and cp_activity.date = chats_all_time.date_day_est
                 ), 0) as attr_np_day_1
             , coalesce(sum(time_spent) filter(where
                     main_specialization in ('Care Coordinator', 'Medical Assistant')
-                    and cp_activity.date = chats_all_time.created_at_day
+                    and cp_activity.date = chats_all_time.date_day_est
                     ), 0) as attr_cc_day_1
             , coalesce(sum(time_spent) filter(where
                     main_specialization = 'Family Physician'
-                    and cp_activity.date = chats_all_time.created_at_day
+                    and cp_activity.date = chats_all_time.date_day_est
                     ), 0) as attr_gp_day_1
             , coalesce(sum(time_spent) filter(where
                     main_specialization = 'Psychologist'
-                    and cp_activity.date = chats_all_time.created_at_day
+                    and cp_activity.date = chats_all_time.date_day_est
                     ), 0) as attr_psy_day_1
             , coalesce(sum(time_spent) filter(where
                     main_specialization = 'Nutritionist'
-                    and cp_activity.date = chats_all_time.created_at_day
+                    and cp_activity.date = chats_all_time.date_day_est
                     ), 0) as attr_nutr_day_1
 
-            , coalesce(sum(time_spent) filter(where cp_activity.date < chats_all_time.created_at_day + interval '7 days'), 0) as attr_total_day_7
+            , coalesce(sum(time_spent) filter(where cp_activity.date < chats_all_time.date_day_est + interval '7 days'), 0) as attr_total_day_7
             , coalesce(sum(time_spent) filter(where
                     main_specialization = 'Nurse Clinician'
-                    and cp_activity.date < chats_all_time.created_at_day + interval '7 days'
+                    and cp_activity.date < chats_all_time.date_day_est + interval '7 days'
                 ), 0) as attr_nc_day_7
             , coalesce(sum(time_spent) filter(where
                     main_specialization = 'Nurse Practitioner'
-                    and cp_activity.date < chats_all_time.created_at_day + interval '7 days'
+                    and cp_activity.date < chats_all_time.date_day_est + interval '7 days'
                 ), 0) as attr_np_day_7
             , coalesce(sum(time_spent) filter(where
                     main_specialization in ('Care Coordinator', 'Medical Assistant')
-                    and cp_activity.date < chats_all_time.created_at_day + interval '7 days'
+                    and cp_activity.date < chats_all_time.date_day_est + interval '7 days'
                     ), 0) as attr_cc_day_7
             , coalesce(sum(time_spent) filter(where
                     main_specialization = 'Family Physician'
-                    and cp_activity.date < chats_all_time.created_at_day + interval '7 days'
+                    and cp_activity.date < chats_all_time.date_day_est + interval '7 days'
                     ), 0) as attr_gp_day_7
             , coalesce(sum(time_spent) filter(where
                     main_specialization = 'Psychologist'
-                    and cp_activity.date < chats_all_time.created_at_day + interval '7 days'
+                    and cp_activity.date < chats_all_time.date_day_est + interval '7 days'
                     ), 0) as attr_psy_day_7
             , coalesce(sum(time_spent) filter(where
                     main_specialization = 'Nutritionist'
-                    and cp_activity.date < chats_all_time.created_at_day + interval '7 days'
+                    and cp_activity.date < chats_all_time.date_day_est + interval '7 days'
                     ), 0) as attr_nutr_day_7
         from chats_all_time
         inner join cp_activity

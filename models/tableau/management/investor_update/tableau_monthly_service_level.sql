@@ -3,7 +3,7 @@ with
 		select * from {{ ref('chats') }}
 	)
 
-select date_trunc('month', created_at_day) as date_month
+select date_trunc('month', date_day_est) as date_month
 	, count(distinct episode_id)
 		filter(where chat_type = 'New Episode')
 	as episode_count
@@ -14,7 +14,7 @@ select date_trunc('month', created_at_day) as date_month
 		filter(where is_first_message_in_opening_hours)
 	as time_to_resolve_median
 from chats
-where created_at_day < date_trunc('month', current_date)
+where date_day_est < date_trunc('month', current_date)
 	-- date when the resolve feature was implemented
-	and created_at_day >= '2017-11-01'
+	and date_day_est >= '2017-11-01'
 group by 1
