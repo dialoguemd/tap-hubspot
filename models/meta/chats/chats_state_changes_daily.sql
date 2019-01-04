@@ -13,6 +13,7 @@ with
 			, date_day_est
 			, episode_state
 		from state_changed
+		where episode_state in ('pending', 'resolved')
 		union all
 		select episode_id
 			, timestamp_est
