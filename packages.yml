@@ -1,3 +1,5 @@
 packages:
   - git: "https://github.com/fishtown-analytics/dbt-utils.git"
-    revision: master
+    revision: 0.1.12
+  - git: "https://github.com/fishtown-analytics/dbt-event-logging.git"
+    revision: 0.1.5
