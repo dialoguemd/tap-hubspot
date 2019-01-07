@@ -8,6 +8,7 @@ with usage as (
 
 select usage.organization_id
     , usage.date_month
+    , usage.residence_province
 
     -- Jinja loop for keeping window functions clean
     {% for field in 
@@ -36,4 +37,4 @@ select usage.organization_id
 
 from usage
 left join activity
-    using (organization_id, date_month)
+    using (organization_id, date_month, residence_province)

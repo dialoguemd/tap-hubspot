@@ -15,6 +15,7 @@ select usage.date_month
 	, usage.organization_name
 	, usage.organization_id
 	, usage.account_name
+	, usage.residence_province
 	, usage.billing_start_month
 	, usage.months_since_billing_start
 
@@ -68,6 +69,6 @@ select usage.date_month
 
 from usage
 left join activity
-	using (date_month, organization_id)
+	using (date_month, organization_id, residence_province)
 left join activity_cum
-	using (date_month, organization_id)
+	using (date_month, organization_id, residence_province)

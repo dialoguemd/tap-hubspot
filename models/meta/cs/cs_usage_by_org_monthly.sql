@@ -7,6 +7,7 @@ select date_month
     , organization_name
     , organization_id
     , account_name
+    , residence_province
     , billing_start_month
     , ( extract(year from age(date_month, billing_start_month))*12 +
         extract(month from age(date_month, billing_start_month))

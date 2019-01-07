@@ -5,6 +5,7 @@ with
 
 select date_month
 	, organization_id
+	, residence_province
 
 	, count(distinct dau_id) as total_daus
 	, count(distinct user_id) as total_active_users
@@ -50,4 +51,4 @@ select date_month
   {% endfor %}
 
 from active_users
-group by 1,2
+group by 1,2,3
