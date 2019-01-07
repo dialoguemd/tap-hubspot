@@ -14,19 +14,10 @@ select pages.user_id as careplatform_user_id
     , timezone('America/Montreal', pages.timestamp) as timestamp_est
     , pages.timestamp
     , case
-        when pages.path in ('/',
-                      '/pending',
-                      '/resolved',
-                      '/care-plans',
-                      '/reminders',
-                      '/mentions',
-                      '/login',
-                      '/reminders/completed',
-                      '/snoozed') 
-            then 'dashboard'
         when pages.path like '/chat/%'  then 'chat'
         when pages.path like '/consult%' then 'video'
-        else 'error'
+        when pages.path like '/' then 'dashboard'
+        else replace(pages.path, '/', '')
       end as activity
     , case
         when pages.path like '/consult/%' then split_part(pages.path, '/'::text, 3)
@@ -47,5 +38,7 @@ select pages.user_id as careplatform_user_id
       end as episode_id
     , coalesce(practitioners.main_specialization, 'N/A') as main_specialization
 from careplatform_pages as pages
-inner join practitioners using (user_id)
+inner join practitioners
+  using (user_id)
 where date_trunc('day', timestamp) >= '2018-01-01'
+  and pages.path is not null
