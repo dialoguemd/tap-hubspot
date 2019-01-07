@@ -153,6 +153,12 @@ select channels.episode_id
 	, user_contract.organization_name
 	, user_contract.account_id
 	, user_contract.account_name
+	, user_contract.residence_province
+	, user_contract.gender
+	, user_contract.family_member_type
+	, extract('year' from
+		age(episodes_chats_summary.first_message_created_at,
+		user_contract.birthday)) as age
 
 from channels
 left join episodes_outcomes
