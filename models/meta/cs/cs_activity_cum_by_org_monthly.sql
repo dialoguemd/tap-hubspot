@@ -30,7 +30,9 @@ select usage.organization_id
         "total_active_on_video_gp_child"] 
     %}
 
-    , sum(activity.{{field}}) over (partition by usage.organization_id order by usage.date_month)
+    , sum(activity.{{field}}) over (
+            partition by usage.organization_id, usage.residence_province
+            order by usage.date_month)
         as {{field}}_cum
 
     {% endfor %}
