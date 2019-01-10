@@ -43,11 +43,16 @@ with
 			, organizations.organization_name
 			, organizations.is_paid as organization_is_paid
 			, user_contract.user_id = contracts.participant_id as is_employee
+
+			-- If available use the 1) user-selected province, if not then the
+			-- 2) admin-set user-level province, or if neither are availble use
+			-- the 3) org's province
 			, coalesce(
 				users.residence_province,
-				organizations.province,
-				contracts.admin_area_name
+				contracts.admin_area_name,
+				organizations.province
 				) as residence_province
+
 			, users.country
 			, users.birthday
 			, users.gender
