@@ -19,7 +19,10 @@ select contracts.contract_id
 	, contracts.admin_area_id
 	, contracts.admin_area_country_id
 	, contracts.admin_area_iso_code
-	, coalesce(case organizations.province
+	-- Set admin area as contract admin area or if not available org address
+	, coalesce(
+		contracts.admin_area_name
+		, case organizations.province
 			when 'QC' then 'Quebec'
 			when 'ON' then 'Ontario'
 			when 'MB' then 'Manitoba'
@@ -32,8 +35,7 @@ select contracts.contract_id
 			when 'PE' then 'Prince Edward Island'
 			when 'NL' then 'Newfoundland and Labrador'
 			else organizations.province
-		end,
-		contracts.admin_area_name
+		end
 	) as admin_area_name
 	, organizations.charge_price
 	, organizations.charge_price_mental_health
