@@ -4,7 +4,7 @@ with
 	)
 
 	, users as (
-		select * from {{ ref('scribe_users') }}
+		select * from {{ ref('scribe_users_detailed') }}
 	)
 
 select nps_survey.episode_id

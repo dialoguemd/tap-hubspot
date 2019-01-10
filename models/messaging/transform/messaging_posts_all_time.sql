@@ -20,7 +20,7 @@ with messaging_posts as (
    )
 
    , test_users as (
-      select * from {{ ref('test_users') }}
+      select * from {{ ref('scribe_test_users') }}
    )
 
    , mm_posts as (

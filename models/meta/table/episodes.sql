@@ -13,7 +13,7 @@ with channels as (
 	)
 
 	, test_users as (
-		select * from {{ ref('test_users') }}
+		select * from {{ ref('scribe_test_users') }}
 	)
 
 	, episodes_chats_summary as (

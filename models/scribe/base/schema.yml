@@ -83,6 +83,16 @@ models:
           - accepted_values:
               values: ['M', 'F', 'N/A']
 
+  - name: scribe_test_users
+    description: a set of test users in prod that should be excluded from our
+      reporting. Theses users exist in prod so that QA can test in those
+      conditions.
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+          - unique
+
   - name: scribe_plans
     columns:
       - name: plan_id

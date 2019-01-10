@@ -8,7 +8,7 @@ with
 	)
 
 	, users as (
-		select * from {{ ref('scribe_users') }}
+		select * from {{ ref('scribe_users_detailed') }}
 	)
 
 	, organizations as (

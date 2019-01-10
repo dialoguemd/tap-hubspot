@@ -13,7 +13,7 @@ with countdown_question_replied as (
   )
 
   , test_users as (
-      select * from {{ ref('test_users') }}
+      select * from {{ ref('scribe_test_users') }}
   )
 
   ,answers as (
