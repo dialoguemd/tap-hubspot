@@ -12,6 +12,10 @@ with qnaire_answers as (
         select * from {{ ref('mental_health_qnaire_answers') }}
     )
 
+    , episodes as (
+        select * from {{ ref('episodes') }}
+    )
+
     , user_contracts as (
         select * from {{ ref('scribe_user_contract_detailed') }}
     )
@@ -81,6 +85,7 @@ with qnaire_answers as (
         , user_contracts.gender
         , user_contracts.organization_name
         , episodes.first_message_patient as created_at
+        , episodes.last_message_created_at as last_active_at
         , episodes.first_priority_level
         , episodes.priority_level as current_priority_level
         , episodes.priority_levels_ordered
