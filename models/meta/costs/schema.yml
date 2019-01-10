@@ -49,23 +49,6 @@ models:
         - unique:
             column_name: "concat(date, episode_id)"
 
-  - name: costs_fl_by_main_spec
-    columns:
-        - name: date_month
-          tests:
-              - not_null
-              - unique
-        - name: fl_gp_cost
-              - not_null
-        - name: fl_np_cost
-              - not_null
-        - name: fl_nc_cost
-              - not_null
-        - name: fl_cc_cost
-              - not_null
-        - name: other_cost
-              - not_null
-
   - name: costs_hourly_by_spec_monthly
     columns:
         - name: date_month

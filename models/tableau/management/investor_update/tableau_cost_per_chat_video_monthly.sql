@@ -3,12 +3,8 @@ with
 		select * from {{ ref('active_users_monthly')}}
 	)
 
-	, revenue as (
-		select * from {{ ref('finance_revenue_monthly') }}
-	)
-
-	, costs as (
-		select * from {{ ref('costs_fl_by_main_spec') }}
+	, finance as (
+		select * from {{ ref('finance_revenue_and_costs_monthly') }}
 	)
 
 	, active_contracts as (
@@ -17,15 +13,13 @@ with
 
 	, monthly as (
 		select *
-			, costs.fl_gp_cost + costs.fl_np_cost as cost_video
-			, costs.fl_nc_cost + costs.fl_cc_cost + costs.other_cost as cost_chat
-			, costs.fl_gp_cost + costs.fl_np_cost + costs.fl_nc_cost
-				+ costs.fl_cc_cost + costs.other_cost as cost_total
+			, finance.fl_gp_cost + finance.fl_np_cost as cost_video
+			, finance.fl_nc_cost + finance.fl_cc_cost + finance.other_cost as cost_chat
+			, finance.fl_gp_cost + finance.fl_np_cost + finance.fl_nc_cost
+				+ finance.fl_cc_cost + finance.other_cost as cost_total
 			, active_users.daus_paid::float / active_users.daus as paid_users_rate
 		from active_users
-		inner join costs
-			using (date_month)
-		inner join revenue
+		inner join finance
 			using (date_month)
 		inner join active_contracts
 			using (date_month)

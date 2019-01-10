@@ -3,6 +3,10 @@ version: 2
 
 models:
   - name: finance_gm_breakdown
+    description: This seed is two records per month respectively for GM1's and
+      Sales' affect on our burn. The seed is appended to from this google sheet,
+      refer to line 217 and below -
+      https://docs.google.com/spreadsheets/d/1NYPJaaot8ckw6HL_88IP63Rmx8jiJ4NM14RjyZyISLc/edit#gid=211783943
     columns:
       - name: date_month
         tests:
@@ -21,6 +25,10 @@ models:
           column_name: "concat(date_month, gm_source)"
 
   - name: finance_runway
+    description: This seed is one record per month of actual runway and
+      forecasted runway for future months. This seed is updated fully every
+      month and is from this google sheet -
+      https://docs.google.com/spreadsheets/d/1YIvESSs8XaaYd7Q8tMl8I0YTtVMy68a7HNft__CRu9g/edit?ts=5c364158#gid=0
     columns:
       - name: date_month
         tests:
@@ -32,6 +40,10 @@ models:
           - not_null
 
   - name: finance_opex
+    description: This seed is one record per department per month with a value
+      for the delta between actual and budgeted spend. The seed is appended to
+      from this google sheet, refer to line 217 and below -
+      https://docs.google.com/spreadsheets/d/1NYPJaaot8ckw6HL_88IP63Rmx8jiJ4NM14RjyZyISLc/edit#gid=211783943
     columns:
       - name: date_month
         tests:
@@ -45,11 +57,17 @@ models:
         tests:
           - not_null
 
-  - name: finance_revenue_monthly
+  - name: finance_revenue_and_costs_monthly
+    description: This seed is one record per month with columns for revenue
+      and costs by main specialization. These revenues and cost numbers are
+      used in our GM calculations. The seed is downloaded from this google
+      sheet -
+      https://docs.google.com/spreadsheets/d/1OY75vKFMPCnMiMVwOwmNd1igR9SO81q4IYHxLjZp8hc/edit#gid=545957709
     columns:
       - name: date_month
         tests:
           - not_null
+          - unique
 
       - name: telehealth_revenue
         tests:
@@ -58,6 +76,26 @@ models:
       - name: mrr
         tests:
           - not_null
+
+      - name: fl_gp_cost
+        tests:
+            - not_null
+
+      - name: fl_np_cost
+        tests:
+            - not_null
+
+      - name: fl_nc_cost
+        tests:
+            - not_null
+
+      - name: fl_cc_cost
+        tests:
+            - not_null
+
+      - name: other_cost
+        tests:
+            - not_null
 
   - name: finance_revenue_adjustment
     description: This seed is an extract from Xero; the data is one record

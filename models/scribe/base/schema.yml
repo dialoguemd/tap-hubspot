@@ -44,6 +44,15 @@ models:
         tests:
           - not_null
 
+  - name: scribe_test_organizations
+    description: Test organizations to exclude from analysis, such as churn,
+      activation, and sign up. These exist in prod to allow QA to test in prod
+      conditions.
+    columns:
+      - name: organization_id
+        test:
+          - not_null
+
   - name: scribe_users
     columns:
       - name: user_id

@@ -7,6 +7,10 @@ with
 		select * from {{ ref('scribe_organizations') }}
 	)
 
+	, test_organizations as (
+		select * from {{ ref('scribe_test_organizations') }}
+	)
+
 	, plans as (
 		select * from {{ ref('scribe_plans_detailed') }}
 	)
@@ -106,3 +110,6 @@ left join organization_address_unique
 	using (organization_id)
 inner join plans
 	using (organization_id)
+left join test_organizations
+	using (organization_id)
+where test_organizations.organization_id is null

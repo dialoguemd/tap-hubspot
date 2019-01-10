@@ -3,7 +3,7 @@ with monthly_count_videos as (
     )
 
     , fl_cost as (
-        select * from {{ ref( 'costs_fl_by_main_spec' ) }}
+        select * from {{ ref( 'finance_revenue_and_costs_monthly' ) }}
     )
 
 select monthly_count_videos.date_month
