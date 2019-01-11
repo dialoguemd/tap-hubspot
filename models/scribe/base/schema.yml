@@ -50,7 +50,7 @@ models:
       conditions.
     columns:
       - name: organization_id
-        test:
+        tests:
           - not_null
 
   - name: scribe_users
@@ -159,14 +159,37 @@ models:
     description: |
       Manual import from scribe DB on December 2nd 2018
 
-  - name: scribe_feature
+  - name: scribe_features
     description: |
-      Manual import from scribe DB on December 2nd 2018
+      List of available plan features
+    columns:
+      - name: feature_id
+        tests:
+          - not_null
+          - unique
+
+      - name: feature_name
+        tests:
+          - not_null
+          - unique
+          - accepted_values:
+              values: ['nurse', 'family', '24_7', 'mental_health', 'biogeniq']
 
   - name: scribe_organization_administrator
     description: |
       Manual import from scribe DB on December 2nd 2018
 
-  - name: scribe_plan_feature
+  - name: scribe_plan_features
     description: |
-      Manual import from scribe DB on December 2nd 2018
+      Mapping between plans and features
+    columns:
+        - name: feature_id
+          tests:
+            - not_null
+
+        - name: plan_id
+          tests:
+            - not_null
+    tests:
+      - unique:
+          column_name: "concat(feature_id, plan_id)"

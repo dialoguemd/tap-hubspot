@@ -1,6 +1,4 @@
 select id as feature_id
-	, label as feature
-	, localized_name
-	, localized_description
+	, label as feature_name
 	, created as created_at
-from {{ ref('data_scribe_features') }}
+from scribe.feature

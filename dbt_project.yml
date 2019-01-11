@@ -39,6 +39,7 @@ models:
   dialogue:
       # Send a timestamp for all models create and complete to analytics_audit
       pre-hook:
+        - "create schema if not exists {{this.schema}}_audit"
         - "create table if not exists {{this.schema}}_audit.dbt_audit_log (
             event_name text,
             event_timestamp timestamp,
