@@ -24,7 +24,7 @@ with
 			, started.event_model
 			, started.started_at
 			, completed.completed_at
-			, extract(milliseconds from completed.completed_at - started.started_at) as duration_ms
+			, extract(epoch from completed.completed_at - started.started_at) as duration_s
 		from started
 		left join completed
 			using (event_model, invocation_id)
