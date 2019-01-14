@@ -8,7 +8,7 @@ with
 	)
 
 select date_trunc('day', videos.timestamp_est) as date_day
-	, coalesce(episodes_subject.episode_subject, videos.patient_id) as patient_id
+	, episodes_subject.episode_subject as patient_id
 	, bool_or(main_specialization = 'Family Physician') as includes_video_gp
 	, bool_or(main_specialization = 'Nurse Practitioner') as includes_video_np
 	, bool_or(main_specialization = 'Nurse Clinician') as includes_video_nc

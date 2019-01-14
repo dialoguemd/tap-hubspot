@@ -8,13 +8,10 @@ models:
       - name: activity
         tests:
           - not_null
-      - name: careplatform_user_id
+      - name: user_id
         tests:
           - not_null
       - name: date_day_est
-        tests:
-          - not_null
-      - name: main_specialization
         tests:
           - not_null
       - name: timestamp

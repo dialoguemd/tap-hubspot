@@ -34,6 +34,7 @@ with
 		    , video_start.careplatform_user_id
 		    , video_start.main_specialization
 		    , video_start.date_day_est
+		    , video_start.timestamp as started_at
 		    , video_start.timestamp_est as started_at_est
 		    , min(video_end.timestamp_est) as ended_at_est
 		    , extract(epoch from min(video_end.timestamp_est)
@@ -48,7 +49,7 @@ with
 	    		@> video_end.timestamp_est
 	    -- Only include videos since the April 2018 refactor
 	    where video_start.timestamp_est > '2018-04-10'
-	    group by 1,2,3,4,5,6
+	    group by 1,2,3,4,5,6,7
 	)
 
 select videos.date_day_est
@@ -56,8 +57,8 @@ select videos.date_day_est
 	, practitioners.user_name
 	, videos.episode_id
 	, videos.main_specialization
-	, coalesce(episodes_subject.episode_subject, videos.patient_id)
-		as patient_id
+	, episodes_subject.episode_subject as patient_id
+	, videos.started_at
 	, videos.started_at_est
 	, videos.ended_at_est
 	, videos.video_length

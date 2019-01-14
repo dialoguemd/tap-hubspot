@@ -334,38 +334,6 @@ models:
           datepart: day
           interval: 1
 
-  - name: cp_activity
-    description: A table containing activities completed by practitioners in
-      the Care Platform as estimated by `page` and `video` events
-
-    columns:
-        - name: time_spent
-          tests:
-              - not_null
-        - name: user_id
-          tests:
-              - not_null
-    tests:
-      - dbt_utils.recency:
-          field: activity_start
-          datepart: day
-          interval: 1
-
-
-  - name: cp_activity_detailed
-    description: CP Activity but with additional analytical details from
-      episodes
-
-    columns:
-        - name: time_spent
-          tests:
-              - not_null
-    tests:
-      - dbt_utils.recency:
-          field: activity_start
-          datepart: day
-          interval: 1
-
   - name: chats_all_time
     description: A table containing daily episode activity with details about
       what activity was done in that episode on that day

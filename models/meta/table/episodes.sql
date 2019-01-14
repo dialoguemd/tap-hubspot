@@ -88,7 +88,7 @@ select channels.episode_id
 	, episodes_ratings.rating
 
 	, episodes_subject.episode_subject
-	, coalesce(episodes_subject.episode_subject, channels.user_id) as patient_id
+	, episodes_subject.episode_subject as patient_id
 
 	, episodes_chats_summary.first_message_created_at
 	, episodes_chats_summary.last_message_created_at

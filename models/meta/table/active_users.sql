@@ -17,7 +17,7 @@ with
 
 	, posts_patients as (
 		select posts.date_day
-			, coalesce(episodes_subject.episode_subject, posts.user_id) as patient_id
+			, episodes_subject.episode_subject as patient_id
 			, min(posts.first_message_created_at) as first_message_created_at
 		from posts
 		left join episodes_subject

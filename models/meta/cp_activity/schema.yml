@@ -1,0 +1,92 @@
+
+version: 2
+
+models:
+  - name: cp_activity_unioned_activity
+    description: a model that unions posts, pages, and videos; this model also
+      helps test data completeness and uniqueness of timestamps per user
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+      - name: date_day_est
+        tests:
+          - not_null
+      - name: date_day
+        tests:
+          - not_null
+      - name: timestamp_est
+        tests:
+          - not_null
+      - name: timestamp
+        tests:
+          - not_null
+      - name: activity
+        tests:
+          - not_null
+    # Currently this is broken because of 11 instances of two simultaneous events
+    # tests:
+    #   - unique:
+    #       column_name: "concat(timestamp_est, user_id)"
+
+  - name: cp_activity_w_timing
+    description: after unioning time_spent is calculated by ordering events for
+      a given cp user on a given day
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+      - name: date_day_est
+        tests:
+          - not_null
+      - name: activity_start_est
+        tests:
+          - not_null
+      - name: activity
+        tests:
+          - not_null
+      - name: time_spent
+        tests:
+          - not_null
+
+  - name: cp_activity
+    description: after adding time_spent the activity is joined to shifts to
+      determine the role of the care team member when they were doing various
+      activities. There are two data tests on cp_activity to ensure that the
+      fraction of activity that is_on_shift and is_active does not drop below
+      expected levels benchmarked to data from 2018-10-01 to 2019-01-01
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+      - name: activity_start
+        tests:
+          - not_null
+      - name: activity
+        tests:
+          - not_null
+      - name: time_spent
+        tests:
+          - not_null
+    tests:
+      - dbt_utils.recency:
+          field: activity_start
+          datepart: day
+          interval: 1
+
+  - name: cp_activity_detailed
+    description: cp_activity with additional episode details; this is kept as a
+      separate model to prevent circular dependencies with episode KPIs
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+      - name: activity_start
+        tests:
+          - not_null
+      - name: activity
+        tests:
+          - not_null
+      - name: time_spent
+        tests:
+          - not_null
