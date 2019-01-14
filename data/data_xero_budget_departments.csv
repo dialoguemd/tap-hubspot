@@ -5,12 +5,12 @@ CS SAAS,Customer Success
 CS Customer Related,Customer Success
 CS Meals & Entertainement Internal,Customer Success
 CS Other,Customer Success
+CS Training,Customer Success
 Marketing Compensation,Marketing
 Marketing Campaign,Marketing
 Marketing Consultant,Marketing
 Marketing SAAS,Marketing
 Marketing Training,Marketing
-Marketing Travel (if necessary),Marketing
 Marketing Events (not incl. in S&P events budget),Marketing
 Marketing Other,Marketing
 Tech Comp,Tech
@@ -34,15 +34,16 @@ Medops QA,MedOps
 Medops training,MedOps
 Medops Meal & Enter Internal,MedOps
 Medops SAAS,MedOps
-Medops Micro-Clinics,MedOps
 Medops Other,MedOps
+New Services Training,MedOps
+New Services Design,MedOps
 G&A Compensation,G&A
 G&A Accounting,G&A
 G&A Consulting,G&A
 G&A Travel National,G&A
 G&A Travel International,G&A
+G&A DXA Spend,G&A
 G&A Germany,G&A
-G&A France,G&A
 G&A Groceries,G&A
 G&A Office expenses,G&A
 G&A M&E Internal,G&A

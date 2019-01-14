@@ -8,21 +8,23 @@ CS Customer Related,Customer Success - Customer Related
 CS Customer Related,Customer Success - Travel (Internal)
 CS Meals & Entertainement Internal,Customer Success - M&E (internal)
 CS Other,Customer Success - Other
-Marketing Compensation,Marketing - DAS
+CS Training,Customer Success - Training
 Marketing Compensation,Marketing - Group Insurance Benefit
 Marketing Compensation,Marketing - Salaries
+Marketing Compensation,Marketing - DAS
 Marketing Campaign,Marketing - Campaign
-Marketing Consultant,Marketing Consultants
+Marketing Consultant,Marketing - Consultants
 Marketing SAAS,Marketing - Software / SAAS
-Marketing Training,Marketing Training
-Marketing Events (not incl. in S&P events budget),Marketing Event
-Other,Marketing Other
+Marketing Training,Marketing - Training
+Marketing Events (not incl. in S&P events budget),Marketing - Event
+Marketing Other,Marketing - Other
 Tech Comp,Product & Tech - DAS
 Tech Comp,Product & Tech - Group Insurance Benefit
 Tech Comp,Product & Tech - Salaries
 Tech Consultant,Technology Advisor Consultant
 Tech SAAS,Tech SAAS
 Tech Hardware & Equipment,Technology - Hardware
+Tech Hardware & Equipment,Technology - Infrastructure
 Tech Training,Tech Training
 Tech Other,Tech Event
 Tech Other,Tech M&E - Internal
@@ -33,32 +35,38 @@ Sales & Partn M&E - External,Sales M&E - External
 Sales & Partn M&E - Internal,Sales M&E - Internal
 Sales & Partn SAAS,Sales - Software / SAAS
 Sales & Partn Training,Sales Training
-Sales & Partn Travel,Sales - Travel (National)
 Sales & Partn Travel,Sales - Travel (International)
+Sales & Partn Travel,Sales - Travel (National)
 Sales & Partn Events,Sales Event
+Sales & Partn Other,Sales - Commissions to Third Party
 Sales & Partn Other,Sales Other
 Medops Compensation (OPEX only),Health Team medical operations - DAS
 Medops Compensation (OPEX only),Health team medical operations - Group Insurance Benefit
 Medops Compensation (OPEX only),Health team medical operations - Salaries
+Medops Compensation (OPEX only),Health Team - Medical Director - DAS
+Medops Compensation (OPEX only),Health team - Medical director - Group Insurance Benefit
+Medops Compensation (OPEX only),Health team - Medical director salary
+Medops Consultants,Health team - Medical director consultant
 Medops Consultants,Health team medops - Consultants
 Medops Licences,Health team - Licenses
-Medops QA,Health team - QA
 Medops QA,Health team medical QA Consulting
 Medops training,Health team - Training
 Medops Meal & Enter Internal,Health team - M&E (Internal)
 Medops SAAS,Health Team - Software / SAAS
 Medops Other,Health team - Other
+Medops Other,Healthcare Board Advisor
+New Services Training,New Services - Training
+New Services Design,New Services - Design
 G&A Compensation,G&A - DAS
-G&A Compensation,G&A - Salaries
-G&A Compensation,Talent Team Salary
-G&A Compensation,Talent Acquisition - Group Insurance Expense
 G&A Compensation,G&A - Group Insurance Benefit
+G&A Compensation,G&A - Salaries
+G&A Compensation,G&A - Talent Acquisition - Group Insurance Expense
+G&A Compensation,G&A - Talent Team Salary
 G&A Accounting,G&A - Accounting
 G&A Consulting,G&A - Consulting
-G&A Consulting,G&A - Finance Consulting
-G&A Consulting,G&A - Management Consulting
 G&A Travel National,G&A - Travel (National)
 G&A Travel International,G&A - Travel (International)
+G&A DXA Spend,G&A - DXA spend
 G&A Germany,G&A - Germany
 G&A Groceries,G&A - Groceries
 G&A Office expenses,G&A - Office Expenses
@@ -67,19 +75,17 @@ G&A M&E External,G&A - M&E External
 G&A Recruitment,G&A - Recruitment
 G&A HR Consulting,G&A - HR Consulting
 G&A Insurance,G&A - Insurance
-G&A Interest,G&A - Interest
+G&A Interest,G&A - Interest & Penalties
 G&A Legal,G&A - Legal
 G&A SAAS,G&A - Software / SAAS
-G&A SAAS,G&A SAAS
 G&A Training,G&A - Training
 G&A Rent,G&A - Rent
-G&A Other,Bank Fees
-G&A Other,Charitable Donations
-G&A Other,Cleaning and Maintenance
-G&A Other,Credit Card Processing Fees
-G&A Other,Payroll Processing Fees
 G&A Other,Utilities
-G&A Other,Telecommunications
-G&A Other,G&A - Other
-G&A Other,G&A - Licences & Permits
+G&A Other,G&A - Bank Fees
+G&A Other,G&A - Charitable Donations
+G&A Other,G&A - Cleaning and Maintenance
 G&A Other,G&A - Events & Conferences
+G&A Other,G&A - Licences & Permits
+G&A Other,G&A - Other
+G&A Other,G&A - Payroll Processing Fees
+G&A Other,G&A - Telecommunications
