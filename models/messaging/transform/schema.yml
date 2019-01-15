@@ -2,7 +2,7 @@
 version: 2
 
 models:
-  - name: messaging_posts_daily
+  - name: messaging_posts_patient_daily
     columns:
       - name: date_day
         tests:

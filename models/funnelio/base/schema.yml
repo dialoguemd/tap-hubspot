@@ -49,32 +49,7 @@ models:
       - unique:
           column_name: "concat(date_day, channel)"
 
-
   - name: funnelio_google
-    columns:
-        - name: date_day
-          tests:
-              - not_null
-        - name: platform
-          tests:
-              - not_null
-        - name: channel
-          tests:
-              - not_null
-        - name: clicks
-          tests:
-              - not_null
-        - name: impressions
-          tests:
-              - not_null
-        - name: cost
-          tests:
-              - not_null
-    tests:
-      - unique:
-          column_name: "concat(date_day, channel)"
-
-  - name: funnelio_google_search_console
     columns:
         - name: date_day
           tests:

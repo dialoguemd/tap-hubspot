@@ -1,12 +1,11 @@
 {{
-  config({
-    "materialized":"incremental",
-    "sql_where":"date_day > (select max(date_day) from {{this}})",
-    "post-hook": [
+  config(
+    materialized='incremental',
+    post_hook=[
        "DROP INDEX IF EXISTS {{ this.schema }}.index_gm_by_contract_date_day",
        "CREATE INDEX IF NOT EXISTS index_gm_by_contract_date_day ON {{ this }}(date_day)"
     ]
-  })
+  )
 }}
 
 with user_contract as (
@@ -49,7 +48,9 @@ with user_contract as (
             on days.date_day <@ user_contract.during
         where user_contract.is_employee
             and days.date_day < current_date
-            {% if adapter.already_exists(this.schema, this.table) and not flags.FULL_REFRESH %}
+
+            -- Filtering for incremental model
+            {% if is_incremental() %}
             and days.date_day > (select max(date_day) from {{ this }})
             {% endif %}
     )

@@ -1,6 +1,6 @@
 with
 	videos as (
-		select * from {{ ref('videos_detailed') }}
+		select * from {{ ref('videos') }}
 	)
 
 	, null_fraction as (

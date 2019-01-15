@@ -1,6 +1,30 @@
 version: 2
 
 models:
+  - name: videos
+    description: the primary video fact table with video length, timestamps,
+      and dimensions for filtration like cp user, main specialization, etc.
+    columns:
+      - name: started_at_est
+        tests:
+          - not_null
+
+      - name: careplatform_user_id
+        tests:
+          - not_null
+
+      - name: patient_id
+        tests:
+          - not_null
+
+      - name: main_specialization
+        tests:
+          - not_null
+
+      - name: video_length
+        tests:
+          - not_null
+
   - name: videos_started
     description: a video start model to join the various events used for
       tracking this over time; this table is also tested in a data test on
@@ -127,7 +151,7 @@ models:
         tests:
           - not_null
 
-  - name: video_rate_by_org_monthly
+  - name: videos_rate_by_org_monthly
     columns:
       - name: date_month
         tests:

@@ -2,7 +2,7 @@
 version: 2
 
 models:
-  - name: nps_patient_survey_light
+  - name: nps_patient_survey_with_user_id
     columns:
       - name: user_id
         tests:

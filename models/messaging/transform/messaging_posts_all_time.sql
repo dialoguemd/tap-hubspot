@@ -1,20 +1,19 @@
 
 {{
-  config({
-    "materialized":"incremental",
-    "sql_where":"created_at > (select max(created_at) from {{this}})",
-    "post-hook": [
+  config(
+    materialized='incremental',
+    post_hook=[
        "DROP INDEX IF EXISTS {{ this.schema }}.index_posts_all_time_created",
        "CREATE INDEX IF NOT EXISTS index_posts_all_time_created ON {{ this }}(created_at)"
     ]
-  })
+  )
 }}
 
 with messaging_posts as (
       select * from {{ ref('messaging_posts') }}
       -- Only add incremental jinja to messaging_posts because mm_posts is
       -- now deprecated as of 2018-09-01
-      {% if adapter.already_exists(this.schema, this.table) and not flags.FULL_REFRESH %}
+      {% if is_incremental() %}
          where created_at > (select max(created_at) from {{ this }})
       {% endif %}
    )

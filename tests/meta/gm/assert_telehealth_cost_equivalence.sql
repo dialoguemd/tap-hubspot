@@ -1,9 +1,9 @@
 with costs as (
-      select * from {{ ref( 'medops_fl_costs_by_main_spec' ) }}
+      select * from {{ ref( 'finance_revenue_and_costs_monthly' ) }}
    )
 
    , costs_by_ep as (
-      select * from {{ ref( 'medops_est_costs_by_ep_daily' ) }}
+      select * from {{ ref( 'costs_by_episode_daily' ) }}
    )
 
    , monthly_costs as (
