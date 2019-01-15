@@ -31,4 +31,5 @@ select id as user_id
     , auth_id
     , coalesce(status, 'invited') as status
     , family_id
+    , received_at
 from scribe.users

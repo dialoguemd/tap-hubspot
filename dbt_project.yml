@@ -98,17 +98,39 @@ models:
 
 archive:
     - source_schema: analytics
-      target_schema: archive
+      target_schema: archive{{ var("schema_suffix", "_dev") }}
       tables:
         - source_table: nps_patient_list
           target_table: nps_patient_list_archived
           updated_at: timestamp
           unique_key: concat(user_id, timestamp)
 
-    - source_schema: analytics
-      target_schema: archive
-      tables:
         - source_table: nps_dm_list
           target_table: nps_dm_list_archived
           updated_at: timestamp
           unique_key: concat(email, timestamp)
+
+        - source_table: scribe_contracts
+          target_table: scribe_contracts_archived
+          updated_at: imported_at
+          unique_key: contract_id
+
+        - source_table: scribe_organizations
+          target_table: scribe_organizations_archived
+          updated_at: imported_at
+          unique_key: organization_id
+
+        - source_table: scribe_plan_features
+          target_table: scribe_plan_features_archived
+          updated_at: imported_at
+          unique_key: concat(feature_id, plan_id)
+
+        - source_table: scribe_plans
+          target_table: scribe_plans_archived
+          updated_at: imported_at
+          unique_key: plan_id
+
+        - source_table: scribe_users
+          target_table: scribe_users_archived
+          updated_at: received_at
+          unique_key: user_id

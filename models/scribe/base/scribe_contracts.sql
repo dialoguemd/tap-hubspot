@@ -14,4 +14,5 @@ select id as contract_id
 	, admin_area_country_id
 	, admin_area_iso_code
 	, admin_area_name
+	, imported_at
 from scribe.contract

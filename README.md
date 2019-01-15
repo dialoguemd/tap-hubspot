@@ -73,3 +73,15 @@ dbt seed --full-refresh --target prod && dbt run --target prod
 Current schedule constraints:
 - Sinter can only run on the hour (paid plan allows for custom cron)
 - Segment can only run on the hour
+
+## Archives
+
+Some tables are archived using DBT to keep history of slowly changing dimension
+
+By default, running an archive will write in `archive_dev`
+A different suffix can be provided as a variable when calling `dbt archive`:
+
+```dbt archive --vars 'schema_suffix: _dev2'```
+
+To run in prod (without suffix) run the following command:
+```dbt archive --vars 'schema_suffix: ""'```

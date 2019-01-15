@@ -26,4 +26,5 @@ select id as plan_id
 		then 15
 		else coalesce(charge_price, 0)
 	end as charge_price
+	, imported_at
 from scribe.plan
