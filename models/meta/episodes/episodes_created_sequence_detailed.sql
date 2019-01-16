@@ -4,7 +4,7 @@ with
 	)
 
 	, videos_detailed as (
-		select * from {{ ref('videos') }}
+		select * from {{ ref('videos_detailed') }}
 	)
 
 	, videos as (

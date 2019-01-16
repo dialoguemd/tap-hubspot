@@ -7,7 +7,7 @@ with careplatform_pages as (
     )
 
     , videos_tmp as (
-        select * from {{ ref('videos')}}
+        select * from {{ ref('videos_started')}}
     )
 
     , posts as (

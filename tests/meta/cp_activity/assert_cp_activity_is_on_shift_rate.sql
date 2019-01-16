@@ -16,5 +16,5 @@ with
 
 select *
 from weeks
-where fraction_activities < 0.82
-	or fraction_time_spent < 0.75
+where fraction_activities < 0.77
+	or fraction_time_spent < 0.70

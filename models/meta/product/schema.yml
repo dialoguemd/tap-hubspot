@@ -43,14 +43,14 @@ models:
 
   - name: product_mean_time_to_resolve
     columns:
-        - name: issue_id
+        - name: date_week
           tests:
               - not_null
               - unique
-        - name: time_to_resolve_working_min
+        - name: p1_bugs_count
           tests:
               - not_null
-        - name: time_to_resolve_working_days
+        - name: p2_bugs_count
           tests:
               - not_null
 

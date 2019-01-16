@@ -1,19 +1,23 @@
 version: 2
 
 models:
-  - name: videos
+  - name: videos_detailed
     description: the primary video fact table with video length, timestamps,
       and dimensions for filtration like cp user, main specialization, etc.
+      It only includes videos that have both a start and end and includes the
+      unique md5 key `video_id`
+
     columns:
+      - name: video_id
+        tests:
+          - not_null
+          - unique
+
       - name: started_at_est
         tests:
           - not_null
 
       - name: careplatform_user_id
-        tests:
-          - not_null
-
-      - name: patient_id
         tests:
           - not_null
 
@@ -28,13 +32,11 @@ models:
   - name: videos_started
     description: a video start model to join the various events used for
       tracking this over time; this table is also tested in a data test on
-      uniqueness of patients to test for an edge case found in certain records
+      uniqueness of patients to test for an edge case found in certain records.
+      There is a record in this table for every video start regardless of
+      whether or not a video end event exists.
     columns:
       - name: timestamp
-        tests:
-          - not_null
-
-      - name: patient_id
         tests:
           - not_null
 
@@ -45,10 +47,6 @@ models:
   - name: videos_daily
     columns:
       - name: date_day
-        tests:
-          - not_null
-
-      - name: patient_id
         tests:
           - not_null
 
@@ -79,10 +77,6 @@ models:
           - not_null
 
       - name: episode_id
-        tests:
-          - not_null
-
-      - name: patient_id
         tests:
           - not_null
 

@@ -7,16 +7,20 @@ with
 		select * from {{ ref('careplatform_cp_video_session_remote_connected') }}
 	)
 
-	, channels as (
-		select * from {{ ref('messaging_channels') }}
-	)
-
 	, video_stream_created as (
 		select * from {{ ref('careplatform_video_stream_created') }}
 	)
 
+	, episodes_subject as (
+		select * from {{ ref('episodes_subject') }}
+	)
+
+	, episodes_issue_types as (
+		select * from {{ ref('episodes_issue_types') }}
+	)
+
 	, practitioners as (
-		select * from {{ ref('coredata_practitioners')}}
+		select * from {{ ref('practitioners')}}
 	)
 
 	, test_users as (
@@ -34,17 +38,17 @@ with
 
 		union all
 
-		select timestamp
+		select cp_video_session_remote_connected.timestamp
 			, timezone('America/Montreal',
 				cp_video_session_remote_connected.timestamp) as timestamp_est
-			, channels.user_id as patient_id
-			, channels.episode_id
+			, episodes_subject.episode_subject as patient_id
+			, episodes_subject.episode_id
 			, cp_video_session_remote_connected.user_id as careplatform_user_id
 		from cp_video_session_remote_connected
-		inner join channels
+		inner join episodes_subject
 			using (episode_id)
-		where timestamp <= '2018-04-10'
-			and timestamp > '2017-11-01'
+		where cp_video_session_remote_connected.timestamp <= '2018-04-10'
+			and cp_video_session_remote_connected.timestamp > '2017-11-01'
 
 		union all
 
@@ -67,9 +71,13 @@ select videos.careplatform_user_id
 	, videos.patient_id
 	, videos.episode_id
 	, coalesce(practitioners.main_specialization, 'N/A') as main_specialization
+	, coalesce(practitioners.user_name, 'N/A') as user_name
+	, episodes_issue_types.issue_type
 from videos
 left join practitioners
 	on videos.careplatform_user_id = practitioners.user_id
 left join test_users
 	on videos.patient_id = test_users.user_id
+left join episodes_issue_types
+	using (episode_id)
 where test_users.user_id is null

@@ -1,5 +1,5 @@
 with videos as (
-        select * from {{ ref( 'videos' ) }}
+        select * from {{ ref( 'videos_detailed' ) }}
     )
 
     , monthly_video_cost as (

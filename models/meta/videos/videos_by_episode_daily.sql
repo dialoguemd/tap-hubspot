@@ -1,6 +1,6 @@
 with
 	videos as (
-		select * from {{ ref('videos') }}
+		select * from {{ ref('videos_detailed') }}
 	)
 
 select videos.date_day_est

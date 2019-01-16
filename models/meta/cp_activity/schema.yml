@@ -73,20 +73,3 @@ models:
           field: activity_start
           datepart: day
           interval: 1
-
-  - name: cp_activity_detailed
-    description: cp_activity with additional episode details; this is kept as a
-      separate model to prevent circular dependencies with episode KPIs
-    columns:
-      - name: user_id
-        tests:
-          - not_null
-      - name: activity_start
-        tests:
-          - not_null
-      - name: activity
-        tests:
-          - not_null
-      - name: time_spent
-        tests:
-          - not_null

@@ -21,7 +21,7 @@ with qnaire_answers as (
     )
 
     , videos_detailed as (
-        select * from {{ ref('videos') }}
+        select * from {{ ref('videos_detailed') }}
     )
 
     , est_costs_daily as (
