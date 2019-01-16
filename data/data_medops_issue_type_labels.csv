@@ -1,0 +1,27 @@
+issue_type,label_en,label_fr
+test,Test,Test
+opht,Ophthalmology,Ophthalmologie
+endo,Endocrinology,Endocrinologie
+msk,Musculoskeletal,Musculosquelettique
+obs,Obstetrics,Obstétrique
+sleep,Sleep,Sommeil
+nutrition,Nutrition,Nutrition
+ent,ENT,ORL
+nav,Navigation,Navigation
+diet,Diet,Diète
+resp,Respiratory,Respiratoire
+other,Other,Autres
+adhd,ADHD,TDAH
+travel,Travel medicine,Santé voyage
+rx,Prescription,Ordonnance
+biom,Biomedical,Biomédicale
+gyn,Gynecology,Gynécologie
+gu,Genitourinary,Génito-urinaire
+cardio,Cardiology,Cardiologie
+international,International,International
+psy,Psychology,Psychologie
+admin,Admin,Admin
+derm,Dermatology,Dermatologie
+gi,Gastrointestinal,Gastrointestinal
+psy-pilot,Psychology Pilot,Psychologie Pilot
+neuro,Neurology,Neurologie

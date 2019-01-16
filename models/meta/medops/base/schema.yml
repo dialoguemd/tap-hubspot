@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: medops_issue_type_labels
+    description: A seed for English and French labels for issue_type keys
+    columns:
+      - name: issue_type
+        tests:
+          - not_null
+          - unique
+
+      - name: label_en
+        tests:
+          - not_null
+          - unique
+
+      - name: label_fr
+        tests:
+          - not_null
+          - unique
+
+  - name: medops_ubisoft_clinic_consultation_count
+    description: A seed containing monthly count of consultations by type at
+      the in-person ubisoft clinic. The data is sourced from this Google sheet
+      https://docs.google.com/spreadsheets/d/10ag69ldo6E9FdUW3IJx1J0wm1gVHKdp141p8Waph5YM/edit?ts=5bd77bb9
+    columns:
+        - name: date_month
+          tests:
+              - not_null
+              - unique
+
+        - name: nurse_consultations
+          tests:
+              - not_null
+
+        - name: gp_consultations
+          tests:
+              - not_null
+
+        - name: mental_health_consultations
+          tests:
+              - not_null

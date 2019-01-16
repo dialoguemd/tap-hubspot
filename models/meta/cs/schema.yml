@@ -255,3 +255,18 @@ models:
         - name: nps_completed_at
           tests:
             - not_null
+
+  - name: cs_episodes_by_issue_type_monthly
+    description: a monthly count of episodes grouped by issue type, organization,
+      account, and residence_province; this is used to power the Consultations
+      visualization in the Organization Monthly tableau dashboard
+    columns:
+        - name: date_month
+          tests:
+              - not_null
+        - name: count_episodes
+          tests:
+              - not_null
+    tests:
+        - unique:
+            column_name: "concat(date_month, organization_name, residence_province, issue_type_en)"

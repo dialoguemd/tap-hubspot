@@ -24,7 +24,7 @@ with episodes as (
 
     , readmissions as (
         select chats.episode_id
-            , case 
+            , case
                 when chats.chat_type = 'Other initiated by patient'
                     and chats.invalid_outcomes = 'patient_thanks'
                     then 'Patient thanks'
@@ -37,7 +37,7 @@ with episodes as (
                 else chats.chat_type
                 end as chat_type
             , chats.date_day_est
-            , extract(epoch 
+            , extract(epoch
                 from age(date_trunc('day', chats.date_day_est),
                 date_trunc('day', episodes.first_set_resolved_pending_at))
               )/86400 as time_since_first_resolve
