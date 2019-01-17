@@ -1,4 +1,5 @@
 repo_name,stage,type,whitelist_date
+auth0-infra,Production,Code,1970-01-01
 patient-webapp,Production,Code,1970-01-01
 care-platform,Production,Code,1970-01-01
 patient-app,Production,Code,1970-01-01
