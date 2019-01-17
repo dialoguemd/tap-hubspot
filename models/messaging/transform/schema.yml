@@ -15,6 +15,9 @@ models:
       - name: episode_id
         tests:
           - not_null
+          - relationships:
+              to: ref('messaging_channels')
+              field: episode_id
 
       - name: post_count
         tests:

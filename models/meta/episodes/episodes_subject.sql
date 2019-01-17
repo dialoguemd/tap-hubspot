@@ -21,6 +21,6 @@ select
     , max(date_trunc('week', question_replied.replied_at)) as date_week
 from channels
 left join question_replied
-    using (episode_id)
-where question_name = 'episode_subject'
+    on channels.episode_id = question_replied.episode_id
+    and question_replied.question_name = 'episode_subject'
 group by 1

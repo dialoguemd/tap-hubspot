@@ -24,10 +24,10 @@ with careplatform_pages as (
 
     , videos as (
         select careplatform_user_id as user_id
-            , date_trunc('day', started_at_est) as date_day_est
-            , date_trunc('day', started_at) as date_day
-            , started_at_est as timestamp_est
-            , started_at as timestamp
+            , date_trunc('day', timestamp_est) as date_day_est
+            , date_trunc('day', timestamp) as date_day
+            , timestamp_est
+            , timestamp
             , 'video' :: text as activity
             , episode_id
         from videos_tmp
