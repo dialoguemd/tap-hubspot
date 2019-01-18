@@ -15,6 +15,12 @@ models:
         - name: question_id
           tests:
               - not_null
+        - name: specialist_name
+          tests:
+              - not_null
+        - name: organization_name
+          tests:
+              - not_null
     tests:
         - unique:
             column_name: "concat(response_id, question_id)" 

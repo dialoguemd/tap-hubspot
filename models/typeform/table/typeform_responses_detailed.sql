@@ -28,6 +28,7 @@ select responses.response_id
 	, coalesce(organizations_mapping.organization_id
 		, responses.organization_id
 		) as organization_id
+	, organizations_mapping.specialist_name
 	, questions.form_title
 	, questions.question_title
 from responses

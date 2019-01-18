@@ -14,8 +14,24 @@ with
 	    where question_id in ('DggGJwmci4M6', 'HVzuTJLk2v7d')
 	)
 
-select responses.*
-	, specialists.specialist_name
+select responses.response_id
+	, responses.form_score
+	, responses.form_submitted_at
+	, responses.form_landed_at
+	, responses.question_id
+	, responses.question_type
+	, responses.answer_type
+	, responses.choices_answer
+	, responses.free_text_answer
+	, responses.number_answer
+	, responses.boolean_answer
+	, responses.hidden
+	, responses.user_id
+	, responses.answer
+	, responses.form_title
+	, responses.question_title
+	, coalesce(specialists.specialist_name, responses.specialist_name)
+		as specialist_name
 	, organizations.organization_name
 	, organizations.account_id
 	, organizations.account_name
