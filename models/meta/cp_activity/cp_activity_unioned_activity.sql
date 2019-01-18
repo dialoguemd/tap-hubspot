@@ -31,6 +31,8 @@ with careplatform_pages as (
             , 'video' :: text as activity
             , episode_id
         from videos_tmp
+        -- exclude old videos that are not associated with a cp user
+        where careplatform_user_id is not null
     )
 
     , unioned as (
