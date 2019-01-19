@@ -1,0 +1,20 @@
+
+version: 2
+
+models:
+  - name: dimension_dxa_chief_complaints
+    columns:
+      - name: chief_complaint
+        tests:
+          - not_null
+          - unique
+
+      - name: description_fr
+        tests:
+          - not_null
+          - unique
+
+      - name: description_en
+        tests:
+          - not_null
+          - unique

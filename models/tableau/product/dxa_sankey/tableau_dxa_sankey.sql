@@ -3,7 +3,7 @@ with ccs as (
     )
 
     , cc_labels as (
-        select * from {{ ref('messaging_dxa_labels') }}
+        select * from {{ ref('dimension_dxa_chief_complaints') }}
     )
 
     , episodes as (
@@ -13,7 +13,7 @@ with ccs as (
     , joined as (
         select episodes.episode_id
             , ccs.cc
-            , cc_labels.label
+            , cc_labels.description_en as label
             , episodes.issue_type
             , episodes.outcome
         from episodes

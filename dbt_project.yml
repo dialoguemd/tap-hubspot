@@ -77,7 +77,7 @@ models:
       coredata:
           materialized: table
       dimension:
-          materialized: ephemeral
+          materialized: table
       github:
           materialized: table
       messaging:
