@@ -20,7 +20,7 @@ with ccs as (
         inner join ccs
             using (episode_id)
         inner join cc_labels
-            using (cc)
+            on ccs.cc = cc_labels.chief_complaint
     )
 
 select *
