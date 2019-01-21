@@ -58,7 +58,7 @@ select id as account_id
 	, billing_date_c as billing_date
 	, click_to_dial_click_to_call_skype_c as click_to_dial_click_to_call_skype
 	, company_type_c as company_type
-	, sdr_c as sdr
+	, sdr_c as sdr_id
 	, total_partner_opportunities_mrr_c as total_partner_opportunities_mrr
 	, bs_status_icon_c as bs_status_icon
 	, client_churn_date_c as client_churn_date
@@ -102,7 +102,7 @@ select id as account_id
 	, churn_reason_details_c as churn_reason_details
 	, churn_reason_c as churn_reason
 	, latest_billing_start_date_c as latest_billing_start_date
-	, cs_account_manager_c as cs_account_manager
+	, cs_account_manager_c as am_id
 	, zisf_zoom_info_complete_status_c as zisf_zoom_info_complete_status
 	, zisf_zoom_clean_status_c as zisf_zoom_clean_status
 	, broker_advisor_c as broker_advisor

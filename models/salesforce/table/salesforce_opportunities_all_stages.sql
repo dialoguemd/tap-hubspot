@@ -25,11 +25,25 @@ select 'Activity' as status
     , industry
     , null as lead_source
     , false as is_inbound
+    , null as sdr_id
+    , null as sdr_name
+    , null as sdr_title
 from activities_detailed
+
+{% for status in ["Meeting", "Initiate",
+    "Educate", "Validate", "Justify", "Decide"]
+-%}
+
 union all
-select 'Meeting Booked' as status
+
+select
+    {% if status == "Meeting" -%}
+        'Meeting Booked'
+    {%- else -%}
+        '{{ status }}'
+    {%- endif %} as status
     , opportunity_id
-    , meeting_date as date
+    , {{ status.lower() }}_date as date
     , meeting_date
     , close_date
     , is_closed
@@ -45,114 +59,16 @@ select 'Meeting Booked' as status
     , industry
     , lead_source
     , is_inbound
+    , sdr_id
+    , sdr_name
+    , sdr_title
 from opportunities_direct
-where meeting_date is not null
+where {{ status.lower() }}_date is not null
+
+{% endfor -%}
+
 union all
-select 'Initiate' as status
-    , opportunity_id
-    , initiate_date as date
-    , meeting_date
-    , close_date
-    , is_closed
-    , is_won
-    , opportunity_age as age_in_days
-    , number_of_employees
-    , segment
-    , owner_name
-    , owner_title
-    , amount
-    , province
-    , country
-    , industry
-    , lead_source
-    , is_inbound
-from opportunities_direct
-where initiate_date is not null
-union all
-select 'Educate' as status
-    , opportunity_id
-    , educate_date as date
-    , meeting_date
-    , close_date
-    , is_closed
-    , is_won
-    , opportunity_age as age_in_days
-    , number_of_employees
-    , segment
-    , owner_name
-    , owner_title
-    , amount
-    , province
-    , country
-    , industry
-    , lead_source
-    , is_inbound
-from opportunities_direct
-where educate_date is not null
-union all
-select 'Validate' as status
-    , opportunity_id
-    , validate_date as date
-    , meeting_date
-    , close_date
-    , is_closed
-    , is_won
-    , opportunity_age as age_in_days
-    , number_of_employees
-    , segment
-    , owner_name
-    , owner_title
-    , amount
-    , province
-    , country
-    , industry
-    , lead_source
-    , is_inbound
-from opportunities_direct
-where validate_date is not null
-union all
-select 'Justify' as status
-    , opportunity_id
-    , justify_date as date
-    , meeting_date
-    , close_date
-    , is_closed
-    , is_won
-    , opportunity_age as age_in_days
-    , number_of_employees
-    , segment
-    , owner_name
-    , owner_title
-    , amount
-    , province
-    , country
-    , industry
-    , lead_source
-    , is_inbound
-from opportunities_direct
-where justify_date is not null
-union all
-select 'Decide' as status
-    , opportunity_id
-    , decide_date as date
-    , meeting_date
-    , close_date
-    , is_closed
-    , is_won
-    , opportunity_age as age_in_days
-    , number_of_employees
-    , segment
-    , owner_name
-    , owner_title
-    , amount
-    , province
-    , country
-    , industry
-    , lead_source
-    , is_inbound
-from opportunities_direct
-where decide_date is not null
-union all
+
 select 'Closed Won' as status
     , opportunity_id
     , close_date as date
@@ -171,5 +87,8 @@ select 'Closed Won' as status
     , industry
     , lead_source
     , is_inbound
+    , sdr_id
+    , sdr_name
+    , sdr_title
 from opportunities_direct
 where is_closed and is_won

@@ -7,6 +7,10 @@ with
         select * from {{ ref('salesforce_opportunities_detailed_direct') }}
     )
 
+    , users as (
+        select * from {{ ref('salesforce_users') }}
+    )
+
 select accounts.account_id
     , accounts.account_name
     , accounts.billing_state_code as province
@@ -14,6 +18,10 @@ select accounts.account_id
     , accounts.industry
     , accounts.number_of_employees
     , accounts.mrr
+    , accounts.sdr_id
+    , sdr.name as sdr_name
+    , accounts.am_id
+    , am.name as am_name
     , max(opportunities_direct.number_of_employees) as opps_number_of_employees
     , max(opportunities_direct.amount) as opps_amount
     , min(opportunities_direct.meeting_date) as meeting_date
@@ -21,4 +29,8 @@ select accounts.account_id
 from accounts
 left join opportunities_direct
     using (account_id)
-group by 1,2,3,4,5,6,7
+left join users as sdr
+    on accounts.sdr_id = sdr.user_id
+left join users as am
+    on accounts.am_id = am.user_id
+{{ dbt_utils.group_by(n=11) }}

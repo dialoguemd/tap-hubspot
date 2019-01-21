@@ -103,6 +103,8 @@ select opportunities.*
 	, partners.account_id as partner_account_id
 	, partners.account_name as partner_name
 	, inbound_lead_sources.lead_source is not null as is_inbound
+	, sdr.name as sdr_name
+	, sdr.title as sdr_title
 from opportunities
 inner join accounts
 	using (account_id)
@@ -116,3 +118,5 @@ left join accounts as partners
 	on opportunities.partner_id = partners.account_id
 left join inbound_lead_sources
 	using (lead_source)
+left join users as sdr
+	on opportunities.sdr_id = sdr.user_id

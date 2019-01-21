@@ -117,5 +117,6 @@ select id as opportunity_id
 		else value_period_c
 	end as value_period
 	, pilot_c is not null and pilot_c = 'Yes' as is_pilot
+	, sdr_c as sdr_id
 from salesforce.opportunities
 where not is_deleted

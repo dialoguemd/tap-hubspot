@@ -75,6 +75,17 @@ models:
         tests:
           - not_null
 
+      - name: status
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Activity', 'Meeting Booked', 'Initiate', 'Educate',
+                'Validate', 'Justify', 'Decide', 'Closed Won']
+
+      - name: opportunity_id
+        tests:
+          - not_null
+
     tests:
       - unique:
           column_name: "concat(status, opportunity_id)"
