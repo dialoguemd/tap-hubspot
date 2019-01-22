@@ -30,7 +30,7 @@ models:
       - dbt_utils.recency:
           field: date_day
           datepart: day
-          interval: 1
+          interval: 2
 
   - name: messaging_posts_all_time
     description: a union of old mm_posts and new messaging_posts to combine
@@ -54,6 +54,12 @@ models:
         tests:
           - not_null
 
+    tests:
+      - dbt_utils.recency:
+          field: created_at
+          datepart: hour
+          interval: 24
+
   - name: messaging_channels
     columns:
         - name: episode_id
@@ -66,8 +72,8 @@ models:
     tests:
       - dbt_utils.recency:
           field: created_at
-          datepart: day
-          interval: 1
+          datepart: hour
+          interval: 24
 
   - name: messaging_posts_w_lag_detail
     description: messaging posts with detail about the previous message
