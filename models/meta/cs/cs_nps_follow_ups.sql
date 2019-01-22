@@ -54,11 +54,11 @@ select follow_ups.score
         - follow_ups.nps_completed_at)/3600 :: float
         as time_to_follow_up_calendar
     , case when follow_ups.admin_first_message is not null
-        then count(working_minutes.minute)/60 :: float
+        then count(working_minutes.date_minute)/60 :: float
         end as time_to_follow_up_business
 from follow_ups
 left join working_minutes
     on follow_ups.time_to_respond
-        @> working_minutes.minute
+        @> working_minutes.date_minute
     and follow_ups.admin_first_message is not null
 group by 1,2,3,4,5,6,7

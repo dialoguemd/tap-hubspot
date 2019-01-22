@@ -66,3 +66,22 @@ models:
       - name: virtual_costs_cc_fl
         tests:
           - not_null
+
+  - name: wiw_opening_hours
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+          - unique
+
+      - name: opening_hour_est
+        tests:
+          - not_null
+
+      - name: closing_hour_est
+        tests:
+          - not_null
+
+      - name: opening_span_est
+        tests:
+          - not_null

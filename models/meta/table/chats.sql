@@ -20,6 +20,7 @@ with
 	)
 
 select messaging.date_day_est
+-- FIXME: date_week_est
 	, messaging.date_week
 	, messaging.episode_id
 	, messaging.first_message_care_team
@@ -56,6 +57,8 @@ select messaging.date_day_est
 	, messaging.time_since_last_message
 	, messaging.avg_wait_time_following_messages
 	, messaging.is_first_message_in_opening_hours
+	, messaging.opening_hour_est
+	, messaging.closing_hour_est
 
 	, coalesce(reminders.has_open_reminder, false) as has_open_reminder
 	, coalesce(state_changes.set_resolved_pending, false) as set_resolved_pending

@@ -12,8 +12,12 @@ with
 	)
 
 	, wiw_opening_hours as (
-        select * from {{ ref('wiw_opening_hours') }}
-    )
+		select * from {{ ref('wiw_opening_hours') }}
+	)
+
+	, episode_state_summary as (
+		select * from {{ ref('usher_episode_state_summary') }}
+	)
 
 	, posts as (
 		select posts_all_time.created_at_est
@@ -115,8 +119,8 @@ with
 		from posts
 		group by 1,2
 		having min(created_at_est) filter(where user_type = 'patient') is not null
-		or min(created_at_est) filter(where is_care_team) is not null
-    )
+			or min(created_at_est) filter(where is_care_team) is not null
+	)
 
 	, first_patient_sequence as (
 		select posts.created_at_day_est
@@ -132,7 +136,8 @@ with
 	)
 
 select chats.created_at_day_est as date_day_est
-	, date_trunc('week', chats.created_at_day_est) as date_week
+	, date_trunc('week', chats.created_at_day_est) as date_week_est
+	, date_trunc('month', chats.created_at_day_est) as date_month_est
 	, chats.episode_id
 	, 'https://zorro.dialogue.co/conversations/' || chats.episode_id
 		as url_zorro
@@ -180,7 +185,7 @@ select chats.created_at_day_est as date_day_est
 	-- Jinja loops for keeping window functions clean
 
 	-- Standard wait time
-    {% for type in ["care_team", "nurse", "shift_manager"] %}
+	{% for type in ["care_team", "nurse", "shift_manager"] %}
 
 	, case
 		when chats.first_message_patient < chats.first_message_{{type}}
@@ -208,10 +213,23 @@ select chats.created_at_day_est as date_day_est
 		then chats.time_since_last_message
 		else null
 		end as time_since_last_message
-	, wiw_opening_hours.date is not null as is_first_message_in_opening_hours
-
+	, chats.first_message_created_at <@ wiw_opening_hours.opening_span_est
+		as is_first_message_in_opening_hours
+	, wiw_opening_hours.opening_hour_est
+	, wiw_opening_hours.closing_hour_est
 from chats
 left join wiw_opening_hours
-	on chats.first_message_created_at <@ wiw_opening_hours.opening_span_est
+	on chats.created_at_day_est = wiw_opening_hours.date_day
 left join first_patient_sequence
 	using (episode_id, created_at_day_est)
+left join episode_state_summary
+	using (episode_id)
+where -- remove chats that were never active in the care platform
+	-- for example when a user does not complete the initial questionnaire
+	(
+		episode_state_summary.first_state_updated_date_day_est is not null
+		and episode_state_summary.first_state_updated_date_day_est
+			<= chats.created_at_day_est
+	)
+	-- usher events were not send before this date
+	or chats.created_at_day_est < '2018-01-01'

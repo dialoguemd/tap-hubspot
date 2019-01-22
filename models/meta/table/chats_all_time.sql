@@ -192,7 +192,7 @@ with messaging_posts_all_time as (
 
     , set_episode_state as (
         select episode_id
-          , updated_at
+          , timestamp as updated_at
           , episode_state
         from usher_episode_state_updated
         union all
@@ -320,7 +320,7 @@ with messaging_posts_all_time as (
             else null
           end as time_since_last_message
         , chats.avg_wait_time_following_messages
-        , wiw_opening_hours.date is not null as is_first_message_in_opening_hours
+        , wiw_opening_hours.date_day is not null as is_first_message_in_opening_hours
         , reminders_daily.episode_id is not null as has_open_reminder
         , episode_pending_resolved.first_set_resolved_pending_at is not null
             as set_resolved_pending

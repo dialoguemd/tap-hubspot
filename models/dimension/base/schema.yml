@@ -18,3 +18,44 @@ models:
         tests:
           - not_null
           - unique
+
+  - name: dimension_days
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+          - unique
+
+      - name: days_in_month
+        tests:
+          - not_null
+
+  - name: dimension_months
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+          - unique
+
+  - name: dimension_scorecard_weeks
+    columns:
+      - name: date_week
+        tests:
+          - not_null
+          - unique
+
+  - name: dimension_working_minutes
+    columns:
+      - name: date_minute
+        tests:
+          - not_null
+          - unique
+
+  - name: dimension_careplatform_reduced_hours
+    description: |
+      Dates when the service hours are reduced to 10:00 to 16:00
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+          - unique

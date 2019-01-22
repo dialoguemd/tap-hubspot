@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: usher_episode_state_summary
+    description: |
+      Summary of episode state changes
+
+      This table is used to know when an episode was first set active in the
+      care platform. It allows us to differentiate episodes for which users
+      never completed the initial questionnaire.
+    columns:
+      - name: episode_id
+        tests:
+          - not_null
+          - unique
+      - name: first_state_updated
+        tests:
+          - not_null
+      - name: first_state_updated_est
+        tests:
+          - not_null
+      - name: first_state_updated_date_day
+        tests:
+          - not_null
+      - name: first_state_updated_date_day_est
+        tests:
+          - not_null

@@ -19,7 +19,7 @@ select dates.date_week
  		as ttr_median
 from dates
 left join chats
-	on dates.date_week = chats.date_week
+	on dates.date_week = chats.date_week_est
 		and chats.is_first_message_in_opening_hours
-		and chats.date_week < date_trunc('week', current_date)
+		and chats.date_week_est < date_trunc('week', current_date)
 group by 1

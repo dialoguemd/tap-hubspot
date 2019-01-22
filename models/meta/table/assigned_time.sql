@@ -26,7 +26,7 @@ with assignments as (
         select episode_id
             , null as assigned_user_id
             , user_id
-            , updated_at as assigned_at
+            , timestamp as assigned_at
         from state_changes
         where episode_state in ('pending', 'resolved')
 	)

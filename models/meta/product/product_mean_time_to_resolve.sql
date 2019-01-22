@@ -15,11 +15,11 @@ with jira_issues as (
             , jira_issues.issue_type
             , jira_issues.resolved_at
             , date_trunc('week', resolved_at) as date_week
-            , count(working_minutes.minute) as time_to_resolve_working_min
-            , count(working_minutes.minute) / 480 as time_to_resolve_working_days
+            , count(working_minutes.date_minute) as time_to_resolve_working_min
+            , count(working_minutes.date_minute) / 480 as time_to_resolve_working_days
         from jira_issues
         left join working_minutes
-            on working_minutes.minute between jira_issues.created_at
+            on working_minutes.date_minute between jira_issues.created_at
                 and coalesce(jira_issues.resolved_at, current_date)
         where jira_issues.issue_type in ('P1 Bug', 'P2 Bug')
             and jira_issues.resolved_at

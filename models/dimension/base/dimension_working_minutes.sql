@@ -7,7 +7,7 @@ with series as (
 
 select 
   (timezone('America/Montreal', '2018-01-01 00:00:00')
-  + n * interval '1min') as minute
+  + n * interval '1min') as date_minute
 from series
 where extract(isodow from (timezone('America/Montreal', '2018-01-01 00:00:00')
         + (n || ' minutes')::interval)) < 6

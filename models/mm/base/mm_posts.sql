@@ -2,7 +2,11 @@ select id as post_id
    , type as post_type
    , user_id
    , mm_user_id
-   , user_type
+   , case
+      when type = 'system_add_remove' and user_type = 'patient'
+      then null
+      else user_type
+    end as user_type
    , channel_id as episode_id
    , created_at
    , message_length
