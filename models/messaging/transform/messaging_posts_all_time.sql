@@ -9,54 +9,62 @@
   )
 }}
 
-with messaging_posts as (
-      select * from {{ ref('messaging_posts') }}
-      -- Only add incremental jinja to messaging_posts because mm_posts is
-      -- now deprecated as of 2018-09-01
-      {% if is_incremental() %}
-         where created_at > (select max(created_at) from {{ this }})
-      {% endif %}
-   )
+with
+	messaging_posts as (
+		select * from {{ ref('messaging_posts') }}
+		-- Only add incremental jinja to messaging_posts because mm_posts is
+		-- now deprecated as of 2018-09-01
+		{% if is_incremental() %}
+		where created_at > (select max(created_at) from {{ this }})
+		{% endif %}
+	)
 
-   , test_users as (
-      select * from {{ ref('scribe_test_users') }}
-   )
+	, test_users as (
+		select * from {{ ref('scribe_test_users') }}
+	)
 
-   , mm_posts as (
-      select * from {{ ref('mm_posts') }}
-   )
+	, mm_posts as (
+		select * from {{ ref('mm_posts') }}
+	)
 
-   , unioned as (
-      select *
-      from messaging_posts
+	, unioned as (
+		select *
+		from messaging_posts
 
-      union all
+		union all
 
-      select *
-      from mm_posts
-   )
+		select *
+		from mm_posts
+	)
 
 select post_id
-    , post_type
-    , user_id
-    , mm_user_id
-    , user_type
-    , episode_id
-    , message_length
-    , count_question_marks
-    , next_appointment
-    , is_question
-    , is_internal_post
-    , mention
-    -- Take the max to take the later post and ignore Segment's manipulation
-    -- of timestamps; take the later to not interfere also with the incremental
-    -- materialization of the model
-    , max(created_at) as created_at
-    , date_trunc('day', max(created_at)) as created_at_day
-    , max(timezone('America/Montreal', created_at)) as created_at_est
-    , date_trunc('day',
-        max(timezone('America/Montreal', created_at))
-      ) as created_at_day_est
+	, post_type
+	, user_id
+	, mm_user_id
+	-- Add a case for users created before 2017-03-27 who have no user_type
+	, case 
+		when user_type is null 
+			and post_type is null
+			and user_id <> 'zy4q8gkk7bn67f6q7345qwztyo'
+		then 'patient'
+		else user_type
+		end as user_type
+	, episode_id
+	, message_length
+	, count_question_marks
+	, next_appointment
+	, is_question
+	, is_internal_post
+	, mention
+	-- Take the max to take the later post and ignore Segment's manipulation
+	-- of timestamps; take the later to not interfere also with the incremental
+	-- materialization of the model
+	, max(created_at) as created_at
+	, date_trunc('day', max(created_at)) as created_at_day
+	, max(timezone('America/Montreal', created_at)) as created_at_est
+	, date_trunc('day',
+	max(timezone('America/Montreal', created_at))
+	) as created_at_day_est
 from unioned
 left join test_users using (user_id)
 where test_users.user_id is null
