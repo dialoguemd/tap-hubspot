@@ -20,8 +20,8 @@ with
 	)
 
 select messaging.date_day_est
--- FIXME: date_week_est
-	, messaging.date_week
+	, messaging.date_week_est as date_week
+	, messaging.date_week_est
 	, messaging.episode_id
 	, messaging.first_message_care_team
 	, messaging.first_message_nurse
