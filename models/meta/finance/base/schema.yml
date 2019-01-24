@@ -107,3 +107,45 @@ models:
     tests:
       - unique:
           column_name: "concat(account, month)"
+
+  - name: finance_adjusted_revenue_monthly
+    description: |
+      Amount recognized each month by account (salesforce accounts).
+
+      This file is created by the finance team as it does not match the amount
+      paid each month. An example of differences is if a client prepays for
+      6 monhts, the amount will be recognized monthly over the full period.
+      Source (updated monthly by the finance team):
+      https://docs.google.com/spreadsheets/d/1wkvGi9P_08nZP_dbyBm8IN50ekc-xjtzwZoMSN05ZPI/edit?ts=5c4613ec#gid=1284329052
+
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: account_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('salesforce_accounts')
+              field: account_id
+
+      - name: account_name
+        tests:
+          - not_null
+
+  - name: finance_pilot_expansions
+    description: |
+      Companies and month excluded from the churn calculation as they represent
+      pilot expansions instead of organic or rep-lead expansions
+    columns:
+      - name: account_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('salesforce_accounts')
+              field: account_id
+
+      - name: date_month
+        tests:
+          - not_null

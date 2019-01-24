@@ -134,3 +134,19 @@ archive:
           target_table: scribe_users_archived
           updated_at: received_at
           unique_key: user_id
+
+seeds:
+  dialogue:
+    enabled: true
+
+    data_finance_adjusted_revenue_monthly:
+      column_types:
+        date_month: timestamp
+        account_id: text
+        account_name: text
+        amount: float
+
+    data_finance_pilot_expansions:
+      column_types:
+        date_month: timestamp
+        account_id: text

@@ -49,3 +49,63 @@ models:
     tests:
       - unique:
           column_name: "concat(account_name, month)"
+
+  - name: finance_revenue_adjusted_by_account_monthly_v2
+    description: |
+      Monthly adjusted revenue by account including all sources of revenue
+
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: account_id
+        tests:
+          - not_null
+
+      - name: amount
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(account_id, date_month)"
+
+  - name: finance_churn_monthly
+    description: |
+      Month over month recognized amount variation by account
+
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: account_id
+        tests:
+          - not_null
+
+      - name: account_name
+        tests:
+          - not_null
+
+      - name: amount
+        tests:
+          - not_null
+
+      - name: amount
+        tests:
+          - not_null
+
+      - name: amount_variation
+        tests:
+          - not_null
+
+      - name: amount_variation_type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Expansion', 'Contraction', 'Stable', 'New', 'Churned']
+
+    tests:
+      - unique:
+          column_name: "concat(account_id, date_month)"

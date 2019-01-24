@@ -122,6 +122,18 @@ models:
               'New Brunswick', 'Nova Scotia', 'Yukon',
               'Newfoundland and Labrador']
 
+      - name: is_churned
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: is_activated
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
   - name: scribe_user_contract_detailed
     columns:
       - name: contract_id
@@ -180,3 +192,22 @@ models:
     tests:
       - unique:
           column_name: "concat(user_id, contract_id)"
+
+  - name: scribe_organizations_contracts
+    columns:
+      - name: organization_id
+        tests:
+          - not_null
+          - unique
+
+      - name: first_contract_start_date
+        tests:
+          - not_null
+
+      - name: last_contract_end_date
+        tests:
+          - not_null
+
+      - name: is_churned
+        tests:
+          - not_null

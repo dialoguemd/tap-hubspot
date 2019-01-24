@@ -15,6 +15,10 @@ with
 		select * from {{ ref('scribe_plans_detailed') }}
 	)
 
+	, organizations_contracts as (
+		select * from {{ ref('scribe_organizations_contracts') }}
+	)
+
 	, organization_address_rank as (
 		select organization_id
 			, organization_address_id
@@ -105,10 +109,17 @@ select organizations.organization_id
 		when tax_province is not null then tax_province
 		else 'Quebec'
 	end as province
+	, organizations_contracts.first_contract_start_date
+	, organizations_contracts.last_contract_end_date
+	, coalesce(organizations_contracts.is_churned, false) as is_churned
+	-- Activated organizations have at least one contract
+	, organizations_contracts.organization_id is null as is_activated
 from organizations
 left join organization_address_unique
 	using (organization_id)
 inner join plans
+	using (organization_id)
+left join organizations_contracts
 	using (organization_id)
 left join test_organizations
 	using (organization_id)
