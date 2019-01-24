@@ -19,6 +19,15 @@ models:
           - not_null
           - unique
 
+  - name: dimension_weeks_saturday_start
+    description: a dimension model of weeks with Saturday as the start date.
+      These are used in the product_mean_time_to_resolve model.
+    columns: 
+      - name: date_week
+        tests:
+          - not_null
+          - unique
+    
   - name: dimension_days
     columns:
       - name: date_day
