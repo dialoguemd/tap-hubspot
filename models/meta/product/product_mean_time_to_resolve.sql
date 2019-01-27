@@ -23,8 +23,8 @@ with jira_issues as (
                         - (extract ('dow' from jira_issues.resolved_at) +1)
                         * interval '1 days'
                     end as date_week
-            , count(working_minutes.minute) as time_to_resolve_working_min
-            , count(working_minutes.minute) / 480 as time_to_resolve_working_days
+            , count(working_minutes.date_minute) as time_to_resolve_working_min
+            , count(working_minutes.date_minute) / 480 as time_to_resolve_working_days
         from jira_issues
         left join working_minutes
             on working_minutes.date_minute between jira_issues.created_at
