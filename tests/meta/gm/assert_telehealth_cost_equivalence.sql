@@ -27,6 +27,9 @@ with costs as (
       left join monthly_costs using (date_month)
       -- Filter for after April only because of video refactor and tracking changes
       where date_month > '2018-04-01'
+      {% if target.name == 'dev' %}
+        and date_month > current_date - interval '2 months'
+      {% endif %}
     )
 
 select *

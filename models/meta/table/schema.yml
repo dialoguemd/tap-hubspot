@@ -220,7 +220,11 @@ models:
           - not_null
 
   - name: episodes
-    description: A table containing episodes with details for analysis
+    description: A table containing unique episodes with details for analysis;
+      in episodes_with_contracts these are then joined to get organization
+      details but because of the possibility of having two active contracts
+      this model is kept separate to allow for testing and analysis on unique
+      episodes
 
     columns:
         - name: episode_id

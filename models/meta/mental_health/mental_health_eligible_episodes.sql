@@ -1,6 +1,6 @@
 with
   episodes as (
-    select * from {{ ref('episodes') }}
+    select * from {{ ref('episodes_with_contracts') }}
   )
 
   , scribe_plans_detailed as (

@@ -17,3 +17,27 @@ models:
           tests:
               - unique
               - not_null
+
+  - name: episodes_with_contracts
+    description: Unique episodes are joined to active user_contracts in this
+      model; the result is that some episodes may be double counted because
+      certain users may have two valid contracts active (e.g. one dependent
+      and one employee).
+    columns:
+        - name: organization_name
+          tests:
+              - not_null
+        - name: organization_id
+          tests:
+              - not_null
+        - name: account_name
+          tests:
+              - not_null
+        - name: account_id
+          tests:
+              - not_null
+        - name: episode_id
+              - not_null
+    tests:
+      - unique:
+          column_name: "concat(episode_id, organization_id)"

@@ -16,7 +16,7 @@ with
 	)
 
 	, episodes as (
-		select * from {{ ref('episodes') }}
+		select * from {{ ref('episodes_with_contracts') }}
 	)
 
 	, recent_nps_respondents as (

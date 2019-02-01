@@ -30,14 +30,6 @@ with
 			-- Organize during fields for filtering out overlapping contracts
 			, contracts.during_start
 			, contracts.during_end
-			, lag(contracts.during_start) over
-				(partition by user_contract.user_id
-					order by contracts.during_start, contracts.contract_id)
-					as previous_during_start
-			, lag(contracts.during_end) over
-				(partition by user_contract.user_id
-					order by contracts.during_start, contracts.contract_id)
-					as previous_during_end
 
 			, organizations.billing_start_date
 			, organizations.organization_name
@@ -137,8 +129,3 @@ select contract_id
 	, invited_month
 	, signed_up_month
 from detailed
--- Filter out all user_contracts that have a previous_during_end that is 
--- greater than its during end (i.e. the contract in question starts after
--- the previous contract and ends before the previous contract)
-where (during_end > previous_during_end
-	or previous_during_end is null)

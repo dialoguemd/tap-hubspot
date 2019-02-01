@@ -17,7 +17,6 @@ with time_spent as (
 select time_spent.episode_id
     , time_spent.date
     , episodes.patient_id
-    , episodes.organization_name
     , chats.chat_type
     , time_spent.cc_time * hourly_cost.cc_hourly as cc_cost
     , time_spent.nc_time * hourly_cost.nc_hourly as nc_cost

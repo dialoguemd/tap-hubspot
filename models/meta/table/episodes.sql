@@ -52,8 +52,8 @@ with channels as (
 		select * from {{ ref('episodes_created_sequence_detailed') }}
 	)
 
-	, user_contract as (
-		select * from {{ ref('user_contract') }}
+	, users as (
+		select * from {{ ref('scribe_users') }}
 	)
 
 select channels.episode_id
@@ -149,16 +149,10 @@ select channels.episode_id
 	, episodes_created_sequence.video_started_at
 	, episodes_created_sequence.video_ended_at
 
-	, user_contract.organization_id
-	, user_contract.organization_name
-	, user_contract.account_id
-	, user_contract.account_name
-	, user_contract.residence_province
-	, user_contract.gender
-	, user_contract.family_member_type
+	, users.gender
 	, extract('year' from
 		age(episodes_chats_summary.first_message_created_at,
-		user_contract.birthday)) as age
+		users.birthday)) as age
 
 from channels
 left join episodes_outcomes
@@ -179,10 +173,9 @@ left join episodes_kpis
 	using (episode_id)
 left join episodes_created_sequence
 	using (episode_id)
-left join user_contract
-	on channels.user_id = user_contract.user_id
-	and episodes_chats_summary.first_message_created_at
-		<@ user_contract.during_est
+-- Don't use `using` on these joins because of multiple user_id fields
+left join users
+	on episodes_subject.episode_subject = users.user_id
 left join test_users
-	on channels.user_id = test_users.user_id
+	on episodes_subject.episode_subject = test_users.user_id
 where test_users.user_id is null

@@ -1,5 +1,5 @@
 with episodes as (
-      select * from {{ ref( 'episodes' ) }}
+      select * from {{ ref( 'episodes_with_contracts' ) }}
    )
 
    , issue_type_labels as (
