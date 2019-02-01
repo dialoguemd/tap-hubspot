@@ -1,0 +1,107 @@
+version: 2
+
+models:
+  - name: intake_events_by_episode_unfiltered
+    description: transformation table for creating intake events; it uses
+      information from countdown questionnaires and messaging to make a
+      sequence of events. This includes all events in the episodes' history.
+
+    columns:
+        - name: timestamp
+          tests:
+              - not_null
+        - name: event_name
+          tests:
+              - not_null
+        - name: episode_id
+          tests:
+              - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(timestamp, episode_id)"
+
+  - name: intake_events_by_episode
+    description: this is the full intake events model with filtering details
+      like reason for consultation, cc_code, issue_type, outcome, etc. This
+      only includes events before DXA was launched; if it was never launched it
+      includes all events.
+
+    columns:
+        - name: timestamp
+          tests:
+              - not_null
+        - name: event_name
+          tests:
+              - not_null
+        - name: event_grouping
+          tests:
+              - not_null
+        - name: episode_id
+          tests:
+              - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(timestamp, episode_id)"
+
+  - name: intake_event_name_mapping
+    description: a seed used for mapping events to their event groupings,
+      mailny used for colouring in Tableau visualizations.
+
+    columns:
+        - name: event_name
+          tests:
+              - not_null
+              - unique
+        - name: event_grouping
+          tests:
+              - not_null
+
+  - name: intake_episode_summaries
+    description: a pivot-style model with a record per episode with columns for
+      the first 15 events in the episode.
+
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+        - name: count_events
+          tests:
+              - not_null
+        - name: has_dxa
+          tests:
+              - not_null
+        - name: has_interruption
+          tests:
+              - not_null
+        - name: intake_type
+          tests:
+              - not_null
+
+  - name: intake_nodes
+    description: a simplified model for feeding weighted edges into a NetworkX
+      visualization; each edge is between a preceeding and a following event
+      such as dxa_permission and dxa. 
+
+    columns:
+        - name: previous_event
+          tests:
+              - not_null
+        - name: following_event
+          tests:
+              - not_null
+        - name: type
+          tests:
+              - not_null
+        - name: type_colour
+          tests:
+              - not_null
+        - name: fraction
+          tests:
+              - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(previous_event, following_event)"

@@ -52,6 +52,14 @@ with channels as (
 		select * from {{ ref('episodes_created_sequence_detailed') }}
 	)
 
+	, episodes_chief_complaint as (
+		select * from {{ ref('episodes_chief_complaint') }}
+	)
+
+	, episodes_reason_for_visit as (
+		select * from {{ ref('episodes_reason_for_visit') }}
+	)
+
 	, users as (
 		select * from {{ ref('scribe_users') }}
 	)
@@ -149,33 +157,42 @@ select channels.episode_id
 	, episodes_created_sequence.video_started_at
 	, episodes_created_sequence.video_ended_at
 
+	, episodes_chief_complaint.cc_code
+
+  , episodes_reason_for_visit.reason_for_visit
+
 	, users.gender
 	, extract('year' from
 		age(episodes_chats_summary.first_message_created_at,
 		users.birthday)) as age
 
 from channels
-left join episodes_outcomes
+
+-- Jinja loop for reptitive joins
+{% for table in
+        ["episodes_outcomes",
+        "episodes_issue_types",
+        "episodes_priority_levels",
+        "episodes_ratings",
+        "episodes_subject",
+        "episodes_chats_summary",
+        "episodes_nps",
+        "episodes_kpis",
+        "episodes_created_sequence",
+        "episodes_chief_complaint",
+        "episodes_reason_for_visit"]
+    %}
+
+left join {{table}}
 	using (episode_id)
-left join episodes_issue_types
-	using (episode_id)
-left join episodes_priority_levels
-	using (episode_id)
-left join episodes_ratings
-	using (episode_id)
-left join episodes_subject
-	using (episode_id)
-left join episodes_chats_summary
-	using (episode_id)
-left join episodes_nps
-	using (episode_id)
-left join episodes_kpis
-	using (episode_id)
-left join episodes_created_sequence
-	using (episode_id)
+
+{% endfor %}
+
 -- Don't use `using` on these joins because of multiple user_id fields
 left join users
 	on episodes_subject.episode_subject = users.user_id
+
 left join test_users
 	on episodes_subject.episode_subject = test_users.user_id
+
 where test_users.user_id is null

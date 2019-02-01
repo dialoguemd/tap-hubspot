@@ -18,6 +18,29 @@ models:
               - unique
               - not_null
 
+  - name: episodes_reason_for_visit
+    description: The first reson for visit stated for a given episode
+    columns:
+        - name: episode_id
+          tests:
+              - unique
+              - not_null
+        - name: reason_for_visit
+          tests:
+              - not_null
+
+  - name: episodes_reason_for_visit
+    description: The first chief complaint code used to launch DXA in a given
+      episode
+    columns:
+        - name: episode_id
+          tests:
+              - unique
+              - not_null
+        - name: reason_for_visit
+          tests:
+              - not_null
+
   - name: episodes_with_contracts
     description: Unique episodes are joined to active user_contracts in this
       model; the result is that some episodes may be double counted because
@@ -41,3 +64,4 @@ models:
     tests:
       - unique:
           column_name: "concat(episode_id, organization_id)"
+
