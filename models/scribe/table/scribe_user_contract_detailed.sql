@@ -93,24 +93,15 @@ select contract_id
 	, charge_price_mental_health
 	, charge_price_24_7
 	, charge_strategy
-	-- correct during_start to eliminate overlap
-	-- TODO: add a data test to test all known use cases
-	, case when previous_during_start is null then during_start
-		when during_start < previous_during_end then previous_during_end
-		else during_start end as during_start
+	, during_start
 	, during_end
 	-- construct during tsranges for tstz and est-specific
 	, tstzrange(
-			case when previous_during_start is null then during_start
-				when during_start < previous_during_end then previous_during_end
-				else during_start end,
+			during_start,
 			during_end
 		) as during
 	, tsrange(
-			timezone('America/Montreal', 
-				case when previous_during_start is null then during_start
-					when during_start < previous_during_end then previous_during_end
-					else during_start end),
+			timezone('America/Montreal', during_start),
 			timezone('America/Montreal', during_end)
 		) as during_est
 	, billing_start_date
