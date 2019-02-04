@@ -73,3 +73,15 @@ models:
           tests:
               - not_null
 
+  - name: product_login_rate
+    columns:
+        - name: date_day
+          tests:
+              - not_null
+              - unique
+        - name: login
+          tests:
+              - not_null
+        - name: fraction
+          tests:
+              - not_null

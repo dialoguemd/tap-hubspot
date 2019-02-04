@@ -25,3 +25,9 @@ models:
           field: timestamp
           datepart: hour
           interval: 15
+
+  - name: patientapp_login_fetch_complete
+    columns:
+      - name: user_id
+        tests:
+          - not_null
