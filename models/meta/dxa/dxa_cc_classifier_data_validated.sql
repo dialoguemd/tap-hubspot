@@ -1,0 +1,1 @@
+select * from {{ ref('data_dxa_cc_classifier_data_validated') }}
