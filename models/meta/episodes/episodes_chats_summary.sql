@@ -22,6 +22,7 @@ with channels as (
         , sum(chats_all_time.messages_care_team) as messages_care_team
         , sum(chats_all_time.messages_length_total) as messages_length_total
         , min(chats_all_time.first_set_resolved_pending_at) as first_set_resolved_pending_at
+        , min(chats_all_time.first_set_active) as first_set_active
         , bool_or(chats_all_time.set_resolved_pending) as set_resolved_pending
         , bool_or(chats_all_time.chat_type = 'Follow-up') as includes_follow_up
         , bool_or(chats_all_time.includes_video) as includes_video

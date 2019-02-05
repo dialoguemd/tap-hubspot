@@ -63,6 +63,7 @@ select messaging.date_day_est
 	, coalesce(reminders.has_open_reminder, false) as has_open_reminder
 	, coalesce(state_changes.set_resolved_pending, false) as set_resolved_pending
 	, state_changes.first_set_resolved_pending_at
+	, state_changes.first_set_active
 	, case
 		when state_changes.set_resolved_pending
 			then extract('epoch'

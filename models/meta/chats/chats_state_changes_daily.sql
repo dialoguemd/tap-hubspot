@@ -13,7 +13,6 @@ with
 			, date_day_est
 			, episode_state
 		from state_changed
-		where episode_state in ('pending', 'resolved')
 		union all
 		select episode_id
 			, timestamp_est
@@ -24,7 +23,12 @@ with
 
 select episode_id
 	, date_day_est
-	, min(timestamp_est) as first_set_resolved_pending_at
-	, min(timestamp_est) is not null as set_resolved_pending
+	, min(timestamp_est) filter (where episode_state = 'active')
+		as first_set_active
+	, min(timestamp_est) filter (where episode_state in ('pending', 'resolved'))
+		as first_set_resolved_pending_at
+	, min(timestamp_est) filter (where episode_state in ('pending', 'resolved'))
+		is not null as set_resolved_pending
+
 from set_episode_state
 group by 1,2

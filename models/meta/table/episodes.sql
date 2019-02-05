@@ -111,6 +111,7 @@ select channels.episode_id
 	, episodes_chats_summary.messages_care_team
 	, episodes_chats_summary.messages_length_total
 	, episodes_chats_summary.first_set_resolved_pending_at
+	, episodes_chats_summary.first_set_active
 	, episodes_chats_summary.set_resolved_pending
 	, episodes_chats_summary.includes_follow_up
 	, episodes_chats_summary.includes_video
@@ -159,29 +160,49 @@ select channels.episode_id
 
 	, episodes_chief_complaint.cc_code
 
-  , episodes_reason_for_visit.reason_for_visit
+	, episodes_reason_for_visit.reason_for_visit
 
 	, users.gender
 	, extract('year' from
 		age(episodes_chats_summary.first_message_created_at,
 		users.birthday)) as age
 
+		-- Calculate First Response Times
+	, case
+		when first_message_patient < first_message_care_team
+		then extract('epoch' from first_message_care_team
+			- first_message_patient) / 60.0
+		else null
+		end as frt_pt_message
+	, case
+		when first_set_active < first_message_care_team
+		then extract('epoch' from first_message_care_team
+			- first_set_active) / 60.0
+		else null
+		end as frt_active
+	, case
+		when dxa_completed_at < first_message_care_team
+		then extract('epoch' from first_message_care_team
+			- dxa_completed_at) / 60.0
+		else null
+		end as frt_dxa
+
 from channels
 
 -- Jinja loop for reptitive joins
 {% for table in
-        ["episodes_outcomes",
-        "episodes_issue_types",
-        "episodes_priority_levels",
-        "episodes_ratings",
-        "episodes_subject",
-        "episodes_chats_summary",
-        "episodes_nps",
-        "episodes_kpis",
-        "episodes_created_sequence",
-        "episodes_chief_complaint",
-        "episodes_reason_for_visit"]
-    %}
+		["episodes_outcomes",
+		"episodes_issue_types",
+		"episodes_priority_levels",
+		"episodes_ratings",
+		"episodes_subject",
+		"episodes_chats_summary",
+		"episodes_nps",
+		"episodes_kpis",
+		"episodes_created_sequence",
+		"episodes_chief_complaint",
+		"episodes_reason_for_visit"]
+	%}
 
 left join {{table}}
 	using (episode_id)
