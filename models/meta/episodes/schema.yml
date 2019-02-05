@@ -41,6 +41,16 @@ models:
           tests:
               - not_null
 
+  - name: episodes_chats_summary
+    description: Facts about messaging, episode state changes, videos, etc.
+      that are all derived from the `chats` model; these facts are aggregated
+      on an episode grain
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+
   - name: episodes_with_contracts
     description: Unique episodes are joined to active user_contracts in this
       model; the result is that some episodes may be double counted because

@@ -7,7 +7,10 @@ with episodes as (
 	)
 
 select episodes.*
+	-- contract_id is for testing for uniqueness
+	, user_contracts.contract_id
 	, user_contracts.family_member_type
+	, user_contracts.residence_province
 	, user_contracts.organization_name
 	, user_contracts.organization_id
 	, user_contracts.account_name
