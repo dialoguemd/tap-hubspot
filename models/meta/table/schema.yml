@@ -238,23 +238,6 @@ models:
           datepart: day
           interval: 1
 
-  - name: chats_all_time
-    description: A table containing daily episode activity with details about
-      what activity was done in that episode on that day
-
-    columns:
-        - name: episode_id
-          tests:
-              - not_null
-    tests:
-      - dbt_utils.recency:
-          field: last_message_created_at
-          datepart: hour
-          interval: 24
-      - unique:
-          column_name: "concat(created_at_day, episode_id)"
-
-
   - name: nps_patient_survey
     columns:
       - name: user_id
