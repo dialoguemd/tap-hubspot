@@ -169,21 +169,24 @@ select channels.episode_id
 
 		-- Calculate First Response Times
 	, case
-		when first_message_patient < first_message_care_team
-		then extract('epoch' from first_message_care_team
-			- first_message_patient) / 60.0
+		when episodes_chats_summary.first_message_patient
+			< episodes_chats_summary.first_message_care_team
+		then extract('epoch' from episodes_chats_summary.first_message_care_team
+			- episodes_chats_summary.first_message_patient) / 60.0
 		else null
 		end as frt_pt_message
 	, case
-		when first_set_active < first_message_care_team
-		then extract('epoch' from first_message_care_team
-			- first_set_active) / 60.0
+		when episodes_chats_summary.first_set_active
+			< episodes_chats_summary.first_message_care_team
+		then extract('epoch' from episodes_chats_summary.first_message_care_team
+			- episodes_chats_summary.first_set_active) / 60.0
 		else null
 		end as frt_active
 	, case
-		when dxa_completed_at < first_message_care_team
-		then extract('epoch' from first_message_care_team
-			- dxa_completed_at) / 60.0
+		when episodes_created_sequence.dxa_completed_at
+			< episodes_chats_summary.first_message_care_team
+		then extract('epoch' from episodes_chats_summary.first_message_care_team
+			- episodes_created_sequence.dxa_completed_at) / 60.0
 		else null
 		end as frt_dxa
 
