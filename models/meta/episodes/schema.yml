@@ -65,3 +65,9 @@ models:
       - unique:
           column_name: "concat(episode_id, organization_id)"
 
+  - name: episodes_chief_complaint
+    description: list of chief complaint by episode id
+    columns:
+        - name: is_valid_cc
+          tests:
+              - not_null

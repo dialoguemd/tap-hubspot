@@ -3,6 +3,10 @@ with
 		select * from {{ ref( 'messaging_dxa_cc' ) }}
 	)
 
+	, labels as (
+		select * from {{ ref( 'dimension_dxa_chief_complaints' ) }}
+	)
+
 	, cc as (
 		select episode_id
 			, cc as cc_code
@@ -11,7 +15,10 @@ with
 		from dxa_cc
 	)
 
-select episode_id
-	, cc_code
+select cc.episode_id
+	, cc.cc_code
+	, labels.chief_complaint is not null as is_valid_cc
 from cc
+left join labels
+	on cc.cc_code = labels.chief_complaint
 where rank = 1

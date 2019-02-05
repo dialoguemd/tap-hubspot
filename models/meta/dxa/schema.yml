@@ -2,8 +2,9 @@ version: 2
 
 models:
   - name: dxa_cc_classifier_data_not_validated
-    description: pulls data from countdown with cc codes or not, answeres to question == ask_symptoms, only the ones that 
-      were not validated by doctors yet.
+    description: pulls data from countdown with cc codes or not, answers to 
+      question == ask_symptoms, only the ones that were not validated by 
+      doctors yet.
     columns:
         - name: episode_id
           tests:
