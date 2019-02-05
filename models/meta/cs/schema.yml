@@ -75,7 +75,9 @@ models:
 
   - name: cs_organization_monthly
     description: the aggregation of activity, activity cumulative, and usage,
-      primarily used in power the CS Organization Monthly tableau dashboard
+      primarily used in power the CS Organization Monthly tableau dashboard.
+      This model is also tested with a data test for ensuring that cumulative
+      consult columns are increasing over time.
     tests:
         - unique:
             column_name: "concat(date_month, organization_id, residence_province)"
