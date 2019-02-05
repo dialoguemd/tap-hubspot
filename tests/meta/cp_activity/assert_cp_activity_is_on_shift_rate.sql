@@ -1,4 +1,13 @@
--- TODO: fix rolling 70 day WIW issue before reimplementing
+-- CP Activity On-Shift test, to reimplement after ETL issue is resolved
+-- For now, here's a dummy test that will always result in no records / pass
+
+with
+	cp_activity as (
+		select * from {{ ref('cp_activity') }}
+	)
+
+select * from cp_activity
+where date > current_date
 
 -- with
 -- 	cp_activity as (
@@ -17,11 +26,7 @@
 -- 		group by 1
 -- 	)
 
--- 	, above_threshold as (
--- 		select *
--- 		from weeks
--- 		where fraction_activities < 0.79
--- 			or fraction_time_spent < 0.79
--- 	)
-
 -- select *
+-- from weeks
+-- where fraction_activities < 0.79
+-- 	or fraction_time_spent < 0.79
