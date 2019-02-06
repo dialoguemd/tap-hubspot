@@ -59,6 +59,42 @@ models:
       - unique:
           column_name: "concat(episode_id, date_day_est)"
 
+  - name: chats_detailed
+    columns:
+      - name: episode_id
+        tests:
+          - not_null
+      - name: date_day_est
+        tests:
+          - not_null
+      - name: initiator
+        tests:
+          - not_null
+      - name: has_open_reminder
+        tests:
+          - not_null
+      - name: set_resolved_pending
+        tests:
+          - not_null
+      - name: chat_type
+        tests:
+          - not_null
+      - name: account_id
+        tests:
+          - not_null
+      - name: account_name
+        tests:
+          - not_null
+      - name: organization_id
+        tests:
+          - not_null
+      - name: organization_name
+        tests:
+          - not_null
+      - name: residence_province
+        tests:
+          - not_null
+
   - name: organizations
     columns:
       - name: organization_id
@@ -94,36 +130,6 @@ models:
     tests:
       - unique:
           column_name: "concat(date_month, organization_id)"
-
-  - name: accounts_monthly
-    columns:
-      - name: account_id
-        tests:
-          - not_null
-
-      - name: account_name
-        tests:
-          - not_null
-
-      - name: active_contracts
-        tests:
-          - not_null
-
-      - name: price_monthly
-        tests:
-          - not_null
-
-      - name: active_contracts_last_month
-        tests:
-          - not_null
-
-      - name: price_monthly_last_month
-        tests:
-          - not_null
-
-    tests:
-      - unique:
-          column_name: "concat(date_month, account_id)"
 
   - name: active_users
     columns:

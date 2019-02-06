@@ -19,7 +19,7 @@ models:
               - not_null
 
   - name: episodes_reason_for_visit
-    description: The first reson for visit stated for a given episode
+    description: The first reason for visit stated for a given episode
     columns:
         - name: episode_id
           tests:
@@ -29,7 +29,7 @@ models:
           tests:
               - not_null
 
-  - name: episodes_reason_for_visit
+  - name: episodes_chief_complaint
     description: The first chief complaint code used to launch DXA in a given
       episode
     columns:
@@ -37,7 +37,13 @@ models:
           tests:
               - unique
               - not_null
-        - name: reason_for_visit
+        - name: cc_code
+          tests:
+              - not_null
+        - name: timestamp
+          tests:
+              - not_null
+        - name: timestamp_est
           tests:
               - not_null
 

@@ -98,6 +98,10 @@ select channels.episode_id
 	, episodes_subject.episode_subject
 	, episodes_subject.episode_subject as patient_id
 
+	, date_trunc('day', episodes_chats_summary.first_message_created_at)
+		as date_day_est
+	, date_trunc('week', episodes_chats_summary.first_message_created_at)
+		as date_week_est
 	, episodes_chats_summary.first_message_created_at
 	, episodes_chats_summary.last_message_created_at
 	, episodes_chats_summary.first_message_care_team
@@ -159,6 +163,7 @@ select channels.episode_id
 	, episodes_created_sequence.video_ended_at
 
 	, episodes_chief_complaint.cc_code
+	, episodes_chief_complaint.timestamp as dxa_triggered_at
 
 	, episodes_reason_for_visit.reason_for_visit
 
@@ -189,6 +194,32 @@ select channels.episode_id
 			- episodes_created_sequence.dxa_completed_at) / 60.0
 		else null
 		end as frt_dxa
+
+	, case
+		-- invalid episodes
+		when episodes_outcomes.first_outcome in (
+				'episode_duplicate', 'admin', 'test', 'audit'
+			)
+			or episodes_outcomes.first_outcome is null
+			or not episodes_chats_summary.is_first_message_in_opening_hours
+		then null
+		when episodes_chief_complaint.timestamp_est is null
+			and episodes_chats_summary.first_message_care_team is null
+		then false
+		-- initiated by care team
+		when least(
+				episodes_chief_complaint.timestamp_est
+				, episodes_chats_summary.first_message_care_team
+			) < episodes_chats_summary.first_message_patient
+		then null
+		else extract('epoch' from
+			least(
+				episodes_chief_complaint.timestamp_est
+				, episodes_chats_summary.first_message_care_team
+			)
+			- episodes_chats_summary.first_message_patient
+		) / 60.0 < 15
+	end as sla_answered_within_15_minutes
 
 from channels
 

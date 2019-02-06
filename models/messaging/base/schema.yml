@@ -16,6 +16,9 @@ models:
 
   - name: messaging_dxa_cc
     columns:
+      - name: episode_id
+        tests:
+          - not_null
       - name: timestamp
         tests:
           - not_null

@@ -19,6 +19,10 @@ with
 		select * from {{ ref('videos_by_episode_daily') }}
 	)
 
+	, episodes_subject as (
+		select * from {{ ref('episodes_subject') }}
+	)
+
 select messaging.date_day_est
 	, messaging.date_week_est as date_week
 	, messaging.date_week_est
@@ -39,6 +43,7 @@ select messaging.date_day_est
 	, messaging.first_message_created_at
 	, messaging.last_message_created_at
 	, messaging.user_id
+	, episodes_subject.episode_subject as patient_id
 	, messaging.includes_care_team_message
 	, messaging.includes_nurse_message
 	, messaging.includes_sm_message
@@ -101,3 +106,5 @@ left join outcomes
 	using (episode_id, date_day_est)
 left join videos
 	using (episode_id, date_day_est)
+left join episodes_subject
+	using (episode_id)
