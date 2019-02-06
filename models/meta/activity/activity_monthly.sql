@@ -23,7 +23,7 @@ with chats as (
 	, activity as (
 		select user_contract.organization_id
 			, user_contract.organization_name
-			, date_trunc('month', chats.created_at_day) as date_month
+			, date_trunc('month', chats.date_day_est) as date_month
 			, count(distinct chats.user_id) as mau_count
 			, count(distinct
 				concat(chats.user_id, chats.episode_id)
@@ -31,9 +31,9 @@ with chats as (
 		from chats
 		inner join user_contract
 			on chats.user_id = user_contract.user_id
-			and chats.created_at_day <@ user_contract.during_est
+			and chats.date_day_est <@ user_contract.during_est
 		-- Before this date not all users had organizations
-		where chats.created_at_day > '2017-10-01'
+		where chats.date_day_est > '2017-10-01'
 		group by 1,2,3
 	)
 

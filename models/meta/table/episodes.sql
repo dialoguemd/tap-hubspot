@@ -168,6 +168,7 @@ select channels.episode_id
 	, episodes_reason_for_visit.reason_for_visit
 
 	, users.gender
+	, users.language
 	, extract('year' from
 		age(episodes_chats_summary.first_message_created_at,
 		users.birthday)) as age

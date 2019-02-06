@@ -7,9 +7,9 @@ models:
 
     columns:
         - name: episode_id
-          description: This is a unique identifier for the episode
+          description: note that this is not unique because of the join on
+            user_contract
           tests:
-              - unique
               - not_null
     tests:
       - dbt_utils.recency:

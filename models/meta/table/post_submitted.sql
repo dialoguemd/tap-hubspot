@@ -30,5 +30,5 @@ inner join user_contract
 	on episodes.patient_id = user_contract.user_id
 		and post_submitted.timestamp <@ user_contract.during
 {% if target.name == 'dev' %}
-  where timestamp > current_date - interval '1 months'
+  where timestamp > current_date - interval '2 months'
 {% endif %}

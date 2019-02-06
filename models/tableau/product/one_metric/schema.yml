@@ -5,17 +5,18 @@ models:
     columns:
         - name: user_id
           tests:
-              - unique
               - not_null
         - name: count_episodes
           tests:
               - not_null
+    tests:
+        - unique:
+            column_name: "concat(user_id, contract_id)"
 
   - name: tableau_product_one_metric_resolution_rate
     columns:
         - name: episode_id
           tests:
-              - unique
               - not_null
         - name: patient_id
           tests:
@@ -23,6 +24,9 @@ models:
         - name: is_signed_up
           tests:
               - not_null
+    tests:
+        - unique:
+            column_name: "concat(episode_id, contract_id)"
 
   - name: tableau_product_one_metric_user_resolve_details
     columns:

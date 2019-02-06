@@ -13,5 +13,6 @@ with
 select *
 from active_fraction
 where fraction > 0.18
+    and date_week > '2018-01-01'
 -- This test was calibrated on 2019-02-01 with the max fraction being 0.170
 -- in the week of 2019-01-21

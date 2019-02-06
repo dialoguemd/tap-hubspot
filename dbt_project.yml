@@ -85,8 +85,6 @@ models:
               materialized: view
       meta:
           materialized: table
-      series_b:
-          materialized: table
       scribe:
           materialized: table
       tableau:

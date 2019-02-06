@@ -14,7 +14,7 @@ select post_id
 from messaging.posts
 where
 {% if target.name == 'dev' %}
-    timestamp > current_date - interval '1 months'
+    timestamp > current_date - interval '2 months'
 {% else %}
 -- posts data source updated as of September 2018
     timestamp >= '2018-09-01 00:00:00.000+00'

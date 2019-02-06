@@ -3,5 +3,5 @@
 
 select * from careplatform.pages
 {% if target.name == 'dev' %}
-where timestamp > current_timestamp - interval '1 months'
+where timestamp > current_timestamp - interval '2 months'
 {% endif %}

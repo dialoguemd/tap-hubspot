@@ -8,6 +8,8 @@ with
 	)
 
 select ratings.*
+	-- contract_id for testing uniqueness
+	, user_contract.contract_id
 	, user_contract.organization_id
 	, user_contract.organization_name
 	, user_contract.account_id

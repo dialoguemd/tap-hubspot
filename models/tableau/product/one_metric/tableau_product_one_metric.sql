@@ -92,6 +92,8 @@ with episodes as (
 	
 select first_ep_details.*
 	, retention_stats.count_episodes
+	-- contract_id for testing uniqueness
+	, user_contract.contract_id
 	, user_contract.organization_name
 from retention_stats
 left join first_ep_details using (user_id)

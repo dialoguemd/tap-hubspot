@@ -34,12 +34,14 @@ models:
         - name: episode_id
           tests:
               - not_null
-              - unique
         - name: rating
           tests:
               - not_null
               - accepted_values:
                   values: [0, 1, 2, 3, 4, 5]
+    tests:
+      - unique:
+          column_name: "concat(episode_id, contract_id)"
 
   - name: product_mean_time_to_resolve
     columns:
