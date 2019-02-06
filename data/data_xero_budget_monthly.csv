@@ -1,4 +1,352 @@
 account_budget_category,date_month,amount
+CS Compensation,2019-01-01,77474.84
+CS Compensation,2019-02-01,48085.7
+CS Compensation,2019-03-01,48019.7
+CS Compensation,2019-04-01,52235.8
+CS Compensation,2019-05-01,52338.05
+CS Compensation,2019-06-01,58260.38
+CS Customer Related,2019-01-01,271
+CS Customer Related,2019-02-01,271
+CS Customer Related,2019-03-01,2354
+CS Customer Related,2019-04-01,300
+CS Customer Related,2019-05-01,300
+CS Customer Related,2019-06-01,2400
+CS Events,2019-01-01,0
+CS Events,2019-02-01,0
+CS Events,2019-03-01,0
+CS Events,2019-04-01,0
+CS Events,2019-05-01,0
+CS Events,2019-06-01,1000
+CS Meals & Entertainement Internal,2019-01-01,300
+CS Meals & Entertainement Internal,2019-02-01,80
+CS Meals & Entertainement Internal,2019-03-01,35
+CS Meals & Entertainement Internal,2019-04-01,125
+CS Meals & Entertainement Internal,2019-05-01,125
+CS Meals & Entertainement Internal,2019-06-01,125
+CS Other,2019-01-01,0
+CS Other,2019-02-01,0
+CS Other,2019-03-01,0
+CS Other,2019-04-01,0
+CS Other,2019-05-01,0
+CS Other,2019-06-01,0
+CS SAAS,2019-01-01,3327
+CS SAAS,2019-02-01,4053
+CS SAAS,2019-03-01,4056
+CS SAAS,2019-04-01,5206
+CS SAAS,2019-05-01,5206
+CS SAAS,2019-06-01,5206
+CS Training,2019-01-01,0
+CS Training,2019-02-01,0
+CS Training,2019-03-01,0
+CS Training,2019-04-01,0
+CS Training,2019-05-01,0
+CS Training,2019-06-01,0
+G&A Accounting,2019-01-01,1000
+G&A Accounting,2019-02-01,1000
+G&A Accounting,2019-03-01,0
+G&A Accounting,2019-04-01,20000
+G&A Accounting,2019-05-01,0
+G&A Accounting,2019-06-01,0
+G&A Compensation,2019-01-01,167187.73
+G&A Compensation,2019-02-01,167400.15
+G&A Compensation,2019-03-01,167301.6
+G&A Compensation,2019-04-01,167244.13
+G&A Compensation,2019-05-01,163212.33
+G&A Compensation,2019-06-01,163185.28
+G&A Consulting,2019-01-01,10700
+G&A Consulting,2019-02-01,5700
+G&A Consulting,2019-03-01,8200
+G&A Consulting,2019-04-01,8200
+G&A Consulting,2019-05-01,3200
+G&A Consulting,2019-06-01,8200
+G&A DXA Spend,2019-01-01,2140
+G&A DXA Spend,2019-02-01,2140
+G&A DXA Spend,2019-03-01,2140
+G&A DXA Spend,2019-04-01,2140
+G&A DXA Spend,2019-05-01,2140
+G&A DXA Spend,2019-06-01,2140
+G&A Germany,2019-01-01,58528
+G&A Germany,2019-02-01,64728
+G&A Germany,2019-03-01,71626
+G&A Germany,2019-04-01,64961
+G&A Germany,2019-05-01,64961
+G&A Germany,2019-06-01,64961
+G&A Groceries,2019-01-01,2113
+G&A Groceries,2019-02-01,2113
+G&A Groceries,2019-03-01,2113
+G&A Groceries,2019-04-01,2113
+G&A Groceries,2019-05-01,2113
+G&A Groceries,2019-06-01,2113
+G&A HR Consulting,2019-01-01,0
+G&A HR Consulting,2019-02-01,0
+G&A HR Consulting,2019-03-01,0
+G&A HR Consulting,2019-04-01,0
+G&A HR Consulting,2019-05-01,0
+G&A HR Consulting,2019-06-01,0
+G&A Insurance,2019-01-01,501
+G&A Insurance,2019-02-01,501
+G&A Insurance,2019-03-01,501
+G&A Insurance,2019-04-01,501
+G&A Insurance,2019-05-01,501
+G&A Insurance,2019-06-01,501
+G&A Interest,2019-01-01,4000
+G&A Interest,2019-02-01,4000
+G&A Interest,2019-03-01,4000
+G&A Interest,2019-04-01,4000
+G&A Interest,2019-05-01,4000
+G&A Interest,2019-06-01,4000
+G&A Legal,2019-01-01,3000
+G&A Legal,2019-02-01,0
+G&A Legal,2019-03-01,7000
+G&A Legal,2019-04-01,0
+G&A Legal,2019-05-01,0
+G&A Legal,2019-06-01,0
+G&A M&E External,2019-01-01,1200
+G&A M&E External,2019-02-01,1200
+G&A M&E External,2019-03-01,1200
+G&A M&E External,2019-04-01,1200
+G&A M&E External,2019-05-01,1200
+G&A M&E External,2019-06-01,1200
+G&A M&E Internal,2019-01-01,1300
+G&A M&E Internal,2019-02-01,1000
+G&A M&E Internal,2019-03-01,1000
+G&A M&E Internal,2019-04-01,1000
+G&A M&E Internal,2019-05-01,1000
+G&A M&E Internal,2019-06-01,1000
+G&A Office expenses,2019-01-01,5000
+G&A Office expenses,2019-02-01,5000
+G&A Office expenses,2019-03-01,5000
+G&A Office expenses,2019-04-01,5000
+G&A Office expenses,2019-05-01,5000
+G&A Office expenses,2019-06-01,5000
+G&A Other,2019-01-01,6283.13
+G&A Other,2019-02-01,27480.6
+G&A Other,2019-03-01,9480.6
+G&A Other,2019-04-01,7480.6
+G&A Other,2019-05-01,7480.6
+G&A Other,2019-06-01,7480.6
+G&A Recruitment,2019-01-01,21838
+G&A Recruitment,2019-02-01,21838
+G&A Recruitment,2019-03-01,21838
+G&A Recruitment,2019-04-01,21838
+G&A Recruitment,2019-05-01,21838
+G&A Recruitment,2019-06-01,21838
+G&A Rent,2019-01-01,114600
+G&A Rent,2019-02-01,29600
+G&A Rent,2019-03-01,29600
+G&A Rent,2019-04-01,29600
+G&A Rent,2019-05-01,156683
+G&A Rent,2019-06-01,37383
+G&A SAAS,2019-01-01,19041
+G&A SAAS,2019-02-01,19041
+G&A SAAS,2019-03-01,19041
+G&A SAAS,2019-04-01,19041
+G&A SAAS,2019-05-01,19041
+G&A SAAS,2019-06-01,19041
+G&A Training,2019-01-01,0
+G&A Training,2019-02-01,0
+G&A Training,2019-03-01,0
+G&A Training,2019-04-01,0
+G&A Training,2019-05-01,0
+G&A Training,2019-06-01,0
+G&A Travel International,2019-01-01,6000
+G&A Travel International,2019-02-01,3000
+G&A Travel International,2019-03-01,5000
+G&A Travel International,2019-04-01,2000
+G&A Travel International,2019-05-01,4000
+G&A Travel International,2019-06-01,2000
+G&A Travel National,2019-01-01,1200
+G&A Travel National,2019-02-01,2700
+G&A Travel National,2019-03-01,1200
+G&A Travel National,2019-04-01,2700
+G&A Travel National,2019-05-01,1700
+G&A Travel National,2019-06-01,2700
+Marketing Campaign,2019-01-01,15200
+Marketing Campaign,2019-02-01,16350
+Marketing Campaign,2019-03-01,16350
+Marketing Campaign,2019-04-01,16350
+Marketing Campaign,2019-05-01,17150
+Marketing Campaign,2019-06-01,17150
+Marketing Compensation,2019-01-01,44051.03
+Marketing Compensation,2019-02-01,34877.8
+Marketing Compensation,2019-03-01,34853.05
+Marketing Compensation,2019-04-01,34853.05
+Marketing Compensation,2019-05-01,34653.67
+Marketing Compensation,2019-06-01,41715.67
+Marketing Consultant,2019-01-01,2665
+Marketing Consultant,2019-02-01,4665
+Marketing Consultant,2019-03-01,14665
+Marketing Consultant,2019-04-01,11180
+Marketing Consultant,2019-05-01,14180
+Marketing Consultant,2019-06-01,14180
+Marketing Events (not incl. in S&P events budget),2019-01-01,17100
+Marketing Events (not incl. in S&P events budget),2019-02-01,300
+Marketing Events (not incl. in S&P events budget),2019-03-01,300
+Marketing Events (not incl. in S&P events budget),2019-04-01,0
+Marketing Events (not incl. in S&P events budget),2019-05-01,0
+Marketing Events (not incl. in S&P events budget),2019-06-01,0
+Marketing Other,2019-01-01,2374
+Marketing Other,2019-02-01,2374
+Marketing Other,2019-03-01,2374
+Marketing Other,2019-04-01,2374
+Marketing Other,2019-05-01,2374
+Marketing Other,2019-06-01,2374
+Marketing SAAS,2019-01-01,3549
+Marketing SAAS,2019-02-01,3549
+Marketing SAAS,2019-03-01,3549
+Marketing SAAS,2019-04-01,3549
+Marketing SAAS,2019-05-01,3549
+Marketing SAAS,2019-06-01,3549
+Marketing Training,2019-01-01,0
+Marketing Training,2019-02-01,0
+Marketing Training,2019-03-01,0
+Marketing Training,2019-04-01,0
+Marketing Training,2019-05-01,0
+Marketing Training,2019-06-01,0
+Medops Compensation (OPEX only),2019-01-01,136381
+Medops Compensation (OPEX only),2019-02-01,110411
+Medops Compensation (OPEX only),2019-03-01,115604
+Medops Compensation (OPEX only),2019-04-01,120201
+Medops Compensation (OPEX only),2019-05-01,127294
+Medops Compensation (OPEX only),2019-06-01,127190
+Medops Consultants,2019-01-01,0
+Medops Consultants,2019-02-01,0
+Medops Consultants,2019-03-01,0
+Medops Consultants,2019-04-01,0
+Medops Consultants,2019-05-01,0
+Medops Consultants,2019-06-01,0
+Medops Licences,2019-01-01,5050
+Medops Licences,2019-02-01,5050
+Medops Licences,2019-03-01,5050
+Medops Licences,2019-04-01,5050
+Medops Licences,2019-05-01,5050
+Medops Licences,2019-06-01,5050
+Medops Meal & Enter Internal,2019-01-01,300
+Medops Meal & Enter Internal,2019-02-01,300
+Medops Meal & Enter Internal,2019-03-01,300
+Medops Meal & Enter Internal,2019-04-01,300
+Medops Meal & Enter Internal,2019-05-01,300
+Medops Meal & Enter Internal,2019-06-01,300
+Medops Other,2019-01-01,1500
+Medops Other,2019-02-01,2450
+Medops Other,2019-03-01,1950
+Medops Other,2019-04-01,5550
+Medops Other,2019-05-01,1950
+Medops Other,2019-06-01,1950
+Medops QA,2019-01-01,20850
+Medops QA,2019-02-01,20850
+Medops QA,2019-03-01,20850
+Medops QA,2019-04-01,20850
+Medops QA,2019-05-01,20850
+Medops QA,2019-06-01,20850
+Medops SAAS,2019-01-01,5075
+Medops SAAS,2019-02-01,5075
+Medops SAAS,2019-03-01,5075
+Medops SAAS,2019-04-01,5075
+Medops SAAS,2019-05-01,5075
+Medops SAAS,2019-06-01,5075
+Medops training,2019-01-01,2850
+Medops training,2019-02-01,4000
+Medops training,2019-03-01,5000
+Medops training,2019-04-01,3000
+Medops training,2019-05-01,3000
+Medops training,2019-06-01,3000
+New Services Design,2019-01-01,14569
+New Services Design,2019-02-01,13709
+New Services Design,2019-03-01,13709
+New Services Design,2019-04-01,13709
+New Services Design,2019-05-01,13709
+New Services Design,2019-06-01,15876
+New Services Training,2019-01-01,1730
+New Services Training,2019-02-01,1730
+New Services Training,2019-03-01,4269
+New Services Training,2019-04-01,1515
+New Services Training,2019-05-01,1515
+New Services Training,2019-06-01,1515
+Sales & Partn Compensation,2019-01-01,389831
+Sales & Partn Compensation,2019-02-01,191602
+Sales & Partn Compensation,2019-03-01,262159
+Sales & Partn Compensation,2019-04-01,253362
+Sales & Partn Compensation,2019-05-01,253281
+Sales & Partn Compensation,2019-06-01,261832
+Sales & Partn Events,2019-01-01,2100
+Sales & Partn Events,2019-02-01,3000
+Sales & Partn Events,2019-03-01,6450
+Sales & Partn Events,2019-04-01,300
+Sales & Partn Events,2019-05-01,0
+Sales & Partn Events,2019-06-01,3950
+Sales & Partn M&E - External,2019-01-01,1500
+Sales & Partn M&E - External,2019-02-01,1250
+Sales & Partn M&E - External,2019-03-01,1750
+Sales & Partn M&E - External,2019-04-01,2500
+Sales & Partn M&E - External,2019-05-01,2500
+Sales & Partn M&E - External,2019-06-01,2500
+Sales & Partn M&E - Internal,2019-01-01,1425
+Sales & Partn M&E - Internal,2019-02-01,1650
+Sales & Partn M&E - Internal,2019-03-01,1325
+Sales & Partn M&E - Internal,2019-04-01,1675
+Sales & Partn M&E - Internal,2019-05-01,1575
+Sales & Partn M&E - Internal,2019-06-01,1575
+Sales & Partn Other,2019-01-01,12086
+Sales & Partn Other,2019-02-01,7700
+Sales & Partn Other,2019-03-01,2700
+Sales & Partn Other,2019-04-01,10388
+Sales & Partn Other,2019-05-01,2700
+Sales & Partn Other,2019-06-01,2700
+Sales & Partn SAAS,2019-01-01,10007
+Sales & Partn SAAS,2019-02-01,9833
+Sales & Partn SAAS,2019-03-01,11099
+Sales & Partn SAAS,2019-04-01,12819
+Sales & Partn SAAS,2019-05-01,12819
+Sales & Partn SAAS,2019-06-01,12819
+Sales & Partn Training,2019-01-01,5300
+Sales & Partn Training,2019-02-01,0
+Sales & Partn Training,2019-03-01,0
+Sales & Partn Training,2019-04-01,325
+Sales & Partn Training,2019-05-01,200
+Sales & Partn Training,2019-06-01,200
+Sales & Partn Travel,2019-01-01,12425
+Sales & Partn Travel,2019-02-01,16825
+Sales & Partn Travel,2019-03-01,12975
+Sales & Partn Travel,2019-04-01,18725
+Sales & Partn Travel,2019-05-01,18475
+Sales & Partn Travel,2019-06-01,18075
+Tech Comp,2019-01-01,273824.24
+Tech Comp,2019-02-01,285003.46
+Tech Comp,2019-03-01,296122.41
+Tech Comp,2019-04-01,309284.97
+Tech Comp,2019-05-01,309204.32
+Tech Comp,2019-06-01,313138.55
+Tech Consultant,2019-01-01,32946
+Tech Consultant,2019-02-01,42946
+Tech Consultant,2019-03-01,32946
+Tech Consultant,2019-04-01,32946
+Tech Consultant,2019-05-01,82946
+Tech Consultant,2019-06-01,32946
+Tech Hardware & Equipment,2019-01-01,0
+Tech Hardware & Equipment,2019-02-01,200
+Tech Hardware & Equipment,2019-03-01,200
+Tech Hardware & Equipment,2019-04-01,200
+Tech Hardware & Equipment,2019-05-01,200
+Tech Hardware & Equipment,2019-06-01,200
+Tech Other,2019-01-01,630
+Tech Other,2019-02-01,630
+Tech Other,2019-03-01,1730
+Tech Other,2019-04-01,630
+Tech Other,2019-05-01,630
+Tech Other,2019-06-01,1730
+Tech SAAS,2019-01-01,10234
+Tech SAAS,2019-02-01,10462
+Tech SAAS,2019-03-01,10712
+Tech SAAS,2019-04-01,10988
+Tech SAAS,2019-05-01,29971
+Tech SAAS,2019-06-01,28425
+Tech Training,2019-01-01,1900
+Tech Training,2019-02-01,1000
+Tech Training,2019-03-01,1000
+Tech Training,2019-04-01,1000
+Tech Training,2019-05-01,1000
+Tech Training,2019-06-01,1000
 CS Compensation,2018-10-01,37013
 CS Compensation,2018-11-01,40350
 CS Compensation,2018-12-01,40350

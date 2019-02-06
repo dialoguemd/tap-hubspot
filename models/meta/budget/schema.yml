@@ -1,0 +1,154 @@
+
+version: 2
+
+models:
+  - name: budget_and_actuals_monthly
+    description: The primary budget and actuals model for comparing by category,
+      month over month how the actual spend aligns with the budgeted spend
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: account_budget_category
+        tests:
+          - not_null
+
+      - name: account_group
+        tests:
+          - not_null
+
+      - name: amount_actual
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_month, account_budget_category)"
+
+  - name: budget_and_actuals_monthly_cs
+    description: a filtered view for analyzing only CS rows in Metabase
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: account_budget_category
+        tests:
+          - not_null
+
+      - name: account_group
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Customer Success']
+
+      - name: amount_actual
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_month, account_budget_category)"
+
+
+  - name: budget_and_actuals_monthly_tech
+    description: a filtered view for analyzing only Tech rows in Metabase
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: account_budget_category
+        tests:
+          - not_null
+
+      - name: account_group
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Technology']
+
+      - name: amount_actual
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_month, account_budget_category)"
+
+
+  - name: budget_and_actuals_monthly_marketing
+    description: a filtered view for analyzing only Marketing rows in Metabase
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: account_budget_category
+        tests:
+          - not_null
+
+      - name: account_group
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Marketing Expenses']
+
+      - name: amount_actual
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_month, account_budget_category)"
+
+  - name: budget_and_actuals_monthly_medops
+    description: a filtered view for analyzing only MedOps rows in Metabase
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: account_budget_category
+        tests:
+          - not_null
+
+      - name: account_group
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Health Team']
+
+      - name: amount_actual
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_month, account_budget_category)"
+
+  - name: budget_and_actuals_monthly_sales
+    description: a filtered view for analyzing only Sales rows in Metabase
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: account_budget_category
+        tests:
+          - not_null
+
+      - name: account_group
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Sales Expenses']
+
+      - name: amount_actual
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(date_month, account_budget_category)"
