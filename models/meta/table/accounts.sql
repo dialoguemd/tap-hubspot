@@ -10,6 +10,7 @@ with
 			, min(first_contract_start_date) as first_contract_start_date
 			, max(last_contract_end_date) as last_contract_end_date
 			, bool_and(is_churned) as is_churned
+			, bool_or(is_paid) as is_paid
 		from organizations
 		group by 1,2
 	)

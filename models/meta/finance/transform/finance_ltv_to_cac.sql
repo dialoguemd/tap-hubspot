@@ -1,3 +1,9 @@
+-- Gross Margin 2 target
+-- (including medical team on CP and Customer Success costs)
+{% set gm2 = 0.5 %}
+-- Average client lifetime target in months
+{% set lifetime = 48 %}
+
 with
 	cac as (
 		select * from {{ ref('xero_cac') }}
@@ -129,34 +135,34 @@ select *
 	, case
 		when cost_total_12_months <> 0
 		then mrr_signed_12_months / cost_total_12_months
-			* .55 * 48
+			* {{ gm2 }} * {{ lifetime }}
 		else null
 	end as ltv_to_cac
 	, case
 		when cost_ae_12_months <> 0
 		then mrr_signed_ae_12_months / cost_ae_12_months
-			* .55 * 48
+			* {{ gm2 }} * {{ lifetime }}
 		else null
 	end as ltv_to_cac_ae
 	, case
 		when cost_eae_12_months <> 0
 		then mrr_signed_eae_12_months / cost_eae_12_months
-			* .55 * 48
+			* {{ gm2 }} * {{ lifetime }}
 		else null
 	end as ltv_to_cac_eae
 	, case
 		when mrr_signed_12_months <> 0
-		then cost_total_12_months / (mrr_signed_12_months * .55)
+		then cost_total_12_months / (mrr_signed_12_months * {{ gm2 }})
 		else null
 	end as payback_period
 	, case
 		when mrr_signed_ae_12_months <> 0
-		then cost_ae_12_months / (mrr_signed_ae_12_months * .55)
+		then cost_ae_12_months / (mrr_signed_ae_12_months * {{ gm2 }})
 		else null
 	end as payback_period_ae
 	, case
 		when mrr_signed_eae_12_months <> 0
-		then cost_eae_12_months / (mrr_signed_eae_12_months * .55)
+		then cost_eae_12_months / (mrr_signed_eae_12_months * {{ gm2 }})
 		else null
 	end as payback_period_eae
 
@@ -165,39 +171,39 @@ select *
 		when cost_total_excl_ramp_12_months <> 0
 		then mrr_signed_excl_ramp_12_months
 			/ cost_total_excl_ramp_12_months
-			* .55 * 48
+			* {{ gm2 }} * {{ lifetime }}
 		else null
 	end as ltv_to_cac_excl_ramp
 	, case
 		when cost_ae_excl_ramp_12_months <> 0
 		then mrr_signed_ae_excl_ramp_12_months
 			/ cost_ae_excl_ramp_12_months
-			* .55 * 48
+			* {{ gm2 }} * {{ lifetime }}
 		else null
 	end as ltv_to_cac_ae_excl_ramp
 	, case
 		when cost_eae_excl_ramp_12_months <> 0
 		then mrr_signed_eae_excl_ramp_12_months
 			/ cost_eae_excl_ramp_12_months
-			* .55 * 48
+			* {{ gm2 }} * {{ lifetime }}
 		else null
 	end as ltv_to_cac_eae_excl_ramp
 	, case
 		when mrr_signed_excl_ramp_12_months <> 0
 		then cost_total_excl_ramp_12_months
-			/ (mrr_signed_excl_ramp_12_months * .55)
+			/ (mrr_signed_excl_ramp_12_months * {{ gm2 }})
 		else null
 	end as payback_period_excl_ramp
 	, case
 		when mrr_signed_ae_excl_ramp_12_months <> 0
 		then cost_ae_excl_ramp_12_months
-			/ (mrr_signed_ae_excl_ramp_12_months * .55)
+			/ (mrr_signed_ae_excl_ramp_12_months * {{ gm2 }})
 		else null
 	end as payback_period_ae_excl_ramp
 	, case
 		when mrr_signed_eae_excl_ramp_12_months <> 0
 		then cost_eae_excl_ramp_12_months
-			/ (mrr_signed_eae_excl_ramp_12_months * .55)
+			/ (mrr_signed_eae_excl_ramp_12_months * {{ gm2 }})
 		else null
 	end as payback_period_eae_excl_ramp
 from ltv_to_cac

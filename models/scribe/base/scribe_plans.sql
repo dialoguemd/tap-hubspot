@@ -14,6 +14,8 @@ select id as plan_id
 		when organization_id in ('61', '18', '251') then 'free'
 		-- fix for organizations that churned before the new billing system
 		when organization_id in ('47', '84') then 'dynamic'
+		-- fix for End to End networks
+		when organization_id = '56' then 'dynamic'
 		-- New organizations are always created with a charge_strategy
 		-- Some legacy free orgs did not have a charge_strategy
 		else coalesce(charge_strategy, 'free')
@@ -22,6 +24,7 @@ select id as plan_id
 		when organization_id = '230' then .1
 		when organization_id in ('61', '18', '251') then 0
 		when organization_id in ('47', '84') then 9
+		when organization_id = '56' then 15
 		when charge_strategy = 'auto_dynamic'
 		then 15
 		else coalesce(charge_price, 0)

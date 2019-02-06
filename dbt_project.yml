@@ -85,6 +85,8 @@ models:
               materialized: view
       meta:
           materialized: table
+      series_b:
+          materialized: table
       scribe:
           materialized: table
       tableau:
@@ -145,6 +147,7 @@ seeds:
         account_id: text
         account_name: text
         amount: float
+        revenue_type: text
 
     data_finance_pilot_expansions:
       column_types:

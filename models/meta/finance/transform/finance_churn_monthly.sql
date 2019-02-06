@@ -38,6 +38,7 @@ with
 
 	, accounts_months as (
 		select *
+			, least(first_month, billing_start_month) as billing_start_month_fixed
 			, generate_series(first_month, last_month, interval '1 month')
 				as date_month
 		from accounts_life_span
@@ -52,6 +53,8 @@ with
 			, accounts_months.is_churned
 			, accounts_months.churn_date
 			, accounts_months.churn_month
+			, accounts_months.first_month
+			, accounts_months.last_month
 			, coalesce(revenue_monthly.amount, 0) as amount
 			, coalesce(
 				lag(revenue_monthly.amount) over(
@@ -74,10 +77,14 @@ select *
 		-- as "New" revenue as the first month will not include the full MRR
 		when is_pilot_expansion
 		then 'Stable'
-		when billing_start_month = date_month
+		when least(billing_start_month, first_month) = date_month
 			or (
 				extract('day' from billing_start_date) <> 1
 				and billing_start_month = date_month - interval '1 month'
+				and (
+					first_month = date_month - interval '1 month'
+					or first_month = date_month
+				)
 			)
 		then 'New'
 		when is_churned
