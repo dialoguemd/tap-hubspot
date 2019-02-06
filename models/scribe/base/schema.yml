@@ -193,3 +193,18 @@ models:
     tests:
       - unique:
           column_name: "concat(feature_id, plan_id)"
+
+  - name: scribe_organizations_billing_start_date
+    description: |
+        Manual fix for Maestro missing billing start dates
+    columns:
+        - name: organization_id
+          tests:
+            - not_null
+            - relationships:
+                to: ref('scribe_organizations')
+                field: organization_id
+
+        - name: billing_start_date
+          tests:
+            - not_null

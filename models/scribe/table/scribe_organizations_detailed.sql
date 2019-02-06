@@ -19,6 +19,10 @@ with
 		select * from {{ ref('scribe_organizations_contracts') }}
 	)
 
+	, organizations_billing_start_date as (
+		select * from {{ ref('scribe_organizations_billing_start_date') }}
+	)
+
 	, organization_address_rank as (
 		select organization_id
 			, organization_address_id
@@ -39,22 +43,19 @@ with
 
 select organizations.organization_id
 	, organizations.organization_name
-	, organizations.billing_start_date
 	, coalesce(
-		organizations.billing_start_date <> '1970-01-01'
-		and plans.charge_price <> 0, false) as is_paid
+		organizations_billing_start_date.billing_start_date
+		, organizations.billing_start_date
+	) as billing_start_date
+	, coalesce(plans.charge_price, 0) <> 0 as is_paid
 	, organizations.email_preference
 	, organization_address_unique.city
 	, case
-		when organizations.billing_start_date = '1970-01-01'
+		when coalesce(plans.charge_price, 0) = 0
 		then 'free'
 		else plans.charge_strategy
 	end as charge_strategy
-	, case
-		when organizations.billing_start_date = '1970-01-01'
-		then 0
-		else plans.charge_price
-	end as charge_price
+	, coalesce(plans.charge_price, 0) as charge_price
 	, plans.charge_price_mental_health
 	, plans.charge_price_24_7
 	, case 
@@ -120,6 +121,8 @@ left join organization_address_unique
 inner join plans
 	using (organization_id)
 left join organizations_contracts
+	using (organization_id)
+left join organizations_billing_start_date
 	using (organization_id)
 left join test_organizations
 	using (organization_id)

@@ -153,3 +153,8 @@ seeds:
       column_types:
         date_month: timestamp
         account_id: text
+
+    data_scribe_organizations_billing_start_date:
+      column_types:
+        organization_id: bigint
+        billing_start_date: timestamptz
