@@ -1,18 +1,28 @@
+{{
+  config(
+    materialized='incremental',
+    post_hook=[
+       "DROP INDEX IF EXISTS {{ this.schema }}.index_assigned_w_posts_assigned_at",
+       "CREATE INDEX IF NOT EXISTS index_assigned_w_posts_assigned_at ON {{ this }}(assigned_at)"
+    ]
+  )
+}}
+
 with assigned_time as (
         select * from {{ ref('assigned_time') }}
-        {% if target.name == 'dev' %}
-        where assigned_at > current_date - interval '1 weeks'
-        {% else %}
         where assigned_at > current_date - interval '6 months'
+        -- Filtering for incremental model
+        {% if is_incremental() %}
+            and assigned_at > (select max(assigned_at) from {{ this }})
         {% endif %}
     )
 
     , posts as (
         select * from {{ ref('messaging_posts_all_time') }}
-        {% if target.name == 'dev' %}
-        where created_at > current_date - interval '1 weeks'
-        {% else %}
         where created_at > current_date - interval '6 months'
+        -- Filtering for incremental model
+        {% if is_incremental() %}
+            and created_at > (select max(assigned_at) from {{ this }})
         {% endif %}
     )
 
