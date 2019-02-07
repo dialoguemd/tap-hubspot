@@ -48,3 +48,38 @@ models:
         - name: mental_health_consultations
           tests:
               - not_null
+
+  - name: medops_bonjour_sante
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+        - name: triggered_at
+          tests:
+              - not_null
+    tests:
+      - unique:
+          column_name: "concat(triggered_at, episode_id)"
+
+  - name: medops_chats_for_audit
+    description: a model to help the careteam quickly audit a certain
+      practitioner's chats for a given day.
+    columns:
+        - name: user_name
+          tests:
+              - not_null
+        - name: main_specialization
+          tests:
+              - not_null
+        - name: date_day
+          tests:
+              - not_null
+        - name: url_zorro
+          tests:
+              - not_null
+        - name: chat_type
+          tests:
+              - not_null
+    tests:
+      - unique:
+          column_name: "concat(user_name, date_day, url_zorro)"
