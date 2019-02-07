@@ -1,10 +1,11 @@
 version: 2
 
 models:
-  - name: gm_by_contract_daily
-    tests:
-        - unique:
-            column_name: "concat(date_day, contract_id)"
+  # TODO: reimplement after refactoring model
+  # - name: gm_by_contract_daily
+  #   tests:
+  #       - unique:
+  #           column_name: "concat(date_day, contract_id)"
 
   - name: gm_weekly
     columns:
