@@ -11,6 +11,10 @@ with
 		select * from {{ ref('scribe_active_contracts_monthly') }}
 	)
 
+	, finance_rebate_monthly as (
+		select * from {{ ref('finance_rebate_monthly') }}
+	)
+
 	, monthly as (
 		select *
 			, finance.fl_gp_cost + finance.fl_np_cost as cost_video
@@ -25,26 +29,33 @@ with
 			using (date_month)
 	)
 
-select *
+select monthly.*
 	, case
-		when daus_chat <> 0
-		then cost_chat / daus_chat
+		when monthly.daus_chat <> 0
+		then monthly.cost_chat / monthly.daus_chat
 		else 0
 	end as cost_per_chat
 	, case
-		when daus_video_gp_np <> 0
-		then cost_video / daus_video_gp_np
+		when monthly.daus_video_gp_np <> 0
+		then monthly.cost_video / monthly.daus_video_gp_np
 		else 0
 	end as cost_per_video
-	, cost_total / active_contracts
+	, monthly.cost_total / monthly.active_contracts
 		as cost_to_serve_a_member
-	, telehealth_revenue / active_contracts_paid as arpu
-	, (telehealth_revenue - cost_total * paid_users_rate)
-		/ telehealth_revenue as gm1
-	, fl_nc_cost / daus as cost_to_serve_a_patient_nc
-	, fl_cc_cost / daus as cost_to_serve_a_patient_cc
-	, fl_gp_cost / daus as cost_to_serve_a_patient_gp
-	, fl_np_cost / daus as cost_to_serve_a_patient_np
-	, other_cost / daus as cost_to_serve_a_patient_other
-	, cost_total / daus as cost_to_serve_a_patient
+	, monthly.telehealth_revenue / monthly.active_contracts_paid as arpu
+	, (
+		monthly.telehealth_revenue
+		- monthly.cost_total * coalesce(
+			monthly.paid_users_rate
+			, 1-finance_rebate_monthly.rebate_percentage
+		)
+	) / monthly.telehealth_revenue as gm1
+	, monthly.fl_nc_cost / monthly.daus as cost_to_serve_a_patient_nc
+	, monthly.fl_cc_cost / monthly.daus as cost_to_serve_a_patient_cc
+	, monthly.fl_gp_cost / monthly.daus as cost_to_serve_a_patient_gp
+	, monthly.fl_np_cost / monthly.daus as cost_to_serve_a_patient_np
+	, monthly.other_cost / monthly.daus as cost_to_serve_a_patient_other
+	, monthly.cost_total / monthly.daus as cost_to_serve_a_patient
 from monthly
+left join finance_rebate_monthly
+	using (date_month)
