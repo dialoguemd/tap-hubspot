@@ -22,9 +22,9 @@ with
 		where rank = 1
 	)
 
-select channels.episode_id
+select chats.episode_id
 	, channels.user_id
-	, 'https://zorro.dialogue.co/conversations/' || channels.episode_id as url_zorro
+	, 'https://zorro.dialogue.co/conversations/' || chats.episode_id as url_zorro
 	, first_chat_in_episode.is_first_message_in_opening_hours
 	, min(chats.first_message_created_at) as first_message_created_at
 	, max(chats.last_message_created_at) as last_message_created_at

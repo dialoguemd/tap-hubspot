@@ -11,14 +11,14 @@ with
 		         / count(*) as percentage_with_valid_sla
 		    , count(*) as chats_count
 		from episodes
+		where  date_week_est >= '2018-06-04'
+			and date_week_est < date_trunc('week', current_date)
 		group by 1
 	)
 
 select *
 from aggregate
-where date_week_est >= '2018-06-04'
-	and date_week_est < date_trunc('week', current_date)
-	and (
+where (
 		percentage_within_sla < .84
 		or percentage_with_valid_sla < .66
 	)
