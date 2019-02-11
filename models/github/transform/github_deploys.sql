@@ -36,4 +36,3 @@ left join whitelist using (repo_name)
 where (prs.base_branch = 'master'
 		or (prs.base_branch = 'beta' and prs.repo_name = 'care-platform'))
 	and prs.merged_at is not null
-	and date_trunc('week', current_date) <> date_trunc('week', prs.merged_at)

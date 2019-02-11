@@ -30,8 +30,6 @@ with jira_issues as (
             on working_minutes.date_minute between jira_issues.created_at
                 and coalesce(jira_issues.resolved_at, current_date)
         where jira_issues.issue_type in ('P1 Bug', 'P2 Bug')
-            and jira_issues.resolved_at
-                < date_trunc('week', current_date) - interval '1 day'
         group by 1,2,3
     )
 

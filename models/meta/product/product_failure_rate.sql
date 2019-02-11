@@ -19,4 +19,3 @@ select days.date_day
 from days
 left join daily_bugs on days.date_day = daily_bugs.date
 left join deploys on days.date_day = deploys.merged_at_date
-where days.date_day < date_trunc('week', current_date)
