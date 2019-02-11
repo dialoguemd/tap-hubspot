@@ -173,7 +173,8 @@ models:
           - not_null
           - unique
           - accepted_values:
-              values: ['nurse', 'family', '24_7', 'mental_health', 'biogeniq']
+              values: ['nurse', 'family', '24_7', 'mental_health', 'biogeniq',
+                'merck']
 
   - name: scribe_organization_administrator
     description: |
