@@ -109,3 +109,14 @@ models:
     tests:
       - unique:
           column_name: "concat(account_id, date_month)"
+
+  - name: finance_psy_pilot_fraction
+    description: |
+      Fraction of costs attributed to PSY-Pilot episodes; this serves a
+      metabase question that finance uses monthly
+
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+          - unique
