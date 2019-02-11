@@ -30,6 +30,7 @@ with
 	)
 
 select monthly.*
+	, finance_rebate_monthly.rebate_percentage
 	, case
 		when monthly.daus_chat <> 0
 		then monthly.cost_chat / monthly.daus_chat
@@ -46,8 +47,8 @@ select monthly.*
 	, (
 		monthly.telehealth_revenue
 		- monthly.cost_total * coalesce(
-			monthly.paid_users_rate
-			, 1-finance_rebate_monthly.rebate_percentage
+			1 - finance_rebate_monthly.rebate_percentage
+			, monthly.paid_users_rate
 		)
 	) / monthly.telehealth_revenue as gm1
 	, monthly.fl_nc_cost / monthly.daus as cost_to_serve_a_patient_nc
