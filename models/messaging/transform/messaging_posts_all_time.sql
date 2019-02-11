@@ -2,9 +2,9 @@
 {{
   config(
     materialized='incremental',
+    unique_key='post_id',
     post_hook=[
-       "DROP INDEX IF EXISTS {{ this.schema }}.index_posts_all_time_created",
-       "CREATE INDEX IF NOT EXISTS index_posts_all_time_created ON {{ this }}(created_at)"
+       "{{ postgres.index(this, 'post_id')}}",
     ]
   )
 }}
