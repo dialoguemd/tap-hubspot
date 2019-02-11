@@ -28,7 +28,7 @@ with user_contract as (
                 date_trunc('month', current_date),
                 interval '1 month') as date_month
         from user_contract
-        group by 1,2,3,4,5,6
+        {{ dbt_utils.group_by(n=6) }}
     )
 
     , org_months as (
@@ -49,6 +49,7 @@ select org_months.date_month
     , org_months.residence_province
     , date_trunc('month', org_months.billing_start_date)
         as billing_start_month
+    , org_months.billing_start_date
     , users.family_member_type
 
     -- Count distinct to not double count users with multiple contracts
@@ -79,4 +80,4 @@ left join users
     on users.organization_id = org_months.organization_id
     and users.residence_province = org_months.residence_province
     and org_months.month_range && users.during
-group by 1,2,3,4,5,6,7
+{{ dbt_utils.group_by(n=8) }}

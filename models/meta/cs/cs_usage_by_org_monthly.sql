@@ -9,6 +9,7 @@ select date_month
     , account_name
     , residence_province
     , billing_start_month
+    , billing_start_date
     , ( extract(year from age(date_month, billing_start_month))*12 +
         extract(month from age(date_month, billing_start_month))
         ) as months_since_billing_start
@@ -44,4 +45,4 @@ select date_month
 	{% endfor %}
 
 from usage
-group by 1,2,3,4,5,6
+{{ dbt_utils.group_by(n=7) }}

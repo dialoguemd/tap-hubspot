@@ -17,6 +17,7 @@ select usage.date_month
 	, usage.account_name
 	, usage.residence_province
 	, usage.billing_start_month
+	, usage.billing_start_date
 	, usage.months_since_billing_start
 
 	, coalesce(activity.total_daus,0) as total_daus
