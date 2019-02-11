@@ -34,3 +34,30 @@ models:
           tests:
               - not_null
               - unique
+
+  - name: mental_health_phq9_scores
+    description: A record per completed PHQ9 with details about the user and
+      episode to then be used in longitudinal analysis on a per user basis.
+    columns:
+        - name: qnaire_tid
+          tests:
+              - not_null
+              - unique
+        - name: score
+          tests:
+              - not_null
+        - name: rank
+          tests:
+              - not_null
+
+  - name: mental_health_phq9_user_summaries
+    description: A record per user with pivoted columns for how PHQ9 scores have
+      changed over time
+    columns:
+        - name: user_id
+          tests:
+              - not_null
+              - unique
+        - name: score_first
+          tests:
+              - not_null

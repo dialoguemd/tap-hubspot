@@ -238,6 +238,12 @@ models:
           tests:
               - unique
               - not_null
+        - name: user_id
+          tests:
+              - not_null
+        - name: patient_id
+          tests:
+              - not_null
     tests:
       - dbt_utils.recency:
           field: created_at
