@@ -101,4 +101,11 @@ select *
 		when is_pilot_expansion then 0
 		else amount - coalesce(amount_last_month, 0)
 	end as amount_variation
+	, case
+		when least(billing_start_month, first_month) = date_month
+		then 'New'
+		when churn_month = date_month
+		then 'Churned'
+		else 'Stable'
+	end as logo_variation_type
 from account_revenue_monthly

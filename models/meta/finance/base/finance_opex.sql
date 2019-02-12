@@ -1,4 +1,2 @@
-select date_month
-	, department
-	, delta::float as delta
+select *
 from {{ ref('data_finance_opex') }}

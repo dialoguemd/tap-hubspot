@@ -1,4 +1,2 @@
-select date_month
-	, gm_source
-	, value::float as value
+select *
 from {{ ref('data_finance_gm_breakdown') }}

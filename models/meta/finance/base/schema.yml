@@ -149,3 +149,21 @@ models:
       - name: date_month
         tests:
           - not_null
+
+  - name: finance_rampup_cost
+    description: |
+      Costs associated to AEs and EAEs in their first 6 months
+
+      Excluded from LTV:CAC excluding ramp calculation
+
+      source: https://docs.google.com/spreadsheets/d/1vbG8wVFAjIiqeWeiJJhpvIDf2YfpCnQljYE7PRuT0tw/edit#gid=274028474
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+      - name: cost_ae_ramp
+        tests:
+          - not_null
+      - name: cost_eae_ramp
+        tests:
+          - not_null

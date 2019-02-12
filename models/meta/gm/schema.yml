@@ -13,3 +13,8 @@ models:
           tests:
               - not_null
               - unique
+
+  - name: gm_by_contract_monthly
+    tests:
+        - unique:
+            column_name: "concat(date_month, contract_id)"

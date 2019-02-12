@@ -10,6 +10,8 @@ models:
       Monthly percentage of account executive total compensation
       associated to the enterprise segment
 
+      source: https://docs.google.com/spreadsheets/d/1vbG8wVFAjIiqeWeiJJhpvIDf2YfpCnQljYE7PRuT0tw/edit#gid=623385007
+
     columns:
       - name: date_month
         tests:

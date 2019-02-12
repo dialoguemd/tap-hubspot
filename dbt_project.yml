@@ -156,3 +156,21 @@ seeds:
       column_types:
         organization_id: bigint
         billing_start_date: timestamptz
+
+    data_finance_opex:
+      column_types:
+        date_month: timestamp
+        department: text
+        delta: float
+
+    data_finance_gm_breakdown:
+      column_types:
+        date_month: timestamp
+        gm_source: text
+        value: float
+
+    data_finance_rampup_costs:
+      column_types:
+        date_month: timestamp
+        cost_ae_ramp: float
+        cost_eae_ramp: float

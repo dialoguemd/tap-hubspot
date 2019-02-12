@@ -1,14 +1,5 @@
-{{
-  config(
-    materialized='incremental',
-    post_hook=[
-       "DROP INDEX IF EXISTS {{ this.schema }}.index_gm_by_contract_date_day",
-       "CREATE INDEX IF NOT EXISTS index_gm_by_contract_date_day ON {{ this }}(date_day)"
-    ]
-  )
-}}
-
-with user_contract as (
+with
+    user_contract as (
         select * from {{ ref ( 'user_contract' ) }}
     )
 
@@ -28,7 +19,9 @@ with user_contract as (
     , daily_revenue as (
         select days.date_day
             , user_contract.contract_id
+            , user_contract.organization_id
             , user_contract.organization_name
+            , user_contract.account_id
             , user_contract.account_name
             , user_contract.residence_province
             , user_contract.charge_strategy
@@ -48,18 +41,15 @@ with user_contract as (
             on days.date_day <@ user_contract.during
         where user_contract.is_employee
             and days.date_day < current_date
-
-            -- Filtering for incremental model
-            {% if is_incremental() %}
-            and days.date_day > (select max(date_day) from {{ this }})
-            {% endif %}
     )
 
 select coalesce(daily_revenue.date_day, daily_costs.date_day) as date_day
     , coalesce(daily_revenue.contract_id, 0) as contract_id
     , coalesce(daily_revenue.charge_price, 0) as charge_price
     , coalesce(daily_revenue.charge_strategy, 'free') as charge_strategy
+    , coalesce(daily_revenue.organization_id, 0) as organization_id
     , coalesce(daily_revenue.organization_name, 'N/A') as organization_name
+    , coalesce(daily_revenue.account_id, 'N/A') as account_id
     , coalesce(daily_revenue.account_name, 'N/A') as account_name
     , coalesce(daily_revenue.residence_province, 'N/A') as residence_province
     , coalesce(sum(daily_costs.cc_cost), 0) as cc_cost
@@ -79,4 +69,4 @@ left join user_contract using (contract_id)
 full outer join daily_costs
     on user_contract.user_id = daily_costs.user_id
     and daily_revenue.date_day = daily_costs.date_day
-group by 1,2,3,4,5,6,7
+{{ dbt_utils.group_by(9) }}
