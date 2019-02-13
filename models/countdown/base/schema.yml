@@ -12,3 +12,18 @@ models:
           field: timestamp
           datepart: hour
           interval: 15
+
+  - name: countdown_chief_complaint_parsed
+    columns:
+      - name: episode_id
+        tests:
+          - not_null
+      - name: cc_name
+        tests:
+          - not_null
+      - name: cc_confidence
+        tests:
+          - not_null
+      - name: confidence_threshold
+        tests:
+          - not_null
