@@ -196,6 +196,28 @@ select channels.episode_id
 		else null
 		end as frt_dxa
 
+	-- triage groups for post-dxa recommendation training
+	, case when outcome = 'ubisoft_appointment'
+			then 'treated_at_ubisoft_clinic'
+		when includes_video_gp
+			then 'treated_by_gp'
+		when includes_video_np
+			then 'treated_by_np'
+		when first_message_nurse is not null
+			and outcome_category = 'Diagnostic'
+			then 'treated_by_nurse'
+		-- Split into locations for referral
+		when outcomes_ordered::text like '%referral_er%'
+			then 'referral_er'
+		when outcomes_ordered::text like '%referral_walk_in%'
+			then 'referral_walk_in'
+		when outcomes_ordered::text like '%referral_without_navigation%'
+			then 'referral_without_navigation'
+		when outcomes_ordered::text like '%navigation%'
+			then 'navigation'
+		else 'other'
+    end as triage_outcome
+
 	, case
 		-- invalid episodes
 		when episodes_outcomes.first_outcome in (

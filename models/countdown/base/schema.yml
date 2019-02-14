@@ -13,6 +13,20 @@ models:
           datepart: hour
           interval: 15
 
+  - name: countdown_question_replied
+    columns:
+      - name: question_tid
+        tests:
+          - not_null
+          - unique
+
+  - name: countdown_qnaire_completed
+    columns:
+      - name: qnaire_tid
+        tests:
+          - not_null
+          - unique
+
   - name: countdown_chief_complaint_parsed
     columns:
       - name: episode_id

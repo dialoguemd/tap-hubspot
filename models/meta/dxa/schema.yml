@@ -43,3 +43,57 @@ models:
         - name: replied_at
           tests:
               - not_null
+
+  - name: dxa_dangerous_symptoms_by_cc
+    description: a list of CC / symptom combinations that have been flagged by
+      Julien as dangerous (Feb 12)
+      Source- https://docs.google.com/spreadsheets/u/4/d/1n39WymgY6Apee6f8qK8KtvPSV9KOZfVelhKcro279Jk/edit#gid=0
+    columns:
+        - name: cc_code
+          tests:
+            - not_null
+        - name: symptom
+          tests:
+            - not_null
+    tests:
+        - unique:
+            column_name: "concat(cc_code, symptom)"
+
+  - name: dxa_question_replied
+    description: individual question replies with episode level details
+    columns:
+        - name: question_tid
+          tests:
+            - not_null
+            - unique
+
+  - name: dxa_question_replied_bool
+    description: individual question replies to boolean quesitons with
+      episode level details
+    columns:
+        - name: question_tid
+          tests:
+            - not_null
+            - unique
+
+  - name: dxa_question_replied_multichoice
+    description: individual question replies to boolean quesitons with
+      episode level details
+    columns:
+        - name: qnaire_tid
+            - not_null
+        - name: question_tid
+          tests:
+            - not_null
+            - unique
+
+  - name: dxa_summary_pivot
+    description: dxa questions are pivoted at the qnaire level with details
+      about the resolution of the episode
+    columns:
+        - name: episode_id
+            - not_null
+        - name: qnaire_tid
+          tests:
+            - not_null
+            - unique

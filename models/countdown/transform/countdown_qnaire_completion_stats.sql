@@ -19,5 +19,3 @@ select qnaire_started.episode_id
   , qnaire_completed.event_id is not null as questionnaire_completed
 from qnaire_started
 left join qnaire_completed using (qnaire_tid)
--- There's an issue with the event firing multiple times with the same timestamps
-where (qnaire_completed.rank = 1 or qnaire_completed.rank is null)
