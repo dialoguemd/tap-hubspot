@@ -120,3 +120,19 @@ models:
         tests:
           - not_null
           - unique
+
+  - name: finance_revenue_estimator
+    description: |
+      Using an avg count of users per month, this model estimates revenue in for
+      a given organization for a given month
+
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+      - name: organization_id
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "concat(organization_id, date_month)"
