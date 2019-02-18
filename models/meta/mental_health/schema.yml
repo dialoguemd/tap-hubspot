@@ -24,6 +24,24 @@ models:
               - unique
               - not_null
 
+  - name: mental_health_utilization_by_org_weekly
+    description: A record per organization per month with details about estimated
+      revenue, estimated margin, utilization, etc.
+    columns:
+        - name: date_week
+          tests:
+              - not_null
+        - name: organization_name
+          tests:
+              - not_null
+        - name: organization_id
+          tests:
+              - not_null
+    tests:
+        - unique:
+            column_name: "concat(date_week, organization_id)"
+
+
   - name: mental_health_eligible_episodes
     description: A list of episodes that are eligible for the PSY Pilot program
       but were for some reason not enrolled (i.e. psy issue type, plan has mental

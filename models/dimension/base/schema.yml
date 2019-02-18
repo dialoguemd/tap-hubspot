@@ -46,6 +46,13 @@ models:
           - not_null
           - unique
 
+  - name: dimension_weeks
+    columns:
+      - name: date_week
+        tests:
+          - not_null
+          - unique
+
   - name: dimension_scorecard_weeks
     columns:
       - name: date_week

@@ -54,8 +54,7 @@ with qnaire_answers as (
         group by 1
     )
 
-    select episodes.episode_id
-        , episodes.patient_id
+    select episodes.*
         , qnaire_answers.qnaire_tid
         , qnaire_answers.stress_qnaire_completed_at
         , qnaire_answers.depression_score
@@ -74,33 +73,9 @@ with qnaire_answers as (
             when qnaire_answers.stress_grouping
                 in ('Moderate stress', 'High stress')
                 then 'Group 2: Moderate or High Stress'
-            when episodes.outcome = 'patient_unresponsive'
-                then 'Group 5: Patient Drop Off'
             else 'Group 4: No Questionnaire Given'
             end as mh_grouping
-        , extract('year' from
-            age(episodes.first_message_patient,
-                user_contracts.birthday)
-            ) as age
-        , user_contracts.gender
         , user_contracts.organization_name
-        , episodes.first_message_patient as created_at
-        , episodes.last_message_created_at as last_active_at
-        , episodes.first_priority_level
-        , episodes.priority_level as current_priority_level
-        , episodes.priority_levels_ordered
-        , episodes.messages_total
-        , episodes.messages_patient
-        , episodes.messages_care_team
-        , episodes.score as nps_score
-        , episodes.category as nps_category
-        , episodes.ttr_total
-        , episodes.attr_total
-        , episodes.attr_nc as active_time_nurse
-        , episodes.attr_np as active_time_np
-        , episodes.attr_cc as active_time_cc
-        , episodes.attr_gp as active_time_gp
-        , episodes.attr_psy as active_time_psy
         , priced_episodes.est_cc_cost
         , priced_episodes.est_nc_cost
         , priced_episodes.est_np_cost

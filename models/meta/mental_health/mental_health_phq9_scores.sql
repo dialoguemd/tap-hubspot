@@ -22,6 +22,7 @@ with
             , replace(replace(reply_values, '[', ''), ']', '') :: integer as reply_values
         from question_replied
         where qnaire_name = 'phq9'
+            and reply_values <> '[null]'
     )
     
     , qnaires as (
