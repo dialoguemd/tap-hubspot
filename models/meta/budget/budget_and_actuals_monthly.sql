@@ -32,7 +32,7 @@ select expenses_monthly.date_month
 		) :: numeric
 		,2) as delta
 from expenses_monthly
-left join budget
+full outer join budget
 	using (date_month, account_budget_category)
 -- Budget started being tracked in Oct 2018
 where expenses_monthly.date_month >= '2018-10-01'
