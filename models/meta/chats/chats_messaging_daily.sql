@@ -1,6 +1,25 @@
+
+{{
+  config(
+    materialized='incremental',
+    unique_key='chat_id',
+    post_hook=[
+       "{{ postgres.index(this, 'chat_id')}}",
+    ]
+  )
+}}
+
 with
 	posts_all_time as (
 		select * from {{ ref('messaging_posts_all_time') }}
+		-- Do not pull data for today because these chats' facts may change
+		-- during the day (day defined as EST)
+		where created_at_day_est
+			< date_trunc('day', timezone('America/Montreal', current_timestamp))
+		-- Implement as incremental
+		{% if is_incremental() %}
+			and created_at_day_est > (select max(date_day_est) from {{ this }})
+		{% endif %}
 	)
 
 	, wiw_shifts as (
@@ -135,7 +154,8 @@ with
 		group by 1,2
 	)
 
-select chats.created_at_day_est as date_day_est
+select chats.episode_id || chats.created_at_day_est::date as chat_id
+	, chats.created_at_day_est as date_day_est
 	, date_trunc('week', chats.created_at_day_est) as date_week_est
 	, date_trunc('month', chats.created_at_day_est) as date_month_est
 	, chats.episode_id

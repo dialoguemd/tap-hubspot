@@ -366,3 +366,18 @@ models:
     tests:
       - unique:
           column_name: "concat(user_id, contract_id)"
+
+  - name: post_submitted
+    description: is_alive style event for reporting on device and user attributes
+      NB it has a lot of overlap with active users and chats in terms of usage
+    columns:
+      - name: event_id
+        tests:
+          - not_null
+      - name: episode_id
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(event_id, contract_id)"

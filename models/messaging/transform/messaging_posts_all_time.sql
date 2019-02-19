@@ -12,8 +12,16 @@
 with
 	messaging_posts as (
 		select * from {{ ref('messaging_posts') }}
-		-- Only add incremental jinja to messaging_posts because mm_posts is
-		-- now deprecated as of 2018-09-01
+		-- Add incremental jinja to messaging_posts to only pull recent posts
+		{% if is_incremental() %}
+		where created_at > (select max(created_at) from {{ this }})
+		{% endif %}
+	)
+
+	, mm_posts as (
+		select * from {{ ref('mm_posts') }}
+		-- Add incremental jinja to mm_posts to effectively ignore mm_posts if incremental
+		-- mm_posts has been deprecated since 2018-09-01
 		{% if is_incremental() %}
 		where created_at > (select max(created_at) from {{ this }})
 		{% endif %}
@@ -21,10 +29,6 @@ with
 
 	, test_users as (
 		select * from {{ ref('scribe_test_users') }}
-	)
-
-	, mm_posts as (
-		select * from {{ ref('mm_posts') }}
 	)
 
 	, unioned as (

@@ -25,6 +25,7 @@ select id as event_id
 	, user_id
 	, channel_id as episode_id
 	, context_user_agent
+	, row_number() over (partition by id order by timestamp) as rank
 from patientapp.submit_post_success
 {% if target.name == 'dev' %}
 	where timestamp > current_timestamp - interval '2 months'

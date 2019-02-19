@@ -45,9 +45,10 @@ models:
       - name: date_day_est
         tests:
           - not_null
-    tests:
-      - unique:
-          column_name: "concat(date_day_est, episode_id)"
+      - name: chat_id
+        tests:
+          - not_null
+          - unique
 
   - name: chats_out_of_hours_slas
     description: |
