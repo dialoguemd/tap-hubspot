@@ -39,6 +39,7 @@ free_text_following_referral_with_picture,free_text
 free_text_following_stress,free_text
 free_text_following_top_level_greeting,free_text
 free_text_following_video_selected,free_text
+free_text_following_prescription_with_picture_pharmacist,other
 gad7,other
 lab,other
 lab_with_picture,other
@@ -51,6 +52,7 @@ phq9,other
 prescription,other
 prescription_with_picture,other
 prescription_without_picture,other
+prescription_with_picture_pharmacist,other
 rating,other
 referral,other
 referral_with_picture,other
