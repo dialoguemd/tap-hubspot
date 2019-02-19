@@ -1,49 +1,6 @@
 version: 2
 
 models:
-  - name: dxa_cc_classifier_data
-    description: pulls data from countdown with cc codes or not, answers to 
-      question == ask_symptoms
-    columns:
-        - name: episode_id
-          tests:
-              - not_null
-              - unique
-        - name: descript
-          tests:
-              - not_null
-        - name: replied_at
-          tests:
-              - not_null
-
-  - name: dxa_cc_classifier_data_validated_labels
-    description: model for testing cc codes are correct
-    columns:
-        - name: doctor_label
-          tests:
-            - not_null
-
-  - name: data_dxa_cc_classifier_data_validated
-    description: model from csv
-    columns:
-        - name: doctor_label
-          tests:
-            - not_null
-
-  - name: dxa_cc_classifier_data_not_validated
-    description: dxa_cc_classifier_data that does not yet have a doctor_label
-    columns:
-        - name: episode_id
-          tests:
-              - not_null
-              - unique
-        - name: descript
-          tests:
-              - not_null
-        - name: replied_at
-          tests:
-              - not_null
-
   - name: dxa_dangerous_symptoms_by_cc
     description: a list of CC / symptom combinations that have been flagged by
       Julien as dangerous (Feb 12)
@@ -76,13 +33,41 @@ models:
             - not_null
             - unique
 
-  - name: dxa_question_replied_multichoice
+  - name: dxa_question_replied_multi
     description: individual question replies to boolean quesitons with
       episode level details
     columns:
         - name: qnaire_tid
             - not_null
         - name: question_tid
+          tests:
+            - not_null
+            - unique
+
+  - name: dxa_question_replied_free
+    description: individual question replies to free text quesitons with
+      episode level details
+    columns:
+        - name: qnaire_tid
+            - not_null
+        - name: question_tid
+          tests:
+            - not_null
+            - unique
+
+  - name: dxa_bool_pivoted
+    description: boolean questions pivoted to the qnaire level
+      episode level details
+    columns:
+        - name: qnaire_tid
+          tests:
+            - not_null
+            - unique
+
+  - name: dxa_multi_pivoted
+    description: multichocie questions pivoted to the qnaire level
+    columns:
+        - name: qnaire_tid
           tests:
             - not_null
             - unique

@@ -21,4 +21,4 @@ left join dangerous_flag
 	on replace(replies.question_name, '__yn', '') = dangerous_flag.symptom
 	and episodes.cc_code = dangerous_flag.cc_code
 -- Only select questions that are booleans
-where question_name like '%yn%'
+where question_name like '%__yn%'

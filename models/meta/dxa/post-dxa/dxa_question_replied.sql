@@ -11,8 +11,9 @@ select episode_id
 				replace(question_name, 'iQR_', '')
 			, ' ', '')
 		, '.', '')) as question_name
-	, replace(
-		replace(reply_labels,'["', ''),
-		 '"]', '') as reply_value
+	, lower(
+		replace(
+			replace(reply_labels,'["', ''),
+		 '"]', '')) as reply_value
 from replies
 where qnaire_name = 'dxa'
