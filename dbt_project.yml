@@ -174,3 +174,9 @@ seeds:
         date_month: timestamp
         cost_ae_ramp: float
         cost_eae_ramp: float
+
+    data_mm_dxa_cc:
+      column_types:
+        episode_id: text
+        cc: text
+        timestamp: timestamp

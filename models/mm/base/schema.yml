@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: mm_dxa_cc
+    description: |
+      Extract of mattermost messages that match '/q cc%'
+
+      Query used for the extract:
+
+      select channelid as episode_id
+          , trim(replace(message, '/q dxa', '')) as cc
+          , min(timestamp WITH TIME ZONE 'epoch'
+              + posts.createat * interval '1 millisecond') as timestamp
+      from posts
+      where timestamp WITH TIME ZONE 'epoch'
+              + posts.createat * interval '1 millisecond' < '2018-11-10 00:00:00+00'
+      and message like '/q dxa cc%'
+      group by 1,2
