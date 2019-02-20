@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: dxa_dx
+    description: |
+      Export of DXA's differential diagnosis done on Feb. 19th 2019
+
+      Includes one record per questionnaire with the associated DXs
+      Export done manually by Alexandre Ayotte
+
+    columns:
+        - name: qnaire_tid
+          tests:
+              - not_null
+              - unique
+        - name: cc
+          tests:
+              - not_null
+        - name: dx_1
+          tests:
+              - not_null
+        - name: dx_label_1
+          tests:
+              - not_null
+        - name: dx_score_1
+          tests:
+              - not_null

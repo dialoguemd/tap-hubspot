@@ -82,3 +82,24 @@ models:
           tests:
             - not_null
             - unique
+
+  - name: dxa_episode_dx
+    description: |
+      DXA differential diagnosis per episode
+    columns:
+        - name: episode_id
+            - not_null
+            - unique
+        - name: qnaire_tid
+          tests:
+            - not_null
+            - unique
+        - name: dx_1
+          tests:
+            - not_null
+        - name: dx_label_1
+          tests:
+              - not_null
+        - name: dx_score_1
+          tests:
+              - not_null
