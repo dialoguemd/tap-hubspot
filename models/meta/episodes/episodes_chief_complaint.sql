@@ -16,7 +16,7 @@ with
 		from dxa_cc
 		-- Inner join to exclude CCs that are not in our dimension model
 		inner join labels
-			on cc.cc_code = labels.chief_complaint
+			on dxa_cc.cc = labels.chief_complaint
 	)
 
 select cc.episode_id

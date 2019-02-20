@@ -84,6 +84,13 @@ models:
   - name: episodes_chief_complaint
     description: list of chief complaint by episode id
     columns:
-        - name: is_valid_cc
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+        - name: cc_code
+          tests:
+              - not_null
+        - name: timestamp
           tests:
               - not_null
