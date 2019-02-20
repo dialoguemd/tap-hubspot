@@ -91,6 +91,11 @@ models:
       - name: hourly_rate
         tests:
           - not_null
+    tests:
+      - dbt_utils.recency:
+          field: start_time_est
+          datepart: hour
+          interval: 1
 
   - name: wiw_users_snapshot_2018_09
     description: |
