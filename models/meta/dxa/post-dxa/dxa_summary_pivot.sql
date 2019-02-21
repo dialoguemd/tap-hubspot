@@ -72,6 +72,7 @@ select episodes.triage_outcome
 	{{ dbt_utils.star(from=ref('dxa_bool_pivoted'),
 		except=["episode_id", "qnaire_tid", "flagged_as_dangerous_bool"]) }}
 
+	-- Keep only columns of type dx_label_# and dx_score_#
 	{{ dbt_utils.star(from=ref('dxa_dx'),
 		except=["qnaire_tid", "cc", "dx_1", "dx_2", "dx_3", "dx_4", "dx_5"]) }}
 
