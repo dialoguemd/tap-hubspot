@@ -19,6 +19,10 @@ with bool as (
 		select * from {{ ref('episodes') }}
 	)
 
+	, dx as (
+		select * from {{ ref('dxa_dx') }}
+	)
+
 	, free as (
 		select qnaire_tid
 			, max(symptoms_duration) as symptoms_duration
@@ -67,6 +71,10 @@ select episodes.triage_outcome
 	-- Get pivoted boolean columns
 	{{ dbt_utils.star(from=ref('dxa_bool_pivoted'),
 		except=["episode_id", "qnaire_tid", "flagged_as_dangerous_bool"]) }}
+
+	{{ dbt_utils.star(from=ref('dxa_dx'),
+		except=["qnaire_tid", "cc", "dx_1", "dx_2", "dx_3", "dx_4", "dx_5"]) }}
+
 from bool
 inner join episodes
 	using (episode_id)
@@ -75,4 +83,6 @@ left join multi
 left join free
 	using (qnaire_tid)
 left join completed_qnaire
+	using (qnaire_tid)
+left join dx
 	using (qnaire_tid)
