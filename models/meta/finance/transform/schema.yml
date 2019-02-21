@@ -136,3 +136,28 @@ models:
     tests:
       - unique:
           column_name: "concat(organization_id, date_month)"
+
+  - name: finance_revenue_by_account_monthly
+    description: |
+      Monthly recognized telehealth revenue by account
+
+      In 2017 the revenue is estimated based on the organization's PEPM and
+      number of scribe contracts. In 2018 the revenue comes from manual
+      adjustment from accounting
+
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+      - name: account_id
+        tests:
+          - not_null
+      - name: account_name
+        tests:
+          - not_null
+      - name: amount
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "concat(account_id, date_month)"
