@@ -28,7 +28,28 @@ with
 		select * from {{ ref('episodes_with_contracts') }}
 	)
 
-select post_submitted.*
+select concat(post_submitted.event_id, episodes.contract_id) as event_id
+	, post_submitted.timestamp
+	, post_submitted.context_app_name
+	, post_submitted.context_app_bundle_id
+	, post_submitted.context_app_build
+	, post_submitted.context_app_version
+	, post_submitted.context_device_id
+	, post_submitted.context_device_manufacturer
+	, post_submitted.context_device_model
+	, post_submitted.context_device_name
+	, post_submitted.context_locale
+	, post_submitted.context_location_country
+	, post_submitted.context_os_name
+	, post_submitted.platform_name
+	, post_submitted.context_os_version
+	, post_submitted.context_screen_height
+	, post_submitted.context_screen_width
+	, post_submitted.channel_id
+	, post_submitted.post_id
+	, post_submitted.user_id
+	, post_submitted.episode_id
+	, post_submitted.context_user_agent
 	, episodes.patient_id
 	, episodes.account_id
 	, episodes.account_name
