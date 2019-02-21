@@ -13,8 +13,7 @@ select date_trunc('month', timestamp) as date_month
 	, language
 	, family_member_type
 	, residence_province
-	, birthday
 	, age
 	, platform_name
 from post_submitted
-group by 1,2,3,4,5,6,7,8,9,10,11,12,13
+{{ dbt_utils.group_by(12) }}
