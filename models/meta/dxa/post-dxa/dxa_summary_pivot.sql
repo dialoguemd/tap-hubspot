@@ -58,14 +58,14 @@ select episodes.triage_outcome
 		else false
 		end as flagged_as_dangerous
 	, free.symptoms_duration
-	, free.menses_duration,
+	, free.menses_duration
 
 	-- Get pivoted multichoice columns
-	{{ dbt_utils.star(from=ref('dxa_multi_pivoted'),
+	, {{ dbt_utils.star(from=ref('dxa_multi_pivoted'),
 		except=["episode_id", "qnaire_tid"]) }}
 
 	-- Get pivoted boolean columns
-	{{ dbt_utils.star(from=ref('dxa_bool_pivoted'),
+	, {{ dbt_utils.star(from=ref('dxa_bool_pivoted'),
 		except=["episode_id", "qnaire_tid", "flagged_as_dangerous_bool"]) }}
 from bool
 inner join episodes
