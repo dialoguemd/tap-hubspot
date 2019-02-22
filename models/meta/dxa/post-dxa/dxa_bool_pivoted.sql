@@ -1,5 +1,5 @@
 with dxa_replies_bool as (
-		select * from {{ ref('dxa_question_replied_bool') }}
+		select * from {{ ref('dxa_questions_bool') }}
 	)
 
 select episode_id
@@ -10,7 +10,7 @@ select episode_id
 	-- variable per column value
 	{% set bool_columns =
 		dbt_utils.get_column_values(
-			ref('dxa_question_replied_bool'),
+			ref('dxa_questions_bool'),
 			'question_name')
 	%}
 

@@ -1,5 +1,5 @@
 with replies as (
-        select * from {{ ref('dxa_question_replied') }}
+        select * from {{ ref('dxa_questions') }}
     )
 
 select episode_id

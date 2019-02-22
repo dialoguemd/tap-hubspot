@@ -25,3 +25,24 @@ models:
         - name: dx_score_1
           tests:
               - not_null
+
+  - name: dxa_questions
+    description: individual questions with details from question_asked,
+      question_replied, qnaire_paused, and episodes
+    columns:
+        - name: question_tid
+          tests:
+            - not_null
+            - unique
+
+  - name: dxa_invocations
+    description: invocations of DXA with fact about its completion
+      and episode context dimensions 
+    columns:
+        - name: qnaire_tid
+          tests:
+            - not_null
+            - unique
+        - name: episode_id
+          tests:
+            - not_null

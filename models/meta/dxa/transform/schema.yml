@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: dxa_episode_summary
+    description: invocations of DXA with fact about its completion
+      and episode context dimensions
+    columns:
+        - name: episode_id
+          tests:
+            - not_null
+            - unique

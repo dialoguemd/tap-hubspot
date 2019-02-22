@@ -1,5 +1,5 @@
 with dxa_replies_multi as (
-		select * from {{ ref('dxa_question_replied_multi') }}
+		select * from {{ ref('dxa_questions_multi') }}
 	)
 
 select episode_id
@@ -9,7 +9,7 @@ select episode_id
 	-- variable per column value
 	{% set multi_columns =
 		dbt_utils.get_column_values(
-			ref('dxa_question_replied_multi'),
+			ref('dxa_questions_multi'),
 			'question_name')
 	%}
 

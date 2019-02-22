@@ -163,6 +163,7 @@ select channels.episode_id
 	, episodes_created_sequence.video_ended_at
 
 	, episodes_chief_complaint.cc_code
+	, episodes_chief_complaint.cc_label_en
 	, episodes_chief_complaint.timestamp as dxa_triggered_at
 
 	, episodes_reason_for_visit.reason_for_visit

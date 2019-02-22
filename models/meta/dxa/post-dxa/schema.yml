@@ -16,15 +16,7 @@ models:
         - unique:
             column_name: "concat(cc_code, symptom)"
 
-  - name: dxa_question_replied
-    description: individual question replies with episode level details
-    columns:
-        - name: question_tid
-          tests:
-            - not_null
-            - unique
-
-  - name: dxa_question_replied_bool
+  - name: dxa_questions_bool
     description: individual question replies to boolean quesitons with
       episode level details
     columns:
@@ -33,7 +25,7 @@ models:
             - not_null
             - unique
 
-  - name: dxa_question_replied_multi
+  - name: dxa_questions_multi
     description: individual question replies to boolean quesitons with
       episode level details
     columns:
@@ -44,7 +36,7 @@ models:
             - not_null
             - unique
 
-  - name: dxa_question_replied_free
+  - name: dxa_questions_free
     description: individual question replies to free text quesitons with
       episode level details
     columns:
