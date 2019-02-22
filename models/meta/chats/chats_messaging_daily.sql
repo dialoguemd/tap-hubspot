@@ -69,10 +69,6 @@ with
 					, posts_all_time.created_at_day_est
 					order by posts_all_time.created_at_est
 				) as is_last_message_care_team
-			, row_number() over (
-				partition by posts_all_time.episode_id
-				order by posts_all_time.created_at_est
-				) as rank_chat_in_episode
 		from posts_all_time
 		left join practitioners
 			using (user_id)
@@ -134,7 +130,6 @@ with
 				and not is_last_message_care_team and is_care_team
 				) as avg_wait_time_following_messages
 
-			, min(rank_chat_in_episode) as rank_chat_in_episode
 		from posts
 		group by 1,2
 		having min(created_at_est) filter(where user_type = 'patient') is not null
@@ -179,7 +174,6 @@ select chats.episode_id || chats.created_at_day_est::date as chat_id
 	, chats.first_care_team_user_name
 	, chats.user_id
 	, chats.avg_wait_time_following_messages
-	, chats.rank_chat_in_episode
 	, first_patient_sequence.end_first_patient_sequence
 
 	, chats.first_message_care_team is not null as includes_care_team_message

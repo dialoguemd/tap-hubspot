@@ -23,6 +23,17 @@ with
 		select * from {{ ref('episodes_subject') }}
 	)
 
+	-- Rank chats in this non-incremental model to ensure that all chats are
+	-- accounted for in the ranking rather than just the recent chats
+	, ranked_chats as (
+		select episode_id
+			, date_day_est
+			, row_number()
+				over (partition by episode_id order by date_day_est)
+				as rank_chat_in_episode
+		from messaging
+	)
+
 select messaging.date_day_est
 	, messaging.date_week_est as date_week
 	, messaging.date_week_est
@@ -56,7 +67,7 @@ select messaging.date_day_est
 	, messaging.wait_time_first_sequence_care_team
 	, messaging.wait_time_first_sequence_nurse
 	, messaging.wait_time_first_sequence_shift_manager
-	, messaging.rank_chat_in_episode
+	, ranked_chats.rank_chat_in_episode
 	, messaging.url_zorro
 	, messaging.cp_deep_link
 	, messaging.time_since_last_message
@@ -89,7 +100,7 @@ select messaging.date_day_est
 	, videos.video_start_time_gp_np
 
 	, case
-		when messaging.rank_chat_in_episode = 1 then 'New Episode'
+		when ranked_chats.rank_chat_in_episode = 1 then 'New Episode'
 		when messaging.initiator = 'care-team'
 			and reminders.has_open_reminder then 'Follow-up'
 		when videos.episode_id is not null then 'Video'
@@ -98,6 +109,8 @@ select messaging.date_day_est
 		else 'unknown'
 		end as chat_type
 from messaging
+left join ranked_chats
+	using (episode_id, date_day_est)
 left join state_changes
 	using (episode_id, date_day_est)
 left join reminders
