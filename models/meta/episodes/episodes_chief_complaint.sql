@@ -11,6 +11,8 @@ with
 		select episode_id
 			, cc as cc_code
 			, timestamp
+			, labels.description_en as cc_label_en
+			, labels.chief_complaint is not null as is_valid_cc
 			, row_number() over (partition by episode_id order by timestamp desc)
 				as rank_desc
 		from dxa_cc
@@ -19,10 +21,10 @@ with
 			on dxa_cc.cc = labels.chief_complaint
 	)
 
-select cc.episode_id
-	, cc.cc_code
-	, labels.description_en as cc_label_en
-	, labels.chief_complaint is not null as is_valid_cc
+select episode_id
+	, cc_code
+	, cc_label_en
+	, is_valid_cc
 	, timestamp
 	, timezone('America/Montreal', timestamp) as timestamp_est
 from cc
