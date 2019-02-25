@@ -5,6 +5,10 @@
  - [ ] All models dependent on other models outside of their folder are in `meta` or `tableau`
  - [ ] Tests have been written for new models and updated as needed for existing models
  - [ ] Tests pass for all new models, modified models, and children of models
+ - [ ] Command to run and test the PR:
+```bash
+dbt run -m MODEL+ && dbt test -m MODEL+
+```
 
 ### Extra: Tableau Dashboards:
  - [ ] Tableau is pointing at `analytics` not a dev schema
