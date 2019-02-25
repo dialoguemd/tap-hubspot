@@ -6,18 +6,17 @@ with
 
 select date_trunc('week', start_date) as start_week
 	, coalesce(
-		sum(virtual_costs)
-			filter(where position_name in ('GP', 'Nurse Practitioner'))
-		, 0
-	) + {{ overhead }} * coalesce(
-		sum(virtual_costs)
-			filter(where position_name not in ('GP', 'Nurse Practitioner'))
+		sum(virtual_costs) filter(where position_name = 'GP')
+		+ {{ overhead }}
+			* sum(virtual_costs) filter(where position_name <> 'GP')
 		, 0
 	) as virtual_costs_fl
 
 	, coalesce(
 		sum(virtual_costs)
-			filter(where position_name in ('GP', 'Nurse Practitioner'))
+			filter(where position_name = 'GP')
+		+ {{ overhead }} * sum(virtual_costs)
+			filter(where position_name = 'Nurse Practitioner')
 		, 0
 	) as virtual_video_costs_fl
 	, {{ overhead }} * coalesce(
