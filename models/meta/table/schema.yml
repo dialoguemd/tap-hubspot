@@ -4,6 +4,10 @@ version: 2
 models:
   - name: assigned_time
     columns:
+      - name: assignment_id
+        tests:
+          - not_null
+          - unique
       - name: episode_id
         tests:
           - not_null
@@ -11,12 +15,12 @@ models:
         tests:
           - not_null
 
-    tests:
-      - unique:
-          column_name: "concat(assigned_at, episode_id)"
-
   - name: assigned_time_detailed
     columns:
+      - name: assignment_id
+        tests:
+          - not_null
+          - unique
       - name: episode_id
         tests:
           - not_null
@@ -30,9 +34,24 @@ models:
         tests:
           - not_null
 
-    tests:
-      - unique:
-          column_name: "concat(assigned_at, episode_id)"
+  - name: assigned_time_w_posts
+    columns:
+      - name: assignment_id
+        tests:
+          - not_null
+          - unique
+      - name: episode_id
+        tests:
+          - not_null
+      - name: assigned_at
+        tests:
+          - not_null
+      - name: main_specialization
+        tests:
+          - not_null
+      - name: count_posts
+        tests:
+          - not_null
 
   - name: chats
     columns:

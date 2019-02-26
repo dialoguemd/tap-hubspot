@@ -1,6 +1,7 @@
 {{
   config(
     materialized='incremental',
+    unique_key='assignment_id',
     post_hook=[
        "DROP INDEX IF EXISTS {{ this.schema }}.index_assigned_w_posts_assigned_at",
        "CREATE INDEX IF NOT EXISTS index_assigned_w_posts_assigned_at ON {{ this }}(assigned_at)"
@@ -31,7 +32,8 @@ with assigned_time as (
     )
 
     , assignments as (
-        select episode_id
+        select assignment_id
+            , episode_id
             , assigned_user_id
             , user_id
             , assigned_at
@@ -42,7 +44,8 @@ with assigned_time as (
         from assigned_time
     )
 
-select assignments.episode_id
+select assignments.assignment_id
+    , assignments.episode_id
     , assignments.assigned_user_id
     , assignments.user_id
     , assignments.assigned_at
@@ -67,4 +70,4 @@ left join posts
         assignments.unassigned_at
         ) @> posts.created_at
 left join practitioners on assignments.user_id = practitioners.user_id
-group by 1,2,3,4,5,practitioners.main_specialization
+group by 1,2,3,4,5,6,practitioners.main_specialization
