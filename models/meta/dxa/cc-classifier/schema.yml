@@ -16,6 +16,38 @@ models:
           tests:
               - not_null
 
+  - name: dxa_cc_classifier_evaluation
+    description: a simple evaluation model for assessing how accurately our cc
+      classification model works; can compare with the doctor label, shift
+      manager label, patient confirmation, and the count of dxa launched and
+      count of ask_symptoms
+    columns:
+        - name: date_day
+          tests:
+              - not_null
+              - unique
+        - name: doctor_label_detected_count
+          tests:
+              - not_null
+        - name: detected_label_used_count
+          tests:
+              - not_null
+        - name: shift_manager_label_detected_count
+          tests:
+              - not_null
+        - name: patient_confirmed_count
+          tests:
+              - not_null
+        - name: cc_parsed_count
+          tests:
+              - not_null
+        - name: count_dxa_launched
+          tests:
+              - not_null
+        - name: total_count
+          tests:
+              - not_null
+
   - name: dxa_cc_classifier_data_validated_labels
     description: model for testing cc codes are correct
     columns:
