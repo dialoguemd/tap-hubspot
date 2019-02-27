@@ -1,3 +1,4 @@
+
 version: 2
 
 models:
@@ -44,5 +45,23 @@ models:
             - not_null
             - unique
         - name: episode_id
+          tests:
+            - not_null
+
+  - name: dxa_launched_cc
+    description: a combined model of current messaging tracking and old mm
+      backfilled data for CC codes used when launching DXA
+    columns:
+        - name: dxa_launched_id
+          tests:
+            - not_null
+            - unique
+        - name: episode_id
+          tests:
+            - not_null
+        - name: timestamp
+          tests:
+            - not_null
+        - name: cc
           tests:
             - not_null

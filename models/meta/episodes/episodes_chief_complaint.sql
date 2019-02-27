@@ -1,6 +1,6 @@
 with
 	dxa_cc as (
-		select * from {{ ref('messaging_dxa_cc') }}
+		select * from {{ ref('dxa_launched_cc') }}
 	)
 
 	, labels as (
