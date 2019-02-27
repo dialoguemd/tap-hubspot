@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: dxa_cc_classifier_data
-    description: pulls data from countdown with cc codes or not, answers to 
+    description: pulls data from countdown with cc codes or not, answers to
       question == ask_symptoms
     columns:
         - name: episode_id
@@ -17,17 +17,21 @@ models:
               - not_null
 
   - name: dxa_cc_classifier_data_validated_labels
-    description: model for testing cc codes are correct
+    description: model for testing cc codes are correct from data_dxa_cc_classifier_data_validated
     columns:
         - name: doctor_label
           tests:
             - not_null
 
   - name: data_dxa_cc_classifier_data_validated
-    description: model from csv
+    description: model for loading data validated by doctors from the csv file
     columns:
         - name: doctor_label
           tests:
+            - not_null
+        - name: descript
+          tests:
+            - unique
             - not_null
 
   - name: dxa_cc_classifier_data_not_validated
