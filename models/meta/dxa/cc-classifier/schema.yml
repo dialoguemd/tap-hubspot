@@ -17,7 +17,8 @@ models:
               - not_null
 
   - name: dxa_cc_classifier_data_validated_labels
-    description: model for testing cc codes are correct from data_dxa_cc_classifier_data_validated
+    description: model for testing cc codes are correct from
+      data_dxa_cc_classifier_data_validated
     columns:
         - name: doctor_label
           tests:
