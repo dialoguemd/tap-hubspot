@@ -56,7 +56,7 @@ models:
           tests:
             - not_null
 
-  - name: data_dxa_cc_classifier_data_validated
+  - name: dxa_cc_classifier_data_validated
     description: model for loading data validated by doctors from the csv file
     columns:
         - name: doctor_label
@@ -64,8 +64,9 @@ models:
             - not_null
         - name: descript
           tests:
-            - unique
             - not_null
+            ## TODO add unique again once we sort out with Julien
+            ## why some descripts have multiple labels
 
   - name: dxa_cc_classifier_data_not_validated
     description: dxa_cc_classifier_data that does not yet have a doctor_label
