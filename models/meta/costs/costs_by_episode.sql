@@ -30,6 +30,6 @@ left join chats
     and time_spent.date = chats.date_day_est
 left join episodes
     on time_spent.episode_id = episodes.episode_id
-left join hourly_cost
+inner join hourly_cost
 	on date_trunc('month', time_spent.date)
         = hourly_cost.date_month

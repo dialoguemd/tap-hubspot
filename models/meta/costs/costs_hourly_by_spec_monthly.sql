@@ -23,4 +23,4 @@ with daily_time_spent_by_ep as (
         , coalesce(fl_costs.fl_np_cost*1.0
             / monthly_activities.np_time, 0) as np_hourly
     from monthly_activities
-    left join fl_costs using (date_month)
+    inner join fl_costs using (date_month)

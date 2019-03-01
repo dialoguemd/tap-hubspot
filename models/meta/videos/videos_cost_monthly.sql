@@ -12,5 +12,5 @@ select monthly_count_videos.date_month
             + 2*monthly_count_videos.psy_video_count),0)
     as per_video_cost
 from monthly_count_videos
-left join fl_cost
+inner join fl_cost
 	using (date_month)
