@@ -5,6 +5,7 @@ with
 
     , ordered as (
         select episode_id
+            , min(timestamp) as intake_started_at
             , min(reason_for_visit) as reason_for_visit
             , min(issue_type) as issue_type
             , min(cc_code) as cc_code
