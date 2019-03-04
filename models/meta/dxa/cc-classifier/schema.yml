@@ -65,8 +65,7 @@ models:
         - name: descript
           tests:
             - not_null
-            ## TODO add unique again once we sort out with Julien
-            ## why some descripts have multiple labels
+            - unique
 
   - name: dxa_cc_classifier_data_not_validated
     description: dxa_cc_classifier_data that does not yet have a doctor_label
