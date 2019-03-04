@@ -3,6 +3,7 @@ with
         select cd_q_tid as question_tid
             , cd_qnaire_tid as qnaire_tid
             , timestamp as replied_at
+            , timestamp
             , user_id
             , channel_id as episode_id
             , cd_qnaire as qnaire_name
@@ -23,6 +24,7 @@ with
 select question_tid
     , qnaire_tid
     , replied_at
+    , timestamp
     , user_id
     , episode_id
     , qnaire_name

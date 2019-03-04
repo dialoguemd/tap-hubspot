@@ -69,13 +69,15 @@ models:
               - not_null
 
   - name: mental_health_phq9_user_summaries
-    description: A record per user with pivoted columns for how PHQ9 scores have
-      changed over time
+    description: A record per user per issue_type (to sepearte psy from psy-pilot)
+      with pivoted columns for how PHQ9 scores have changed over time
     columns:
         - name: user_id
           tests:
               - not_null
-              - unique
         - name: score_first
           tests:
               - not_null
+    tests:
+        - unique:
+            column_name: "concat(user_id, issue_type)"

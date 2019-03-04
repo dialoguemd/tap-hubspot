@@ -9,8 +9,10 @@ with
 
 	, summaries as (
 		select scores.user_id
+			, scores.issue_type
 			, users.gender
 			, users.birthday
+			, min(scores.initial_gad7_score) as initial_gad7_score
 			-- Score of first PHQ9
 			, min(scores.score)
 				filter (where scores.rank = 1) as score_first
@@ -26,12 +28,14 @@ with
 		from scores
 		left join users
 			using (user_id)
-		group by 1,2,3
+		group by 1,2,3,4
 	)
 
 select user_id
+	, issue_type
 	, gender
 	, birthday
+	, initial_gad7_score
 	, score_first
 	{% for n in ["1", "3", "6"] %}
 	, score_month{{n}}

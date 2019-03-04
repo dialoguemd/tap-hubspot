@@ -6,6 +6,7 @@ with
 			, cd_qnaire_tid as qnaire_tid
 			, cd_qnaire as qnaire
 			, id as event_id
+			, user_id
 			, row_number() over (partition by cd_qnaire_tid order by timestamp) as rank
 		from countdown.questionnaire_finish
 	)
@@ -16,5 +17,6 @@ select qnaire_tid
     , timestamp_est
     , qnaire
     , event_id
+    , user_id
 from completions
 where rank = 1
