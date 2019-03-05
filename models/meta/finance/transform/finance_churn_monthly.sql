@@ -102,6 +102,8 @@ select *
 		else amount - coalesce(amount_last_month, 0)
 	end as amount_variation
 	, case
+		when is_pilot_expansion
+		then 'Stable'
 		when least(billing_start_month, first_month) = date_month
 		then 'New'
 		when churn_month = date_month
