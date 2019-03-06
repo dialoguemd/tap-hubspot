@@ -105,3 +105,12 @@ models:
     tests:
       - unique:
           column_name: "concat(previous_event, following_event)"
+
+  - name: intake_episodes
+    description: gsgdsdg
+
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique

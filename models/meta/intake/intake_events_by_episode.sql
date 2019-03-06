@@ -14,6 +14,7 @@ with
     , ranks as (
         select episode_id
             , min(rank) filter (where event_name = 'dxa') as dxa_rank
+            , min(rank) filter (where event_name = 'channel_selection') as channel_selection_rank
             , min(rank) filter (where type = 'appointment_booking') as apt_booking_rank
             , min(rank) filter (where type = 'resolved') as resolved_rank
             , min(event_name) filter (where rank = '1') as first_rank
@@ -22,6 +23,7 @@ with
     )
 
 select events.timestamp
+    , events.timestamp_est
     , events.during
     , events.event_name
     , events.event_grouping
@@ -34,10 +36,12 @@ select events.timestamp
     , events.following_event
     , events.duration
     , ranks.dxa_rank
+    , ranks.channel_selection_rank
     , ranks.apt_booking_rank
     , ranks.resolved_rank
     , episodes.first_message_care_team
     , episodes.first_message_nurse
+    , episodes.dxa_completed_at
     , episodes.cc_code
     , episodes.reason_for_visit
     , episodes.issue_type
@@ -62,4 +66,4 @@ where (events.rank <= ranks.resolved_rank or ranks.resolved_rank is null)
     -- Only include full episode event sequences i.e. don't include partials
     -- that could start on an event like dxa_permission
     and ranks.first_rank = 'top_level_greeting'
-{{ dbt_utils.group_by(21) }}
+{{ dbt_utils.group_by(24) }}
