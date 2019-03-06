@@ -105,4 +105,5 @@ models:
           - not_null
           - accepted_values:
               values: ['24/7', 'Stress Management & Well-Being',
-                'Virtual Care', 'Pharmacogenetics']
+                'Virtual Care', 'Pharmacogenetics', 'EHS basic care I',
+                'EHS basic care II', 'EHS basic care III']
