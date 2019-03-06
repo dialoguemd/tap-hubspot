@@ -145,3 +145,19 @@ models:
     tests:
       - unique:
           column_name: "concat(account_id, date_month)"
+
+  - name: finance_paid_users_rate
+    description: |
+      Paid users rate calculated based on active users for rebate calculation
+
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+          - unique
+      - name: rebate
+        tests:
+          - not_null
+      - name: paid_users_rate
+        tests:
+          - not_null
