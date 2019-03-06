@@ -134,6 +134,22 @@ models:
           - accepted_values:
               values: [true, false]
 
+      - name: features
+        tests:
+          - not_null
+
+      - name: has_mental_health
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: has_24_7
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
   - name: scribe_user_contract_detailed
     columns:
       - name: contract_id

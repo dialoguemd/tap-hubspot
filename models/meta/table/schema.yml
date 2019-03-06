@@ -137,6 +137,22 @@ models:
         tests:
           - not_null
 
+      - name: features
+        tests:
+          - not_null
+
+      - name: has_mental_health
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: has_24_7
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
   - name: organizations_monthly
     columns:
       - name: date_month
@@ -381,6 +397,22 @@ models:
       - name: account_name
         tests:
           - not_null
+
+      - name: features
+        tests:
+          - not_null
+
+      - name: has_mental_health
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: has_24_7
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
 
     tests:
       - unique:

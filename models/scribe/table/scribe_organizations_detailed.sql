@@ -58,6 +58,9 @@ select organizations.organization_id
 	, coalesce(plans.charge_price, 0) as charge_price
 	, plans.charge_price_mental_health
 	, plans.charge_price_24_7
+	, coalesce(plans.features, 'family') as features
+	, coalesce(plans.has_mental_health, false) as has_mental_health
+	, coalesce(plans.has_24_7, false) as has_24_7
 	, case 
 		when organization_name like '%Toronto'
 			or organization_name like '%Ontario'
