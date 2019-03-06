@@ -87,6 +87,26 @@ select messaging.date_day_est
 				- messaging.first_message_created_at) / 60.0
 			else null
 			end as time_to_resolved_pending
+	, case
+		when state_changes.set_resolved_pending
+			then extract('epoch'
+			from state_changes.first_set_resolved_pending_at
+				- state_changes.first_set_active) / 60.0
+			else null
+			end as time_to_resolved_from_active
+
+	, case
+		when first_set_active < first_message_nurse
+		then extract('epoch' from first_message_nurse
+			- first_set_active) / 60.0
+		else null
+		end as frt_nurse
+	, case
+		when first_set_active < first_message_care_team
+		then extract('epoch' from first_message_care_team
+			- first_set_active) / 60.0
+		else null
+		end as frt_care_team
 
 	, outcomes.valid_outcomes
 	, outcomes.invalid_outcomes
