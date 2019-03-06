@@ -3,4 +3,5 @@ select episode_id
     , user_id
     , command_id
     , timestamp as triggered_at
+    , timestamp
 from careplatform.executed_command

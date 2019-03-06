@@ -6,6 +6,14 @@ with
     , posts as (
         select * from {{ ref('messaging_posts_all_time') }}
     )
+
+    , apt_booking as (
+        select * from {{ ref('careplatform_appointment_booking_started') }}
+    )
+
+    , outcome_set as (
+        select * from {{ ref('careplatform_outcome_set') }}
+    )
     
     , event_name_mapping as (
         select * from {{ ref('intake_event_name_mapping') }}
@@ -58,6 +66,33 @@ with
         where created_at <@
             tstzrange(current_date - interval '4 weeks',
                 current_date - interval '1 day')
+
+        union all
+
+        select timestamp
+            , 'appointment_booking' as event_name
+            , 'appointment_booking' as type
+            , 'practitioner' as initiator
+            , user_id
+            , episode_id
+        from apt_booking
+        where timestamp <@
+            tstzrange(current_date - interval '4 weeks',
+                current_date - interval '1 day')
+
+        union all
+
+        select timestamp
+            , outcome as event_name
+            , 'resolved' as type
+            , 'practitioner' as initiator
+            , user_id
+            , episode_id
+        from outcome_set
+        where timestamp <@
+            tstzrange(current_date - interval '4 weeks',
+                current_date - interval '1 day')
+
     )
 
     , events_lagged as (
@@ -67,7 +102,8 @@ with
     )
     
     , events_contextualized as (
-        select timestamp
+        select timezone('America/Montreal', timestamp) as timestamp_est
+            , timestamp
             , user_id
             , episode_id
             , type
@@ -83,6 +119,11 @@ with
     )
 
 select events_contextualized.timestamp
+    , tsrange(events_contextualized.timestamp_est,
+        lead(events_contextualized.timestamp_est) over
+            (partition by events_contextualized.episode_id
+                order by events_contextualized.timestamp_est))
+            as during
     , events_contextualized.event_name
     , event_name_mapping.event_grouping
     , events_contextualized.user_id

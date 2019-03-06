@@ -17,3 +17,36 @@ models:
       - name: timestamp
         tests:
           - not_null
+
+  - name: careplatform_appointment_booking_started
+    description: filtered template sent command for the appointment booking
+      template
+    columns:
+      - name: episode_id
+        tests:
+          - not_null
+      - name: user_id
+        tests:
+          - not_null
+      - name: timestamp
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(episode_id, timestamp)"
+
+  - name: careplatform_outcome_set
+    description: an event for every time the outcome is set on an episode with
+      which outcome was set and by whom
+    columns:
+      - name: timestamp
+        tests:
+          - not_null
+      - name: outcome
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(episode_id, timestamp)"

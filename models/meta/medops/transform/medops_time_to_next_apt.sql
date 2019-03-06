@@ -1,6 +1,6 @@
 with
-	command_triggered as (
-		select * from {{ ref('careplatform_slash_command_triggered') }}
+	apt_booking as (
+		select * from {{ ref('careplatform_appointment_booking_started') }}
 	)
 
 	, video_started as (
@@ -8,21 +8,19 @@ with
 	)
 
 	, joined as (
-		select command_triggered.episode_id
-			, command_triggered.triggered_at
+		select apt_booking.episode_id
+			, apt_booking.timestamp as triggered_at
 			, video_started.timestamp as video_started
 			, extract(epoch from video_started.timestamp
-				- command_triggered.triggered_at)::float / 3600 as time_to_next_apt_hr
+				- apt_booking.timestamp)::float / 3600 as time_to_next_apt_hr
 			, row_number() over (partition by
-				concat(command_triggered.episode_id, command_triggered.triggered_at)
+				concat(apt_booking.episode_id, apt_booking.timestamp)
 				order by video_started asc) as rank
-		from command_triggered
+		from apt_booking
 		inner join video_started
-			on command_triggered.episode_id = video_started.episode_id
-			and command_triggered.triggered_at < video_started.timestamp
-		where command_name = 'templates'
-			and command_id = 'Appointment Virtual'
-			and main_specialization in ('Family Physician', 'Nurse Practitioner')
+			on apt_booking.episode_id = video_started.episode_id
+			and apt_booking.timestamp < video_started.timestamp
+		where main_specialization in ('Family Physician', 'Nurse Practitioner')
 	)
 
 select	episode_id
