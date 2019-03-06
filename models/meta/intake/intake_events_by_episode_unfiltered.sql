@@ -7,16 +7,13 @@ with
         select * from {{ ref('messaging_posts_all_time') }}
     )
 
+    -- Accuracy of this tracking is suspect so it's been commented out for now
     -- , apt_booking as (
     --     select * from {{ ref('careplatform_appointment_booking_started') }}
     -- )
 
     , outcome_set as (
         select * from {{ ref('careplatform_outcome_set') }}
-    )
-    
-    , event_name_mapping as (
-        select * from {{ ref('intake_event_name_mapping') }}
     )
 
     , posts_excl_responses as (

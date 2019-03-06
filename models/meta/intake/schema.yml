@@ -58,7 +58,7 @@ models:
           tests:
               - not_null
 
-  - name: intake_episode_summaries
+  - name: intake_event_episode_summaries
     description: a pivot-style model with a record per episode with columns for
       the first 15 events in the episode.
 
@@ -106,8 +106,8 @@ models:
       - unique:
           column_name: "concat(previous_event, following_event)"
 
-  - name: intake_episodes
-    description: gsgdsdg
+  - name: intake_episode_metrics
+    description: efficiency metrics around intake structured at the episode level
 
     columns:
         - name: episode_id
