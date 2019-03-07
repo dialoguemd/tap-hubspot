@@ -20,3 +20,115 @@ models:
       - name: time_to_resolve_median
         tests:
           - not_null
+
+  - name: tableau_cost_per_chat_video_monthly
+    description: a model for use in the investor update Tableau dashboard and
+      by finance monthly to calculate GM (finance users the rebate_percentage)
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+          - unique
+      - name: rebate_percentage
+        description: the rebate percentage is the fraction
+        tests:
+          - not_null
+      - name: active_contracts
+        tests:
+          - not_null
+      - name: active_contracts_paid
+        tests:
+          - not_null
+      - name: active_contracts_unpaid
+        tests:
+          - not_null
+      - name: arpu
+        tests:
+          - not_null
+      - name: cost_chat
+        tests:
+          - not_null
+      - name: cost_per_chat
+        tests:
+          - not_null
+      - name: cost_per_video
+        tests:
+          - not_null
+      - name: cost_to_serve_a_member
+        tests:
+          - not_null
+      - name: cost_to_serve_a_patient
+        tests:
+          - not_null
+      - name: cost_to_serve_a_patient_cc
+        tests:
+          - not_null
+      - name: cost_to_serve_a_patient_gp
+        tests:
+          - not_null
+      - name: cost_to_serve_a_patient_nc
+        tests:
+          - not_null
+      - name: cost_to_serve_a_patient_np
+        tests:
+          - not_null
+      - name: cost_to_serve_a_patient_other
+        tests:
+          - not_null
+      - name: cost_total
+        tests:
+          - not_null
+      - name: cost_video
+        tests:
+          - not_null
+      - name: daus
+        tests:
+          - not_null
+      - name: daus_chat
+        tests:
+          - not_null
+      - name: daus_chat_paid
+        tests:
+          - not_null
+      - name: daus_paid
+        tests:
+          - not_null
+      - name: daus_video_gp_np
+        tests:
+          - not_null
+      - name: daus_video_gp_np_paid
+        tests:
+          - not_null
+      - name: fl_cc_cost
+        tests:
+          - not_null
+      - name: fl_gp_cost
+        tests:
+          - not_null
+      - name: fl_nc_cost
+        tests:
+          - not_null
+      - name: fl_np_cost
+        tests:
+          - not_null
+      - name: gm1
+        tests:
+          - not_null
+      - name: maus
+        tests:
+          - not_null
+      - name: maus_paid
+        tests:
+          - not_null
+      - name: mrr
+        tests:
+          - not_null
+      - name: other_cost
+        tests:
+          - not_null
+      - name: paid_users_rate
+        tests:
+          - not_null
+      - name: telehealth_revenue
+        tests:
+          - not_null
