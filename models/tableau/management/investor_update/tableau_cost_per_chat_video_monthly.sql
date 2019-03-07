@@ -30,7 +30,10 @@ with
 	)
 
 select monthly.*
-	, finance_rebate_monthly.rebate_percentage
+	, coalesce(
+			finance_rebate_monthly.rebate_percentage
+			, 1 - monthly.paid_users_rate
+		) as rebate_percentage
 	, case
 		when monthly.daus_chat <> 0
 		then monthly.cost_chat / monthly.daus_chat
