@@ -26,7 +26,7 @@ select episodes.episode_id
 
 	, extract(epoch from
 		episodes.first_set_resolved_pending_at
-		- episodes.first_set_active) / 60
+		- episodes.first_set_active) *1.0 / 60
 		as time_to_resolve_from_active
 	-- , extract(epoch from
 		-- apt_booking.timestamp_est
@@ -34,7 +34,7 @@ select episodes.episode_id
 		-- as time_to_apt_booking_from_active
 	, extract(epoch from
 		episodes.first_set_resolved_pending_at
-		- episodes.dxa_completed_at) / 60
+		- episodes.dxa_completed_at) *1.0 / 60
 		as time_to_resolve_from_dxa
 	-- , extract(epoch from
 	-- 	episodes.first_set_resolved_pending_at
@@ -42,12 +42,12 @@ select episodes.episode_id
 	-- 	as time_to_apt_booking_from_dxa
 
     , sum(cp_activity.time_spent)
-        filter (where cp_activity.main_specialization = 'Care Coordinator') /60
+        filter (where cp_activity.main_specialization = 'Care Coordinator') *1.0 /60
         as active_time_to_resolve_cc
     , sum(cp_activity.time_spent)
-        filter (where cp_activity.main_specialization = 'Nurse Clinician') /60
+        filter (where cp_activity.main_specialization = 'Nurse Clinician') *1.0 /60
         as active_time_to_resolve_nc
-    , sum(cp_activity.time_spent) /60
+    , sum(cp_activity.time_spent) *1.0 /60
         as active_time_to_resolve_total
 
     -- , sum(cp_activity.time_spent)
@@ -76,14 +76,14 @@ select episodes.episode_id
 
     , sum(cp_activity.time_spent)
         filter (where cp_activity.main_specialization = 'Care Coordinator'
-            and cp_activity.activity_start > episodes.dxa_completed_at) /60
+            and cp_activity.activity_start > episodes.dxa_completed_at) *1.0 /60
         as active_time_to_resolve_from_dxa_cc
     , sum(cp_activity.time_spent)
         filter (where cp_activity.main_specialization = 'Nurse Clinician'
-            and cp_activity.activity_start > episodes.dxa_completed_at) /60
+            and cp_activity.activity_start > episodes.dxa_completed_at) *1.0 /60
         as active_time_to_resolve_from_dxa_nc
     , sum(cp_activity.time_spent)
-        filter (where cp_activity.activity_start > episodes.dxa_completed_at) /60
+        filter (where cp_activity.activity_start > episodes.dxa_completed_at) *1.0 /60
         as active_time_to_resolve_from_dxa_total
 
 from episodes
