@@ -45,19 +45,6 @@ models:
       - unique:
           column_name: "concat(timestamp, episode_id)"
 
-  - name: intake_event_name_mapping
-    description: a seed used for mapping events to their event groupings,
-      mailny used for colouring in Tableau visualizations.
-
-    columns:
-        - name: event_name
-          tests:
-              - not_null
-              - unique
-        - name: event_grouping
-          tests:
-              - not_null
-
   - name: intake_event_episode_summaries
     description: a pivot-style model with a record per episode with columns for
       the first 15 events in the episode.
