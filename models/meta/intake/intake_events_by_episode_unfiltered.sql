@@ -6,9 +6,14 @@ with
     , posts as (
         select * from {{ ref('messaging_posts_all_time') }}
     )
-    
-    , event_name_mapping as (
-        select * from {{ ref('intake_event_name_mapping') }}
+
+    -- Accuracy of this tracking is suspect so it's been commented out for now
+    -- , apt_booking as (
+    --     select * from {{ ref('careplatform_appointment_booking_started') }}
+    -- )
+
+    , outcome_set as (
+        select * from {{ ref('careplatform_outcome_set') }}
     )
 
     , posts_excl_responses as (
@@ -58,6 +63,33 @@ with
         where created_at <@
             tstzrange(current_date - interval '4 weeks',
                 current_date - interval '1 day')
+
+        union all
+
+        -- select timestamp
+        --     , 'appointment_booking' as event_name
+        --     , 'appointment_booking' as type
+        --     , 'practitioner' as initiator
+        --     , user_id
+        --     , episode_id
+        -- from apt_booking
+        -- where timestamp <@
+        --     tstzrange(current_date - interval '4 weeks',
+        --         current_date - interval '1 day')
+
+        -- union all
+
+        select timestamp
+            , outcome as event_name
+            , 'resolved' as type
+            , 'practitioner' as initiator
+            , user_id
+            , episode_id
+        from outcome_set
+        where timestamp <@
+            tstzrange(current_date - interval '4 weeks',
+                current_date - interval '1 day')
+
     )
 
     , events_lagged as (
@@ -67,7 +99,8 @@ with
     )
     
     , events_contextualized as (
-        select timestamp
+        select timezone('America/Montreal', timestamp) as timestamp_est
+            , timestamp
             , user_id
             , episode_id
             , type
@@ -82,30 +115,34 @@ with
         where event_name <> 'free_text' or lag <> 'free_text'
     )
 
-select events_contextualized.timestamp
-    , events_contextualized.event_name
-    , event_name_mapping.event_grouping
-    , events_contextualized.user_id
-    , events_contextualized.episode_id
-    , events_contextualized.initiator
-    , events_contextualized.type
-    , row_number() over (partition by events_contextualized.episode_id
-        order by events_contextualized.timestamp) as rank
-    , lead(events_contextualized.type) over 
-        (partition by events_contextualized.episode_id
-            order by events_contextualized.timestamp)
+select timestamp
+    , timestamp_est
+    , tsrange(timestamp_est,
+        lead(timestamp_est) over
+            (partition by episode_id
+                order by timestamp_est))
+            as during
+    , event_name
+    , case when event_name = 'dxa' then 'dxa' else type end as event_grouping
+    , user_id
+    , episode_id
+    , initiator
+    , type
+    , row_number() over (partition by episode_id
+        order by timestamp) as rank
+    , lead(type) over
+        (partition by episode_id
+            order by timestamp)
         as following_type
-    , lead(events_contextualized.event_name) over
-        (partition by events_contextualized.episode_id
-            order by events_contextualized.timestamp)
+    , lead(event_name) over
+        (partition by episode_id
+            order by timestamp)
         as following_event
     -- NB: duration could be modified with an is_active like condition to get
     -- more accurate duration estimates for how long these events take 
     , extract(epoch from
-        lead(events_contextualized.timestamp) over
-            (partition by events_contextualized.episode_id
-                order by events_contextualized.timestamp)
-        - events_contextualized.timestamp) as duration
+        lead(timestamp) over
+            (partition by episode_id
+                order by timestamp)
+        - timestamp) as duration
 from events_contextualized
-left join event_name_mapping
-    using (event_name)
