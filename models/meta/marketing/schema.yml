@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: marketing_acquisition_cost_monthly
+    description: |
+      Monthly cost per marketing qualified opportunities (MQO) and sales qualified
+      opportunities (SQO)
+
+    columns:
+        - name: date_month
+          tests:
+              - not_null
+              - unique
+        - name: cost
+          tests:
+              - not_null
+        - name: sql_count
+          tests:
+              - not_null
+        - name: sql_mrr
+          tests:
+              - not_null
+        - name: sql_mrr_weighted
+          tests:
+              - not_null
+        - name: sqo_count
+          tests:
+              - not_null
+        - name: sqo_mrr
+          tests:
+              - not_null

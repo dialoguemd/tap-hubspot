@@ -19,6 +19,10 @@ with
 		select * from {{ ref('salesforce_opportunity_product_detailed') }}
 	)
 
+	, inbound_lead_sources as (
+		select * from {{ ref('salesforce_inbound_lead_sources') }}
+	)
+
 	, products as (
 		select opportunity_id
 			, array_agg(product_id order by product_id) as product_ids
@@ -53,11 +57,6 @@ with
 
 		from opportunity_product
 		group by 1
-	)
-
-
-	, inbound_lead_sources as (
-		select * from {{ ref('salesforce_inbound_lead_sources') }}
 	)
 
 select opportunities.*
@@ -108,6 +107,8 @@ select opportunities.*
 from opportunities
 inner join accounts
 	using (account_id)
+left join inbound_lead_sources
+	on accounts.account_source = inbound_lead_sources.lead_source
 inner join users as owners
 	on opportunities.owner_id = owners.user_id
 left join products
@@ -116,7 +117,5 @@ left join contacts as partner_contacts
 	on opportunities.partner_individual_id = partner_contacts.contact_id
 left join accounts as partners
 	on opportunities.partner_id = partners.account_id
-left join inbound_lead_sources
-	using (lead_source)
 left join users as sdr
 	on opportunities.sdr_id = sdr.user_id
