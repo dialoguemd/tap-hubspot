@@ -1,11 +1,17 @@
 version: 2
 
 models:
-  # TODO: reimplement after refactoring model
-  # - name: gm_by_contract_daily
-  #   tests:
-  #       - unique:
-  #           column_name: "concat(date_day, contract_id)"
+  - name: gm_by_org_province_monthly
+    description: analyze GM on a monthly basis by org and province
+    columns:
+        - name: date_month
+          tests:
+              - not_null
+        - name: gm_id
+          description: a unique identifier for organization, province, month
+          tests:
+              - not_null
+              - unique
 
   - name: gm_weekly
     columns:
@@ -13,8 +19,3 @@ models:
           tests:
               - not_null
               - unique
-
-  - name: gm_by_contract_monthly
-    tests:
-        - unique:
-            column_name: "concat(date_month, contract_id)"
