@@ -13,8 +13,8 @@ with
 
     , months as (
         select date_month
-            , tsrange(timezone('America/Montreal', months_tmp.date_month),
-                timezone('America/Montreal', months_tmp.date_month) + interval '1 month')
+            , tsrange(months_tmp.date_month::timestamp,
+                months_tmp.date_month::timestamp + interval '1 month')
                 as month_range_est
         from months_tmp
     )
