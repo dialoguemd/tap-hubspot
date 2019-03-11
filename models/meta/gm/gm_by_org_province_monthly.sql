@@ -30,7 +30,7 @@ with
             , sum(daily_costs.gp_other_cost) as gp_other_cost
             , sum(daily_costs.total_cost) as total_cost
         from months
-        left join daily_costs
+        inner join daily_costs
             on daily_costs.date_day <@ months.month_range_est
         left join user_contract
             on daily_costs.date_day <@ user_contract.during_est
@@ -59,15 +59,18 @@ with
                 else 0
             end) as revenue
         from months
-        left join user_contract
+        inner join user_contract
             on months.month_range_est && user_contract.during_est
         {{ dbt_utils.group_by(n=7) }}
     )
 
     , final as (
-        select coalesce(costs.date_month, revenue.date_month) as date_month
-            , coalesce(costs.organization_id, revenue.organization_id) as organization_id
-            , coalesce(costs.residence_province, revenue.residence_province) as residence_province
+        select coalesce(costs.date_month, revenue.date_month)
+                as date_month
+            , coalesce(costs.organization_id, revenue.organization_id)
+                as organization_id
+            , coalesce(costs.residence_province, revenue.residence_province)
+                as residence_province
             , revenue.organization_name
             , revenue.account_id
             , revenue.account_name
@@ -86,10 +89,13 @@ with
             using (date_month, organization_id, residence_province)
     )
 
-select md5(
+select
+    -- produce a uid for date_month, org_id, and province, and in the cases
+    -- where there is no org, coalesce to n/a
+    md5(
         date_month::text ||
-        organization_id::text ||
-        residence_province
+        coalesce(organization_id::text, 'n/a') ||
+        coalesce(residence_province, 'n/a')
     ) as gm_id
     , *
 from final
