@@ -6,7 +6,7 @@ with costs as (
    )
 
    , gm_monthly as (
-      select * from {{ ref( 'gm_by_org_province_monthly' ) }}
+      select * from {{ ref( 'gm_by_account_monthly' ) }}
    )
 
    , monthly_costs as (

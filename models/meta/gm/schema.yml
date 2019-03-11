@@ -1,8 +1,8 @@
 version: 2
 
 models:
-  - name: gm_by_org_province_monthly
-    description: analyze GM on a monthly basis by org and province
+  - name: gm_by_account_monthly
+    description: analyze GM on a monthly basis by account
     columns:
         - name: date_month
           tests:
