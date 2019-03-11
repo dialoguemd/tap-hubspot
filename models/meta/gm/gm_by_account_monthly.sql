@@ -1,26 +1,18 @@
 with
     user_contract as (
-        select * from {{ ref ( 'user_contract' ) }}
+        select * from {{ ref('user_contract') }}
     )
 
     , daily_costs as (
-        select * from {{ ref ( 'costs_by_episode_daily' ) }}
+        select * from {{ ref('costs_by_episode_daily') }}
     )
 
-    , revenue_tmp as (
-        select * from {{ ref ( 'finance_adjusted_revenue_monthly' ) }}
-    )
-
-    , months_tmp as (
-        select * from {{ ref ( 'dimension_months' ) }}
+    , revenue as (
+        select * from {{ ref('finance_revenue_adjusted_by_account_monthly_v2') }}
     )
 
     , months as (
-        select date_month
-            , tsrange(months_tmp.date_month::timestamp,
-                months_tmp.date_month::timestamp + interval '1 month')
-                as month_range_est
-        from months_tmp
+        select * from {{ ref('dimension_months') }}
     )
 
     , costs as (
@@ -42,23 +34,13 @@ with
         group by 1,2,3
     )
 
-    , revenue as (
-        select months.date_month
-            , revenue_tmp.account_id
-            , sum(amount) as revenue
-        from months
-        inner join revenue_tmp
-            using (date_month)
-        group by 1,2
-    )
-
     , final as (
         select coalesce(costs.date_month, revenue.date_month)
                 as date_month
-            , coalesce(costs.account_id, revenue.account_id)
+            , coalesce(costs.account_id, revenue.account_id, 'n/a')
                 as account_id
             , costs.account_name
-            , revenue.revenue
+            , revenue.amount as revenue
             , costs.cc_cost
             , costs.nc_cost
             , costs.np_cost
@@ -76,7 +58,7 @@ select
     -- where there is no account, coalesce to n/a
     md5(
         date_month::text ||
-        coalesce(account_id::text, 'n/a')
+        coalesce(account_id)
     ) as gm_id
     , *
 from final
