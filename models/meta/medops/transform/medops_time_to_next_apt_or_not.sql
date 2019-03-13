@@ -17,10 +17,11 @@ with
 				concat(apt_booking.episode_id, apt_booking.timestamp)
 				order by video_started asc) as rank
 		from apt_booking
-		inner join video_started
+		left join video_started
 			on apt_booking.episode_id = video_started.episode_id
 			and apt_booking.timestamp < video_started.timestamp
-		where main_specialization in ('Family Physician', 'Nurse Practitioner')
+			and main_specialization in ('Family Physician', 'Nurse Practitioner')
+		where apt_booking.rank = 1
 	)
 
 select episode_id

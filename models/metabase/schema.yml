@@ -1,0 +1,52 @@
+
+version: 2
+
+models:
+  - name: metabase_medops_daily_cost_per_episode_7_days
+    columns:
+      - name: costs_7_days_avg
+        tests:
+          - not_null
+    tests:
+      - record_count:
+          n_records: 1
+
+  - name: metabase_medops_daily_gm
+    columns:
+      - name: gm1
+        tests:
+          - not_null
+    tests:
+      - record_count:
+          n_records: 1
+
+  - name: metabase_medops_daily_nps
+    columns:
+      - name: nps
+        tests:
+          - not_null
+      - name: province
+        tests:
+          - not_null
+          - unique
+
+  - name: metabase_medops_daily_response_time
+    columns:
+      - name: frt_care_team_90p
+        tests:
+          - not_null
+      - name: time_to_resolved_pending_median
+        tests:
+          - not_null
+    tests:
+      - record_count:
+          n_records: 1
+
+  - name: metabase_medops_daily_same_day_appointments
+    columns:
+      - name: same_day_percent
+        tests:
+          - not_null
+    tests:
+      - record_count:
+          n_records: 1

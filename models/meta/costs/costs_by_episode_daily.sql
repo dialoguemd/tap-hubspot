@@ -1,13 +1,13 @@
 with priced_episodes as (
-        select * from {{ ref( 'costs_by_episode' ) }}
+        select * from {{ ref('costs_by_episode') }}
     )
 
     , priced_videos as (
-        select * from {{ ref( 'costs_by_video' ) }}
+        select * from {{ ref('costs_by_video') }}
     )
 
     , episodes as (
-        select * from {{ ref( 'episodes' ) }}
+        select * from {{ ref('episodes') }}
     )
 
 select coalesce(

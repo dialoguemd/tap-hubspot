@@ -27,8 +27,35 @@ models:
         tests:
           - not_null
           - unique
-
       - name: ftes
+        tests:
+          - not_null
+
+  - name: wiw_costs_daily
+    columns:
+      - name: start_date
+        tests:
+          - not_null
+          - unique
+      - name: virtual_costs_fl
+        tests:
+          - not_null
+      - name: virtual_video_costs_fl
+        tests:
+          - not_null
+      - name: virtual_chat_costs_fl
+        tests:
+          - not_null
+      - name: virtual_costs_gp_fl
+        tests:
+          - not_null
+      - name: virtual_costs_np_fl
+        tests:
+          - not_null
+      - name: virtual_costs_nc_fl
+        tests:
+          - not_null
+      - name: virtual_costs_cc_fl
         tests:
           - not_null
 
@@ -38,31 +65,24 @@ models:
         tests:
           - not_null
           - unique
-
       - name: virtual_costs_fl
         tests:
           - not_null
-
       - name: virtual_video_costs_fl
         tests:
           - not_null
-
       - name: virtual_chat_costs_fl
         tests:
           - not_null
-
       - name: virtual_costs_gp_fl
         tests:
           - not_null
-
       - name: virtual_costs_np_fl
         tests:
           - not_null
-
       - name: virtual_costs_nc_fl
         tests:
           - not_null
-
       - name: virtual_costs_cc_fl
         tests:
           - not_null
@@ -73,15 +93,12 @@ models:
         tests:
           - not_null
           - unique
-
       - name: opening_hour_est
         tests:
           - not_null
-
       - name: closing_hour_est
         tests:
           - not_null
-
       - name: opening_span_est
         tests:
           - not_null

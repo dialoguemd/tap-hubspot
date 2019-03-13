@@ -1,3 +1,6 @@
+
+{{ config(materialized='table') }}
+
 with
 	command_triggered as (
 		select * from {{ ref('careplatform_slash_command_triggered') }}
