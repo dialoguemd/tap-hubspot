@@ -57,17 +57,15 @@ dbt seed --full-refresh --target prod && dbt run --target prod
 
 **Morning**
 
-- 04:00 UTC / 00:00 EDT ==== Lambdas ETL
-- 05:00 UTC / 01:00 EDT ==== Segment DB Load
-- 06:00 UTC / 02:00 EDT ==== DBT Cloud Transform
-- 07:00 UTC / 03:00 EST ==== Tableau
+- 05:00 UTC / 00:00 EDT / 01:00 EST ==== Loading Phase (Lambdas and Segment)
+- 06:00 UTC / 01:00 EDT / 02:00 EST ==== Transformation Phase (DBT)
+- 07:00 UTC / 03:00 EDT / 03:00 EST ==== Refresh Phase (Tableau)
 
 **Afternoon**
 
-- 16:00 UTC / 12:00 EDT ==== Lambdas ETL
-- 17:00 UTC / 13:00 EDT ==== Segment DB Load
-- 18:00 UTC / 14:00 EDT ==== DBT Cloud Transform
-- 19:00 UTC / 15:00 EDT ==== Tableau
+- 17:00 UTC / 12:00 EDT / 13:00 EST ==== Loading Phase (Lambdas and Segment)
+- 18:00 UTC / 13:00 EDT / 14:00 EST ==== Transformation Phase (DBT)
+- 19:00 UTC / 15:00 EDT / 15:00 EST ==== Refresh Phase (Tableau)
 
 Current schedule constraints:
 - DBT Cloud can only run on the hour (paid plan allows for custom cron)
