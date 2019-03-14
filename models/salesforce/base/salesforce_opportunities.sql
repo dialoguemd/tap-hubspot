@@ -3,8 +3,9 @@ select id as opportunity_id
 	, channel_c as channel
 	, coalesce(partner_influence_c, 'N/A') as partner_influence
 	, partner_type_c as partner_type
-	, partner_c as partner_id
-	, individual_s_name_c as partner_individual_id
+	, coalesce(partner_c, advisor_broker_consultant_c) as partner_id
+	, coalesce(individual_s_name_c, advisor_broker_consultant_2_c)
+		as partner_individual_id
 	, lead_source
 	, coalesce(revenue_type_c, 'N/A') as revenue_type
 	, stage_name

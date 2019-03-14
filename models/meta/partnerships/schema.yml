@@ -1,0 +1,19 @@
+
+version: 2
+
+models:
+  - name: partnerships_commissions_monthly
+    columns:
+      - name: partner_month_id
+        tests:
+          - not_null
+          - unique
+      - name: account_id
+        tests:
+          - not_null
+      - name: partner_account_id
+        tests:
+          - not_null
+      - name: date_month
+        tests:
+          - not_null

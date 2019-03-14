@@ -101,6 +101,8 @@ select opportunities.*
 	, partner_contacts.contact_name as partner_contact_name
 	, partners.account_id as partner_account_id
 	, partners.account_name as partner_name
+	, partners.commission_rate_year_1 as commission_rate_year_1
+	, partners.commission_rate_year_2 as commission_rate_year_2
 	, inbound_lead_sources.lead_source is not null as is_inbound
 	, sdr.name as sdr_name
 	, sdr.title as sdr_title

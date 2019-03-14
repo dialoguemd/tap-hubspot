@@ -66,6 +66,8 @@ select id as account_id
 	, executive_sponsor_c as executive_sponsor
 	, owner_not_a_user_c as owner_not_a_user
 	, commission_rate_c as commission_rate
+	, commission_rate_year_1_c::float / 100 as commission_rate_year_1
+	, commission_rate_year_2_c::float / 100 as commission_rate_year_2
 	, number_of_brokers_c as number_of_brokers
 	, number_of_clients_c as number_of_clients
 	, click_to_dial_click_to_call_phone_c as click_to_dial_click_to_call_phone
