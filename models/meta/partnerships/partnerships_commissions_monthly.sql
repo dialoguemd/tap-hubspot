@@ -33,7 +33,7 @@ with
 		where opportunities.is_won
 	)
 
-select md5(partner_account_id || date_month) as partner_month_id
+select md5(account_id || date_month) as account_month_id
 	, partner_account_id
 	, partner_name
 	, account_id

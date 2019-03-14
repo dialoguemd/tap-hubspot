@@ -4,7 +4,7 @@ version: 2
 models:
   - name: partnerships_commissions_monthly
     columns:
-      - name: partner_month_id
+      - name: account_month_id
         tests:
           - not_null
           - unique
