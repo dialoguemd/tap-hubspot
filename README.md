@@ -57,22 +57,20 @@ dbt seed --full-refresh --target prod && dbt run --target prod
 
 **Morning**
 
-- 05:00 UTC / 00:00 EST ==== Lambdas sending events to Segment
-- 05:30 UTC / 00:30 EST ==== Lambdas ETL
-- 06:00 UTC / 01:00 EST ==== Segment
-- 07:00 UTC / 02:00 EST ==== Sinter
-- 08:00 UTC / 03:00 EST ==== Tableau
+- 05:00 UTC / 00:00 EDT / 01:00 EST ==== Loading Phase (Lambdas and Segment)
+- 06:00 UTC / 01:00 EDT / 02:00 EST ==== Transformation Phase (DBT)
+- 07:00 UTC / 03:00 EDT / 03:00 EST ==== Refresh Phase (Tableau)
 
 **Afternoon**
 
-- 17:00 UTC / 12:00 EST ==== Segment
-- 17:30 UTC / 12:30 EST ==== Lambdas ETL
-- 18:00 UTC / 13:00 EST ==== Sinter
-- 19:00 UTC / 14:00 EST ==== Tableau
+- 17:00 UTC / 12:00 EDT / 13:00 EST ==== Loading Phase (Lambdas and Segment)
+- 18:00 UTC / 13:00 EDT / 14:00 EST ==== Transformation Phase (DBT)
+- 19:00 UTC / 15:00 EDT / 15:00 EST ==== Refresh Phase (Tableau)
 
 Current schedule constraints:
-- Sinter can only run on the hour (paid plan allows for custom cron)
+- DBT Cloud can only run on the hour (paid plan allows for custom cron)
 - Segment can only run on the hour
+- Tableau and Segment schedule based on local time (which has daylight savings), Lambdas and DBT use UTC
 
 ## Archives
 
