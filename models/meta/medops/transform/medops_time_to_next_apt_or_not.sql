@@ -15,7 +15,7 @@ with
 				- apt_booking.timestamp)::float / 3600 as time_to_next_apt_hr
 			, row_number() over (partition by
 				concat(apt_booking.episode_id, apt_booking.timestamp)
-				order by video_started asc) as rank
+				order by video_started.timestamp) as rank
 		from apt_booking
 		left join video_started
 			on apt_booking.episode_id = video_started.episode_id
