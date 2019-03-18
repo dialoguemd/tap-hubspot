@@ -168,6 +168,7 @@ select channels.episode_id
 
 	, episodes_reason_for_visit.reason_for_visit
 
+	, users.family_id
 	, users.gender
 	, users.language
 	, extract('year' from
