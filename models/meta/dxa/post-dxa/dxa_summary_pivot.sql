@@ -10,6 +10,10 @@ with bool as (
 		select * from {{ ref('dxa_questions_free') }}
 	)
 
+	, symptoms as (
+		select * from {{ ref('countdown_symptoms_replied') }}
+	)
+
 	, completed_qnaire as (
 		select * from {{ ref('countdown_qnaire_completed') }}
 		where qnaire = 'dxa'
@@ -46,6 +50,7 @@ select episodes.triage_outcome
 	, episodes.episode_id
 	, episodes.outcome
 	, episodes.outcomes_ordered
+	, symptoms.descript
 	, episodes.cc_code
 	, episodes.reason_for_visit
 	, episodes.first_message_patient as timestamp
@@ -79,6 +84,10 @@ select episodes.triage_outcome
 from bool
 inner join episodes
 	using (episode_id)
+left join symptoms
+	on bool.episode_id = symptoms.episode_id
+	-- To take the last symptom description
+	and symptoms.rank_desc = 1
 left join multi
 	using (qnaire_tid)
 left join free

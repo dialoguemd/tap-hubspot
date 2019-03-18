@@ -1,4 +1,8 @@
-with reply as (
+with symptoms as (
+        select * from {{ ref('countdown_symptoms_replied') }}
+    )
+
+    , reply as (
         select * from {{ ref('countdown_question_replied') }}
     )
 
@@ -40,12 +44,12 @@ with reply as (
             and replied_at > '2019-02-18'
     )
 
-select reply.episode_id
+select symptoms.episode_id
     , episodes_chief_complaint.cc_code as shift_manager_label
     , min(cc_confirmed.value) as patient_confirmation_label
     , min(doctor_validated.doctor_label) as doctor_label
-    , min(reply.reply_value) as descript
-    , min(reply.replied_at) as replied_at
+    , min(symptoms.descript) as descript
+    , min(symptoms.timestamp) as replied_at
     , min(users.language) as lang
 
     -- Jinja loop for top three CCs
@@ -59,7 +63,7 @@ select reply.episode_id
 
     {% endfor %}
 
-from reply
+from symptoms
 left join episodes_chief_complaint
     using (episode_id)
 left join ccs_parsed
@@ -67,12 +71,9 @@ left join ccs_parsed
 left join cc_confirmed
     using (episode_id)
 left join doctor_validated
-	on reply.reply_value = doctor_validated.descript
+	using (descript)
 left join users
 	using (user_id)
-where reply.question_name = 'symptoms'
-    and reply.reply_value is not null
-    and reply.qnaire_name in
-        ('feeling_sick', 'chronic', 'ask_symptoms', 'chief_complaint')
+-- To take the last symptom description
+where symptoms.rank_desc = 1
 group by 1, 2
-having count(*) = 1
