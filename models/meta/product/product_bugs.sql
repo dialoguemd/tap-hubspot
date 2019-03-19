@@ -14,8 +14,7 @@ with jira_issues as (
             , created_at
             , resolved_at as closed_at
         from jira_issues
-        where issue_type in ('P2 Bug', 'P1 Bug', 'P3 Bug')
-        -- to update with sub-bug? To confirm
+        where issue_type in ('P2 Bug', 'P1 Bug', 'P3 Bug', 'Sub-bug')
             and project_name = 'Dialogue Product'
 
         union all
