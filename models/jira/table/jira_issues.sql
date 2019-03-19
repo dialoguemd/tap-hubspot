@@ -15,6 +15,7 @@ with issue_created as (
             , coalesce(issue_updated.squad, issue_created.squad) as squad
             , coalesce(issue_updated.sprint, issue_created.sprint) as sprint
             , coalesce(issue_updated.summary, issue_created.summary) as summary
+            , coalesce(issue_updated.discovered_by, issue_created.discovered_by) as discovered_by
             , coalesce(issue_updated.description, issue_created.description) as description
             , coalesce(issue_updated.project_name, issue_created.project_name) as project_name
             , issue_updated.resolved_at
@@ -37,8 +38,10 @@ select issue_key::text as issue_id
     , squad
     , sprint
     , summary
+    , discovered_by
     , description
     , project_name
     , resolved_at
+    , issue_type in ('P1 Bug', 'P2 Bug', 'P3 Bug', 'Sub-bug') as is_bug
 from ranked
 where rank = 1

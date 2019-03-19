@@ -87,3 +87,13 @@ models:
         - name: fraction
           tests:
               - not_null
+
+  - name: product_find_rate
+    columns:
+        - name: date_week
+          tests:
+              - unique
+              - not_null
+        - name: find_rate
+          tests:
+              - not_null
