@@ -22,3 +22,14 @@ models:
           tests:
               - not_null
               - unique
+
+  - name: countdown_symptoms_replied
+    description: combines all symptom replies into one unified model
+
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+        - name: descript
+          tests:
+              - not_null
