@@ -390,6 +390,14 @@ models:
               'New Brunswick', 'Nova Scotia', 'Yukon',
               'Newfoundland and Labrador']
 
+      - name: residence_province_code
+        tests:
+          - not_null
+
+      - name: residence_province
+        tests:
+          - not_null
+
       - name: account_id
         tests:
           - not_null

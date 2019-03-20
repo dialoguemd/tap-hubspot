@@ -15,6 +15,10 @@ with
 		select * from {{ ref('scribe_users_detailed') }}
 	)
 
+	, dimension_province as (
+		select * from {{ ref('dimension_province') }}
+	)
+
 	, detailed as (
 		select contracts.contract_id
 			, user_contract.user_id
@@ -85,38 +89,42 @@ with
 			using (user_id)
 	)
 
-select contract_id
-	, user_id
-	, organization_id
-	, participant_id
-	, charge_price
-	, charge_price_mental_health
-	, charge_price_24_7
-	, charge_strategy
-	, during_start
-	, during_end
+select detailed.contract_id
+	, detailed.user_id
+	, detailed.organization_id
+	, detailed.participant_id
+	, detailed.charge_price
+	, detailed.charge_price_mental_health
+	, detailed.charge_price_24_7
+	, detailed.charge_strategy
+	, detailed.during_start
+	, detailed.during_end
 	-- construct during tsranges for tstz and est-specific
 	, tstzrange(
-			during_start,
-			during_end
+			detailed.during_start,
+			detailed.during_end
 		) as during
 	, tsrange(
-			timezone('America/Montreal', during_start),
-			timezone('America/Montreal', during_end)
+			timezone('America/Montreal', detailed.during_start),
+			timezone('America/Montreal', detailed.during_end)
 		) as during_est
-	, billing_start_date
-	, organization_name
-	, organization_is_paid
-	, is_employee
-	, residence_province
-	, country
-	, birthday
-	, gender
-	, is_child
-	, family_member_type
-	, signed_up_at
-	, is_signed_up
-	, language
-	, invited_month
-	, signed_up_month
+	, detailed.billing_start_date
+	, detailed.organization_name
+	, detailed.organization_is_paid
+	, detailed.is_employee
+	, detailed.residence_province
+	, detailed.country
+	, detailed.birthday
+	, detailed.gender
+	, detailed.is_child
+	, detailed.family_member_type
+	, detailed.signed_up_at
+	, detailed.is_signed_up
+	, detailed.language
+	, detailed.invited_month
+	, detailed.signed_up_month
+	, dimension_province.province_code as residence_province_code
+	, dimension_province.region as residence_region
 from detailed
+left join dimension_province
+	on detailed.residence_province = dimension_province.province_name

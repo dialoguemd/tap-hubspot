@@ -180,3 +180,9 @@ seeds:
         episode_id: text
         cc: text
         timestamp: timestamp
+
+    data_dimension_province:
+      column_types:
+        province_name: text
+        province_code: text
+        region: text

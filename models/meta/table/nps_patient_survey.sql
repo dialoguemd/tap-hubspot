@@ -20,6 +20,8 @@ select nps_survey.*
 	, user_contract.is_employee
 	, user_contract.is_child
 	, user_contract.residence_province
+	, user_contract.residence_province_code
+	, user_contract.residence_region
 	, user_contract.country
 	, user_contract.gender
 	, user_contract.language
