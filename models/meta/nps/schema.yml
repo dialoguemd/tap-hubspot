@@ -73,3 +73,14 @@ models:
           - not_null
           - accepted_values:
               values: ['en', 'fr']
+
+  - name: nps_patient_survey_tags
+    description: an unnested model with one record per tag per nps response
+    columns:
+      - name: survey_id
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "concat(survey_id, tags)"
