@@ -13,6 +13,7 @@ with
 			, video_started.timestamp as video_started
 			, extract(epoch from video_started.timestamp
 				- apt_booking.timestamp)::float / 3600 as time_to_next_apt_hr
+			, video_started.main_specialization
 			, row_number() over (partition by
 				concat(apt_booking.episode_id, apt_booking.timestamp)
 				order by video_started.timestamp) as rank
@@ -34,5 +35,6 @@ select episode_id
 	, date_trunc('day', video_started) as video_started_day
 	, video_started
 	, time_to_next_apt_hr
+	, main_specialization
 from joined
 where rank = 1

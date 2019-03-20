@@ -2,6 +2,39 @@ version: 2
 
 models:
   - name: medops_time_to_next_apt
+    description: |
+      Time difference between appointment booked and video started
+      by a GP or NP
+
+      Appointment booking is defined as appointment template sent
+      This table only includes episodes with a video started by a GP or NP
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+
+        - name: triggered_at
+          tests:
+              - not_null
+
+        - name: main_specialization
+          tests:
+              - not_null
+              - accepted_values:
+                  values: ['Family Physician', 'Nurse Practitioner']
+
+    tests:
+        - unique:
+            column_name: "concat(episode_id, triggered_at)"
+
+  - name: medops_time_to_next_apt_or_not
+    description: |
+      Time difference between appointment booked and video started
+      by a GP or NP
+
+      Appointment booking is defined as appointment template sent
+      This table includes all episodes with an appointment template triggered
+
     columns:
         - name: episode_id
           tests:
