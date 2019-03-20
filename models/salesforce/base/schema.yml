@@ -2,6 +2,18 @@
 version: 2
 
 models:
+  - name: salesforce_tasks
+    columns:
+      - name: id
+        test:
+          - unique
+          - not_null
+    tests:
+      - dbt_utils.recency:
+          field: created_date
+          datepart: hour
+          interval: 72
+
   - name: salesforce_accounts
     columns:
       - name: account_id

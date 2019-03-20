@@ -33,6 +33,11 @@ models:
           tests:
               - not_null
               - unique
+    tests:
+      - dbt_utils.recency:
+          field: created_at
+          datepart: hour
+          interval: 24
 
   - name: zendesk_ticket_metrics
     columns:
