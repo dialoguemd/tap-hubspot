@@ -5,6 +5,7 @@ with
 
     , unnested as (
         select survey_id
+            , episode_id
             , user_id
             , category
             , comment
@@ -19,6 +20,7 @@ with
     )
 
 select survey_id
+    , episode_id
     , user_id
     , category
     , comment
