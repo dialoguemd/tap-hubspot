@@ -7,17 +7,22 @@ with issue_created as (
     )
 
     , coalesced as (
-        select coalesce(issue_updated.issue_key, issue_created.issue_key) as issue_key
-            , coalesce(issue_updated.status, issue_created.status) as status
-            , coalesce(issue_updated.timestamp, issue_created.timestamp) as timestamp
-            , coalesce(issue_updated.created_at, issue_created.created_at) as created_at
-            , coalesce(issue_updated.issue_type, issue_created.issue_type) as issue_type
-            , coalesce(issue_updated.squad, issue_created.squad) as squad
-            , coalesce(issue_updated.sprint, issue_created.sprint) as sprint
-            , coalesce(issue_updated.summary, issue_created.summary) as summary
-            , coalesce(issue_updated.description, issue_created.description) as description
-            , coalesce(issue_updated.project_name, issue_created.project_name) as project_name
-            , issue_updated.resolved_at
+        select
+        {% for column in ['issue_key',
+            'status',
+            'timestamp',
+            'created_at',
+            'issue_type',
+            'squad',
+            'sprint',
+            'summary',
+            'discovered_by',
+            'description',
+            'project_name']
+        %}
+            coalesce(issue_updated.{{column}}, issue_created.{{column}}) as {{column}},
+        {% endfor %}
+            issue_updated.resolved_at
         from issue_created
         full outer join issue_updated
             on issue_created.issue_key = issue_updated.issue_key
@@ -37,8 +42,11 @@ select issue_key::text as issue_id
     , squad
     , sprint
     , summary
+    , discovered_by
     , description
     , project_name
     , resolved_at
+    , issue_type in ('P1 Bug', 'P2 Bug', 'P3 Bug') as is_bug
+    , issue_type = 'Sub-bug' as is_sub_bug
 from ranked
 where rank = 1

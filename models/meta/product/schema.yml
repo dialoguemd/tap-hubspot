@@ -20,7 +20,7 @@ models:
           tests:
               - not_null
 
-  - name: product_failure_rate
+  - name: product_failure_rate_daily
     columns:
         - name: all_bugs
           tests:
@@ -86,4 +86,13 @@ models:
               - not_null
         - name: fraction
           tests:
+              - not_null
+
+  - name: product_find_rate_daily
+    description: a model for comparing how many bugs are found by tech
+      compared to by our users
+    columns:
+        - name: date_day
+          tests:
+              - unique
               - not_null
