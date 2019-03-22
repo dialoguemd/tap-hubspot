@@ -89,7 +89,7 @@ with
 		from posts_all_time
 		where post_type = 'dialogue_system'
 		and user_id is not null
-		group by 1,2,3,4,5 
+		group by 1,2,3,4,5
 	)
 
 	, file_uploads as (
@@ -311,10 +311,10 @@ with
 			'add_family_doctor',
 			'update_family_doctor',
 			'sidebar_nav',
-			'snooze'] 
+			'snooze']
 		%}
 
-		select * from {{table}} 
+		select * from {{table}}
 		union all
 
 		{% endfor %}
