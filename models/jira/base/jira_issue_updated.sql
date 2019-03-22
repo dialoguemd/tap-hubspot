@@ -6,6 +6,7 @@ select issue_key
 	, squad
 	, sprint
 	, summary
+	, discovered_by
 	, description
 	, project_name
 	, resolved_at
