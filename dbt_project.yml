@@ -89,6 +89,8 @@ models:
           materialized: table
       tableau:
           materialized: table
+      typeform:
+          materialized: table
       usher:
           materialized: table
       wiw:
