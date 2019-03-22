@@ -53,3 +53,48 @@ models:
       - name: timestamp
         tests:
           - not_null
+
+  - name: careplatform_message_retracted
+    columns:
+      - name: episode_id
+        tests:
+          - not_null
+      - name: timestamp
+        tests:
+          - not_null
+
+  - name: careplatform_note_created
+    columns:
+      - name: episode_id
+        tests:
+          - not_null
+      - name: timestamp
+        tests:
+          - not_null
+
+  - name: careplatform_electron_reload
+    columns:
+      - name: timestamp
+        tests:
+          - not_null
+
+  - name: careplatform_family_doctor_added
+    columns:
+      - name: timestamp
+        tests:
+          - not_null
+
+  - name: careplatform_family_doctor_updated
+    columns:
+      - name: timestamp
+        tests:
+          - not_null
+
+  - name: careplatform_sidebar_clicked
+    columns:
+      - name: episode_id
+        tests:
+          - not_null
+      - name: timestamp
+        tests:
+          - not_null

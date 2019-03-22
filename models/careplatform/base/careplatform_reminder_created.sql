@@ -12,4 +12,5 @@ select timestamp
 	, date_trunc(
 		'day', timezone('America/Montreal', timestamp)
 	) as due_at_day_est
+	, user_id
 from careplatform.reminders_create_new_success
