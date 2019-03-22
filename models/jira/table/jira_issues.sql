@@ -47,5 +47,6 @@ select issue_key::text as issue_id
     , project_name
     , resolved_at
     , issue_type in ('P1 Bug', 'P2 Bug', 'P3 Bug') as is_bug
+    , issue_type = 'Sub-bug' as is_sub_bug
 from ranked
 where rank = 1
