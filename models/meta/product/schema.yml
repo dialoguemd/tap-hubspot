@@ -87,3 +87,22 @@ models:
         - name: fraction
           tests:
               - not_null
+
+  - name: product_adoption_dashboard
+    columns:
+        - name: date
+          tests:
+              - not_null
+        - name: user_id
+          tests:
+              - not_null
+        - name: feature
+          tests:
+              - not_null
+        - name: episode_id
+          tests:
+              - not_null
+        - name: id
+          tests:
+              - not_null
+              - unique
