@@ -7,7 +7,8 @@ with
 		select * from {{ ref('scribe_users_detailed') }}
 	)
 
-select nps_survey.episode_id
+select md5(coalesce(nps_survey.email) || nps_survey.timestamp::text) as survey_id
+	, nps_survey.episode_id
 	, nps_survey.score
 	, nps_survey.category
 	, nps_survey.tags
