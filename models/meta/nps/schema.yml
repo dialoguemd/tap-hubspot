@@ -83,4 +83,5 @@ models:
 
     tests:
       - unique:
-          column_name: "concat(survey_id, tags)"
+          #add family_member_type for cases where a user has multiple contracts
+          column_name: "concat(survey_id, tag, family_member_type)"
