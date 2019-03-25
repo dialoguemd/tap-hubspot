@@ -119,5 +119,7 @@ select id as opportunity_id
 	end as value_period
 	, pilot_c is not null and pilot_c = 'Yes' as is_pilot
 	, sdr_c as sdr_id
+	, coalesce(original_source_c, 'N/A') as original_source
+	, coalesce(partner_involvement_c, 'N/A') as partner_involvement
 from salesforce.opportunities
 where not is_deleted

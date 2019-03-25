@@ -5,7 +5,7 @@ models:
   - name: salesforce_tasks
     columns:
       - name: id
-        test:
+        tests:
           - unique
           - not_null
     tests:
@@ -72,6 +72,19 @@ models:
           - not_null
           - accepted_values:
               values: ['Direct', 'Partner']
+
+      - name: original_source
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['N/A', 'Network Intro (investor, etc.)', 'Outbound',
+                'Inbound', 'Partner (carrier, advisor/broker, etc.)']
+
+      - name: partner_involvement
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['N/A', 'High', 'Low', 'Full', 'None']
 
   - name: salesforce_products
     columns:
