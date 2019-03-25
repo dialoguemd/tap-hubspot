@@ -42,6 +42,10 @@ select messaging.date_day_est
 	, messaging.first_message_nurse
 	, messaging.first_message_shift_manager
 	, messaging.last_message_care_team
+	, messaging.first_message_from_last_cc
+	, messaging.first_message_from_last_nc
+	, messaging.last_message_from_last_cc
+	, messaging.last_message_from_last_nc
 	, messaging.first_message_patient
 	, messaging.last_message_patient
 	, messaging.end_first_patient_sequence

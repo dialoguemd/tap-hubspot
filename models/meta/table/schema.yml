@@ -279,6 +279,35 @@ models:
         - name: patient_id
           tests:
               - not_null
+        - name: treatment_category
+          description: |
+            The treatment category is a grouping of episodes by whom they were
+            treated and for what; this is for analyzing usage of human
+            resources and intake time across these groupings
+          tests:
+              - not_null
+        - name: intake_time_first_patient_message
+          description: |
+            Intake time is an approximation of the time it takes to
+            see the correct resource for the given reason for consultation;
+            after this point it is assumed triage is complete and the
+            consultation is starting.
+
+            1) for an NP or GP video this is up to the least of appointment
+            booking, the last message from the last nurse, and the first
+            resolve of the episode;
+            2) for navigation this is up to the lesser of the last message of
+            the last nurse and the first resolve of the episode;
+            3) for diagnostic without video this is up to the lesser of the
+            first message from the last nurse or the first resolve of the
+            episode.
+
+            These timestamps are then compared with the first_patient_message
+            to compute the time.
+        - name: intake_time_first_set_active
+          description: |
+            The same as the above intake time definition; the timestamps are
+            compared with the first_set_active to compute the time.
     tests:
       - dbt_utils.recency:
           field: created_at

@@ -94,3 +94,15 @@ models:
         - name: timestamp
           tests:
               - not_null
+
+  - name: episodes_appointment_booking
+    description: timestamp of when the appointment booking template was first
+      sent for a given episode
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+        - name: appointment_booking_first_started_at
+          tests:
+              - not_null

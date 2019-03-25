@@ -60,6 +60,10 @@ with channels as (
 		select * from {{ ref('episodes_reason_for_visit') }}
 	)
 
+	, episodes_appointment_booking as (
+		select * from {{ ref('episodes_appointment_booking') }}
+	)
+
 	, users as (
 		select * from {{ ref('scribe_users') }}
 	)
@@ -110,6 +114,10 @@ select channels.episode_id
 	, episodes_chats_summary.last_message_patient
 	, episodes_chats_summary.first_message_nurse
 	, episodes_chats_summary.first_message_shift_manager
+	, episodes_chats_summary.first_message_from_last_cc
+	, episodes_chats_summary.first_message_from_last_nc
+	, episodes_chats_summary.last_message_from_last_cc
+	, episodes_chats_summary.last_message_from_last_nc
 	, episodes_chats_summary.messages_total
 	, episodes_chats_summary.messages_patient
 	, episodes_chats_summary.messages_care_team
@@ -167,6 +175,10 @@ select channels.episode_id
 	, episodes_chief_complaint.timestamp as dxa_triggered_at
 
 	, episodes_reason_for_visit.reason_for_visit
+
+	, episodes_appointment_booking.appointment_booking_first_started_at
+	, episodes_appointment_booking.appointment_booking_first_started_at is not null
+		as includes_appointment_booking
 
 	, users.family_id
 	, users.gender
@@ -245,6 +257,84 @@ select channels.episode_id
 		) / 60.0 < 15
 	end as sla_answered_within_15_minutes
 
+	-- Create categorical variable for identifying the correct resource for treatment
+	, case
+		when includes_video_np or includes_video_gp
+			or episodes_appointment_booking.appointment_booking_first_started_at
+				is not null
+			then 'treated_by_np_gp'
+		when first_outcome_category = 'Navigation'
+			or first_outcome = 'referral_without_navigation'
+			then 'outreferred'
+		when first_outcome_category = 'Diagnostic'
+			then 'treated_by_nc'
+		else 'other'
+		end as treatment_category
+
+	-- Calculate intake time from first patient message to when the correct resource
+	-- was determined and next step (e.g. apt booking, navigation) was started
+	, case
+		when includes_video_np
+			or includes_video_gp
+			or episodes_appointment_booking.appointment_booking_first_started_at
+				is not null
+			then
+				extract(epoch from
+					least(episodes_chats_summary.last_message_from_last_nc,
+						episodes_appointment_booking.appointment_booking_first_started_at,
+						episodes_chats_summary.first_set_resolved_pending_at)
+					- episodes_chats_summary.first_message_patient
+				) / 60
+		when first_outcome_category = 'Navigation'
+			or first_outcome = 'referral_without_navigation'
+			then
+				extract(epoch from
+					least(episodes_chats_summary.last_message_from_last_nc,
+						episodes_chats_summary.first_set_resolved_pending_at)
+					- episodes_chats_summary.first_message_patient
+				) / 60
+		when first_outcome_category = 'Diagnostic'
+			then
+				extract(epoch from
+					least(episodes_chats_summary.first_message_from_last_nc,
+						episodes_chats_summary.first_set_resolved_pending_at)
+					- episodes_chats_summary.first_message_patient
+				) / 60
+		else null
+		end as intake_time_first_patient_message
+
+		-- Calculate intake time from first set active to when the correct resource
+		-- was determined and next step (e.g. apt booking, navigation) was started
+		, case
+		when includes_video_np
+			or includes_video_gp
+			or episodes_appointment_booking.appointment_booking_first_started_at
+				is not null
+			then
+				extract(epoch from
+					least(episodes_chats_summary.last_message_from_last_nc,
+						episodes_appointment_booking.appointment_booking_first_started_at,
+						episodes_chats_summary.first_set_resolved_pending_at)
+					- episodes_chats_summary.first_set_active
+				) / 60
+		when first_outcome_category = 'Navigation'
+			or first_outcome = 'referral_without_navigation'
+			then
+				extract(epoch from
+					least(episodes_chats_summary.last_message_from_last_nc,
+						episodes_chats_summary.first_set_resolved_pending_at)
+					- episodes_chats_summary.first_set_active
+				) / 60
+		when first_outcome_category = 'Diagnostic'
+			then
+				extract(epoch from
+					least(episodes_chats_summary.first_message_from_last_nc,
+						episodes_chats_summary.first_set_resolved_pending_at)
+					- episodes_chats_summary.first_set_active
+				) / 60
+		else null
+		end as intake_time_first_set_active
+
 from channels
 
 -- Jinja loop for reptitive joins
@@ -259,7 +349,8 @@ from channels
 		"episodes_kpis",
 		"episodes_created_sequence",
 		"episodes_chief_complaint",
-		"episodes_reason_for_visit"]
+		"episodes_reason_for_visit",
+		"episodes_appointment_booking"]
 	%}
 
 left join {{table}}

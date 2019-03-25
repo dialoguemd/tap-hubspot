@@ -46,7 +46,15 @@ with
 			, posts_all_time.episode_id
 			, posts_all_time.message_length
 			, practitioners.user_name
+			, practitioners.user_id as practitioner_id
 			, practitioners.main_specialization
+			, last_value(practitioners.user_id) over
+				(partition by posts_all_time.created_at_day_est,
+						posts_all_time.episode_id,
+						practitioners.main_specialization
+					order by posts_all_time.created_at_est
+					ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)
+				as last_user_id_by_specialization
 			, wiw_shifts.position_name
 			, practitioners.user_id is not null as is_care_team
 			, row_number()
@@ -99,6 +107,26 @@ with
 				filter(where main_specialization = 'Care Coordinator'
 				and position_name = 'Shift Manager'
 				) as first_message_shift_manager
+
+			, min(created_at_est)
+				filter(where main_specialization = 'Care Coordinator'
+					and last_user_id_by_specialization = practitioner_id
+				) as first_message_from_last_cc
+
+			, min(created_at_est)
+				filter(where main_specialization = 'Nurse Clinician'
+					and last_user_id_by_specialization = practitioner_id
+				) as first_message_from_last_nc
+
+			, max(created_at_est)
+				filter(where main_specialization = 'Care Coordinator'
+					and last_user_id_by_specialization = practitioner_id
+				) as last_message_from_last_cc
+
+			, max(created_at_est)
+				filter(where main_specialization = 'Nurse Clinician'
+					and last_user_id_by_specialization = practitioner_id
+				) as last_message_from_last_nc
 
 			, min(created_at_est)
 				filter(where user_type = 'patient') as first_message_patient
@@ -162,6 +190,10 @@ select chats.episode_id || chats.created_at_day_est::date as chat_id
 	, chats.first_message_nurse
 	, chats.first_message_shift_manager
 	, chats.last_message_care_team
+	, chats.first_message_from_last_cc
+	, chats.first_message_from_last_nc
+	, chats.last_message_from_last_cc
+	, chats.last_message_from_last_nc
 	, chats.first_message_patient
 	, chats.last_message_patient
 	, chats.messages_total

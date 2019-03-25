@@ -34,6 +34,10 @@ select chats.episode_id
 	, max(chats.last_message_care_team) as last_message_care_team
 	, min(chats.first_message_patient) as first_message_patient
 	, max(chats.last_message_patient) as last_message_patient
+	, min(chats.first_message_from_last_cc) as first_message_from_last_cc
+	, min(chats.first_message_from_last_nc) as first_message_from_last_nc
+	, min(chats.last_message_from_last_cc) as last_message_from_last_cc
+	, min(chats.last_message_from_last_nc) as last_message_from_last_nc
 	, sum(chats.messages_total) as messages_total
 	, sum(chats.messages_patient) as messages_patient
 	, sum(chats.messages_care_team) as messages_care_team
