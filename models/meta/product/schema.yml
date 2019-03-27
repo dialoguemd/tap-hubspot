@@ -115,3 +115,19 @@ models:
           tests:
               - unique
               - not_null
+
+  - name: product_questions
+    description: questions with responses and episode details
+    columns:
+        - name: question_tid
+          tests:
+              - unique
+              - not_null
+
+  - name: product_questionnaires
+    description: questionnaires with completion times and episode details
+    columns:
+        - name: qnaire_tid
+          tests:
+              - unique
+              - not_null

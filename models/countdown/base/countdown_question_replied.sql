@@ -9,8 +9,12 @@ with
             , cd_qnaire as qnaire_name
             , cd_q_id as question_name
             , quetion_reply_items as reply_labels
-            , quetion_reply_value as reply_value
+            , quetion_reply_value as reply_value_singular
             , quetion_reply_values as reply_values
+            , coalesce(quetion_reply_value,
+                quetion_reply_items,
+                quetion_reply_values)
+                as reply_value
             , case when cd_q_id like '%q1' or cd_q_id like '%q2' then 'Depression'
                  when cd_q_id like '%q3' or cd_q_id like '%q4' then 'Anxiety'
                  when cd_q_id like '%q5' or cd_q_id like '%q6'
@@ -30,8 +34,9 @@ select question_tid
     , qnaire_name
     , question_name
     , reply_labels
-    , reply_value
+    , reply_value_singular
     , reply_values
+    , reply_value
     , question_category
 from replies
 where rank = 1
