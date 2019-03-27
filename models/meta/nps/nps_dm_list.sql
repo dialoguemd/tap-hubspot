@@ -50,7 +50,9 @@ with
             using (account_id)
         left join users
             using (email)
-        where contact_type in ('HR + DM', 'Decision-Maker', 'HR Contact (User)')
+        where contact_type in ('HR + DM (do not use - old)',
+            'Decision-Maker', 'HR Contact (User)', 'C-suite Executive',
+            'HR Primary Contact', 'Account support', 'Decision Maker')
             and sf_contacts.email is not null
     )
 

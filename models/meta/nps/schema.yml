@@ -29,7 +29,9 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['HR + DM', 'Decision-Maker', 'HR Contact (User)']
+              values: ['HR + DM (do not use - old)', 'Decision-Maker',
+                'HR Contact (User)', 'C-suite Executive', 'HR Primary Contact',
+                'Account support', 'Decision Maker']
 
       - name: organization_id
         tests:
