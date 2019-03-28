@@ -21,4 +21,4 @@ from aggregate
 where (
 		percentage_within_sla < .84
 		or percentage_with_valid_sla < .66
-	)
+	) and date_trunc('week', current_date) > date_week_est

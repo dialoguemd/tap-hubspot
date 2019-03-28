@@ -22,5 +22,6 @@ with
 
 select *
 from aggregate
-where answered_next_day_rate < .93
-    or answered_within_3_opened_hours_rate < .93
+where (answered_next_day_rate < .93
+    or answered_within_3_opened_hours_rate < .93)
+    and date_trunc('week', current_date) > date_week
