@@ -40,8 +40,11 @@ select user_id
 	{% for n in ["1", "3", "6"] %}
 	, score_month{{n}}
 	, score_month{{n}} is not null as has_score_month{{n}}
-	, round(
-		(score_first - score_month{{n}})*-1.0 / score_first
-		, 2) as delta_month{{n}}
+	, case when score_first > 0
+		then round(
+			(score_first - score_month{{n}})*-1.0 / score_first
+		, 2)
+		else 0
+		end as delta_month{{n}}
 	{% endfor %}
 from summaries
