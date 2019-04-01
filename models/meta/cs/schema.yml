@@ -257,6 +257,10 @@ models:
         - name: nps_completed_at
           tests:
             - not_null
+        - name: survey_id
+          tests:
+            - unique
+            - not_null
 
   - name: cs_episodes_by_issue_type_monthly
     description: a monthly count of episodes grouped by issue type, organization,

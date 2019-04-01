@@ -11,7 +11,15 @@ with
 		select * from {{ ref('episodes') }}
 	)
 
-select nps_survey.*
+select md5(nps_survey.survey_id || user_contract.contract_id) as survey_id
+	, nps_survey.episode_id
+	, nps_survey.score
+	, nps_survey.category
+	, nps_survey.tags
+	, nps_survey.comment
+	, nps_survey.timestamp
+	, nps_survey.updated_at
+	, nps_survey.user_id
 	, user_contract.organization_id
 	, user_contract.organization_name
 	, user_contract.account_id

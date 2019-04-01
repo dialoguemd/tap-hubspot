@@ -1,3 +1,14 @@
+
+{{
+  config(
+    materialized='incremental',
+    unique_key='survey_id',
+    post_hook=[
+       "{{ postgres.index(this, 'survey_id')}}",
+    ]
+  )
+}}
+
 with conversations as (
         select * from {{ ref('intercom_conversations_detailed') }}
     )
@@ -11,25 +22,30 @@ with conversations as (
     )
 
     , nps_responses as (
-        select nps_survey.user_id
+        select nps_survey.survey_id
+            , nps_survey.user_id
             , nps_survey.score
             , nps_survey.category
             , nps_survey.tags
             , nps_survey.organization_name
-            , nps_survey.updated_at as nps_completed_at
+            , nps_survey.timestamp as nps_completed_at
             , tstzrange(nps_survey.updated_at, nps_survey.updated_at + interval '21 days') as follow_up_range
         from nps_survey
+        {% if is_incremental() %}
+        where timestamp > (select max(nps_completed_at) from {{ this }})
+        {% endif %}
     )
 
     , follow_ups as (
-        select nps_responses.score
+        select nps_responses.survey_id
+            , nps_responses.score
             , nps_responses.category
             , nps_responses.organization_name
             , timezone('America/Montreal', nps_responses.nps_completed_at)
                 as nps_completed_at
             , tsrange(
                 timezone('America/Montreal', nps_responses.nps_completed_at),
-                timezone('America/Montreal', conversations.conversation_started)
+                timezone('America/Montreal', min(conversations.conversation_started))
                 ) as time_to_respond
             , timezone('America/Montreal', 
                 min(conversations.conversation_started))
@@ -41,10 +57,11 @@ with conversations as (
         left join conversations
             on nps_responses.follow_up_range @> conversations.conversation_started
             and nps_responses.user_id = conversations.user_id
-        group by 1,2,3,4,5
+        {{ dbt_utils.group_by(5) }}
     )
 
-select follow_ups.score
+select follow_ups.survey_id
+    , follow_ups.score
     , follow_ups.category
     , follow_ups.organization_name
     , follow_ups.nps_completed_at
@@ -61,4 +78,4 @@ left join working_minutes
     on follow_ups.time_to_respond
         @> working_minutes.date_minute
     and follow_ups.admin_first_message is not null
-group by 1,2,3,4,5,6,7
+{{ dbt_utils.group_by(8) }}
