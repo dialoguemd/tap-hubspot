@@ -16,6 +16,7 @@ select qnaire_tid
     , timestamp
     , timestamp_est
     , qnaire
+    , qnaire as qnaire_name
     , event_id
     , user_id
 from completions

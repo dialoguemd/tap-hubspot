@@ -8,6 +8,7 @@ with qnaire_started as (
 
 select qnaire_started.episode_id
   , qnaire_started.qnaire
+  , qnaire_started.qnaire_name
   , qnaire_started.timestamp as started_at
   , qnaire_completed.timestamp as completed_at
   , qnaire_started.timestamp_est as started_at_est

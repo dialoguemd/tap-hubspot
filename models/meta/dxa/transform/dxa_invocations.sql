@@ -16,7 +16,7 @@ with
             , questionnaire_completed
             , questionnaire_completion_time
         from completion_stats_tmp
-        where qnaire = 'dxa'
+        where qnaire_name = 'dxa'
     )
 
     , respondent_type as (

@@ -16,7 +16,7 @@ with bool as (
 
 	, completed_qnaire as (
 		select * from {{ ref('countdown_qnaire_completed') }}
-		where qnaire = 'dxa'
+		where qnaire_name = 'dxa'
 	)
 
 	, episodes as (

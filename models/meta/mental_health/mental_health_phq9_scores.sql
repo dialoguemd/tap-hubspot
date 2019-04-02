@@ -13,7 +13,7 @@ with
 
     , completed as (
         select * from qnaire_completed
-        where qnaire = 'phq9'
+        where qnaire_name = 'phq9'
     )
 
     , replies as (

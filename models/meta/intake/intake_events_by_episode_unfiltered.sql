@@ -40,7 +40,7 @@ with
         -- query run time
 
         select started_at as timestamp
-            , qnaire as event_name
+            , qnaire_name as event_name
             , 'qnaire' as type
             , 'system' as initiator
             , user_id
@@ -49,7 +49,7 @@ with
         where started_at <@
             tstzrange(current_date - interval '4 weeks',
                 current_date - interval '1 day')
-            and qnaire not in ('paused', 'location_serviceability', 'with_you_shortly')
+            and qnaire_name not in ('paused', 'location_serviceability', 'with_you_shortly')
 
         union all
 

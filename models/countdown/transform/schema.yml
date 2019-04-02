@@ -4,7 +4,7 @@ models:
   - name: countdown_qnaire_completion_stats
 
     columns:
-        - name: qnaire
+        - name: qnaire_name
           tests:
               - not_null
         - name: started_at
