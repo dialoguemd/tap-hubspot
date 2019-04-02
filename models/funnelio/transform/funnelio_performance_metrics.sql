@@ -19,15 +19,11 @@ with facebook as (
 	)
 
 	, unioned as (
-		select * from choozle
-		union all
 		select * from facebook
 		union all
 		select * from google
 		union all
 		select * from linkedin
-		union all
-		select * from linkedin_organic
 		union all
 		select * from other
 		union all
