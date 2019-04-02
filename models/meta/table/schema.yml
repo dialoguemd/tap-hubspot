@@ -55,6 +55,12 @@ models:
 
   - name: chats
     columns:
+      - name: chat_id
+        description: |
+          Hash of episode id and chat date
+        tests:
+          - not_null
+          - unique
       - name: episode_id
         tests:
           - not_null
@@ -73,10 +79,6 @@ models:
       - name: chat_type
         tests:
           - not_null
-
-    tests:
-      - unique:
-          column_name: "concat(episode_id, date_day_est)"
 
   - name: chats_detailed
     columns:
@@ -339,6 +341,7 @@ models:
           description: |
             The same as the above intake time definition; the timestamps are
             compared with the first_set_active to compute the time.
+
     tests:
       - dbt_utils.recency:
           field: created_at

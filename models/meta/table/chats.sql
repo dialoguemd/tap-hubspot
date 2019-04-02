@@ -34,7 +34,8 @@ with
 		from messaging
 	)
 
-select messaging.date_day_est
+select md5(messaging.episode_id || messaging.date_day_est) as chat_id
+	, messaging.date_day_est
 	, messaging.date_week_est as date_week
 	, messaging.date_week_est
 	, messaging.episode_id
