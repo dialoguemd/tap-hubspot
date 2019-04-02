@@ -1,8 +1,4 @@
-with choozle as (
-		select * from {{ ref( 'funnelio_choozle' ) }}
-	)
-
-	, facebook as (
+with facebook as (
 		select * from {{ ref( 'funnelio_facebook' ) }}
 	)
 
@@ -12,10 +8,6 @@ with choozle as (
 
 	, linkedin as (
 		select * from {{ ref( 'funnelio_linkedin' ) }}
-	)
-
-	, linkedin_organic as (
-		select * from {{ ref( 'funnelio_linkedin_organic' ) }}
 	)
 
 	, other as (
