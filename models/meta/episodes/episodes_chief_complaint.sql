@@ -4,7 +4,7 @@ with
 	)
 
 	, labels as (
-		select * from {{ ref( 'dimension_dxa_chief_complaints' ) }}
+		select * from {{ ref('dimension_dxa_chief_complaints') }}
 	)
 
 	, cc as (

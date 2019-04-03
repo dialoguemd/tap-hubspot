@@ -1,9 +1,10 @@
-with qnaire_started as (
-		select * from {{ ref( 'countdown_qnaire_started' ) }}
+with
+  qnaire_started as (
+		select * from {{ ref('countdown_qnaire_started') }}
 	)
 
 	, qnaire_completed as (
-		select * from {{ ref( 'countdown_qnaire_completed' ) }}
+		select * from {{ ref('countdown_qnaire_completed') }}
 	)
 
 select qnaire_started.episode_id

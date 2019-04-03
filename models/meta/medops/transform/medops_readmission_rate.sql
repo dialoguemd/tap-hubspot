@@ -1,9 +1,9 @@
 with episodes as (
-        select * from {{ ref ( 'episodes' ) }}
+        select * from {{ ref('episodes') }}
     )
 
     , chats_all_time as (
-        select * from {{ ref ( 'chats' ) }}
+        select * from {{ ref('chats') }}
     )
 
     , chats as (

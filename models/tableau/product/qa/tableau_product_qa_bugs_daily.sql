@@ -1,9 +1,9 @@
 with dates as (
-        select * from {{ ref( 'dimension_days' ) }}
+        select * from {{ ref('dimension_days') }}
     )
 
     , bugs as (
-        select * from {{ ref( 'product_bugs' ) }}
+        select * from {{ ref('product_bugs') }}
     )
 
 select dates.date_day as date

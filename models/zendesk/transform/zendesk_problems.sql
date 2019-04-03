@@ -1,13 +1,13 @@
 with tickets as (
-		select * from {{ ref( 'zendesk_tickets' ) }}
+		select * from {{ ref('zendesk_tickets') }}
 	)
 
 	, groups as (
-		select * from {{ ref( 'zendesk_groups' ) }}
+		select * from {{ ref('zendesk_groups') }}
 	)
 
 	, tickets_tagged as (
-		select * from {{ ref( 'zendesk_tickets_tagged' ) }}
+		select * from {{ ref('zendesk_tickets_tagged') }}
 	)
 
 select tickets.ticket_id as problem_id

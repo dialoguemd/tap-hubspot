@@ -8,12 +8,13 @@
 
 --
 
-with est_costs_daily as (
-        select * from {{ ref( 'costs_by_episode_daily' ) }}
+with
+    est_costs_daily as (
+        select * from {{ ref('costs_by_episode_daily') }}
     )
 
     , episodes as (
-        select * from {{ ref( 'episodes_with_contracts' ) }}
+        select * from {{ ref('episodes_with_contracts') }}
     )
 
 select episodes.organization_name

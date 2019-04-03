@@ -1,13 +1,13 @@
 with days as (
-        select * from {{ ref( 'dimension_days' ) }}
+        select * from {{ ref('dimension_days') }}
     )
 
     , daily_bugs as (
-        select * from {{ ref( 'product_bugs_daily' ) }}
+        select * from {{ ref('product_bugs_daily') }}
     )
 
     , deploys as (
-        select * from {{ ref( 'github_deploys_daily' ) }}
+        select * from {{ ref('github_deploys_daily') }}
     )
 
 select days.date_day

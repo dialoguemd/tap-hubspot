@@ -1,9 +1,10 @@
-with videos as (
-        select * from {{ ref( 'videos_detailed' ) }}
+with
+    videos as (
+        select * from {{ ref('videos_detailed') }}
     )
 
     , monthly_video_cost as (
-        select * from {{ ref( 'videos_cost_monthly' ) }}
+        select * from {{ ref('videos_cost_monthly') }}
     )
 
 select videos.episode_id

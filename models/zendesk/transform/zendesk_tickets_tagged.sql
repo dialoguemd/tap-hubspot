@@ -1,9 +1,9 @@
 with tickets as (
-		select * from {{ ref( 'zendesk_tickets' ) }}
+		select * from {{ ref('zendesk_tickets') }}
 	)
 
 	, tags as (
-		select * from {{ ref( 'zendesk_tech_support_tags' ) }}
+		select * from {{ ref('zendesk_tech_support_tags') }}
 	)
 
     , tickets_unnested as (

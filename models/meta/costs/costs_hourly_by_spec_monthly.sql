@@ -1,9 +1,9 @@
 with daily_time_spent_by_ep as (
-    select * from {{ ref( 'costs_time_spent_by_episode_daily' ) }}
+        select * from {{ ref('costs_time_spent_by_episode_daily') }}
     )
 
     , fl_costs as (
-        select * from {{ ref( 'finance_revenue_and_costs_monthly' ) }}
+        select * from {{ ref('finance_revenue_and_costs_monthly') }}
     )
 
     , monthly_activities as (

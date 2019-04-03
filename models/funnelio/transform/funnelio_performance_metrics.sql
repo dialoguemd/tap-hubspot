@@ -1,21 +1,21 @@
 with facebook as (
-		select * from {{ ref( 'funnelio_facebook' ) }}
+		select * from {{ ref('funnelio_facebook') }}
 	)
 
 	, google as (
-		select * from {{ ref( 'funnelio_google' ) }}
+		select * from {{ ref('funnelio_google') }}
 	)
 
 	, linkedin as (
-		select * from {{ ref( 'funnelio_linkedin' ) }}
+		select * from {{ ref('funnelio_linkedin') }}
 	)
 
 	, other as (
-		select * from {{ ref( 'funnelio_other' ) }}
+		select * from {{ ref('funnelio_other') }}
 	)
 
 	, twitter as (
-		select * from {{ ref( 'funnelio_twitter' ) }}
+		select * from {{ ref('funnelio_twitter') }}
 	)
 
 	, unioned as (

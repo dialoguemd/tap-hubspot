@@ -1,9 +1,9 @@
 with jira_issues as (
-        select * from {{ ref( 'jira_issues' ) }}
+        select * from {{ ref('jira_issues') }}
     )
 
     , github_issues as (
-        select * from {{ ref( 'github_issues' ) }}
+        select * from {{ ref('github_issues') }}
     )
 
     , unioned as (

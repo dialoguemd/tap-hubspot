@@ -1,10 +1,10 @@
 with
 	active_users as (
-		select * from {{ ref( 'active_users' ) }}
+		select * from {{ ref('active_users') }}
 	)
 
 	, login_fetch_complete as (
-		select * from {{ ref( 'patientapp_login_fetch_complete' ) }}
+		select * from {{ ref('patientapp_login_fetch_complete') }}
 	)
 
 

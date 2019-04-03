@@ -1,5 +1,5 @@
 with episodes as (
-        select * from {{ ref ( 'tableau_product_one_metric_resolution_rate' ) }}
+        select * from {{ ref('tableau_product_one_metric_resolution_rate') }}
     )
 
 	, resolves as (

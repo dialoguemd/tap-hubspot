@@ -1,21 +1,22 @@
-with user_contract as (
-		select * from {{ ref( 'user_contract' ) }}
+with
+	user_contract as (
+		select * from {{ ref('user_contract') }}
 	)
 
 	, costs as (
-		select * from {{ ref( 'costs_by_episode_daily' ) }}
+		select * from {{ ref('costs_by_episode_daily') }}
 	)
 
 	, dimension_weeks as (
-		select * from {{ ref( 'dimension_weeks' ) }}
+		select * from {{ ref('dimension_weeks') }}
 	)
 
 	, features as (
-		select * from {{ ref( 'scribe_plan_features' ) }}
+		select * from {{ ref('scribe_plan_features') }}
 	)
 
 	, plans as (
-		select * from {{ ref( 'scribe_plans' ) }}
+		select * from {{ ref('scribe_plans') }}
 	)
 
 	, mh_start as (

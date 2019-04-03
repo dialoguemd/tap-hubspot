@@ -1,13 +1,13 @@
 with incidents as (
-		select * from {{ ref( 'zendesk_incidents_w_problem_detail' ) }}
+		select * from {{ ref('zendesk_incidents_w_problem_detail') }}
 	)
 
 	, jira_issues as (
-		select * from {{ ref( 'jira_issues' ) }}
+		select * from {{ ref('jira_issues') }}
 	)
 
 	, links as (
-		select * from {{ ref( 'zendesk_links_current' ) }}
+		select * from {{ ref('zendesk_links_current') }}
 	)
 
 select incidents.problem_id

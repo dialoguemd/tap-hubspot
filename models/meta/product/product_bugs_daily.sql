@@ -1,5 +1,5 @@
 with bugs as (
-        select * from {{ ref( 'product_bugs' ) }}
+        select * from {{ ref('product_bugs') }}
     )
 
 select date_trunc('day', created_at) as date

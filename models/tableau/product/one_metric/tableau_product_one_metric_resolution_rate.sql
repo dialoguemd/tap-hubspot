@@ -1,13 +1,13 @@
 with episodes as (
-        select * from {{ ref ( 'episodes' ) }}
+        select * from {{ ref('episodes') }}
     )
 
 	, user_contract as (
-        select * from {{ ref ( 'user_contract' ) }}
+        select * from {{ ref('user_contract') }}
     )
 
 	, valid_pairs as (
-        select * from {{ ref ( 'episodes_valid_outcome_issue_type_pairs' ) }}
+        select * from {{ ref('episodes_valid_outcome_issue_type_pairs') }}
     )
 
 select episodes.episode_id

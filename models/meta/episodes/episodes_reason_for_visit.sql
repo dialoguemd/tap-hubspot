@@ -1,6 +1,6 @@
 with
 	question_replied as (
-		select * from {{ ref( 'countdown_question_replied' ) }}
+		select * from {{ ref('countdown_question_replied') }}
 	)
 
 	, reason as (

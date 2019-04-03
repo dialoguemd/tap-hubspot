@@ -1,9 +1,10 @@
-with prs as (
-		select * from {{ ref( 'github_pull_requests' ) }}
+with
+	prs as (
+		select * from {{ ref('github_pull_requests') }}
 	)
 
 	, whitelist as (
-		select * from {{ ref( 'github_repo_whitelist' ) }}
+		select * from {{ ref('github_repo_whitelist') }}
 	)
 
 select prs.number 

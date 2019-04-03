@@ -1,5 +1,5 @@
 with issues as (
-        select * from {{ ref( 'jira_issues' ) }}
+        select * from {{ ref('jira_issues') }}
     )
 
 select date_trunc('day', created_at) as date_day

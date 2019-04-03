@@ -1,9 +1,10 @@
-with issue_created as (
-        select * from {{ ref( 'jira_issue_created' ) }}
+with
+    issue_created as (
+        select * from {{ ref('jira_issue_created') }}
     ) 
 
     , issue_updated as (
-        select * from {{ ref( 'jira_issue_updated' ) }}
+        select * from {{ ref('jira_issue_updated') }}
     )
 
     , coalesced as (

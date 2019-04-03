@@ -1,6 +1,6 @@
 with
 	cp_activity as (
-		select * from {{ ref( 'cp_activity' ) }}
+		select * from {{ ref('cp_activity') }}
 	)
 
 select episode_id

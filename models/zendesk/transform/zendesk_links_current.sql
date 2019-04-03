@@ -1,5 +1,5 @@
 with links as (
-		select * from {{ ref( 'zendesk_links' ) }}
+		select * from {{ ref('zendesk_links') }}
 	)
 
 select *

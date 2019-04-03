@@ -1,1 +1,1 @@
-select * from {{ ref( 'data_ubisoft_clinic_consultation_count' ) }}
+select * from {{ ref('data_ubisoft_clinic_consultation_count') }}

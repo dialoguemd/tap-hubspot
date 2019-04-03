@@ -1,14 +1,14 @@
 with 
 	events as (
-		select * from {{ ref( 'intake_events_by_episode_unfiltered' ) }}
+		select * from {{ ref('intake_events_by_episode_unfiltered') }}
 	)
 
     , episodes as (
-        select * from {{ ref( 'episodes' ) }}
+        select * from {{ ref('episodes') }}
     )
 
     , cp_activity as (
-        select * from {{ ref( 'cp_activity' ) }}
+        select * from {{ ref('cp_activity') }}
     )
 
     , ranks as (

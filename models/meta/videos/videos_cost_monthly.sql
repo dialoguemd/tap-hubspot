@@ -1,9 +1,9 @@
 with monthly_count_videos as (
-        select * from {{ ref( 'videos_monthly' ) }}
+        select * from {{ ref('videos_monthly') }}
     )
 
     , fl_cost as (
-        select * from {{ ref( 'finance_revenue_and_costs_monthly' ) }}
+        select * from {{ ref('finance_revenue_and_costs_monthly') }}
     )
 
 select monthly_count_videos.date_month

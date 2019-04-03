@@ -1,14 +1,14 @@
 with episode_details as (
-		select * from {{ ref ( 'tableau_product_one_metric_resolution_rate' ) }}
+		select * from {{ ref('tableau_product_one_metric_resolution_rate') }}
 	)
 
 	, users as (
-        select * from {{ ref ( 'scribe_users_detailed' ) }}
-    )
+		select * from {{ ref('scribe_users_detailed') }}
+	)
 
-    , user_contract as (
-    	select * from {{ ref ( 'user_contract' ) }}
-    )
+	, user_contract as (
+		select * from {{ ref('user_contract') }}
+	)
 
 
 select users.user_id

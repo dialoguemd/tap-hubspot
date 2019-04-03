@@ -1,9 +1,9 @@
 with problems as (
-		select * from {{ ref( 'zendesk_problems' ) }}
+		select * from {{ ref('zendesk_problems') }}
 	)
 
 	, incidents as (
-		select * from {{ ref( 'zendesk_incidents' ) }}
+		select * from {{ ref('zendesk_incidents') }}
 	)
 
 select problems.problem_id

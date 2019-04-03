@@ -1,9 +1,9 @@
 with costs as (
-		select * from {{ ref( 'costs_by_episode_daily' ) }}
+		select * from {{ ref('costs_by_episode_daily') }}
 	)
 
 	, episodes as (
-		select * from {{ ref( 'episodes' ) }}
+		select * from {{ ref('episodes') }}
 	)
 
 select date_trunc('month', costs.date_day) as date_month

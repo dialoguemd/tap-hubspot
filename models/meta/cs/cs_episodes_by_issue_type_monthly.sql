@@ -1,10 +1,11 @@
-with episodes as (
-      select * from {{ ref( 'episodes_with_contracts' ) }}
-   )
+with
+	episodes as (
+		select * from {{ ref('episodes_with_contracts') }}
+	)
 
-   , issue_type_labels as (
-      select * from {{ ref( 'medops_issue_type_labels' ) }}
-   )
+	, issue_type_labels as (
+		select * from {{ ref('medops_issue_type_labels') }}
+	)
 
 select date_trunc('month', episodes.first_message_patient) as date_month
 	, episodes.organization_name
