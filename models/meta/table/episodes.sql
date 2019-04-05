@@ -64,18 +64,22 @@ with channels as (
 		select * from {{ ref('episodes_appointment_booking') }}
 	)
 
+	, episodes_intake as (
+		select * from {{ ref('episodes_intake') }}
+	)
+
 	, users as (
 		select * from {{ ref('scribe_users') }}
 	)
 
 select channels.episode_id
 	, channels.user_id
-	, 'https://zorro.dialogue.co/conversations/' || channels.episode_id as url_zorro
+	, channels.url_zorro
 	, channels.count_messages
 	, channels.created_at
 	, channels.updated_at
 	, channels.deleted_at
-	, channels.deleted_at <> '1970-01-01T00:00:00.000Z' as is_deleted
+	, channels.is_deleted
 	, channels.last_post_at
 
 	, episodes_outcomes.first_outcome_category
@@ -102,10 +106,9 @@ select channels.episode_id
 	, episodes_subject.episode_subject
 	, episodes_subject.episode_subject as patient_id
 
-	, date_trunc('day', episodes_chats_summary.first_message_created_at)
-		as date_day_est
-	, date_trunc('week', episodes_chats_summary.first_message_created_at)
-		as date_week_est
+	, episodes_chats_summary.date_day_est
+	, episodes_chats_summary.date_week_est
+	, episodes_chats_summary.date_month_est
 	, episodes_chats_summary.first_message_created_at
 	, episodes_chats_summary.last_message_created_at
 	, episodes_chats_summary.first_message_care_team
@@ -132,6 +135,8 @@ select channels.episode_id
 	, episodes_chats_summary.includes_video_nc
 	, episodes_chats_summary.includes_video_cc
 	, episodes_chats_summary.includes_video_psy
+	, episodes_chats_summary.frt_pt_message
+	, episodes_chats_summary.frt_active
 
 	, episodes_nps.score
 	, episodes_nps.category
@@ -164,7 +169,10 @@ select channels.episode_id
 
 	, episodes_created_sequence.channel_selected
 	, episodes_created_sequence.dxa_started_at
+	, episodes_created_sequence.is_dxa_started
 	, episodes_created_sequence.dxa_completed_at
+	, episodes_created_sequence.is_dxa_completed
+	, episodes_created_sequence.dxa_completion_time
 	, episodes_created_sequence.channel_select_started_at
 	, episodes_created_sequence.channel_select_completed_at
 	, episodes_created_sequence.video_started_at
@@ -177,8 +185,7 @@ select channels.episode_id
 	, episodes_reason_for_visit.reason_for_visit
 
 	, episodes_appointment_booking.appointment_booking_first_started_at
-	, episodes_appointment_booking.appointment_booking_first_started_at is not null
-		as includes_appointment_booking
+	, episodes_appointment_booking.includes_appointment_booking
 
 	, users.family_id
 	, users.gender
@@ -187,21 +194,6 @@ select channels.episode_id
 		age(episodes_chats_summary.first_message_created_at,
 		users.birthday)) as age
 
-		-- Calculate First Response Times
-	, case
-		when episodes_chats_summary.first_message_patient
-			< episodes_chats_summary.first_message_care_team
-		then extract('epoch' from episodes_chats_summary.first_message_care_team
-			- episodes_chats_summary.first_message_patient) / 60.0
-		else null
-		end as frt_pt_message
-	, case
-		when episodes_chats_summary.first_set_active
-			< episodes_chats_summary.first_message_care_team
-		then extract('epoch' from episodes_chats_summary.first_message_care_team
-			- episodes_chats_summary.first_set_active) / 60.0
-		else null
-		end as frt_active
 	, case
 		when episodes_created_sequence.dxa_completed_at
 			< episodes_chats_summary.first_message_care_team
@@ -209,27 +201,6 @@ select channels.episode_id
 			- episodes_created_sequence.dxa_completed_at) / 60.0
 		else null
 		end as frt_dxa
-
-	-- triage groups for post-dxa recommendation training
-	, case when outcome = 'ubisoft_appointment'
-			then 'treated_at_ubisoft_clinic'
-		when includes_video_gp
-			then 'treated_by_gp'
-		when includes_video_np
-			then 'treated_by_np'
-		when first_message_nurse is not null
-			and outcome_category = 'Diagnostic'
-			then 'treated_by_nurse'
-		-- Split into locations for referral
-		when outcomes_ordered::text like '%referral_er%'
-			then 'referral_er'
-		when outcomes_ordered::text like '%referral_walk_in%'
-			or  outcomes_ordered::text like '%referral_without_navigation%'
-			then 'referral_walk_in'
-		when outcomes_ordered::text like '%navigation%'
-			then 'navigation'
-		else 'other'
-    end as triage_outcome
 
 	, case
 		-- invalid episodes
@@ -257,101 +228,32 @@ select channels.episode_id
 		) / 60.0 < 15
 	end as sla_answered_within_15_minutes
 
-	-- Create categorical variable for identifying the correct resource for treatment
-	, case
-		when includes_video_np or includes_video_gp
-			or episodes_appointment_booking.appointment_booking_first_started_at
-				is not null
-			then 'treated_by_np_gp'
-		when first_outcome_category = 'Navigation'
-			or first_outcome = 'referral_without_navigation'
-			then 'outreferred'
-		when first_outcome_category = 'Diagnostic'
-			then 'treated_by_nc'
-		else 'other'
-		end as treatment_category
+	, episodes_intake.intake_completed_at
+	, coalesce(episodes_intake.treatment_category, 'N/A') as treatment_category
+	, episodes_intake.intake_time_first_patient_message
+	, episodes_intake.intake_time_first_set_active
+	, coalesce(episodes_intake.triage_outcome, 'N/A') as triage_outcome
 
-	-- Calculate intake time from first patient message to when the correct resource
-	-- was determined and next step (e.g. apt booking, navigation) was started
-	, case
-		when includes_video_np
-			or includes_video_gp
-			or episodes_appointment_booking.appointment_booking_first_started_at
-				is not null
-			then
-				extract(epoch from
-					least(episodes_chats_summary.last_message_from_last_nc,
-						episodes_appointment_booking.appointment_booking_first_started_at,
-						episodes_chats_summary.first_set_resolved_pending_at)
-					- episodes_chats_summary.first_message_patient
-				) / 60
-		when first_outcome_category = 'Navigation'
-			or first_outcome = 'referral_without_navigation'
-			then
-				extract(epoch from
-					least(episodes_chats_summary.last_message_from_last_nc,
-						episodes_chats_summary.first_set_resolved_pending_at)
-					- episodes_chats_summary.first_message_patient
-				) / 60
-		when first_outcome_category = 'Diagnostic'
-			then
-				extract(epoch from
-					least(episodes_chats_summary.first_message_from_last_nc,
-						episodes_chats_summary.first_set_resolved_pending_at)
-					- episodes_chats_summary.first_message_patient
-				) / 60
-		else null
-		end as intake_time_first_patient_message
-
-		-- Calculate intake time from first set active to when the correct resource
-		-- was determined and next step (e.g. apt booking, navigation) was started
-		, case
-		when includes_video_np
-			or includes_video_gp
-			or episodes_appointment_booking.appointment_booking_first_started_at
-				is not null
-			then
-				extract(epoch from
-					least(episodes_chats_summary.last_message_from_last_nc,
-						episodes_appointment_booking.appointment_booking_first_started_at,
-						episodes_chats_summary.first_set_resolved_pending_at)
-					- episodes_chats_summary.first_set_active
-				) / 60
-		when first_outcome_category = 'Navigation'
-			or first_outcome = 'referral_without_navigation'
-			then
-				extract(epoch from
-					least(episodes_chats_summary.last_message_from_last_nc,
-						episodes_chats_summary.first_set_resolved_pending_at)
-					- episodes_chats_summary.first_set_active
-				) / 60
-		when first_outcome_category = 'Diagnostic'
-			then
-				extract(epoch from
-					least(episodes_chats_summary.first_message_from_last_nc,
-						episodes_chats_summary.first_set_resolved_pending_at)
-					- episodes_chats_summary.first_set_active
-				) / 60
-		else null
-		end as intake_time_first_set_active
 
 from channels
 
--- Jinja loop for reptitive joins
-{% for table in
-		["episodes_outcomes",
+-- Jinja loop for repetitive joins
+{% for table in [
+		"episodes_appointment_booking",
+		"episodes_chats_summary",
+		"episodes_chief_complaint",
+		"episodes_created_sequence",
+		"episodes_intake",
 		"episodes_issue_types",
+		"episodes_kpis",
+		"episodes_nps",
+		"episodes_outcomes",
 		"episodes_priority_levels",
 		"episodes_ratings",
-		"episodes_subject",
-		"episodes_chats_summary",
-		"episodes_nps",
-		"episodes_kpis",
-		"episodes_created_sequence",
-		"episodes_chief_complaint",
 		"episodes_reason_for_visit",
-		"episodes_appointment_booking"]
-	%}
+		"episodes_subject",
+	]
+%}
 
 left join {{table}}
 	using (episode_id)
