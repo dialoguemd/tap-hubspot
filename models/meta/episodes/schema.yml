@@ -77,6 +77,11 @@ models:
               - not_null
         - name: episode_id
               - not_null
+        - name: issue_type
+          tests:
+              - relationships:
+                  to: ref('medops_issue_type_labels')
+                  field: issue_type
     tests:
       - unique:
           column_name: "concat(episode_id, contract_id)"

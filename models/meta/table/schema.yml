@@ -312,6 +312,11 @@ models:
         - name: patient_id
           tests:
               - not_null
+        - name: issue_type
+          tests:
+              - relationships:
+                  to: ref('medops_issue_type_labels')
+                  field: issue_type
         - name: triage_outcome
           description: |
             Triage groups used by post-DXA recommendation
@@ -461,6 +466,12 @@ models:
           - not_null
           - accepted_values:
               values: ['FR', 'EN']
+
+      - name: gender
+        tests:
+          # TODO remove N/A once there are no active users without gender set
+          - accepted_values:
+              values: ['M', 'F', 'N/A']
 
       - name: residence_province
         tests:

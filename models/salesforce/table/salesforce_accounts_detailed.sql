@@ -22,6 +22,7 @@ select accounts.account_id
     , sdr.name as sdr_name
     , accounts.am_id
     , am.name as am_name
+    , am.email as am_email
     , max(opportunities_direct.number_of_employees) as opps_number_of_employees
     , max(opportunities_direct.amount) as opps_amount
     , min(opportunities_direct.meeting_date) as meeting_date
@@ -33,4 +34,4 @@ left join users as sdr
     on accounts.sdr_id = sdr.user_id
 left join users as am
     on accounts.am_id = am.user_id
-{{ dbt_utils.group_by(n=11) }}
+{{ dbt_utils.group_by(n=12) }}

@@ -20,6 +20,8 @@ select md5(nps_survey.survey_id || user_contract.contract_id) as survey_id
 	, nps_survey.timestamp
 	, nps_survey.updated_at
 	, nps_survey.user_id
+  , char_length(nps_survey.comment) as comment_char_length
+	, lower(nps_survey.tags::text) like '%testimonial%' as is_testimonial
 	, user_contract.organization_id
 	, user_contract.organization_name
 	, user_contract.account_id

@@ -1,0 +1,211 @@
+
+version: 2
+
+models:
+  - name: client_usage_daily
+    description: |
+      This component of the client facing dashboard summarizes invite,
+      registration, and utilization info per organization per day.
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+      - name: organization_id
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "concat(date_day, organization_id)"
+      # organization days doesn't include today
+      - dbt_utils.recency:
+          field: date_day
+          datepart: day
+          interval: 2
+
+  - name: client_nps_daily
+    description: |
+      This component of the client facing dashboard summarizes count of NPS
+      surveys sent and scores received per organization per day.
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+      - name: organization_id
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "concat(date_day, organization_id)"
+
+  - name: client_total_consults_daily
+    description: |
+      This component of the client facing dashboard summarizes consult activity
+      based on active users per organization per day.
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+      - name: organization_id
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "concat(date_day, organization_id)"
+
+  - name: client_organization_days
+    description: |
+      A base table for models to build on to ensure that every day is covered
+      for an organization rather than only those with activity.
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+      - name: organization_id
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "concat(date_day, organization_id)"
+      # organization days doesn't include today
+      - dbt_utils.recency:
+          field: date_day
+          datepart: day
+          interval: 2
+
+  - name: client_comments
+    description: |
+      This component summarizes the top comments for an organization but is only
+      aggregated for the organization with no filtering on date due to complexity.
+    columns:
+      - name: organization_name_id
+        tests:
+          - not_null
+      - name: language
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "concat(organization_name_id, language)"
+
+  - name: client_issue_types
+    description: |
+      This component summarizes the top issue types for an organization but is
+      only aggregated for the organization with no filtering on date due to
+      complexity.
+    columns:
+      - name: organization_name_id
+        tests:
+          - not_null
+          - unique
+
+  - name: client_dashboard_daily
+    description: |
+      This component summarizes the core of the client facing dashboard including
+      models for usage, NPS, and total consults per organization per day.
+    columns:
+      - name: usage_id
+        tests:
+          - not_null
+          - unique
+      - name: date_day
+        tests:
+          - not_null
+      - name: organization_name_id
+        tests:
+          - not_null
+      - name: days_since_billing_start
+        tests:
+          - not_null
+      - name: account_manager_email
+        tests:
+          - not_null
+      - name: account_name
+        tests:
+          - not_null
+      - name: m_count
+        tests:
+          - not_null
+      - name: f_count
+        tests:
+          - not_null
+      - name: age_bin_5_count
+        tests:
+          - not_null
+      - name: age_bin_10_count
+        tests:
+          - not_null
+      - name: age_bin_15_count
+        tests:
+          - not_null
+      - name: age_bin_20_count
+        tests:
+          - not_null
+      - name: age_bin_25_count
+        tests:
+          - not_null
+      - name: age_bin_30_count
+        tests:
+          - not_null
+      - name: age_bin_35_count
+        tests:
+          - not_null
+      - name: age_bin_40_count
+        tests:
+          - not_null
+      - name: age_bin_45_count
+        tests:
+          - not_null
+      - name: age_bin_50_count
+        tests:
+          - not_null
+      - name: age_bin_55_count
+        tests:
+          - not_null
+      - name: age_bin_60_count
+        tests:
+          - not_null
+      - name: age_bin_65_count
+        tests:
+          - not_null
+      - name: age_over_65_count
+        tests:
+          - not_null
+      - name: invited_employee_count
+        tests:
+          - not_null
+      - name: signed_up_employee_count
+        tests:
+          - not_null
+      - name: signed_up_family_member_count
+        tests:
+          - not_null
+      - name: signed_up_employee_rate
+        tests:
+          - not_null
+      - name: activated_employee_count
+        tests:
+          - not_null
+      - name: activated_family_member_count
+        tests:
+          - not_null
+      - name: activated_employee_rate
+        tests:
+          - not_null
+      - name: has_sufficient_invited_employee_count
+        tests:
+          - not_null
+      - name: has_sufficient_signed_up_employee_rate
+        tests:
+          - not_null
+      - name: has_sufficient_activated_employee_rate
+        tests:
+          - not_null
+      - name: has_sufficient_survey_count_cum
+        tests:
+          - not_null
+      - name: has_sufficient_survey_avg_cum
+        tests:
+          - not_null
+      - name: has_sufficient_total_consults_cum
+        tests:
+          - not_null

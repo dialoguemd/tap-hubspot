@@ -74,6 +74,7 @@ models:
             '{{this.name}}',
             '{{ invocation_id }}'
         )"
+      # Model Folder Materializations
       coredata:
           materialized: table
       dimension:
@@ -97,6 +98,9 @@ models:
           materialized: table
       xero:
           materialized: table
+      # Global Variables
+      vars:
+          nps_category: ['promoter', 'passive', 'detractor']
 
 archive:
     - source_schema: analytics
