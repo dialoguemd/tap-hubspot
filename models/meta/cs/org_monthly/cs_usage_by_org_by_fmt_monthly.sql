@@ -1,21 +1,6 @@
 with user_contract as (
         select * from {{ ref('user_contract') }}
     )
-    
-    , activated_at as (
-        select * from {{ ref('user_activated') }}
-    )
-    
-    , users as (
-        select user_contract.*
-            , activated_at.activated_at
-            , date_trunc('month', activated_at.activated_at) as activated_month
-            , activated_at.activated_at is not null as is_activated
-        from user_contract
-        left join activated_at
-            on user_contract.user_id = activated_at.user_id
-            and user_contract.during_end >= activated_at.activated_at
-    )
 
     , org_months_tmp as (
         select organization_id
@@ -50,34 +35,34 @@ select org_months.date_month
     , date_trunc('month', org_months.billing_start_date)
         as billing_start_month
     , org_months.billing_start_date
-    , users.family_member_type
+    , user_contract.family_member_type
 
-    -- Count distinct to not double count users with multiple contracts
+    -- Count distinct to not double count user_contract with multiple contracts
     -- in the same month
-    , count(distinct users.user_id)
+    , count(distinct user_contract.user_id)
             as invited_count_cum
-    , count(distinct users.user_id)
-        filter (where org_months.date_month = users.invited_month)
+    , count(distinct user_contract.user_id)
+        filter (where org_months.date_month = user_contract.invited_month)
             as invited_count
-    , count(distinct users.user_id)
-        filter (where users.is_signed_up
-            and org_months.date_month >= users.signed_up_month)
+    , count(distinct user_contract.user_id)
+        filter (where user_contract.is_signed_up
+            and org_months.date_month >= user_contract.signed_up_month)
             as signed_up_count_cum
-    , count(distinct users.user_id)
-        filter (where users.is_signed_up
-            and org_months.date_month = users.signed_up_month)
+    , count(distinct user_contract.user_id)
+        filter (where user_contract.is_signed_up
+            and org_months.date_month = user_contract.signed_up_month)
             as signed_up_count
-    , count(distinct users.user_id)
-        filter (where users.is_activated
-            and org_months.date_month >= users.activated_month)
+    , count(distinct user_contract.user_id)
+        filter (where user_contract.is_activated
+            and org_months.date_month >= user_contract.activated_month)
             as activated_count_cum
-    , count(distinct users.user_id)
-        filter (where users.is_activated
-            and org_months.date_month = users.activated_month)
+    , count(distinct user_contract.user_id)
+        filter (where user_contract.is_activated
+            and org_months.date_month = user_contract.activated_month)
             as activated_count
 from org_months
-left join users
-    on users.organization_id = org_months.organization_id
-    and users.residence_province = org_months.residence_province
-    and org_months.month_range && users.during
+left join user_contract
+    on user_contract.organization_id = org_months.organization_id
+    and user_contract.residence_province = org_months.residence_province
+    and org_months.month_range && user_contract.during
 {{ dbt_utils.group_by(n=8) }}

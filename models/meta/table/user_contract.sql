@@ -13,6 +13,7 @@ with
 
 select scribe_user_contract.*
 	, activated_at.activated_at
+	, activated_at.activated_at is not null as is_activated
 	, date_trunc('month', activated_at.activated_at) as activated_month
 	, organizations.account_id
 	, organizations.account_name
