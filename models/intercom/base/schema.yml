@@ -10,7 +10,7 @@ models:
           - unique
     tests:
       - dbt_utils.recency:
-          field: created_at
+          field: updated_at
           datepart: hour
           interval: 72
 

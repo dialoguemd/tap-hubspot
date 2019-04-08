@@ -210,18 +210,18 @@ select channels.episode_id
 			or episodes_outcomes.first_outcome is null
 			or not episodes_chats_summary.is_first_message_in_opening_hours
 		then null
-		when episodes_chief_complaint.timestamp_est is null
+		when episodes_created_sequence.dxa_started_at is null
 			and episodes_chats_summary.first_message_care_team is null
 		then false
 		-- initiated by care team
 		when least(
-				episodes_chief_complaint.timestamp_est
+				episodes_created_sequence.dxa_started_at
 				, episodes_chats_summary.first_message_care_team
 			) < episodes_chats_summary.first_message_patient
 		then null
 		else extract('epoch' from
 			least(
-				episodes_chief_complaint.timestamp_est
+				episodes_created_sequence.dxa_started_at
 				, episodes_chats_summary.first_message_care_team
 			)
 			- episodes_chats_summary.first_message_patient
