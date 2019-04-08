@@ -1,3 +1,12 @@
+with
+	contracts as (
+		select * from scribe.contract
+	)
+
+	, test_users as (
+		select * from {{ ref('scribe_test_users') }}
+	)
+
 select id as contract_id
 	, created
 	, lower(tstzrange(during)) as during_start
@@ -16,3 +25,6 @@ select id as contract_id
 	, admin_area_name
 	, imported_at
 from scribe.contract
+left join test_users
+	on contract.participant_id::text = test_users.user_id
+where test_users.user_id is null
