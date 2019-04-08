@@ -32,7 +32,7 @@ with
 select monthly.*
 	, coalesce(
 			finance_rebate_monthly.rebate_percentage
-			, 1 - monthly.paid_users_rate
+			, 1
 		) as rebate_percentage
 	, case
 		when monthly.daus_chat <> 0
@@ -49,9 +49,11 @@ select monthly.*
 	, monthly.telehealth_revenue / monthly.active_contracts_paid as arpu
 	, (
 		monthly.telehealth_revenue
-		- monthly.cost_total * coalesce(
+		- monthly.cost_total *
+		-- rebate on cost via seed file was deprecated in 2019-03-01
+		coalesce(
 			1 - finance_rebate_monthly.rebate_percentage
-			, monthly.paid_users_rate
+			, 1
 		)
 	) / monthly.telehealth_revenue as gm1
 	, monthly.fl_nc_cost / monthly.daus as cost_to_serve_a_patient_nc
