@@ -86,6 +86,8 @@ models:
               materialized: view
       meta:
           materialized: table
+      salesforce:
+          materialized: table
       scribe:
           materialized: table
       tableau:
@@ -192,3 +194,9 @@ seeds:
         province_name: text
         province_code: text
         region: text
+
+    data_salesforce_pipeline_probabilities_default:
+      column_types:
+        segment_group: text
+        stage_name: text
+        probability: float

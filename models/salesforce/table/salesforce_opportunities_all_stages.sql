@@ -16,6 +16,7 @@ select 'Activity' as status
     , account_is_won as is_won
     , null as age_in_days
     , number_of_employees
+    , null as segment_group
     , null as segment
     , owner_name
     , null as owner_title
@@ -50,6 +51,7 @@ select
     , is_won
     , opportunity_age as age_in_days
     , number_of_employees
+    , segment_group
     , segment
     , owner_name
     , owner_title
@@ -78,6 +80,7 @@ select 'Closed Won' as status
     , is_won
     , opportunity_age as age_in_days
     , number_of_employees
+    , segment_group
     , segment
     , owner_name
     , owner_title

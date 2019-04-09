@@ -1,0 +1,19 @@
+segment_group,stage_name,probability
+"100-499","Meeting Booked",0.10
+"100-499","Initiate",0.15
+"100-499","Educate",0.20
+"100-499","Validate",0.50
+"100-499","Justify",0.75
+"100-499","Decide",0.85
+"1-99","Meeting Booked",0.30
+"1-99","Initiate",0.40
+"1-99","Educate",0.50
+"1-99","Validate",0.60
+"1-99","Justify",0.80
+"1-99","Decide",0.90
+"500+","Meeting Booked",0.07
+"500+","Initiate",0.10
+"500+","Educate",0.15
+"500+","Validate",0.30
+"500+","Justify",0.65
+"500+","Decide",0.80

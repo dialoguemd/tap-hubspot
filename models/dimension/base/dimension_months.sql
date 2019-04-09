@@ -8,6 +8,7 @@ with
 
 	, months as (
 		select date_month
+			, date_month::timestamp + interval '1 month' as month_end
 			, tsrange(date_month::timestamp,
 		                date_month::timestamp + interval '1 month')
 		                as month_range_est

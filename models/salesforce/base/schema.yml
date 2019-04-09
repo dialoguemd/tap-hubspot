@@ -54,6 +54,12 @@ models:
               values: ['N/A', '1-39', '40-99', '100-199',
               '200-499', '500-999', '1000+']
 
+      - name: segment_group
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['N/A', '1-99', '100-499', '500+']
+
       - name: value_period
         tests:
           - not_null
@@ -162,3 +168,31 @@ models:
         tests:
           - not_null
           - unique
+
+  - name: salesforce_pipeline_probabilities_default
+    description: |
+      Default weighted pipeline probabilities used when no weights are
+      available for a given opportunity
+
+      Baseline set using conversion rates as of April 2019
+
+    columns:
+      - name: segment_group
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['1-99', '100-499', '500+']
+      - name: stage_name
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["Meeting Booked", "Initiate", "Educate", "Validate",
+                "Justify", "Decide"]
+      - name: probability
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "concat(segment_group, stage_name)"
+      - dbt_utils.expression_is_true:
+          expression: "probability > 0 and probability < 1"

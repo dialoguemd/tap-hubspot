@@ -59,9 +59,30 @@ models:
 
   - name: salesforce_pipeline_weighted_monthly
     columns:
-      - name: amount_weighted
+      - name: amount
         tests:
           - not_null
+      - name: amount_weighted
+        description: |
+          Weights calculated as the 3 months conversion rates of the 2
+          quarters ago
+      - name: amount_sf_weighted
+        description: |
+          Static weights used in the Salesforce weighted pipeline
+      - name: segment_group
+        tests:
+          - not_null
+      - name: stage_name_this_month
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Decide', 'Justify', 'Validate', 'Educate', 'Initiate',
+                'Meeting Booked']
+    tests:
+      - unique:
+          column_name: "concat(date_month, opportunity_id)"
+      - dbt_utils.expression_is_true:
+          expression: "segment_group = 'N/A' or amount_weighted is not null"
 
   - name: salesforce_new_services_won_weekly
     columns:
@@ -81,3 +102,21 @@ models:
       - name: mrr_24_7
         tests:
           - not_null
+
+  - name: salesforce_pipeline_probabilities
+    columns:
+      - name: date_quarter
+        tests:
+          - not_null
+      - name: segment_group
+        tests:
+          - not_null
+      - name: stage_name
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Meeting Booked', 'Initiate', 'Educate', 'Validate',
+                'Justify', 'Decide']
+    tests:
+      - unique:
+          column_name: "concat(date_quarter, segment_group, stage_name)"
