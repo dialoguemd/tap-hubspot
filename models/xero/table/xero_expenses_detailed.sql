@@ -13,7 +13,6 @@ with
 
 select expenses.*
 	, coalesce(account_properties.account_group, 'N/A') as account_group
-	, coalesce(account_properties.account_cost_category, 'N/A') as account_cost_category
 	, coalesce(budget_categories.account_budget_category, 'N/A') as account_budget_category
 from expenses
 left join account_properties

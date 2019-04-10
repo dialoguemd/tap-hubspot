@@ -13,15 +13,7 @@ models:
           - accepted_values:
               values: ['N/A', 'Sales Expenses', 'Customer Success',
               'General Administration', 'Health Team', 'Marketing Expenses',
-              'Technology']
-
-      - name: account_cost_category
-        tests:
-          - not_null
-          - accepted_values:
-              values: ['N/A', 'Sales and Marketing - Marketing Campaign',
-                'Sales and Marketing - SAAS', 'Sales & Marketing - Other',
-                'Sales and Marketing - Wages', Sales and Marketing - Professional Services]
+              'Technology', 'New Services', 'Partnerships', 'Human Ressources']
 
       - name: account_budget_category
         tests:

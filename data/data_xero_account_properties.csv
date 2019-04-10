@@ -1,180 +1,115 @@
-"account_group","account_name","account_cost_category"
-"Customer Success","Customer Success - DAS","N/A"
-"Customer Success","Customer Success - Group Insurance Benefit","N/A"
-"Customer Success","Customer Success - Salary","N/A"
-"Customer Success","Customer Success - Software / SAAS","N/A"
-"Customer Success","Customer Success - Travel (Internal)","N/A"
-"Customer Success","Customer Success - Customer Related","N/A"
-"General Administration","Bank Fees","N/A"
-"General Administration","Credit Card Processing Fees","N/A"
-"General Administration","Depreciation","N/A"
-"General Administration","G&A - Consulting","N/A"
-"General Administration","G&A - Cleaning and Maintenance","N/A"
-"General Administration","G&A - Charitable Donations","N/A"
-"General Administration","G&A - DAS","N/A"
-"General Administration","G&A - Events & Conferences","N/A"
-"General Administration","G&A - Finance Consulting","N/A"
-"General Administration","G&A - Group Insurance Benefit","N/A"
-"General Administration","G&A - HR Consulting","N/A"
-"General Administration","G&A - Insurance","N/A"
-"General Administration","G&A - Interest","N/A"
-"General Administration","G&A - Licences & Permits","N/A"
-"General Administration","G&A - Management Consulting","N/A"
-"General Administration","G&A - M&E Internal","N/A"
-"General Administration","G&A - Office Expenses","N/A"
-"General Administration","G&A - Other","N/A"
-"General Administration","G&A - Recruitment","N/A"
-"General Administration","G&A - Rent","N/A"
-"General Administration","G&A SAAS","N/A"
-"General Administration","G&A - Bank Fees","N/A"
-"General Administration","G&A - Salaries","N/A"
-"General Administration","G&A - Software / SAAS","N/A"
-"General Administration","G&A - Travel (International)","N/A"
-"General Administration","G&A - Travel (National)","N/A"
-"General Administration","G&A - Talent Acquisition - Group Insurance Expense","N/A"
-"General Administration","G&A - Talent Team Salary","N/A"
-"General Administration","G&A - Telecommunications","N/A"
-"General Administration","Legal & Accounting firm expenses","N/A"
-"General Administration","Payroll Processing Fees","N/A"
-"General Administration","G&A - Payroll Processing Fees","N/A"
-"General Administration","Telecommunications","N/A"
-"General Administration","Transaction Fee (Pooto)","N/A"
-"General Administration","Utilities","N/A"
-"Health Team","Healthcare Board Advisor","N/A"
-"Health Team","Health team - Medical director consultant","N/A"
-"Health Team","Health Team - Medical Director - DAS","N/A"
-"Health Team","Health team - Medical director - Group Insurance Benefit","N/A"
-"Health Team","Health team - Medical director salary","N/A"
-"Health Team","Health Team medical operations - DAS","N/A"
-"Health Team","Health team medical operations - Group Insurance Benefit","N/A"
-"Health Team","Health team medical operations - Salaries","N/A"
-"Health Team","Health team medical QA Consulting","N/A"
-"Health Team","Health Team - Software / SAAS","N/A"
-"Marketing Expenses","Marketing - Campaign","Sales and Marketing - Marketing Campaign"
-"Marketing Expenses","Marketing Consultants","Sales and Marketing - Professional Services"
-"Marketing Expenses","Marketing - Consultants","Sales and Marketing - Professional Services"
-"Marketing Expenses","Marketing - DAS","Sales and Marketing - Wages"
-"Marketing Expenses","Marketing Event","Sales and Marketing - Professional Services"
-"Marketing Expenses","Marketing - Event","Sales and Marketing - Professional Services"
-"Marketing Expenses","Marketing - Group Insurance Benefit","Sales and Marketing - Wages"
-"Marketing Expenses","Marketing Other","Sales and Marketing - Professional Services"
-"Marketing Expenses","Marketing - Other","Sales and Marketing - Professional Services"
-"Marketing Expenses","Marketing - Salaries","Sales and Marketing - Wages"
-"Marketing Expenses","Marketing - Software / SAAS","Sales and Marketing - SAAS"
-"Marketing Expenses","Marketing Training","Sales and Marketing - Professional Services"
-"N/A","Accounts Receivable","N/A"
-"N/A","Accrued payable","N/A"
-"N/A","Benifit Others","N/A"
-"N/A","CC Business Travel - Anna Chif","N/A"
-"N/A","CC Business Travel - Cherif Ha","N/A"
-"N/A","CC Business Travel - Cynthia I","N/A"
-"N/A","CC Business Travel - Marie-Eve","N/A"
-"N/A","CC Business Travel - Zack B","N/A"
-"N/A,"Charitable Donations","N/A"
-"N/A","Cleaning and Maintenance","N/A"
-"N/A","Clients Prepayment","N/A"
-"N/A","Computer Equipment","N/A"
-"N/A","Contractors payable via WagePoint","N/A"
-"N/A","Contributed Surplus","N/A"
-"N/A","Convertible Notes (DVLP)","N/A"
-"N/A","Cost of Sales Pool - GP, NP, MA","N/A"
-"Customer Success","Customer Success - Customer Related","N/A"
-"Customer Success","Customer Success - Events","N/A"
-"Customer Success","Customer Success - M&E (internal)","N/A"
-"Customer Success","Customer Success - Other","N/A"
-"N/A","Deposit - GWL HSA","N/A"
-"N/A","Employee Tax Payable","N/A"
-"N/A","Funds Introduced - Cherif Habib","N/A"
-"General Administration","G&A - Accounting","N/A"
-"General Administration","G&A - Germany","N/A"
-"General Administration","G&A - Groceries","N/A"
-"General Administration","G&A - Legal","N/A"
-"General Administration","G&A - M&E External","N/A"
-"General Administration","G&A - Training","N/A"
-"N/A","German Expansion","N/A"
-"N/A","Group Insurance Benefit","N/A"
-"N/A","GST-QST receivable","N/A"
-"N/A","Health Platform - Consultants - GP","N/A"
-"N/A","Health Platform - Consultants - Medical Assistant","N/A"
-"N/A","Health Platform - Consultants - NP","N/A"
-"N/A","Health Platform - GP - DAS","N/A"
-"N/A","Health Platform - GP - Salary","N/A"
-"N/A","Health Platform - Medical Assistant - DAS","N/A"
-"N/A","Health Platform - Medical Assistant - Group Insurance Benefit","N/A"
-"N/A","Health Platform - Medical Assistant - Salary","N/A"
-"N/A","Health Platform - NP - DAS","N/A"
-"N/A","Health Platform - NP - Group Insurance Benefit","N/A"
-"N/A","Health Platform - NP - Salary","N/A"
-"N/A","Health team - Licenses","N/A"
-"N/A","Health team medops - Consultants","N/A"
-"N/A","Health team - M&E (Internal)","N/A"
-"N/A","Health team - Other","N/A"
-"N/A","Health team - QA","N/A"
-"N/A","Health team - Training","N/A"
-"N/A","Interest Income","N/A"
-"N/A","Investissement Quebec","N/A"
-"N/A","Leasehold Improvements","N/A"
-"N/A","Less Accumulated Depreciation on Computer Equipment","N/A"
-"N/A","Less Accumulated Depreciation on Office Equipment","N/A"
-"N/A","Loan","N/A"
-"N/A","Office Equipment","N/A"
-"N/A","Other - Health Platform Revenue","N/A"
-"N/A","Other Income","N/A"
-"N/A","Other - Physical Clinic - Ancillary Costs","N/A"
-"N/A","Other - Physical Clinic Revenue - Ancillary","N/A"
-"N/A","Other - Physical Clinic Revenue - Service","N/A"
-"N/A","Owner Common Shares","N/A"
-"N/A","Owner Preferred shares class A","N/A"
-"N/A","PAYG Revenue","N/A"
-"N/A","Physical Clinic - Consultants - GP","N/A"
-"N/A","Physical Clinic - Consultants - Medical Assistant","N/A"
-"N/A","Physical Clinic - DAS","N/A"
-"N/A","Physical Clinic - Group Insurance Benefit","N/A"
-"N/A","Physical Clinic Other - DAS","N/A"
-"N/A","Physical Clinic Other - Salary","N/A"
-"N/A","Physical Clinic Revenue","N/A"
-"N/A","Physical Clinic - Salary","N/A"
-"N/A","Plooto Clearing","N/A"
-"N/A","Prepayments","N/A"
-"N/A","R&D tax credit receivable","N/A"
-"N/A","R&D tax credit revenue","N/A"
-"N/A","Rounding","N/A"
-"N/A","Salary Advance to employees","N/A"
-"N/A","Salary/ DAS-Income Tax Expense","N/A"
-"N/A","Sales Tax","N/A"
-"N/A","Services not invoiced","N/A"
-"N/A","Stocks Expense","N/A"
-"N/A","Subscriptions receivable","N/A"
-"N/A","Suspense","N/A"
-"N/A","Talent Acquisition - Group Insurance Expense","N/A"
-"N/A","Talent Team Salary","N/A"
-"N/A","TD chequing","N/A"
-"N/A","TD Visa","N/A"
-"N/A","TD VISA - 9186","N/A"
-"Technology","Tech Event","N/A"
-"Technology","Tech M&E - Internal","N/A"
-"Technology","Tech SAAS","N/A"
-"Technology","Tech Training","N/A"
-"N/A","Telehealth Revenue","N/A"
-"N/A","Unearned Revenues","N/A"
-"N/A","Vacation Expense","N/A"
-"N/A","Wages and Vacations Payable","N/A"
-"N/A","WealthSimple RRSP payable","N/A"
-"Sales Expenses","Sales - Commissions to Third Party","Sales and Marketing - Wages"
-"Sales Expenses","Sales Event","Sales & Marketing - Other"
-"Sales Expenses","Sales M&E - External","Sales & Marketing - Other"
-"Sales Expenses","Sales M&E - Internal","Sales & Marketing - Other"
-"Sales Expenses","Sales Other","Sales & Marketing - Other"
-"Sales Expenses","Sales & Partnerships - DAS","Sales and Marketing - Wages"
-"Sales Expenses","Sales & Partnerships - Group Insurance Benefit","Sales and Marketing - Wages"
-"Sales Expenses","Sales & Partnerships - Salaries","Sales and Marketing - Wages"
-"Sales Expenses","Sales - Software / SAAS","Sales and Marketing - SAAS"
-"Sales Expenses","Sales Training","Sales and Marketing - Professional Services"
-"Sales Expenses","Sales - Travel (International)","Sales & Marketing - Other"
-"Sales Expenses","Sales - Travel (National)","Sales & Marketing - Other"
-"Technology","Product & Tech - DAS","N/A"
-"Technology","Product & Tech - Group Insurance Benefit","N/A"
-"Technology","Product & Tech - Salaries","N/A"
-"Technology","Technology Advisor Consultant","N/A"
-"Technology","Technology - Hardware","N/A"
-"Technology","Technology - Infrastructure","N/A"
+account_group,account_name
+Customer Success,Customer Success - Customer Related
+Customer Success,Customer Success - DAS
+Customer Success,Customer Success - Events
+Customer Success,Customer Success - Group Insurance Benefit
+Customer Success,Customer Success - M&E (internal)
+Customer Success,Customer Success - Other
+Customer Success,Customer Success - Salary
+Customer Success,Customer Success - Software / SAAS
+Customer Success,Customer Success - Training
+Customer Success,Customer Success - Travel (Internal)
+General Administration,Depreciation
+General Administration,G&A - Accounting
+General Administration,G&A - Bank Fees
+General Administration,G&A - Charitable Donations
+General Administration,G&A - Cleaning and Maintenance
+General Administration,G&A - Consulting
+General Administration,G&A - DAS
+General Administration,G&A - DXA spend
+General Administration,G&A - Events & Conferences
+General Administration,G&A - Germany
+General Administration,G&A - Groceries
+General Administration,G&A - Group Insurance Benefit
+General Administration,G&A - Insurance
+General Administration,G&A - Interest & Penalties
+General Administration,G&A - Legal
+General Administration,G&A - Licences & Permits
+General Administration,G&A - M&E External
+General Administration,G&A - M&E Internal
+General Administration,G&A - Office Expenses
+General Administration,G&A - Other
+General Administration,G&A - Payroll Processing Fees
+General Administration,G&A - Rent
+General Administration,G&A - Salaries
+General Administration,G&A - Software / SAAS
+General Administration,G&A - Telecommunications
+General Administration,G&A - Training
+General Administration,G&A - Travel (International)
+General Administration,G&A - Travel (National)
+General Administration,Group Insurance Benefit
+General Administration,R&D tax credit revenue
+General Administration,Transaction Fee (Pooto)
+General Administration,Utilities
+Health Team,Health team - M&E (Internal)
+Health Team,Health Team - Medical Director - DAS
+Health Team,Health team - Medical director - Group Insurance Benefit
+Health Team,Health team - Medical director consultant
+Health Team,Health team - Medical director salary
+Health Team,Health team - Other
+Health Team,Health team - Training
+Health Team,Health Team medical operations - DAS
+Health Team,Health team medical operations - Group Insurance Benefit
+Health Team,Health team medical operations - Salaries
+Health Team,Health team medical QA Consulting
+Health Team,Health team medops - Consultants
+Health Team,Healthcare Board Advisor
+Human Ressources,HR - Consulting
+Human Ressources,HR - DAS
+Human Ressources,HR - Events & Conferences
+Human Ressources,HR - Group Insurance Benefits
+Human Ressources,HR - M&E - Internal
+Human Ressources,HR - Other
+Human Ressources,HR - Recruitment
+Human Ressources,HR - SAAS
+Human Ressources,HR - Salaries
+Human Ressources,HR - Training
+Marketing Expenses,Marketing - Campaign
+Marketing Expenses,Marketing - Consultants
+Marketing Expenses,Marketing - DAS
+Marketing Expenses,Marketing - Event
+Marketing Expenses,Marketing - Group Insurance Benefit
+Marketing Expenses,Marketing - Other
+Marketing Expenses,Marketing - Salaries
+Marketing Expenses,Marketing - Software / SAAS
+Marketing Expenses,Marketing - Training
+Marketing Expenses,Marketing - Travel (National)
+New Services,New Services - DAS
+New Services,New Services - Design
+New Services,New Services - Group Insurance Benefits
+New Services,New Services - Other
+New Services,New Services - Salaries
+New Services,New Services - Training
+Partnerships,Partnerships - Commissions to Third Party
+Partnerships,Partnerships - DAS
+Partnerships,Partnerships - Event
+Partnerships,Partnerships - Group Insurance Benefits
+Partnerships,Partnerships - M&E - External
+Partnerships,Partnerships - M&E - Internal
+Partnerships,Partnerships - Other
+Partnerships,Partnerships - SAAS
+Partnerships,Partnerships - Salaries
+Partnerships,Partnerships - Training
+Partnerships,Partnerships - Travel (International)
+Partnerships,Partnerships - Travel (National)
+Sales Expenses,Sales - DAS
+Sales Expenses,Sales - Event
+Sales Expenses,Sales - Group Insurance Benefit
+Sales Expenses,Sales - M&E - External
+Sales Expenses,Sales - M&E - Internal
+Sales Expenses,Sales - Other
+Sales Expenses,Sales - Salaries
+Sales Expenses,Sales - Software / SAAS
+Sales Expenses,Sales - Training
+Sales Expenses,Sales - Travel (International)
+Sales Expenses,Sales - Travel (National)
+Technology,Product & Tech - DAS
+Technology,Product & Tech - Group Insurance Benefit
+Technology,Product & Tech - Salaries
+Technology,Tech Event
+Technology,Tech M&E - Internal
+Technology,Tech SAAS
+Technology,Tech Training
+Technology,Technology - Hardware
+Technology,Technology - Infrastructure
+Technology,Technology Advisor Consultant

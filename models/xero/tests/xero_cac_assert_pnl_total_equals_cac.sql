@@ -7,7 +7,7 @@ with
 		select date_month
 			, sum(amount) as cost_total
 		from profit_and_loss
-		where account_group in ('Sales Expenses', 'Marketing Expenses')
+		where account_group in ('Sales Expenses', 'Marketing Expenses', 'Partnerships')
 		group by 1
 	)
 

@@ -14,9 +14,9 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['Sales Expenses', 'Customer Success',
-              'General Administration', 'Health Team',
-              'Marketing Expenses', 'Technology', 'N/A']
+              values: ['N/A', 'Sales Expenses', 'Customer Success',
+              'General Administration', 'Health Team', 'Marketing Expenses',
+              'Technology', 'New Services', 'Partnerships', 'Human Ressources']
 
       - name: account_name
         tests:

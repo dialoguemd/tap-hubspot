@@ -18,5 +18,5 @@ select xero_profit_and_loss.date_month
 from xero_profit_and_loss
 inner join eae_comp
 	using (date_month)
-where xero_profit_and_loss.account_group in ('Sales Expenses', 'Marketing Expenses')
+where xero_profit_and_loss.account_group in ('Sales Expenses', 'Marketing Expenses', 'Partnerships')
 group by 1
