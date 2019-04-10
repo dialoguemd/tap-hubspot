@@ -7,8 +7,15 @@ with
 		select * from {{ ref('organizations') }}
 	)
 
+	, episodes as (
+		select * from {{ ref('episodes') }}
+	)
+
 	, activated_at as (
-		select * from {{ ref('user_activated') }}
+		select patient_id as user_id
+			, min(first_message_patient) as activated_at
+		from episodes
+		group by 1
 	)
 
 select scribe_user_contract.*
