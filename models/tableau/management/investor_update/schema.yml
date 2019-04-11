@@ -123,9 +123,6 @@ models:
       - name: mrr
         tests:
           - not_null
-      - name: other_cost
-        tests:
-          - not_null
       - name: paid_users_rate
         tests:
           - not_null

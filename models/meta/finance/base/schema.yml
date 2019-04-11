@@ -84,7 +84,7 @@ models:
       - name: bonjour_sante_cost
         tests:
             - not_null
-      - name: license_cost
+      - name: licenses_cost
         tests:
             - not_null
       - name: saas_cost

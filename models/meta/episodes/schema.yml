@@ -2,15 +2,11 @@ version: 2
 
 models:
   - name: episodes_kpis
-
     columns:
         - name: episode_id
           tests:
               - unique
               - not_null
-              - relationships:
-                  to: ref('messaging_channels')
-                  field: episode_id
 
   - name: episodes_valid_outcome_issue_type_pairs
     description: A list of issue_type and outcome pairs that are
@@ -28,9 +24,6 @@ models:
           tests:
               - unique
               - not_null
-              - relationships:
-                  to: ref('messaging_channels')
-                  field: episode_id
         - name: reason_for_visit
           tests:
               - not_null
@@ -43,9 +36,6 @@ models:
           tests:
               - unique
               - not_null
-              - relationships:
-                  to: ref('messaging_channels')
-                  field: episode_id
         - name: cc_code
           tests:
               - not_null
@@ -98,23 +88,6 @@ models:
       - unique:
           column_name: "concat(episode_id, contract_id)"
 
-  - name: episodes_chief_complaint
-    description: list of chief complaint by episode id
-    columns:
-        - name: episode_id
-          tests:
-              - not_null
-              - unique
-              - relationships:
-                  to: ref('messaging_channels')
-                  field: episode_id
-        - name: cc_code
-          tests:
-              - not_null
-        - name: timestamp
-          tests:
-              - not_null
-
   - name: episodes_appointment_booking
     description: timestamp of when the appointment booking template was first
       sent for a given episode
@@ -123,9 +96,6 @@ models:
           tests:
               - not_null
               - unique
-              - relationships:
-                  to: ref('messaging_channels')
-                  field: episode_id
         - name: appointment_booking_first_started_at
           tests:
               - not_null
