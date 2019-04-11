@@ -1,26 +1,49 @@
-with daily_time_spent_by_ep as (
-        select * from {{ ref('costs_time_spent_by_episode_daily') }}
-    )
+{% set roles = ['cc', 'nc', 'np'] %}
 
-    , fl_costs as (
-        select * from {{ ref('finance_revenue_and_costs_monthly') }}
-    )
+with
+	daily_time_spent_by_ep as (
+		select * from {{ ref('costs_time_spent_by_episode_daily') }}
+	)
 
-    , monthly_activities as (
-        select date_trunc('month', date) as date_month
-            , sum(cc_time) as cc_time
-            , sum(nc_time) as nc_time
-            , sum(np_time) as np_time
-        from daily_time_spent_by_ep
-        group by 1
-    )
+	, fl_costs as (
+		select * from {{ ref('finance_revenue_and_costs_monthly') }}
+	)
 
-    select date_month
-        , coalesce(fl_costs.fl_cc_cost*1.0
-            / monthly_activities.cc_time, 0) as cc_hourly
-        , coalesce(fl_costs.fl_nc_cost*1.0
-            / monthly_activities.nc_time, 0) as nc_hourly
-        , coalesce(fl_costs.fl_np_cost*1.0
-            / monthly_activities.np_time, 0) as np_hourly
-    from monthly_activities
-    inner join fl_costs using (date_month)
+	, monthly_activities as (
+		select date_trunc('month', date) as date_month
+
+{% for role in roles %}
+
+			, sum({{role}}_time) as {{role}}_time
+
+{% endfor %}
+
+		from daily_time_spent_by_ep
+		group by 1
+	)
+
+select date_month
+
+{% for role in roles %}
+
+	, coalesce(
+		fl_costs.fl_{{role}}_cost * 1.0
+		/ monthly_activities.{{role}}_time
+		, 0
+	) as {{role}}_hourly
+	, coalesce(
+		(
+			fl_costs.fl_{{role}}_cost
+			+ fl_costs.adjustments_{{role}}
+{% if role == 'nc' %}
+			+ fl_costs.licenses_cost
+{% endif %}
+		) * 1.0
+		/ monthly_activities.{{role}}_time
+		, 0
+	) as {{role}}_hourly_ops
+{% endfor %}
+
+from monthly_activities
+inner join fl_costs
+	using (date_month)

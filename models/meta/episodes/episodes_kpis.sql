@@ -1,5 +1,5 @@
-
-with chats_all_time as (
+with
+    chats_all_time as (
         select * from {{ ref('chats') }}
     )
 

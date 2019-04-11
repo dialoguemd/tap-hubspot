@@ -15,5 +15,7 @@ with delighted_nps_patient_survey as (
 select episode_id
     , score
     , category
+    , score as nps_score
+    , category as nps_category
 from all_nps
 where rank = 1

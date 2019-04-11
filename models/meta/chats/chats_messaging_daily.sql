@@ -104,6 +104,14 @@ with
 					('Nurse Clinician', 'Nurse Practitioner')
 				) as first_message_nurse
 			, min(created_at_est)
+				filter(where main_specialization in
+					('Nurse Clinician')
+				) as first_message_nc
+			, min(created_at_est)
+				filter(where main_specialization in
+					('Nurse Practitioner')
+				) as first_message_np
+			, min(created_at_est)
 				filter(where main_specialization = 'Care Coordinator'
 				and position_name = 'Shift Manager'
 				) as first_message_shift_manager

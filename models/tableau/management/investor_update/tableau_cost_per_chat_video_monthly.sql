@@ -18,9 +18,9 @@ with
 	, monthly as (
 		select *
 			, finance.fl_gp_cost + finance.fl_np_cost as cost_video
-			, finance.fl_nc_cost + finance.fl_cc_cost + finance.other_cost as cost_chat
+			, finance.fl_nc_cost + finance.fl_cc_cost + finance.bonjour_sante_cost as cost_chat
 			, finance.fl_gp_cost + finance.fl_np_cost + finance.fl_nc_cost
-				+ finance.fl_cc_cost + finance.other_cost as cost_total
+				+ finance.fl_cc_cost + finance.bonjour_sante_cost as cost_total
 			, active_users.daus_paid::float / active_users.daus as paid_users_rate
 		from active_users
 		inner join finance
@@ -60,7 +60,7 @@ select monthly.*
 	, monthly.fl_cc_cost / monthly.daus as cost_to_serve_a_patient_cc
 	, monthly.fl_gp_cost / monthly.daus as cost_to_serve_a_patient_gp
 	, monthly.fl_np_cost / monthly.daus as cost_to_serve_a_patient_np
-	, monthly.other_cost / monthly.daus as cost_to_serve_a_patient_other
+	, monthly.bonjour_sante_cost / monthly.daus as cost_to_serve_a_patient_other
 	, monthly.cost_total / monthly.daus as cost_to_serve_a_patient
 from monthly
 left join finance_rebate_monthly

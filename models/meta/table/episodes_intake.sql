@@ -34,11 +34,17 @@ with
 			end as treatment_category
 			, case
 				when chats_summary.first_message_patient
-					> least(chats_summary.first_message_care_team,
-						chats_summary.first_set_resolved_pending_at)
+					> least(
+						chats_summary.first_message_care_team,
+						chats_summary.first_set_resolved_pending_at,
+						appointment_booking.appointment_booking_first_started_at
+					)
 					or chats_summary.first_set_active
-					> least(chats_summary.first_message_care_team,
-						chats_summary.first_set_resolved_pending_at)
+					> least(
+						chats_summary.first_message_care_team,
+						chats_summary.first_set_resolved_pending_at,
+						appointment_booking.appointment_booking_first_started_at
+					)
 				then null
 				when chats_summary.includes_video_np
 					or chats_summary.includes_video_gp

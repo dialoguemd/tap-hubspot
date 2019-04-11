@@ -1,10 +1,8 @@
 with
-	channels as (
-		select * from {{ ref('messaging_channels') }}
-	)
-
-	, chats as (
-		select * from {{ ref('chats') }}
+	chats as (
+		select *
+		from {{ ref('chats') }}
+		where first_message_patient is not null
 	)
 
 	, chats_ranked as (
@@ -24,7 +22,6 @@ with
 
 	, chats_summary as (
 		select chats.episode_id
-			, channels.user_id
 			, first_chat_in_episode.is_first_message_in_opening_hours
 			, min(chats.first_message_created_at) as first_message_created_at
 			, max(chats.last_message_created_at) as last_message_created_at
@@ -53,16 +50,17 @@ with
 			, bool_or(chats.includes_video_cc) as includes_video_cc
 			, bool_or(chats.includes_video_psy) as includes_video_psy
 		from chats
-		left join channels
-			using (episode_id)
 		left join first_chat_in_episode
 			using (episode_id)
-		{{ dbt_utils.group_by(n=3) }}
+		{{ dbt_utils.group_by(n=2) }}
 	)
 
 select *
 {% for timeframe in ['day', 'week', 'month'] %}
-	, date_trunc('{{timeframe}}', first_message_created_at) as date_{{timeframe}}_est
+	, date_trunc('{{timeframe}}', first_message_created_at)
+		as date_{{timeframe}}_est
+	, date_trunc('{{timeframe}}', timezone('utc', first_message_created_at))
+		as date_{{timeframe}}
 {% endfor %}
 	-- Calculate First Response Times
 	, case

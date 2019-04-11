@@ -6,9 +6,9 @@ with
 	, opportunities as (
 		select * from {{ ref('salesforce_opportunities_detailed') }}
 	)
-	
+
 	, revenue_monthly as (
-		select * from {{ ref('finance_revenue_monthly') }}
+		select * from {{ ref('finance_revenue_and_costs_monthly') }}
 	)
 
 	, backlog as (

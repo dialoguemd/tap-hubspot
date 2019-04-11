@@ -8,13 +8,13 @@ with
 
 	, months as (
 		select date_month
-			, date_month::timestamp + interval '1 month' as month_end
+			, date_month + interval '1 month' as month_end
 			, tsrange(date_month::timestamp,
 		                date_month::timestamp + interval '1 month')
-		                as month_range_est
+		                as month_range
 		from tmp
 	)
 
 select *
-	, {{ days_in_range("month_range_est") }} as days_in_month
+	, {{ days_in_range("month_range") }} as days_in_month
 from months

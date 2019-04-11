@@ -68,26 +68,25 @@ with channels as (
 		select * from {{ ref('episodes_intake') }}
 	)
 
+	, episodes_costs as (
+		select * from {{ ref('episodes_costs') }}
+	)
+
 	, users as (
 		select * from {{ ref('scribe_users') }}
 	)
 
-select channels.episode_id
-	, channels.user_id
-	, channels.url_zorro
-	, channels.count_messages
-	, channels.created_at
-	, channels.updated_at
-	, channels.deleted_at
-	, channels.is_deleted
-	, channels.last_post_at
+select
+	{{ dbt_utils.star(
+		from=ref('messaging_channels'),
+		relation_alias='channels')
+	}}
 
-	, episodes_outcomes.first_outcome_category
-	, episodes_outcomes.first_outcome
-	, episodes_outcomes.outcome_category
-	, episodes_outcomes.outcome
-	, episodes_outcomes.outcomes_ordered
-	, episodes_outcomes.outcome_first_set_timestamp
+	, {{ dbt_utils.star(
+		from=ref('episodes_outcomes'),
+		except=["episode_id"],
+		relation_alias='episodes_outcomes')
+	}}
 
 	, episodes_issue_types.issue_type
 	, episodes_issue_types.issue_type_set_timestamp
@@ -96,10 +95,11 @@ select channels.episode_id
 		'-' || coalesce(episodes_outcomes.outcome, 'n/a'))
 		as issue_type_outcome_pair
 
-	, episodes_priority_levels.first_priority_level
-	, episodes_priority_levels.priority_level
-	, episodes_priority_levels.priority_levels_ordered
-	, episodes_priority_levels.priority_first_set_timestamp
+	, {{ dbt_utils.star(
+		from=ref('episodes_priority_levels'),
+		except=["episode_id"],
+		relation_alias='episodes_priority_levels')
+	}}
 
 	, episodes_ratings.rating
 
@@ -139,7 +139,9 @@ select channels.episode_id
 	, episodes_chats_summary.frt_active
 
 	, episodes_nps.score
+	, episodes_nps.nps_score
 	, episodes_nps.category
+	, episodes_nps.nps_category
 
 	, episodes_kpis.ttr_total
 	, episodes_kpis.attr_total
@@ -234,6 +236,28 @@ select channels.episode_id
 	, episodes_intake.intake_time_first_set_active
 	, coalesce(episodes_intake.triage_outcome, 'N/A') as triage_outcome
 
+	, case
+		when episodes_issue_types.issue_type in ('psy', 'psy-pilot')
+		then 'PSY'
+		when episodes_chats_summary.includes_video_gp
+		then 'GP'
+		when episodes_chats_summary.includes_video_np
+		then 'NP'
+		when episodes_outcomes.outcome_category = 'Unsuitable episode'
+		then 'Unsuitable episode'
+		when episodes_outcomes.outcome_category = 'Navigation'
+			or episodes_outcomes.outcome = 'referral_without_navigation'
+		then 'Out-refered'
+		when episodes_chats_summary.first_message_from_last_nc is not null
+		then 'NC'
+		else 'Unsuitable episode'
+	end as episode_type
+
+	, {{ dbt_utils.star(
+		from=ref('episodes_costs'),
+		except=["episode_id"],
+		relation_alias='episodes_costs')
+	}}
 
 from channels
 
@@ -242,6 +266,7 @@ from channels
 		"episodes_appointment_booking",
 		"episodes_chats_summary",
 		"episodes_chief_complaint",
+		"episodes_costs",
 		"episodes_created_sequence",
 		"episodes_intake",
 		"episodes_issue_types",

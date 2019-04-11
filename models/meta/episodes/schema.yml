@@ -8,6 +8,9 @@ models:
           tests:
               - unique
               - not_null
+              - relationships:
+                  to: ref('messaging_channels')
+                  field: episode_id
 
   - name: episodes_valid_outcome_issue_type_pairs
     description: A list of issue_type and outcome pairs that are
@@ -25,6 +28,9 @@ models:
           tests:
               - unique
               - not_null
+              - relationships:
+                  to: ref('messaging_channels')
+                  field: episode_id
         - name: reason_for_visit
           tests:
               - not_null
@@ -37,6 +43,9 @@ models:
           tests:
               - unique
               - not_null
+              - relationships:
+                  to: ref('messaging_channels')
+                  field: episode_id
         - name: cc_code
           tests:
               - not_null
@@ -56,6 +65,9 @@ models:
           tests:
               - not_null
               - unique
+              - relationships:
+                  to: ref('messaging_channels')
+                  field: episode_id
 
   - name: episodes_with_contracts
     description: Unique episodes are joined to active user_contracts in this
@@ -93,6 +105,9 @@ models:
           tests:
               - not_null
               - unique
+              - relationships:
+                  to: ref('messaging_channels')
+                  field: episode_id
         - name: cc_code
           tests:
               - not_null
@@ -108,6 +123,41 @@ models:
           tests:
               - not_null
               - unique
+              - relationships:
+                  to: ref('messaging_channels')
+                  field: episode_id
         - name: appointment_booking_first_started_at
           tests:
               - not_null
+
+  - name: episodes_saas_costs
+    description: |
+      SAAS cost associated to each episode
+
+      Computed by splitting the monthly SAAS costs over the number of new
+      episodes during the month
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+              - relationships:
+                  to: ref('messaging_channels')
+                  field: episode_id
+        - name: saas_cost
+          tests:
+              - not_null
+
+  - name: episodes_costs
+    description: |
+      All costs associated to an episodes
+
+      Includes time spent by CC, NC, NP, GP and SAAS costs
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+              - relationships:
+                  to: ref('messaging_channels')
+                  field: episode_id

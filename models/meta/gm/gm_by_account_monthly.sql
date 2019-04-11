@@ -27,7 +27,7 @@ with
             , sum(daily_costs.total_cost) as total_cost
         from months
         inner join daily_costs
-            on daily_costs.date_day <@ months.month_range_est
+            on daily_costs.date_day <@ months.month_range
         left join user_contract
             on daily_costs.date_day <@ user_contract.during_est
             and daily_costs.user_id = user_contract.user_id

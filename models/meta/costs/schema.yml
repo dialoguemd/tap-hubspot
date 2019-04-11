@@ -64,6 +64,15 @@ models:
         - name: np_hourly
           tests:
               - not_null
+        - name: cc_hourly_ops
+          tests:
+              - not_null
+        - name: nc_hourly_ops
+          tests:
+              - not_null
+        - name: np_hourly_ops
+          tests:
+              - not_null
 
   - name: costs_time_spent_by_episode_daily
     columns:

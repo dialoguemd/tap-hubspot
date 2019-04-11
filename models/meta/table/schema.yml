@@ -359,6 +359,28 @@ models:
           description: |
             The same as the above intake time definition; the timestamps are
             compared with the first_set_active to compute the time.
+        - name: episode_type
+          description: |
+            Breakdown of episode by type of consultation
+
+              PSY: Episodes categorized as Mental health and SMWB
+              GP: Episodes including a GP consultation
+              NP: Episodes including a NP consultation
+              Out-referred: Episodes resolved with the following reasons:
+              Referral without navigation, Referral walk in, Referral ER, Navigation
+              NC: Episode does not fall in the categories above and includes an
+              interaction with a nurse.
+              Unsuitable episode: Episodes resolved with the following reasons:
+              patient unresponsive, inappropriate profile, patient thanks,
+              closed after follow up, follow up, international consult,
+              episode duplicate, new dependant or resolved as other without
+              falling into any category above
+
+          tests:
+              - not_null
+              - accepted_values:
+                  values: ['PSY', 'GP', 'NP', 'NP', 'Out-refered', 'NC',
+                    'Unsuitable episode']
 
     tests:
       - dbt_utils.recency:
@@ -367,9 +389,13 @@ models:
           interval: 1
       - dbt_utils.expression_is_true:
           expression: "intake_time_first_set_active > 0"
-
       - dbt_utils.expression_is_true:
           expression: "intake_time_first_patient_message > 0"
+      # Calibrated in April 2019
+      - dbt_utils.expression_is_true:
+          expression: |
+            saas_cost between .2 and .8
+            or date_day_est < '2019-01-01'
 
   - name: nps_patient_survey
     columns:

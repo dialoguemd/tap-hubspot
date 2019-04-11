@@ -11,11 +11,9 @@ models:
       - name: date_month
         tests:
           - not_null
-
       - name: gm_source
         tests:
           - not_null
-
       - name: value
         tests:
           - not_null
@@ -34,7 +32,6 @@ models:
         tests:
           - not_null
           - unique
-
       - name: forecast
         tests:
           - not_null
@@ -48,11 +45,9 @@ models:
       - name: date_month
         tests:
           - not_null
-
       - name: department
         tests:
           - not_null
-
       - name: delta
         tests:
           - not_null
@@ -68,34 +63,38 @@ models:
         tests:
           - not_null
           - unique
-
       - name: telehealth_revenue
         tests:
           - not_null
-
       - name: mrr
         tests:
           - not_null
-
       - name: fl_gp_cost
         tests:
             - not_null
-
       - name: fl_np_cost
         tests:
             - not_null
-
       - name: fl_nc_cost
         tests:
             - not_null
-
       - name: fl_cc_cost
         tests:
             - not_null
-
-      - name: other_cost
+      - name: bonjour_sante_cost
         tests:
             - not_null
+      - name: license_cost
+        tests:
+            - not_null
+      - name: saas_cost
+        tests:
+            - not_null
+    tests:
+      - dbt_utils.recency:
+          datepart: day
+          field: date_month
+          interval: 45
 
   - name: finance_revenue_adjustment
     description: This seed is an extract from Xero; the data is one record
@@ -117,19 +116,16 @@ models:
       6 monhts, the amount will be recognized monthly over the full period.
       Source (updated monthly by the finance team):
       https://docs.google.com/spreadsheets/d/1wkvGi9P_08nZP_dbyBm8IN50ekc-xjtzwZoMSN05ZPI/edit?ts=5c4613ec#gid=1284329052
-
     columns:
       - name: date_month
         tests:
           - not_null
-
       - name: account_id
         tests:
           - not_null
           - relationships:
               to: ref('salesforce_accounts')
               field: account_id
-
       - name: account_name
         tests:
           - not_null
@@ -145,7 +141,6 @@ models:
           - relationships:
               to: ref('salesforce_accounts')
               field: account_id
-
       - name: date_month
         tests:
           - not_null

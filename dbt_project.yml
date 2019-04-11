@@ -183,6 +183,22 @@ seeds:
         cost_ae_ramp: float
         cost_eae_ramp: float
 
+    data_finance_revenue_and_costs_monthly:
+      column_types:
+        date_month: timestamp
+        telehealth_revenue: float
+        mrr: float
+        fl_gp_cost: float
+        fl_np_cost: float
+        fl_nc_cost: float
+        fl_cc_cost: float
+        other_cost: float
+        adjustments_np: float
+        adjustments_nc: float
+        adjustments_cc: float
+        licence_cost: float
+        saas_cost: float
+
     data_mm_dxa_cc:
       column_types:
         episode_id: text
