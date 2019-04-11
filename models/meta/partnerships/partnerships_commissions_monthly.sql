@@ -12,6 +12,8 @@ with
 			, churn_monthly.account_name
 			, churn_monthly.amount
 			, churn_monthly.date_month
+			, churn_monthly.first_month
+			, churn_monthly.billing_start_date
 			, (
 				date_part('year', churn_monthly.date_month)
 				- date_part('year', churn_monthly.first_month)
@@ -39,6 +41,8 @@ select md5(account_id || date_month) as account_month_id
 	, account_id
 	, account_name
 	, close_date
+	, first_month
+	, billing_start_date
 	, amount
 	, date_month
 	, partner_contact_id
@@ -55,11 +59,15 @@ select md5(account_id || date_month) as account_month_id
 	end * amount as monthly_commission
 from monthly
 where (
-		months_since_start < 12
-		and commission_rate_year_1 is not null
-		and commission_rate_year_1 <> 0
-	) or (
-		months_since_start >= 12
-		and commission_rate_year_2 is not null
-		and commission_rate_year_2 <> 0
+		(
+			months_since_start < 12
+			and commission_rate_year_1 is not null
+			and commission_rate_year_1 <> 0
+		) or (
+			months_since_start >= 12
+			and commission_rate_year_2 is not null
+			and commission_rate_year_2 <> 0
+		)
 	)
+	-- exclude the partner account as they do not get commission on it
+	and partner_account_id <> account_id
