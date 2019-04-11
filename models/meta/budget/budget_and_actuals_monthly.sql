@@ -36,4 +36,5 @@ full outer join budget
 	using (date_month, account_budget_category)
 -- Budget started being tracked in Oct 2018
 where expenses_monthly.date_month >= '2018-10-01'
+	and expenses_monthly.account_budget_category <> 'N/A'
 	and expenses_monthly.account_group <> 'N/A'
