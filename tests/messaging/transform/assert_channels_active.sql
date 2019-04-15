@@ -19,5 +19,6 @@ left join episode_state_summary
 where messaging_channels.created_at > '2018-01-01'
     and messaging_channels.created_at < date_trunc('week', current_date)
 group by 1
+-- Calibrated in April 2019
 having 1.0 * count(*) filter(where episode_state_summary.episode_id is null)
-        / count(*) > .2
+        / count(*) > .25
