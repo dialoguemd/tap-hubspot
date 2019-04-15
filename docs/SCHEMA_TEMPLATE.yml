@@ -1,0 +1,28 @@
+
+version: 2
+
+models:
+  - name: countdown_question_asked
+    description: this event is fired when countdown asks a user a quesiton
+    columns:
+      - name: question_tid
+        description: a task id on the question that is globally unique
+        tests:
+          - not_null
+          - unique
+      - name: episode_id
+        tests:
+          - not_null
+
+  - name: countdown_question_replied
+    description: this event is fired when a patient responds to a countdown
+      question
+    columns:
+      - name: question_tid
+        description: a task id on the question that is globally unique
+        tests:
+          - not_null
+          - unique
+      - name: episode_id
+        tests:
+          - not_null

@@ -1,21 +1,17 @@
-## PR Creator Checklist:
-### DBT Checklist:
- - [ ] Meets style guidelines (https://github.com/dialoguemd/catwalk/blob/master/style_guide.md)
- - [ ] Model-naming conventions are met
- - [ ] All models dependent on other models outside of their folder are in `meta` or `tableau`
- - [ ] Tests have been written for new models and updated as needed for existing models
- - [ ] Tests pass for all new models, modified models, and children of models
- - [ ] Command to run and test the PR:
+## PR Guidelines:
+
+### Guiding Questions
+Read through these before opening your PR:
+- Does this PR need any follow up tasks? E.g. point Tableau at Analytics, book meeting to present dashboard and collect feedback, etc.
+- Does the PR meet style guidelines?
+- Are the models well organized in the directories?
+- Are the models designed to be easily maintained or do they need to be broken up?
+- Is the PR well tested?
+
+### Description
+
+**REPLACE THIS** - Quick description of what changed and why - **REPLACE THIS**
+
 ```bash
 dbt run -m MODEL+ && dbt test -m MODEL+
 ```
-
-### Extra: Tableau Dashboards:
- - [ ] Tableau is pointing at `analytics` not a dev schema
- - [ ] Tableau data sources are set as extracts with refresh schedules before 9am
- - [ ] Link to Tableau Dashboard added: _____________________
-
-### Extra: Metabase Tables:
- - [ ] Materialized as a table
- - [ ] Test question added to Metabase
- - [ ] Link to Metabase Question / Dashboard added: _____________________
