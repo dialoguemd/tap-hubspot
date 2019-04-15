@@ -91,10 +91,11 @@ models:
         tests:
             - not_null
     tests:
+      # Validate that the seed is updated for the past month on the 15th
       - dbt_utils.recency:
           datepart: day
           field: date_month
-          interval: 45
+          interval: 75
 
   - name: finance_revenue_adjustment
     description: This seed is an extract from Xero; the data is one record
