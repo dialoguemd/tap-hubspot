@@ -33,6 +33,6 @@ with user_contracts as (
     )
 
 select * from overlap_rate
--- Calibrate on 2019-02-01 with a max rate of 0.0049 in 2017-05-01 for populations > 1000
+-- Calibrate on 2019-04-15 with a max rate of 0.00538 in 2017-05-01 for populations > 1000
 where count_total > 1000
-    and overlap_fraction > 0.005
+    and overlap_fraction > 0.0054
