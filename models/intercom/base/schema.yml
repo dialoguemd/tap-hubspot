@@ -8,11 +8,6 @@ models:
         tests:
           - not_null
           - unique
-    tests:
-      - dbt_utils.recency:
-          field: updated_at
-          datepart: hour
-          interval: 72
 
   - name: intercom_conversation_parts
     columns:
