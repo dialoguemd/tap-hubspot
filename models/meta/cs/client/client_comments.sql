@@ -18,7 +18,7 @@ with
 		from nps_survey
 		where comment_char_length between 50 and 150
 			-- TODO: replace with tag regex for testimonials
-			and lower(tags::text) like '%appreciation%'
+			-- and lower(tags::text) like '%appreciation%'
 	)
 
 	, ranked_long as (
@@ -36,7 +36,7 @@ with
 		from nps_survey
 		where comment_char_length between 150 and 500
 			-- TODO: replace with tag regex for testimonials
-			and lower(tags::text) like '%appreciation%'
+			-- and lower(tags::text) like '%appreciation%'
 	)
 
 select organization_name_id
