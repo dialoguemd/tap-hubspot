@@ -39,7 +39,7 @@ select pages.date_day_est as date
 from pages
 left join shifts
     on pages.user_id = shifts.user_id
-    and pages.activity_start_est <@ shifts.shift_schedule_est
+    and tsrange(pages.activity_start_est, pages.activity_end_est) <@ shifts.shift_schedule_est
 left join subject
     using (episode_id)
 left join issue_type
