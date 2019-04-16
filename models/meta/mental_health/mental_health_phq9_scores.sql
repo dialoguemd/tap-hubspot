@@ -66,6 +66,9 @@ select episodes.patient_id as user_id
     , first_value(completed.timestamp)
                 over (partition by episodes.user_id
                     order by completed.timestamp) as first_phq9_timestamp
+    , first_value(phq.score)
+        over (partition by episodes.user_id order by completed.timestamp)
+        as initial_phq9_score
     , phq.score
     , coalesce(
         extract(epoch from completed.timestamp -
@@ -83,17 +86,25 @@ select episodes.patient_id as user_id
         over (partition by episodes.user_id, episodes.issue_type order by completed.timestamp)
         as rank
     , coalesce(
-        case when phq.score = 0 then 0
+        case when (lag(phq.score)
+            over (partition by episodes.user_id order by completed.timestamp)) = 0
+            then 0
         else (phq.score - (lag(phq.score)
-        over (partition by episodes.user_id order by completed.timestamp)))
-        * 1.0 / phq.score
-        end, 0) as difference_from_most_recent_score
+            over (partition by episodes.user_id order by completed.timestamp)))
+            * 1.0 / (lag(phq.score)
+            over (partition by episodes.user_id order by completed.timestamp))
+        end, 0)
+        as difference_from_most_recent_score
     , coalesce(
-        case when phq.score = 0 then null
+        case when (first_value(phq.score)
+            over (partition by episodes.user_id order by completed.timestamp)) = 0
+            then null
         else (phq.score - (first_value(phq.score)
-        over (partition by episodes.user_id order by completed.timestamp)))
-        * 1.0 / phq.score
-        end, 0) as difference_from_first_score
+            over (partition by episodes.user_id order by completed.timestamp)))
+            * 1.0 / (first_value(phq.score)
+            over (partition by episodes.user_id order by completed.timestamp))
+        end, 0)
+        as difference_from_first_score
     , gad.score as initial_gad7_score
 from completed
 inner join episodes
