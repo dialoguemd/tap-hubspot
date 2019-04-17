@@ -12,8 +12,7 @@ with
 
 select *
 from active_fraction
-where fraction > 0.20
+where fraction > 0.23
     and date_week > '2018-01-01'
     and date_week < date_trunc('week', current_timestamp)
--- This test was calibrated on 2019-02-11 with the max fraction being 0.181
--- in the week of 2019-02-04
+-- This test was calibrated on 2019-04-17
