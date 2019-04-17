@@ -3,6 +3,10 @@ with
 		select * from {{ ref('episodes_chats_summary') }}
 	)
 
+	, video_summary as (
+		select * from {{ ref('episodes_video_consultations') }}
+	)
+
 	, appointment_booking as (
 		select * from {{ ref('episodes_appointment_booking') }}
 	)
@@ -20,8 +24,8 @@ with
 				when chats_summary.first_message_patient
 					> chats_summary.first_message_care_team
 				then 'other'
-				when chats_summary.includes_video_np
-					or chats_summary.includes_video_gp
+				when video_summary.includes_video_consultation_np
+					or video_summary.includes_video_consultation_gp
 					or appointment_booking.appointment_booking_first_started_at
 						is not null
 					then 'treated_by_np_gp'
@@ -46,8 +50,8 @@ with
 						appointment_booking.appointment_booking_first_started_at
 					)
 				then null
-				when chats_summary.includes_video_np
-					or chats_summary.includes_video_gp
+				when video_summary.includes_video_consultation_np
+					or video_summary.includes_video_consultation_gp
 					or appointment_booking.appointment_booking_first_started_at
 						is not null
 					then least(
@@ -73,9 +77,9 @@ with
 			, case
 				when outcomes.outcome = 'ubisoft_appointment'
 				then 'treated_at_ubisoft_clinic'
-				when chats_summary.includes_video_gp
+				when video_summary.includes_video_consultation_gp
 				then 'treated_by_gp'
-				when chats_summary.includes_video_np
+				when video_summary.includes_video_consultation_np
 				then 'treated_by_np'
 				when chats_summary.first_message_nurse is not null
 					and outcomes.outcome_category = 'Diagnostic'
@@ -92,6 +96,8 @@ with
 		    end as triage_outcome
 		from chats_summary
 		left join appointment_booking
+			using (episode_id)
+		left join video_summary
 			using (episode_id)
 		left join outcomes
 			using (episode_id)

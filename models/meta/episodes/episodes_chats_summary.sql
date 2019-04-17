@@ -3,6 +3,7 @@ with
 		select *
 		from {{ ref('chats') }}
 		where first_message_patient is not null
+			and first_set_active is not null
 	)
 
 	, chats_ranked as (
@@ -43,12 +44,6 @@ with
 			, min(chats.first_set_active) as first_set_active
 			, bool_or(chats.set_resolved_pending) as set_resolved_pending
 			, bool_or(chats.chat_type = 'Follow-up') as includes_follow_up
-			, bool_or(chats.includes_video) as includes_video
-			, bool_or(chats.includes_video_np) as includes_video_np
-			, bool_or(chats.includes_video_gp) as includes_video_gp
-			, bool_or(chats.includes_video_nc) as includes_video_nc
-			, bool_or(chats.includes_video_cc) as includes_video_cc
-			, bool_or(chats.includes_video_psy) as includes_video_psy
 		from chats
 		left join first_chat_in_episode
 			using (episode_id)

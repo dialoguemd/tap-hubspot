@@ -15,10 +15,6 @@ with
 		select * from {{ ref('chats_outcomes_daily') }}
 	)
 
-	, videos as (
-		select * from {{ ref('videos_by_episode_daily') }}
-	)
-
 	, episodes_subject as (
 		select * from {{ ref('episodes_subject') }}
 	)
@@ -101,34 +97,25 @@ select md5(messaging.episode_id || messaging.date_day_est) as chat_id
 			end as time_to_resolved_from_active
 
 	, case
-		when first_set_active < first_message_nurse
-		then extract('epoch' from first_message_nurse
-			- first_set_active) / 60.0
+		when state_changes.first_set_active < messaging.first_message_nurse
+		then extract('epoch' from messaging.first_message_nurse
+			- state_changes.first_set_active) / 60.0
 		else null
 		end as frt_nurse
 	, case
-		when first_set_active < first_message_care_team
-		then extract('epoch' from first_message_care_team
-			- first_set_active) / 60.0
+		when state_changes.first_set_active < messaging.first_message_care_team
+		then extract('epoch' from messaging.first_message_care_team
+			- state_changes.first_set_active) / 60.0
 		else null
 		end as frt_care_team
 
 	, outcomes.valid_outcomes
 	, outcomes.invalid_outcomes
 
-	, videos.episode_id is not null as includes_video
-	, coalesce(videos.includes_video_gp, false) as includes_video_gp
-	, coalesce(videos.includes_video_np, false) as includes_video_np
-	, coalesce(videos.includes_video_nc, false) as includes_video_nc
-	, coalesce(videos.includes_video_cc, false) as includes_video_cc
-	, coalesce(videos.includes_video_psy, false) as includes_video_psy
-	, videos.video_start_time_gp_np
-
 	, case
 		when ranked_chats.rank_chat_in_episode = 1 then 'New Episode'
 		when messaging.initiator = 'care-team'
 			and reminders.has_open_reminder then 'Follow-up'
-		when videos.episode_id is not null then 'Video'
 		when messaging.initiator = 'care-team' then 'Other initiated by Care Team'
 		when messaging.initiator = 'patient' then 'Other initiated by patient'
 		else 'unknown'
@@ -141,8 +128,6 @@ left join state_changes
 left join reminders
 	using (episode_id, date_day_est)
 left join outcomes
-	using (episode_id, date_day_est)
-left join videos
 	using (episode_id, date_day_est)
 left join episodes_subject
 	using (episode_id)

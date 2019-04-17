@@ -53,12 +53,12 @@ select org_months.date_month
             and org_months.date_month = user_contract.signed_up_month)
             as signed_up_count
     , count(distinct user_contract.user_id)
-        filter (where user_contract.is_activated
-            and org_months.date_month >= user_contract.activated_month)
+        filter (where user_contract.has_first_message
+            and org_months.date_month >= user_contract.first_message_month)
             as activated_count_cum
     , count(distinct user_contract.user_id)
-        filter (where user_contract.is_activated
-            and org_months.date_month = user_contract.activated_month)
+        filter (where user_contract.has_first_message
+            and org_months.date_month = user_contract.first_message_month)
             as activated_count
 from org_months
 left join user_contract

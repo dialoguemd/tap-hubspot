@@ -1,6 +1,6 @@
 with
 	active_users as (
-		select * from {{ ref('active_users')}}
+		select * from {{ ref('active_users_unfiltered')}}
 	)
 
 select date_month

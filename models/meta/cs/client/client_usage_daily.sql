@@ -73,19 +73,23 @@ with
 				filter (where users.family_member_type = 'Employee')
 				as invited_employee_count
 
+			{% for fmt in ['employee', 'dependent', 'child'] %}
 			, count(distinct users.user_id)
-				filter (where users.family_member_type = 'Employee'
+				filter (where lower(users.family_member_type) = '{{fmt}}'
 					and date_trunc('day', users.signed_up_at) <= organization_days.date_day)
-				as signed_up_employee_count
+				as signed_up_{{fmt}}_count
+			{% endfor %}
 			, count(distinct users.user_id)
 				filter (where users.family_member_type <> 'Employee'
 					and date_trunc('day', users.signed_up_at) <= organization_days.date_day)
 				as signed_up_family_member_count
 
+			{% for fmt in ['employee', 'dependent', 'child'] %}
 			, count(distinct users.user_id)
-				filter (where users.family_member_type = 'Employee'
+				filter (where lower(users.family_member_type) = '{{fmt}}'
 					and date_trunc('day', users.activated_at) <= organization_days.date_day)
-				as activated_employee_count
+				as activated_{{fmt}}_count
+			{% endfor %}
 			, count(distinct users.user_id)
 				filter (where users.family_member_type <> 'Employee'
 					and date_trunc('day', users.activated_at) <= organization_days.date_day)

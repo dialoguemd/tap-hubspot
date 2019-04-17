@@ -72,6 +72,10 @@ with channels as (
 		select * from {{ ref('episodes_costs') }}
 	)
 
+	, episodes_video_consultations as (
+		select * from {{ ref('episodes_video_consultations') }}
+	)
+
 	, users as (
 		select * from {{ ref('scribe_users') }}
 	)
@@ -129,14 +133,19 @@ select
 	, episodes_chats_summary.first_set_active
 	, episodes_chats_summary.set_resolved_pending
 	, episodes_chats_summary.includes_follow_up
-	, episodes_chats_summary.includes_video
-	, episodes_chats_summary.includes_video_np
-	, episodes_chats_summary.includes_video_gp
-	, episodes_chats_summary.includes_video_nc
-	, episodes_chats_summary.includes_video_cc
-	, episodes_chats_summary.includes_video_psy
 	, episodes_chats_summary.frt_pt_message
 	, episodes_chats_summary.frt_active
+
+	, episodes_video_consultations.first_video_consultation_started_at
+	, episodes_video_consultations.includes_video_consultation
+	, episodes_video_consultations.video_consultation_count
+	, episodes_video_consultations.video_consultation_length
+
+	{% for spec in ['gp', 'np', 'psy', 'nutr', 'psy_therapist'] %}
+	, episodes_video_consultations.includes_video_consultation_{{spec}}
+	, episodes_video_consultations.video_consultation_{{spec}}_count
+	, episodes_video_consultations.video_consultation_{{spec}}_length
+	{% endfor %}
 
 	, episodes_nps.score
 	, episodes_nps.nps_score
@@ -239,9 +248,9 @@ select
 	, case
 		when episodes_issue_types.issue_type in ('psy', 'psy-pilot')
 		then 'PSY'
-		when episodes_chats_summary.includes_video_gp
+		when episodes_video_consultations.includes_video_consultation_gp
 		then 'GP'
-		when episodes_chats_summary.includes_video_np
+		when episodes_video_consultations.includes_video_consultation_np
 		then 'NP'
 		when episodes_outcomes.outcome_category = 'Unsuitable episode'
 		then 'Unsuitable episode'
@@ -277,6 +286,7 @@ from channels
 		"episodes_ratings",
 		"episodes_reason_for_visit",
 		"episodes_subject",
+		"episodes_video_consultations"
 	]
 %}
 

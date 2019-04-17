@@ -65,6 +65,7 @@ with
 			on org_dates.month_start <= active_users.date_day
 				and org_dates.month_end > active_users.date_day
 				and org_dates.organization_id = active_users.organization_id
+				and active_users.set_active
 		group by 1,2
 	)
 

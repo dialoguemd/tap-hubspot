@@ -17,12 +17,6 @@ with episodes as (
 			, score as nps_score
 			, issue_type
 			, outcome
-			, includes_video_np
-			, includes_video_gp
-			, includes_video_nc
-			, includes_video_cc
-			, includes_video_psy
-			, includes_video
 			, timezone('America/Montreal', first_message_patient) as episode_started
 			, date_trunc('day',
 				timezone('America/Montreal', first_set_resolved_pending_at)
@@ -53,12 +47,6 @@ with episodes as (
 			, eps_ranked.nps_score
 			, eps_ranked.issue_type
 			, eps_ranked.outcome
-			, eps_ranked.includes_video_np
-			, eps_ranked.includes_video_gp
-			, eps_ranked.includes_video_nc
-			, eps_ranked.includes_video_cc
-			, eps_ranked.includes_video_psy
-			, eps_ranked.includes_video
 			, eps_ranked.episode_started
 			, eps_ranked.resolved_at_day
 			, min(chats.wait_time_first_care_team) as wait_time_first
@@ -69,7 +57,7 @@ with episodes as (
 			and eps_ranked.episode_id = chats.episode_id
 			and eps_ranked.resolved_at_day = chats.date_day_est
 		where eps_ranked.rank = 1
-		group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14
+		{{ dbt_utils.group_by(8) }}
 	)
    
 	, retention_stats as (

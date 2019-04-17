@@ -34,10 +34,6 @@ with
 		select * from {{ ref('wiw_opening_hours') }}
 	)
 
-	, episode_state_summary as (
-		select * from {{ ref('usher_episode_state_summary') }}
-	)
-
 	, posts as (
 		select posts_all_time.created_at_est
 			, posts_all_time.created_at_day_est
@@ -276,14 +272,3 @@ left join wiw_opening_hours
 	on chats.created_at_day_est = wiw_opening_hours.date_day
 left join first_patient_sequence
 	using (episode_id, created_at_day_est)
-left join episode_state_summary
-	using (episode_id)
-where -- remove chats that were never active in the care platform
-	-- for example when a user does not complete the initial questionnaire
-	(
-		episode_state_summary.first_state_updated_date_day_est is not null
-		and episode_state_summary.first_state_updated_date_day_est
-			<= chats.created_at_day_est
-	)
-	-- usher events were not send before this date
-	or chats.created_at_day_est < '2018-01-01'

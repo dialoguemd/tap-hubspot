@@ -7,7 +7,7 @@ with
 		select * from {{ ref('episodes_subject') }}
 	)
 
-select date_trunc('day', videos.timestamp_est) as date_day
+select date_trunc('day', videos.timestamp_est) as date_day_est
 	, episodes_subject.episode_subject as patient_id
 	, bool_or(main_specialization = 'Family Physician') as includes_video_gp
 	, bool_or(main_specialization = 'Nurse Practitioner') as includes_video_np

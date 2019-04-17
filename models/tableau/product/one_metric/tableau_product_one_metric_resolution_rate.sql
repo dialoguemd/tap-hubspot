@@ -14,18 +14,18 @@ select episodes.episode_id
 	, episodes.patient_id
 	, episodes.outcome
 	, case 
-		when episodes.outcome = 'care_plan' and episodes.includes_video_gp
+		when episodes.outcome = 'care_plan' and episodes.includes_video_consultation_gp
 			then (episodes.outcome || '_gp')
-		when episodes.outcome = 'care_plan' and episodes.includes_video_np
+		when episodes.outcome = 'care_plan' and episodes.includes_video_consultation_np
 			then (episodes.outcome || '_np')
 		else episodes.outcome
 		end as outcome_alt
 	, episodes.issue_type
 	, episodes.issue_type_outcome_pair
 	, case 
-		when episodes.outcome = 'care_plan' and episodes.includes_video_gp
+		when episodes.outcome = 'care_plan' and episodes.includes_video_consultation_gp
 			then (episodes.issue_type_outcome_pair || '_gp')
-		when episodes.outcome = 'care_plan' and episodes.includes_video_np
+		when episodes.outcome = 'care_plan' and episodes.includes_video_consultation_np
 			then (episodes.issue_type_outcome_pair || '_np')
 		else episodes.issue_type_outcome_pair
 		end as issue_type_outcome_pairs_alt
@@ -36,9 +36,6 @@ select episodes.episode_id
 	, user_contract.organization_name
 	, episodes.first_message_patient as episode_started_at
 	, episodes.first_set_resolved_pending_at as episode_resolved_at
-	, episodes.includes_video
-	, episodes.includes_video_np
-	, episodes.includes_video_gp
 	-- contract_id is for testing for uniqueness
 	, user_contract.contract_id
 	, user_contract.gender

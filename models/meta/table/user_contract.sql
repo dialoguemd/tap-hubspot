@@ -13,12 +13,18 @@ with
 
 	, activated_at as (
 		select patient_id as user_id
-			, min(first_message_patient) as activated_at
+			, min(first_message_patient) as first_message_patient
+			, min(first_set_active) as activated_at
 		from episodes
 		group by 1
 	)
 
 select scribe_user_contract.*
+	-- Legacy fields
+	, activated_at.first_message_patient
+	, activated_at.activated_at is not null as has_first_message
+	, date_trunc('month', activated_at.first_message_patient) as first_message_month
+
 	, activated_at.activated_at
 	, activated_at.activated_at is not null as is_activated
 	, date_trunc('month', activated_at.activated_at) as activated_month
