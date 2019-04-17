@@ -19,11 +19,13 @@ with
             'summary',
             'discovered_by',
             'description',
+            'feature',
             'project_name']
         %}
             coalesce(issue_updated.{{column}}, issue_created.{{column}}) as {{column}},
         {% endfor %}
             issue_updated.resolved_at
+            , issue_updated.resolution
         from issue_created
         full outer join issue_updated
             on issue_created.issue_key = issue_updated.issue_key
@@ -47,6 +49,8 @@ select issue_key::text as issue_id
     , description
     , project_name
     , resolved_at
+    , resolution
+    , feature
     , issue_type in ('P1 Bug', 'P2 Bug', 'P3 Bug') as is_bug
     , issue_type = 'Sub-bug' as is_sub_bug
 from ranked

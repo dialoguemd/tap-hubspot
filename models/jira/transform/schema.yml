@@ -32,3 +32,18 @@ models:
           field: updated_at
           datepart: day
           interval: 3
+
+  - name: jira_incident_count
+    description: |
+      This model abstracts daily incident count from the incident_count field
+      on Jira Issues; it is used in QA reporting.
+    columns:
+        - name: issue_id
+          tests:
+              - not_null
+        - name: date_day
+          tests:
+              - not_null
+    tests:
+      - unique:
+          column_name: "concat(issue_id, date_day)"

@@ -1,4 +1,5 @@
 select issue_key
+	, issue_key as issue_id
 	, status
 	, timestamp
 	, created_at
@@ -9,4 +10,6 @@ select issue_key
 	, discovered_by
 	, description
 	, project_name
+	, incident_count::integer
+	, feature
 from jira.issue_created

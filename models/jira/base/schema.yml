@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: jira_issue_created
+    description: |
+      This event is captured from the Jira webhook and then tracked by Segment;
+      an event is fired everytime an issue is created
+    columns:
+        - name: issue_id
+          tests:
+              - unique
+              - not_null
+        - name: status
+          tests:
+              - not_null
+        - name: created_at
+          tests:
+              - not_null
+        - name: issue_type
+          tests:
+              - not_null
+        - name: project_name
+          tests:
+              - not_null
+    # TODO find solution for recency excl. weekends
+    tests:
+      - dbt_utils.recency:
+          field: timestamp
+          datepart: day
+          interval: 3
+
+models:
+  - name: jira_issue_updated
+    description: |
+      This event is captured from the Jira webhook and then tracked by Segment;
+      an event is fired everytime an issue is updated, thus issue_id will not
+      be unique
+    columns:
+        - name: issue_id
+          tests:
+              - not_null
+        - name: status
+          tests:
+              - not_null
+        - name: created_at
+          tests:
+              - not_null
+        - name: issue_type
+          tests:
+              - not_null
+        - name: project_name
+          tests:
+              - not_null
+    # TODO find solution for recency excl. weekends
+    tests:
+      - dbt_utils.recency:
+          field: timestamp
+          datepart: day
+          interval: 3
