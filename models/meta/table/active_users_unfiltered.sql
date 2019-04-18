@@ -1,9 +1,5 @@
 with
-	posts as (
-		select * from {{ ref('messaging_posts_patient_daily') }}
-	)
-
-	, chats as (
+	chats as (
 		select * from {{ ref('chats') }}
 	)
 

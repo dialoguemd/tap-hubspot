@@ -13,18 +13,19 @@ with
 
 	, activated_at as (
 		select patient_id as user_id
-			, min(first_message_patient) as first_message_patient
+			, min(created_at) as first_episode_created_at
 			, min(first_set_active) as activated_at
 		from episodes
 		group by 1
 	)
 
 select scribe_user_contract.*
-	-- Legacy fields
-	, activated_at.first_message_patient
-	, activated_at.activated_at is not null as has_first_message
-	, date_trunc('month', activated_at.first_message_patient) as first_message_month
-
+	-- Legacy fields that support CS Organization Monthly; they equate activation
+	-- with when an episode is created
+	, activated_at.first_episode_created_at
+	, activated_at.first_episode_created_at is not null as has_first_episode
+	, date_trunc('month', activated_at.first_episode_created_at) as first_episode_month
+	-- Current fields that equate activation with when an episode was set active
 	, activated_at.activated_at
 	, activated_at.activated_at is not null as is_activated
 	, date_trunc('month', activated_at.activated_at) as activated_month
@@ -39,4 +40,4 @@ left join organizations
 	using (organization_id)
 left join activated_at
 	on scribe_user_contract.user_id = activated_at.user_id
-	and scribe_user_contract.during_end >= activated_at.activated_at
+	and scribe_user_contract.during_end >= activated_at.first_episode_created_at
