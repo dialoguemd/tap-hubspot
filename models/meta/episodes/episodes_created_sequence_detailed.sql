@@ -21,6 +21,7 @@ select sequence.episode_id
 	, sequence.dxa_started_at is not null as is_dxa_started
 	, sequence.dxa_completed_at
 	, sequence.dxa_completed_at is not null as is_dxa_completed
+	, sequence.dxa_resume_count
 	, sequence.channel_select_started_at
 	, sequence.channel_select_completed_at
 	, videos.video_started_at

@@ -131,3 +131,28 @@ models:
               - relationships:
                   to: ref('messaging_channels')
                   field: episode_id
+
+  - name: episodes_dispatch_recommendation
+    description: |
+      Dispatch outcome sent by the nurse after user completes DXA
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+              - relationships:
+                  to: ref('messaging_channels')
+                  field: episode_id
+        - name: dispatch_recommendation
+          tests:
+              - not_null
+              - accepted_values:
+                  values: ['Outcome ER', 'Outcome NP or MD', 'Outcome WIC',
+                    'Outcome WIC Ubisoft clinic', 'Outcome Counselling',
+                    'Outcome Navigation']
+        - name: dispatch_recommendation_timestamp
+          tests:
+              - not_null
+        - name: dispatch_recommendation_timestamp_est
+          tests:
+              - not_null

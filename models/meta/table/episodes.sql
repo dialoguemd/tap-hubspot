@@ -72,12 +72,20 @@ with channels as (
 		select * from {{ ref('episodes_costs') }}
 	)
 
+	, episodes_dispatch_recommendation as (
+		select * from {{ ref('episodes_dispatch_recommendation') }}
+	)
+
 	, episodes_video_consultations as (
 		select * from {{ ref('episodes_video_consultations') }}
 	)
 
 	, users as (
 		select * from {{ ref('scribe_users') }}
+	)
+
+	, cc_confirmed as (
+		select * from {{ ref('countdown_cc_confirmed') }}
 	)
 
 select
@@ -109,6 +117,8 @@ select
 
 	, episodes_subject.episode_subject
 	, episodes_subject.episode_subject as patient_id
+	, channels.user_id <> episodes_subject.episode_subject
+		as is_dependent_consult
 
 	, episodes_chats_summary.date_day_est
 	, episodes_chats_summary.date_week_est
@@ -135,6 +145,7 @@ select
 	, episodes_chats_summary.includes_follow_up
 	, episodes_chats_summary.frt_pt_message
 	, episodes_chats_summary.frt_active
+	, episodes_chats_summary.is_first_message_in_opening_hours
 
 	, episodes_video_consultations.first_video_consultation_started_at
 	, episodes_video_consultations.includes_video_consultation
@@ -180,20 +191,42 @@ select
 
 	, episodes_created_sequence.channel_selected
 	, episodes_created_sequence.dxa_started_at
-	, episodes_created_sequence.is_dxa_started
+	, coalesce(episodes_created_sequence.is_dxa_started, false)
+		as is_dxa_started
 	, episodes_created_sequence.dxa_completed_at
-	, episodes_created_sequence.is_dxa_completed
+	, coalesce(episodes_created_sequence.is_dxa_completed, false)
+		as is_dxa_completed
 	, episodes_created_sequence.dxa_completion_time
+	, coalesce(episodes_created_sequence.dxa_resume_count, 0)
+		as dxa_resume_count
+	, coalesce(episodes_created_sequence.dxa_resume_count, 0) > 0
+		as is_dxa_resumed
 	, episodes_created_sequence.channel_select_started_at
 	, episodes_created_sequence.channel_select_completed_at
 	, episodes_created_sequence.video_started_at
 	, episodes_created_sequence.video_ended_at
+	, extract('epoch' from
+			episodes_created_sequence.dxa_started_at
+			- episodes_chats_summary.first_message_patient
+		) / 60
+		as time_to_start_dxa_from_first_message
+	, extract('epoch' from
+			episodes_created_sequence.dxa_completed_at
+			- episodes_chats_summary.first_message_patient
+		) / 60
+		as time_to_complete_dxa_from_first_message
 
 	, episodes_chief_complaint.cc_code
 	, episodes_chief_complaint.cc_label_en
 	, episodes_chief_complaint.timestamp as dxa_triggered_at
+	, episodes_chief_complaint.cc_code_parsed
+	, episodes_chief_complaint.cc_code_manual
+	, episodes_chief_complaint.cc_code_parsed_timestamp_est
+	, episodes_chief_complaint.cc_code_manual_timestamp_est
+	, episodes_chief_complaint.dxa_trigger_type
 
-	, episodes_reason_for_visit.reason_for_visit
+	, coalesce(episodes_reason_for_visit.reason_for_visit, 'N/A')
+		as reason_for_visit
 
 	, episodes_appointment_booking.appointment_booking_first_started_at
 	, episodes_appointment_booking.includes_appointment_booking
@@ -268,15 +301,31 @@ select
 		relation_alias='episodes_costs')
 	}}
 
+	, episodes_dispatch_recommendation.dispatch_recommendation
+	, episodes_dispatch_recommendation.dispatch_recommendation_timestamp
+	, episodes_dispatch_recommendation.dispatch_recommendation_timestamp_est
+	, episodes_dispatch_recommendation.episode_id is not null
+		as includes_dispatch_recommendation
+	, extract('epoch' from
+			episodes_dispatch_recommendation.dispatch_recommendation_timestamp_est
+			- episodes_chats_summary.first_message_patient
+		) / 60
+		as dispatch_time_first_patient_message
+
+	, cc_confirmed.cc_code as cc_code_confirmed
+	, cc_confirmed.is_cc_confirmed
+
 from channels
 
 -- Jinja loop for repetitive joins
 {% for table in [
+		"cc_confirmed",
 		"episodes_appointment_booking",
 		"episodes_chats_summary",
 		"episodes_chief_complaint",
 		"episodes_costs",
 		"episodes_created_sequence",
+		"episodes_dispatch_recommendation",
 		"episodes_intake",
 		"episodes_issue_types",
 		"episodes_kpis",

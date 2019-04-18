@@ -5,7 +5,7 @@ with
 
 	, reason as (
 		select episode_id
-			, reply_labels as reason_for_visit
+			, reply_label_first as reason_for_visit
 			, row_number() over (partition by episode_id order by replied_at)
 				as rank
 		from question_replied

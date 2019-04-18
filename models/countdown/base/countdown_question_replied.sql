@@ -9,6 +9,7 @@ with
             , cd_qnaire as qnaire_name
             , cd_q_id as question_name
             , quetion_reply_items as reply_labels
+            , quetion_reply_items::json->>0 as reply_label_first
             , quetion_reply_value as reply_value_singular
             , quetion_reply_values as reply_values
             , coalesce(quetion_reply_value,
@@ -34,6 +35,7 @@ select question_tid
     , qnaire_name
     , question_name
     , reply_labels
+    , reply_label_first
     , reply_value_singular
     , reply_values
     , reply_value

@@ -1,6 +1,7 @@
-with qnaire_completions as (
-        select * from {{ ref('countdown_qnaire_completion_stats') }}
-    )
+with
+	qnaire_completions as (
+		select * from {{ ref('countdown_qnaire_completion_stats') }}
+	)
 
 	, question_replies as (
 		select * from {{ ref('countdown_question_replied') }}
@@ -32,6 +33,13 @@ select qnaire_completions.episode_id
 	, min(qnaire_completions.completed_at_est)
 		filter (where qnaire_completions.qnaire_name = 'dxa')
 			as dxa_completed_at
+	, min(qnaire_completions.resume_count)
+		filter (where qnaire_completions.qnaire_name = 'dxa')
+		-- DXA used to be re-triggered manually instead of resumed
+		+ count(distinct qnaire_completions.qnaire_tid)
+			filter (where qnaire_completions.qnaire_name = 'dxa')
+		- 1
+		as dxa_resume_count
 	-- Channel Selection
 	, min(qnaire_completions.started_at_est)
 		filter (where qnaire_completions.qnaire_name = 'channel_selection')

@@ -1,0 +1,15 @@
+
+version: 2
+
+models:
+  - name: countdown_cc_confirmed
+    description: |
+      User answer to the chief complaint classification question
+    columns:
+      - name: episode_id
+        tests:
+          - not_null
+          - unique
+      - name: cc_code
+        tests:
+          - not_null

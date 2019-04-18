@@ -61,6 +61,8 @@ models:
       # Model Folder Materializations
       coredata:
           materialized: table
+      countdown:
+          materialized: table
       dimension:
           materialized: table
       github:

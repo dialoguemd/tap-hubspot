@@ -41,3 +41,9 @@ models:
       - name: confidence_threshold
         tests:
           - not_null
+
+  - name: countdown_qnaire_resumed
+    columns:
+      - name: qnaire_tid
+        tests:
+          - not_null
