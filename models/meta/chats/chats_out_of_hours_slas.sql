@@ -2,6 +2,7 @@
 with
 	chats as (
 		select * from {{ ref('chats') }}
+		where first_set_active is not null
 	)
 
 	, episodes_outcomes as (
