@@ -1,7 +1,20 @@
-{{ config(materialized='table') }}
+
+{{
+  config(
+    materialized='incremental',
+    unique_key='cp_activity_id',
+    post_hook=[
+       "{{ postgres.index(this, 'cp_activity_id')}}",
+    ]
+  )
+}}
 
 with pages as (
         select * from {{ ref('cp_activity_w_timing') }}
+        where activity_start < date_trunc('day', current_timestamp)
+        {% if is_incremental() %}
+            and activity_start > (select max(activity_start) from {{ this }})
+        {% endif %}
     )
 
     , shifts as (
@@ -16,7 +29,8 @@ with pages as (
         select * from {{ ref('episodes_issue_types') }}
     )
 
-select pages.date_day_est as date
+select pages.cp_activity_id
+    , pages.date_day_est as date
     , pages.activity_start_est as activity_start
     , pages.activity_end_est as activity_end
     , pages.time_spent

@@ -1,6 +1,21 @@
+
+{{
+  config(
+    materialized='incremental',
+    unique_key='cp_activity_id',
+    post_hook=[
+       "{{ postgres.index(this, 'cp_activity_id')}}",
+    ]
+  )
+}}
+
 with
     activity as (
         select * from {{ ref('cp_activity_unioned_activity')}}
+        where timestamp < date_trunc('day', current_timestamp)
+        {% if is_incremental() %}
+            and timestamp > (select max(activity_start) from {{ this }})
+        {% endif %}
     )
 
     , practitioners as (
@@ -8,7 +23,8 @@ with
     )
 
     , activity_w_timing_tmp as (
-        select activity.user_id
+        select activity.cp_activity_id
+            , activity.user_id
             , activity.date_day_est
             , activity.timestamp_est as activity_start_est
             , lead(activity.timestamp_est) over
@@ -35,7 +51,8 @@ with
     )
 
     , activity_w_timing as (
-        select user_id
+        select cp_activity_id
+            , user_id
             , date_day_est
             , activity_start_est
             , activity_end_est

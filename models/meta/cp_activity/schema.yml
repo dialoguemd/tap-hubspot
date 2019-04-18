@@ -6,6 +6,10 @@ models:
     description: a model that unions posts, pages, and videos; this model also
       helps test data completeness and uniqueness of timestamps per user
     columns:
+      - name: cp_activity_id
+        tests:
+          - not_null
+          - unique
       - name: user_id
         tests:
           - not_null
@@ -24,15 +28,15 @@ models:
       - name: activity
         tests:
           - not_null
-    # Currently this is broken because of 11 instances of two simultaneous events
-    # tests:
-    #   - unique:
-    #       column_name: "concat(timestamp_est, user_id)"
 
   - name: cp_activity_w_timing
     description: after unioning time_spent is calculated by ordering events for
       a given cp user on a given day
     columns:
+      - name: cp_activity_id
+        tests:
+          - not_null
+          - unique
       - name: user_id
         tests:
           - not_null
@@ -56,6 +60,10 @@ models:
       fraction of activity that is_on_shift and is_active does not drop below
       expected levels benchmarked to data from 2018-10-01 to 2019-01-01
     columns:
+      - name: cp_activity_id
+        tests:
+          - not_null
+          - unique
       - name: user_id
         tests:
           - not_null

@@ -1,0 +1,21 @@
+
+version: 2
+
+models:
+  - name: telephone_calls
+    description: this model joins start and end events to create a call record
+      with details about start, end, and duration
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+      - name: episode_id
+        tests:
+          - not_null
+      - name: started_at
+        tests:
+          - not_null
+      - name: call_id
+        tests:
+          - not_null
+          - unique

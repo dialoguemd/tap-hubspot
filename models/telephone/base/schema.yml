@@ -1,0 +1,39 @@
+
+version: 2
+
+models:
+  - name: telephone_call_started
+    description: the event that is fired when a patient picks up and is
+      connected to the call
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+      - name: episode_id
+        tests:
+          - not_null
+      - name: timestamp
+        tests:
+          - not_null
+      - name: call_id
+        tests:
+          - not_null
+          - unique
+
+  - name: telephone_call_ended
+    description: the event that is fired when a call is disconnected by the
+      patient, practitioner, or because it was dropped
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+      - name: episode_id
+        tests:
+          - not_null
+      - name: timestamp
+        tests:
+          - not_null
+      - name: call_id
+        tests:
+          - not_null
+          - unique
