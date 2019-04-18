@@ -16,6 +16,8 @@ with jira_issues as (
         from jira_issues
         where issue_type in ('P2 Bug', 'P1 Bug', 'P3 Bug')
             and project_name = 'Dialogue Product'
+            and (resolution not in ('Duplicate', 'Cannot Reproduce', 'Won''t Do')
+                or resolution is null)
 
         union all
 
