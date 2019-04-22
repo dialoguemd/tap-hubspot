@@ -74,13 +74,13 @@ with careplatform_pages as (
         select * from videos
     )
 
-    -- Identify all events that occurred during a phone call to exclude them later
-    , overlap as (
+    -- Only include events that did not occur during a phone call
+    , events_outside_calls as (
         select unioned.*
         from unioned
         left join phone_calls_tmp
             on unioned.timestamp <@ phone_calls_tmp.call_range
-        where phone_calls_tmp.call_id is not null
+        where phone_calls_tmp.call_id is null
     )
 
     , phone_calls as (
@@ -95,7 +95,7 @@ with careplatform_pages as (
     )
 
     , final as (
-        select * from overlap
+        select * from events_outside_calls
         union all
         select * from phone_calls
     )

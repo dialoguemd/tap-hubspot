@@ -11,9 +11,9 @@
 
 with pages as (
         select * from {{ ref('cp_activity_w_timing') }}
-        where activity_start < date_trunc('day', current_timestamp)
+        where activity_start_est < date_trunc('day', current_timestamp)
         {% if is_incremental() %}
-            and activity_start > (select max(activity_start) from {{ this }})
+            and activity_start_est > (select max(activity_start) from {{ this }})
         {% endif %}
     )
 
