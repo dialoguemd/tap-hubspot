@@ -65,6 +65,8 @@ models:
           materialized: table
       dimension:
           materialized: table
+      dxa_chum:
+          enabled: false
       github:
           materialized: table
       messaging:
@@ -202,3 +204,9 @@ seeds:
         segment_group: text
         stage_name: text
         probability: float
+
+    data_dxa_chum_daily:
+      enabled: false
+
+    data_dxa_chum_from_dxa:
+      enabled: false

@@ -1,0 +1,31 @@
+
+version: 2
+
+models:
+  - name: dxa_chum_daily
+    description: |
+      Number of episodes by shift from the CHUM
+
+      Data extracted by the CHUM: https://drive.google.com/drive/folders/1Rb3bs_dQSnOWMVZPG6g_QRuK5zHenqjs
+    columns:
+      - name: date_jour_arrivee
+        tests:
+          - not_null
+      - name: quart_de_travail_arrivee
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "concat(date_jour_arrivee, quart_de_travail_arrivee)"
+
+  - name: dxa_chum_from_dxa
+    description: |
+      DXA CHUM pilot episodes completion summary
+
+      Manual extract from https://admin.dxassistant.com/quickstatsCHUM.php
+      Clean data: https://docs.google.com/spreadsheets/d/1aDu9XQjHjyTptuF-a7sh-xQmyuiqhpR69a4VfR6_EYc
+    columns:
+      - name: id
+        tests:
+          - not_null
+          - unique
