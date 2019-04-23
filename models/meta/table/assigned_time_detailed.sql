@@ -30,6 +30,10 @@ with assigned_time as (
             , assigned_time.user_id
             , assigned_time.assigned_at
             , assigned_time.unassigned_at
+            , assigned_time.assigned_at_est
+            , assigned_time.unassigned_at_est
+            , assigned_time.assigned_range
+            , assigned_time.assigned_range_est
             , assigned_time.main_specialization
             , assigned_time.first_post_at
             , assigned_time.first_response_time_min
@@ -41,15 +45,9 @@ with assigned_time as (
         from assigned_time
         left join responses
             on assigned_time.user_id = responses.user_id
-            and tstzrange(
-                assigned_time.assigned_at,
-                assigned_time.unassigned_at
-                ) @> responses.created_at
-            and tstzrange(
-                assigned_time.assigned_at,
-                assigned_time.unassigned_at
-                ) @> responses.previous_post_at
-        {{ dbt_utils.group_by(12) }}
+            and assigned_time.assigned_range @> responses.created_at
+            and assigned_time.assigned_range @> responses.previous_post_at
+        {{ dbt_utils.group_by(16) }}
     )
 
 select assignment_id
@@ -61,6 +59,10 @@ select assignment_id
         else 'Other Assignment' end as assignment_type
     , assigned_at
     , unassigned_at
+    , assigned_at_est
+    , unassigned_at_est
+    , assigned_range
+    , assigned_range_est
     , first_post_at
     , first_response_time_min
     , assigned_time_min

@@ -3,22 +3,38 @@ with
 		select * from {{ ref('countdown_qnaire_completion_stats') }}
 	)
 
-	, question_replies as (
+	, question_replied as (
 		select * from {{ ref('countdown_question_replied') }}
 	)
 
+	, qnaire_started as (
+		select * from {{ ref('countdown_qnaire_started') }}
+	)
+
 	, first_reply as (
-		select episode_id
-			, reply_labels as channel_selected
+		select qnaire_started.episode_id
+			, qnaire_started.qnaire_tid
+			, qnaire_started.timestamp
 			, row_number()
-				over (partition by episode_id order by replied_at)
+				over (partition by qnaire_started.episode_id
+					order by qnaire_started.timestamp)
 					as rank
-		from question_replies
-		where question_replies.qnaire_name = 'channel_selection'
+			, min(question_replied.reply_labels)
+				filter (where question_replied.question_name = 'select_channel')
+				as channel_selected
+			, min(question_replied.reply_labels)
+				filter (where question_replied.question_name = 'appointment_preference')
+				as appointment_preference
+		from qnaire_started
+		left join question_replied
+			using (qnaire_tid)
+		where question_replied.qnaire_name = 'channel_selection'
+		group by 1,2,3
 	)
 
 select qnaire_completions.episode_id
 	, first_reply.channel_selected
+	, first_reply.appointment_preference
 	-- Top Level
 	, min(qnaire_completions.started_at_est)
 		filter (where qnaire_completions.qnaire_name = 'top_level_greeting')
@@ -51,4 +67,4 @@ from qnaire_completions
 left join first_reply
 	on qnaire_completions.episode_id = first_reply.episode_id
 	and rank = 1
-group by 1,2
+group by 1,2,3

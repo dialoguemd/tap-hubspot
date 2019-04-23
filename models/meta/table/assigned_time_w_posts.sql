@@ -50,6 +50,18 @@ select assignments.assignment_id
     , assignments.user_id
     , assignments.assigned_at
     , assignments.unassigned_at
+    , timezone('America/Montreal', assignments.assigned_at)
+        as assigned_at_est
+    , timezone('America/Montreal', assignments.unassigned_at)
+        as unassigned_at_est
+    , tstzrange(
+        assignments.assigned_at,
+        assignments.unassigned_at
+        ) as assigned_range
+    , tsrange(
+        timezone('America/Montreal', assignments.assigned_at),
+        timezone('America/Montreal', assignments.unassigned_at)
+        ) as assigned_range_est
     , coalesce(practitioners.main_specialization, 'N/A')
         as main_specialization
     , min(posts.created_at) as first_post_at

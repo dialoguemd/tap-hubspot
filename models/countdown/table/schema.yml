@@ -13,3 +13,13 @@ models:
       - name: cc_code
         tests:
           - not_null
+
+  - name: countdown_episode_started_sequence
+    description: |
+      An episode-level aggregation of question replies to the initial
+      questionnaires sent to the patient
+    columns:
+      - name: episode_id
+        tests:
+          - not_null
+          - unique

@@ -17,6 +17,7 @@ with
 
 select sequence.episode_id
 	, sequence.channel_selected
+	, sequence.appointment_preference
 	, sequence.dxa_started_at
 	, sequence.dxa_started_at is not null as is_dxa_started
 	, sequence.dxa_completed_at

@@ -1,0 +1,53 @@
+
+version: 2
+
+models:
+  - name: shifts_detailed
+    description: An analytical table for measuring medops performance by
+      shift; includes facts about response times and output and is aggregated
+      at the shift-level to ensure there is only one position per record.
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+      - name: user_id
+        tests:
+          - not_null
+      - name: shift_id
+        tests:
+          - not_null
+          - unique
+
+  - name: shifts_assignments
+    description: details about assignments, including videos and phone calls
+      during those assignments, aggregated at the shift level
+    columns:
+      - name: date_day
+        tests:
+          - not_null
+      - name: shift_id
+        tests:
+          - not_null
+          - unique
+
+  - name: shifts_reminders
+    description: count of reminders completed by shift
+    columns:
+      - name: reminders_completed_count
+        tests:
+          - not_null
+      - name: shift_id
+        tests:
+          - not_null
+          - unique
+
+  - name: shifts_templates
+    description: count of templates sent by shift
+    columns:
+      - name: appointments_booked_count
+        tests:
+          - not_null
+      - name: shift_id
+        tests:
+          - not_null
+          - unique

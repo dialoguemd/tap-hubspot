@@ -190,6 +190,7 @@ select
 	, episodes_kpis.attr_nutr_day_7
 
 	, episodes_created_sequence.channel_selected
+	, episodes_created_sequence.appointment_preference
 	, episodes_created_sequence.dxa_started_at
 	, coalesce(episodes_created_sequence.is_dxa_started, false)
 		as is_dxa_started
