@@ -1,3 +1,10 @@
+# This doesn't need to run on a schedule anymore
+{{
+  config(
+    enabled=False
+  )
+}}
+
 with ccs as (
         select * from {{ ref('dxa_launched_cc') }}
     )
