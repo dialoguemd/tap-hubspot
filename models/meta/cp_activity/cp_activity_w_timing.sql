@@ -14,7 +14,7 @@ with
         select * from {{ ref('cp_activity_unioned_activity')}}
         where timestamp < date_trunc('day', current_timestamp)
         {% if is_incremental() %}
-            and timestamp > (select max(activity_start) from {{ this }})
+            and timestamp > (select max(activity_start_est) from {{ this }})
         {% endif %}
     )
 
