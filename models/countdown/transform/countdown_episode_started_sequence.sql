@@ -20,7 +20,8 @@ with
 					order by qnaire_started.timestamp)
 					as rank
 			, min(question_replied.reply_labels)
-				filter (where question_replied.question_name = 'select_channel')
+				filter (where question_replied.question_name
+					in ('select_channel', 'select_channel_audio_video'))
 				as channel_selected
 			, min(question_replied.reply_labels)
 				filter (where question_replied.question_name = 'appointment_preference')
@@ -28,7 +29,8 @@ with
 		from qnaire_started
 		left join question_replied
 			using (qnaire_tid)
-		where question_replied.qnaire_name = 'channel_selection'
+		where question_replied.qnaire_name
+			in ('channel_selection', 'channel_selection_audio_video')
 		group by 1,2,3
 	)
 
