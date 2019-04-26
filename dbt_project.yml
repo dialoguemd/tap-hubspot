@@ -90,6 +90,8 @@ models:
           materialized: table
       xero:
           materialized: table
+      zendesk:
+          enabled: false
       # Global Variables
       vars:
           nps_category: ['promoter', 'passive', 'detractor']

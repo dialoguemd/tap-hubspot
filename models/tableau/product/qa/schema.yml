@@ -6,15 +6,3 @@ models:
         - name: date
           tests:
               - not_null
-
-  - name: tableau_product_qa_incidents_detailed
-    columns:
-        - name: incident_id
-          tests:
-              - not_null
-        - name: problem_id
-          tests:
-              - not_null
-        - name: subject
-          tests:
-              - not_null
