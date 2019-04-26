@@ -1,3 +1,9 @@
+{{
+  config(
+    enabled=false
+  )
+}}
+
 with
 	opportunities as (
 		select * from {{ ref('salesforce_opportunities_detailed') }}

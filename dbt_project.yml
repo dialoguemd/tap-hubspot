@@ -67,6 +67,8 @@ models:
           materialized: table
       dxa_chum:
           enabled: false
+      funnelio:
+          enabled: false
       github:
           materialized: table
       messaging:
