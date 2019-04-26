@@ -98,3 +98,15 @@ models:
       - name: timestamp
         tests:
           - not_null
+
+  - name: careplatform_pages
+    columns:
+      - name: timestamp
+        tests:
+          - not_null
+      - name: user_id
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "concat(user_id, timestamp)"

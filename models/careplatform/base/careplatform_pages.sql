@@ -12,10 +12,11 @@
 with
 	ranked as (
 		select *
-			, rank() over (partition by user_id, timestamp order by timestamp) as rank
+			, row_number() over (partition by user_id, timestamp order by timestamp) as rank
 		from careplatform.pages
+		where user_id is not null
 		{% if is_incremental() %}
-		where timestamp > (select max(timestamp) from {{ this }})
+			and timestamp > (select max(timestamp) from {{ this }})
 		{% endif %}
 	)
 

@@ -77,6 +77,11 @@ with careplatform_pages as (
     -- Only include events that did not occur during a phone call
     , events_outside_calls as (
         select unioned.*
+            -- Rank just in case there are unioned events with the same user_id
+            -- and timestamp
+            , row_number()
+                over (partition by unioned.user_id, unioned.timestamp order by unioned.timestamp)
+                as rank
         from unioned
         left join phone_calls_tmp
             on unioned.timestamp <@ phone_calls_tmp.call_range
@@ -95,7 +100,15 @@ with careplatform_pages as (
     )
 
     , final as (
-        select * from events_outside_calls
+        select user_id
+            , date_day_est
+            , date_day
+            , timestamp_est
+            , timestamp
+            , activity
+            , episode_id
+        from events_outside_calls
+        where rank = 1
         union all
         select * from phone_calls
     )

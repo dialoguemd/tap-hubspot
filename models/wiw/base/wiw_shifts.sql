@@ -42,3 +42,13 @@ select *
 	{% endfor %}
 
 from shifts
+-- exclude duplicate shifts
+where shift_id not in
+	('1216735738',
+	'1842146641',
+	'1842148236',
+	'1842149906',
+	'2009841786',
+	'2073341495',
+	'2091530628',
+	'1963137827')
