@@ -10,6 +10,7 @@ with
 				as rank
 		from question_replied
 		where qnaire_name = 'episode_subject_and_reason'
+			and reply_label_first is not null
 			and question_name in
 				(
 					'chat_topic_closed',
