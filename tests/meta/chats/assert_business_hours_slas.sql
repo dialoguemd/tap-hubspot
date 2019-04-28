@@ -19,6 +19,6 @@ with
 select *
 from aggregate
 where (
-		percentage_within_sla < .84
+		percentage_within_sla < .83
 		or percentage_with_valid_sla < .66
 	) and date_trunc('week', current_date) > date_week_est
