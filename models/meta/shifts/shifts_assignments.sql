@@ -117,5 +117,5 @@ left join assignments
     on shifts.shift_schedule_est @> assignments.assigned_at_est
     and shifts.user_id = assignments.assigned_user_id
 where shifts.location_name = 'Virtual Care Platform'
-    and shifts.start_date_est < date_trunc('week', current_date)
+    and shifts.start_date_est < current_date
 group by 1,2

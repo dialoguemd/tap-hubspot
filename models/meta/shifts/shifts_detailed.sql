@@ -49,4 +49,3 @@ inner join shifts_assignments using (shift_id)
 left join shifts_reminders using (shift_id)
 left join shifts_templates using (shift_id)
 where shifts.location_name = 'Virtual Care Platform'
-    and shifts.start_date_est < date_trunc('week', current_date)
