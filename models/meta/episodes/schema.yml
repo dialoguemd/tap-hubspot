@@ -140,9 +140,11 @@ models:
           tests:
               - not_null
               - unique
-              - relationships:
-                  to: ref('messaging_channels')
-                  field: episode_id
+              # FIXME: test disabled until we have a solution to exclude test
+              # episodes (DM-344)
+              # - relationships:
+              #     to: ref('messaging_channels')
+              #     field: episode_id
         - name: dispatch_recommendation
           tests:
               - not_null
