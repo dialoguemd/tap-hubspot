@@ -12,6 +12,7 @@ where date_month >= '2019-02-01'
 		or cc_hourly_ops > 80
 		or nc_hourly > 100
 		or nc_hourly_ops > 150
+	)
 -- -- Calibrated in April 2019
 -- where date_month >= '2019-02-01'
 -- 	and (
