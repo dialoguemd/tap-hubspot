@@ -12,13 +12,14 @@
 with
     assignments_tmp as (
         select * from {{ ref('assigned_time_detailed') }}
-        {% if is_incremental() %}
-        where assigned_at_est > (select max(date_day) from {{ this }})
-        {% endif %}
     )
 
     , shifts as (
         select * from {{ ref('wiw_shifts') }}
+        where end_date_est < current_date
+        {% if is_incremental() %}
+            and end_date_est > (select max(date_day) from {{ this }})
+        {% endif %}
     )
 
     , episodes as (
@@ -117,5 +118,4 @@ left join assignments
     on shifts.shift_schedule_est @> assignments.assigned_at_est
     and shifts.user_id = assignments.assigned_user_id
 where shifts.location_name = 'Virtual Care Platform'
-    and shifts.start_date_est < current_date
 group by 1,2
