@@ -47,6 +47,7 @@ select applications.candidate_id
     , applications.applied_at
     , applications.status as application_status
     , applications.prospect as application_prospect
+    , users.first_name || ' ' || users.last_name as recruiter
     , sources_cte.source_name
     , sources_cte.source_grouping_name
     , jobs.status as job_status
@@ -84,3 +85,7 @@ left join offers
     on applications.id = offers.application_id
 left join rejection_reasons
     on applications.rejection_reason_id = rejection_reasons.id
+left join candidates
+    on applications.candidate_id = candidates.id
+left join users
+    on candidates.recruiter_id = users.id
