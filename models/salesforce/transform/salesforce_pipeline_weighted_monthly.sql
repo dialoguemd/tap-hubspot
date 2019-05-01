@@ -4,11 +4,11 @@ with
 	)
 
 	, probabilities as (
-		select * from {{ ref('salesforce_pipeline_probabilities')}}
+		select * from {{ ref('salesforce_pipeline_probabilities') }}
 	)
 
 	, default_probabilities as (
-		select * from {{ ref('salesforce_pipeline_probabilities_default')}}
+		select * from {{ ref('salesforce_pipeline_probabilities_default') }}
 	)
 
 select pipeline_monthly.*
@@ -17,7 +17,7 @@ select pipeline_monthly.*
 			when pipeline_monthly.segment_group = '500+'
 			then default_probabilities.probability
 			else coalesce(
-				probabilities.probability_opp_3_months,
+				probabilities.probability_mrr_3_months,
 				default_probabilities.probability
 			)
 		end

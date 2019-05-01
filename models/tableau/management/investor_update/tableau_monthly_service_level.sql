@@ -5,7 +5,10 @@ with
 
 select date_trunc('month', date_day_est) as date_month
 	, count(distinct episode_id)
-		filter(where chat_type = 'New Episode')
+		filter(where
+			first_set_active is not null
+			and chat_type = 'New Episode'
+		)
 	as episode_count
 	, percentile_disc(0.9) within group (order by time_since_last_message)
 		filter(where is_first_message_in_opening_hours)
