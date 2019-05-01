@@ -7,7 +7,7 @@ with
 		select * from {{ ref('practitioners') }}
 	)
 
-select date_trunc('month', wiw_shifts.start_date_est) as month
+select wiw_shifts.start_month_est as month
 	, sum(wiw_shifts.cost) filter (where wiw_shifts.position_name = 'Night Shift Nurse')
 		/ sum(wiw_shifts.cost) :: float as night_shift_fraction
 from wiw_shifts

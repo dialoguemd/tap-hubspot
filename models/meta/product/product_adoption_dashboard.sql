@@ -279,7 +279,7 @@ with
 	)
 
 	, on_shift as (
-		select date_trunc('day', start_date_est) as date
+		select start_day_est as date
 		, 'no_episode_id' as episode_id
 		, user_id
 		, 'on_shift' as feature

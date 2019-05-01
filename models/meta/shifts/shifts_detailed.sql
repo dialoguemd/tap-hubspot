@@ -18,7 +18,7 @@ with shifts as (
         select * from {{ ref('shifts_templates') }}
     )
 
-select shifts.start_date_est as date_day
+select shifts.start_day_est as date_day
     , shifts.shift_id
     , shifts.user_id
     , shifts.position_name

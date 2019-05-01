@@ -8,7 +8,7 @@ with
 	)
 
 	, daily_costs as (
-		select start_date_est as date
+		select start_day_est as date
 			, sum(cost) as cost
 		from wiw_shifts
 		where position_name in ('GP', 'Nurse Practitioner')
