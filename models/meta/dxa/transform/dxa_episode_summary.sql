@@ -15,7 +15,7 @@ select episode_id
 	, min(started_at) as started_at
 	, max(completed_at) as completed_at
 	, bool_or(questionnaire_completed) as dxa_completed
-	, count(qnaire_tid) as invocations_count
+	, count(qnaire_tid) + sum(resume_count) as invocations_count
 	, extract(epoch from max(completed_at) - min(started_at))
 		as completion_time
 from invocations

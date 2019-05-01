@@ -15,6 +15,10 @@ with
             , qnaire_tid
             , questionnaire_completed
             , questionnaire_completion_time
+            , questionnaire_resumed
+            , resume_count
+            , questionnaire_completed and not questionnaire_resumed
+                as questionnaire_completed_on_first_try
         from completion_stats_tmp
         where qnaire_name = 'dxa'
     )
@@ -44,10 +48,13 @@ select questions.qnaire_tid
     , questions.reason_for_visit
     , questions.cc_label_en
     , completion_stats.questionnaire_completed
+    , completion_stats.questionnaire_completed_on_first_try
+    , completion_stats.resume_count
     , count(questions.question_tid) as questions_asked_count
     , bool_or(questions.response_type = 'interrupted')
         as drop_off_free_text
-    , case when bool_or(questionnaire_completed) then 'completed'
+    , case when bool_or(questionnaire_completed_on_first_try) then 'completed on first try'
+        when bool_or(questionnaire_completed) then 'completed'
         when bool_or(questions.response_type = 'interrupted') then 'interrupted'
         else 'error' end
         as completion_type
@@ -55,9 +62,10 @@ select questions.qnaire_tid
         min(completion_stats.questionnaire_completion_time),
         extract(epoch from max(questions.replied_at) - min(questions.asked_at))
         ) as completion_time
+
 from questions
 inner join completion_stats
     using (qnaire_tid, episode_id)
 inner join respondent_type
     using (qnaire_tid)
-{{ dbt_utils.group_by(15) }}
+{{ dbt_utils.group_by(17) }}
