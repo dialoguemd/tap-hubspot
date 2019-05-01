@@ -28,6 +28,7 @@ with
 			, max(chats.last_message_created_at) as last_message_created_at
 			, min(chats.first_message_care_team) as first_message_care_team
 			, min(chats.first_message_nurse) as first_message_nurse
+			, min(chats.first_message_care_team_excl_sm) as first_message_care_team_excl_sm
 			, min(chats.first_message_shift_manager) as first_message_shift_manager
 			, max(chats.last_message_care_team) as last_message_care_team
 			, min(chats.first_message_patient) as first_message_patient

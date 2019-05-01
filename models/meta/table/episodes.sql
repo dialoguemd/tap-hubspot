@@ -130,6 +130,7 @@ select
 	, episodes_chats_summary.first_message_patient
 	, episodes_chats_summary.last_message_patient
 	, episodes_chats_summary.first_message_nurse
+	, episodes_chats_summary.first_message_care_team_excl_sm
 	, episodes_chats_summary.first_message_shift_manager
 	, episodes_chats_summary.first_message_from_last_cc
 	, episodes_chats_summary.first_message_from_last_nc
@@ -204,8 +205,10 @@ select
 		as is_dxa_resumed
 	, episodes_created_sequence.channel_select_started_at
 	, episodes_created_sequence.channel_select_completed_at
-	, episodes_created_sequence.video_started_at
-	, episodes_created_sequence.video_ended_at
+	, episodes_created_sequence.first_video_cc_nc_started_at
+	, episodes_created_sequence.first_video_cc_nc_ended_at
+	, episodes_created_sequence.first_phone_call_cc_nc_started_at
+	, episodes_created_sequence.first_phone_call_cc_nc_ended_at
 	, extract('epoch' from
 			episodes_created_sequence.dxa_started_at
 			- episodes_chats_summary.first_message_patient
@@ -295,6 +298,27 @@ select
 		then 'NC'
 		else 'Unsuitable episode'
 	end as episode_type
+
+	-- Calculate wait time for channels between selecting channel and talking
+	-- with a nurse by any of our supported methods
+	, case when episodes_created_sequence.channel_select_completed_at is not null
+		and extract(epoch from
+			least(
+				episodes_created_sequence.first_phone_call_cc_nc_started_at,
+				episodes_created_sequence.first_video_cc_nc_started_at,
+				episodes_chats_summary.first_message_care_team_excl_sm
+			) - episodes_created_sequence.channel_select_completed_at)
+			-- Channel Selection occurred before and the follow up occurred
+			-- on the same day
+			between 0 and 86400
+		then extract(epoch from
+			least(
+				episodes_created_sequence.first_phone_call_cc_nc_started_at,
+				episodes_created_sequence.first_video_cc_nc_started_at,
+				episodes_chats_summary.first_message_care_team_excl_sm
+			) - episodes_created_sequence.channel_select_completed_at) * 1.0 / 60
+		else null
+	end	as channel_wait_time
 
 	, {{ dbt_utils.star(
 		from=ref('episodes_costs'),

@@ -37,6 +37,7 @@ select md5(messaging.episode_id || messaging.date_day_est) as chat_id
 	, messaging.episode_id
 	, messaging.first_message_care_team
 	, messaging.first_message_nurse
+	, messaging.first_message_care_team_excl_sm
 	, messaging.first_message_shift_manager
 	, messaging.last_message_care_team
 	, messaging.first_message_from_last_cc

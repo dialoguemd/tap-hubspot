@@ -111,6 +111,9 @@ with
 				filter(where main_specialization = 'Care Coordinator'
 				and position_name = 'Shift Manager'
 				) as first_message_shift_manager
+			, min(created_at_est)
+				filter(where position_name <> 'Shift Manager'
+				) as first_message_care_team_excl_sm
 
 			, min(created_at_est)
 				filter(where main_specialization = 'Care Coordinator'
@@ -191,6 +194,7 @@ select chats.episode_id || chats.created_at_day_est::date as chat_id
 	, 'careplatform://chat/' || chats.user_id || '/' || chats.episode_id
 		as cp_deep_link
 	, chats.first_message_care_team
+	, chats.first_message_care_team_excl_sm
 	, chats.first_message_nurse
 	, chats.first_message_shift_manager
 	, chats.last_message_care_team

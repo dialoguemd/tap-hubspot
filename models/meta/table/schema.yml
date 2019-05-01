@@ -447,6 +447,28 @@ models:
               'Nurse Practitioner', 'Psychologist', 'Nutritionist',
               'Psychotherapist', 'Work & Life Coach']
 
+  - name: telephone_calls_detailed
+    description: a detailed table of telephone calls with additional dimensions
+      for filtering
+
+    columns:
+      - name: call_id
+        tests:
+          - not_null
+          - unique
+      - name: started_at_est
+        tests:
+          - not_null
+      - name: practitioner_id
+        tests:
+          - not_null
+      - name: main_specialization
+        tests:
+          - not_null
+      - name: call_duration
+        tests:
+          - not_null
+
   - name: user_contract
     columns:
       - name: contract_id
