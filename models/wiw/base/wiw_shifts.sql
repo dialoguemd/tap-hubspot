@@ -1,37 +1,34 @@
 with
 	shifts as (
-		select shift_id
-			, user_id as wiw_user_id
-			, employee_code as user_id
-			, start_time
-			, end_time
+		select id as shift_id
 			, tstzrange(start_time, end_time,'[]') as shift_schedule
 			, tsrange(timezone('America/Montreal', start_time),
 						timezone('America/Montreal', end_time),
 						'[]') as shift_schedule_est
+			, start_time
+			, end_time
 			, timezone('America/Montreal', start_time) as start_time_est
 			, timezone('America/Montreal', end_time) as end_time_est
-			, hours
-			, break_time
-			, email
-			, first_name
-			, last_name
-			, first_name || ' ' || last_name as full_name
-			, position_id
-			, position_name
+			, extract(epoch from end_time - start_time) / 3600 as hours
+			, break_time::float
 			, location_id
-			, location_name
-			, cost
-			, hourly_rate
-		from wiw.shifts
+			, position_id
+			, published as is_published
+			, user_id::text as wiw_user_id
+		from tap_wiw.shifts
+		-- exclude duplicate shifts
+		where id not in
+			('1216735738',
+			'1842146641',
+			'1842148236',
+			'1842149906',
+			'2009841786',
+			'2073341495',
+			'2091530628',
+			'1963137827')
 	)
 
 select *
-	, date_trunc('day', start_time_est)
-		as start_date_est
-	, date_trunc('day', end_time_est)
-		as end_date_est
-
 	{% for timeframe in ['day', 'week', 'month'] %}
 
 	, date_trunc('{{timeframe}}', start_time_est)
@@ -40,15 +37,4 @@ select *
 		as end_{{timeframe}}_est
 
 	{% endfor %}
-
 from shifts
--- exclude duplicate shifts
-where shift_id not in
-	('1216735738',
-	'1842146641',
-	'1842148236',
-	'1842149906',
-	'2009841786',
-	'2073341495',
-	'2091530628',
-	'1963137827')

@@ -2,89 +2,68 @@
 version: 2
 
 models:
+  - name: wiw_locations
+    description: |
+      When I Work locations objects
+    columns:
+      - name: location_id
+        tests:
+          - not_null
+          - unique
+      - name: location_name
+        tests:
+          - not_null
+          - unique
+
+  - name: wiw_positions
+    description: |
+      When I Work position objects; each shift has a position
+    columns:
+      - name: position_id
+        tests:
+          - not_null
+          - unique
+      - name: position_name
+        tests:
+          - not_null
+          - unique
+
   - name: wiw_shifts
     description: |
-      When I Work shifts
-
+      When I Work shifts objects; these are shifts without their details like
+      position and location
     columns:
       - name: shift_id
         tests:
           - not_null
           - unique
-      - name: user_id
-        tests:
-          - not_null
-      - name: start_time
-        tests:
-          - not_null
-      - name: end_time
-        tests:
-          - not_null
-      - name: shift_schedule
-        tests:
-          - not_null
-      - name: start_time_est
-        tests:
-          - not_null
-      - name: end_time_est
-        tests:
-          - not_null
-      - name: start_date_est
-        tests:
-          - not_null
-      - name: end_date_est
-        tests:
-          - not_null
-      - name: hours
-        tests:
-          - not_null
-      - name: break_time
-        tests:
-          - not_null
-      - name: email
-        tests:
-          - not_null
-      - name: first_name
-        tests:
-          - not_null
-      - name: last_name
-        tests:
-          - not_null
-      - name: full_name
-        tests:
-          - not_null
-      - name: position_id
-        tests:
-          - not_null
-      - name: position_name
-        tests:
-          - not_null
-          - relationships:
-              to: ref('wiw_position_groups')
-              field: position_name
       - name: location_id
         tests:
           - not_null
-      - name: location_name
+          - relationships:
+                  to: ref('wiw_locations')
+                  field: location_id
+      - name: wiw_user_id
         tests:
           - not_null
-      - name: cost
+          - relationships:
+                  to: ref('wiw_users')
+                  field: wiw_user_id
+
+  - name: wiw_users
+    description: |
+      When I Work users objects; these are employees and contractors who can be
+      scheduled for shifts
+    columns:
+      - name: wiw_user_id
         tests:
           - not_null
-      - name: hourly_rate
-        tests:
-          - not_null
-    tests:
-      - dbt_utils.recency:
-          field: start_time_est
-          datepart: hour
-          interval: 1
+          - unique
 
   - name: wiw_users_snapshot_2018_09
     description: |
       Snapshot of WIW user hourly rates
       before GP were moved to pay per consult
-
     columns:
       - name: wiw_user_id
         tests:
@@ -94,7 +73,6 @@ models:
   - name: wiw_position_groups
     description: |
       Mapping of WIW position to care team roles
-
     columns:
       - name: position_name
         tests:

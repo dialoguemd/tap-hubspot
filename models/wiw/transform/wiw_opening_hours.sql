@@ -1,6 +1,6 @@
 with
     wiw_shifts as (
-        select * from {{ ref('wiw_shifts') }}
+        select * from {{ ref('wiw_shifts_detailed') }}
     )
 
     , reduced_hours as (
@@ -68,23 +68,23 @@ with
         group by 1
     )
 
-    select opening_hours.date_day
-        , opening_hours.opening_hour_est
-        , opening_hours.closing_hour_est
-        , tsrange(
-            opening_hours.opening_hour_est,
-            opening_hours.closing_hour_est
-        ) as opening_span_est
-        , shifts.shift_start_time_est
-        , shifts.shift_end_time_est
-        , shifts.shift_span_est
-    from opening_hours
-    left join shifts
-        on opening_hours.date_day = shifts.date
-    where opening_hours.date_day not in (
-        '2018-01-01'
-        , '2017-12-31'
-        , '2017-12-30'
-        , '2017-12-25'
-        , '2017-12-24'
-    )
+select opening_hours.date_day
+    , opening_hours.opening_hour_est
+    , opening_hours.closing_hour_est
+    , tsrange(
+        opening_hours.opening_hour_est,
+        opening_hours.closing_hour_est
+    ) as opening_span_est
+    , shifts.shift_start_time_est
+    , shifts.shift_end_time_est
+    , shifts.shift_span_est
+from opening_hours
+left join shifts
+    on opening_hours.date_day = shifts.date
+where opening_hours.date_day not in (
+    '2018-01-01'
+    , '2017-12-31'
+    , '2017-12-30'
+    , '2017-12-25'
+    , '2017-12-24'
+)

@@ -15,10 +15,10 @@ with
     )
 
     , shifts as (
-        select * from {{ ref('wiw_shifts') }}
-        where end_date_est < current_date
+        select * from {{ ref('wiw_shifts_detailed') }}
+        where end_day_est < current_date
         {% if is_incremental() %}
-            and end_date_est > (select max(date_day) from {{ this }})
+            and end_day_est > (select max(date_day) from {{ this }})
         {% endif %}
     )
 
@@ -89,7 +89,7 @@ with
         group by 1,2,3
     )
 
-select shifts.start_date_est as date_day
+select shifts.start_day_est as date_day
     , shifts.shift_id
     -- Aggregate assignments to shifts
     {% for field in [

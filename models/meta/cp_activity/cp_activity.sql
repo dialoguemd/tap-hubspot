@@ -18,7 +18,7 @@ with pages as (
     )
 
     , shifts as (
-        select * from {{ ref('wiw_shifts') }}
+        select * from {{ ref('wiw_shifts_detailed') }}
     )
 
     , subject as (

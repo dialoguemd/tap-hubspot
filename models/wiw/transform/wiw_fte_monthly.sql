@@ -1,9 +1,9 @@
 with
 	shifts as (
-		select * from {{ ref('wiw_shifts') }}
+		select * from {{ ref('wiw_shifts_detailed') }}
 	)
 
-select date_trunc('month', start_date_est) as start_month
+select start_month_est as start_month
 	, sum(hours) / 160.0 as ftes
 from shifts
 where location_name = 'Virtual Care Platform'

@@ -1,6 +1,6 @@
 with
 	shifts as (
-		select * from {{ ref('wiw_shifts') }}
+		select * from {{ ref('wiw_shifts_detailed') }}
 	)
 
 	, templates as (

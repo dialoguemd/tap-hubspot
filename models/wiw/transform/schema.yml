@@ -3,7 +3,6 @@ version: 2
 
 models:
   - name: wiw_costs_by_position_daily
-
     columns:
         - name: start_date
           tests:
@@ -21,7 +20,6 @@ models:
   - name: wiw_fte_monthly
     description: |
       Monthly number of full-time equivalent employees on the virtual care platform
-
     columns:
       - name: start_month
         tests:
@@ -100,5 +98,62 @@ models:
         tests:
           - not_null
       - name: opening_span_est
+        tests:
+          - not_null
+
+  - name: wiw_shifts_detailed
+    columns:
+      - name: shift_id
+        tests:
+          - not_null
+          - unique
+      - name: start_time
+        tests:
+          - not_null
+      - name: end_time
+        tests:
+          - not_null
+      - name: shift_schedule
+        tests:
+          - not_null
+      - name: start_time_est
+        tests:
+          - not_null
+      - name: end_time_est
+        tests:
+          - not_null
+      - name: start_day_est
+        tests:
+          - not_null
+      - name: end_day_est
+        tests:
+          - not_null
+      - name: hours
+        tests:
+          - not_null
+      - name: break_time
+        tests:
+          - not_null
+      - name: first_name
+        tests:
+          - not_null
+      - name: last_name
+        tests:
+          - not_null
+      - name: full_name
+        tests:
+          - not_null
+      - name: location_id
+        tests:
+          - not_null
+      - name: location_name
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Ubisoft', 'Admin', 'Tech support', 'Virtual Care Platform']
+      - name: cost
+        tests:
+          - not_null
+      - name: hourly_rate
         tests:
           - not_null
