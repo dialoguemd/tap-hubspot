@@ -7,8 +7,6 @@ with
 		select date_trunc('week', date) as date_week
 			, count(*) filter (where is_active)
 				/ count(*) :: float as fraction_activities
-			, sum(time_spent) filter (where is_active)
-				/ sum(time_spent) :: float as fraction_time_spent
 			, sum(time_spent) filter (where
 					is_active and episode_id is not null
 				) / sum(time_spent) filter(where is_active) :: float
@@ -27,6 +25,5 @@ select *
 from weeks
 -- Calibrated in April 2019
 where fraction_activities < 0.95
-	or fraction_time_spent < 0.55
 	or fraction_time_spent_in_episode < 0.83
 	or fraction_active_platform_time_spent < 0.66
