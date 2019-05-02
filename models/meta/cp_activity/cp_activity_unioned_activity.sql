@@ -84,7 +84,8 @@ with careplatform_pages as (
                 as rank
         from unioned
         left join phone_calls_tmp
-            on unioned.timestamp <@ phone_calls_tmp.call_range
+            on unioned.user_id = phone_calls_tmp.user_id
+                and unioned.timestamp <@ phone_calls_tmp.call_range
         where phone_calls_tmp.call_id is null
     )
 
