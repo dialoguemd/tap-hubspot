@@ -1,3 +1,9 @@
+{{
+  config(
+    enabled=false
+  )
+}}
+
 with
 	posts_all_time as (
 		select * from {{ ref('messaging_posts_all_time')}}
@@ -287,7 +293,7 @@ with
 		, count(*)
 		from wiw_shifts
 		where location_name = 'Virtual Care Platform'
-		and start_date_est < current_date
+		and start_day_est < current_date
 		group by 1,2,3,4,5
 	)
 

@@ -13,7 +13,7 @@ with
 		from wiw_shifts
 		where position_name in ('GP', 'Nurse Practitioner')
 			and location_name = 'Virtual Care Platform'
-			and start_date_est
+			and start_day_est
 				< date_trunc('week', current_date)
 		group by 1
 	)
