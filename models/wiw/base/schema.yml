@@ -26,7 +26,6 @@ models:
       - name: position_name
         tests:
           - not_null
-          - unique
 
   - name: wiw_shifts
     description: |
