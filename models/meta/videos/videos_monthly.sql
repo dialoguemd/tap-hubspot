@@ -1,4 +1,5 @@
-with videos as (
+with
+	videos as (
 		select * from {{ ref('videos_detailed') }}
 	)
 

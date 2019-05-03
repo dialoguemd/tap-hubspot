@@ -7,10 +7,22 @@ with monthly_count_videos as (
     )
 
 select monthly_count_videos.date_month
-    , coalesce(fl_cost.fl_gp_cost
-        / (monthly_count_videos.other_video_count
-            + 2*monthly_count_videos.psy_video_count),0)
+    , coalesce(
+        fl_cost.fl_gp_cost
+            / (
+                monthly_count_videos.other_video_count
+                + 2 * monthly_count_videos.psy_video_count
+            )
+        -- default cost per video
+        , 45 * (
+            monthly_count_videos.other_video_count
+            + 2 * monthly_count_videos.psy_video_count
+        ) / (
+            monthly_count_videos.other_video_count
+            + monthly_count_videos.psy_video_count
+        )
+    )
     as per_video_cost
 from monthly_count_videos
-inner join fl_cost
+left join fl_cost
 	using (date_month)
