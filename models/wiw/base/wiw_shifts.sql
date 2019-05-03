@@ -9,7 +9,8 @@ with
 			, end_time
 			, timezone('America/Montreal', start_time) as start_time_est
 			, timezone('America/Montreal', end_time) as end_time_est
-			, extract(epoch from end_time - start_time) / 3600 - break_time as hours
+			, extract(epoch from end_time - start_time) / 3600
+				- break_time::float as hours
 			, break_time::float
 			, location_id
 			, position_id
