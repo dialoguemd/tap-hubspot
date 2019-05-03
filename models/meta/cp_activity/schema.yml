@@ -9,7 +9,6 @@ models:
       - name: cp_activity_id
         tests:
           - not_null
-          - unique
       - name: user_id
         tests:
           - not_null
@@ -36,7 +35,6 @@ models:
       - name: cp_activity_id
         tests:
           - not_null
-          - unique
       - name: user_id
         tests:
           - not_null
@@ -63,7 +61,6 @@ models:
       - name: cp_activity_id
         tests:
           - not_null
-          - unique
       - name: user_id
         tests:
           - not_null
