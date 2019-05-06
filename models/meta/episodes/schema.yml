@@ -151,7 +151,10 @@ models:
               - accepted_values:
                   values: ['Outcome ER', 'Outcome NP or MD', 'Outcome WIC',
                     'Outcome WIC Ubisoft clinic', 'Outcome Counselling',
-                    'Outcome Navigation']
+                    'Outcome Navigation', 'Outcome Rx renewal - Out of scope',
+                    'Outcome Rx renewal - Blood pressure',
+                    'Outcome Rx renewal - Mental Health',
+                  ]
         - name: dispatch_recommendation_timestamp
           tests:
               - not_null

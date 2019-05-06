@@ -465,9 +465,6 @@ models:
       - name: main_specialization
         tests:
           - not_null
-      - name: call_duration
-        tests:
-          - not_null
 
   - name: user_contract
     columns:

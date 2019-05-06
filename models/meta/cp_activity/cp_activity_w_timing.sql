@@ -12,9 +12,9 @@
 with
     activity as (
         select * from {{ ref('cp_activity_unioned_activity')}}
-        where timestamp < date_trunc('day', current_timestamp)
+        where timestamp_est < date_trunc('day', current_timestamp)
         {% if is_incremental() %}
-            and timestamp > (select max(activity_start_est) from {{ this }})
+            and timestamp_est > (select max(activity_start_est) from {{ this }})
         {% endif %}
     )
 

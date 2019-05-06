@@ -11,33 +11,33 @@
 
 with careplatform_pages as (
         select * from {{ ref('careplatform_pages_activity') }}
-        where timestamp < date_trunc('day', current_timestamp)
+        where timestamp_est < date_trunc('day', current_timestamp)
         {% if is_incremental() %}
-            and timestamp > (select max(timestamp) from {{ this }})
+            and timestamp_est > (select max(timestamp_est) from {{ this }})
         {% endif %}
     )
 
     , posts_tmp as (
-        select * from {{ ref('messaging_posts_all_time')}}
-        where created_at < date_trunc('day', current_timestamp)
+        select * from {{ ref('messaging_posts_all_time') }}
+        where created_at_est < date_trunc('day', current_timestamp)
         {% if is_incremental() %}
-            and created_at > (select max(timestamp) from {{ this }})
+            and created_at_est > (select max(timestamp_est) from {{ this }})
         {% endif %}
     )
 
     , videos_tmp as (
-        select * from {{ ref('videos_started')}}
-        where timestamp < date_trunc('day', current_timestamp)
+        select * from {{ ref('videos_started') }}
+        where timestamp_est < date_trunc('day', current_timestamp)
         {% if is_incremental() %}
-            and timestamp > (select max(timestamp) from {{ this }})
+            and timestamp_est > (select max(timestamp_est) from {{ this }})
         {% endif %}
     )
 
     , phone_calls_tmp as (
-        select * from {{ ref('telephone_calls')}}
-        where started_at < date_trunc('day', current_timestamp)
+        select * from {{ ref('telephone_calls') }}
+        where started_at_est < date_trunc('day', current_timestamp)
         {% if is_incremental() %}
-            and started_at > (select max(timestamp) from {{ this }})
+            and started_at_est > (select max(timestamp_est) from {{ this }})
         {% endif %}
     )
 
