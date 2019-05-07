@@ -15,15 +15,39 @@ with
 		select * from {{ ref('finance_rebate_monthly') }}
 	)
 
+	, costs_monthly as (
+		select *
+			, fl_gp_cost + fl_np_cost as cost_video
+			, fl_nc_cost + fl_cc_cost
+				-- License and SAAS costs are included for the year of 2019
+				+ case
+					when date_month >= '2019-01-01'
+					then bonjour_sante_cost + licenses_cost + saas_cost
+					else bonjour_sante_cost
+				end
+			as cost_chat
+			, case
+					when date_month >= '2019-01-01'
+					then bonjour_sante_cost + licenses_cost + saas_cost
+					else bonjour_sante_cost
+				end
+			as cost_other
+			, fl_gp_cost + fl_np_cost + fl_nc_cost + fl_cc_cost
+				-- License and SAAS costs are included for the year of 2019
+				+ case
+					when date_month >= '2019-01-01'
+					then bonjour_sante_cost +licenses_cost + saas_cost
+					else bonjour_sante_cost
+				end
+			as cost_total
+		from finance
+	)
+
 	, monthly as (
 		select *
-			, finance.fl_gp_cost + finance.fl_np_cost as cost_video
-			, finance.fl_nc_cost + finance.fl_cc_cost + finance.bonjour_sante_cost as cost_chat
-			, finance.fl_gp_cost + finance.fl_np_cost + finance.fl_nc_cost
-				+ finance.fl_cc_cost + finance.bonjour_sante_cost as cost_total
 			, active_users.daus_paid::float / active_users.daus as paid_users_rate
 		from active_users
-		inner join finance
+		inner join costs_monthly
 			using (date_month)
 		inner join active_contracts
 			using (date_month)
@@ -60,7 +84,7 @@ select monthly.*
 	, monthly.fl_cc_cost / monthly.daus as cost_to_serve_a_patient_cc
 	, monthly.fl_gp_cost / monthly.daus as cost_to_serve_a_patient_gp
 	, monthly.fl_np_cost / monthly.daus as cost_to_serve_a_patient_np
-	, monthly.bonjour_sante_cost / monthly.daus as cost_to_serve_a_patient_other
+	, monthly.cost_other / monthly.daus as cost_to_serve_a_patient_other
 	, monthly.cost_total / monthly.daus as cost_to_serve_a_patient
 from monthly
 left join finance_rebate_monthly

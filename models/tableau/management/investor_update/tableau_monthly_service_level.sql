@@ -10,7 +10,7 @@ select date_trunc('month', date_day_est) as date_month
 			and chat_type = 'New Episode'
 		)
 	as episode_count
-	, percentile_disc(0.9) within group (order by time_since_last_message)
+	, percentile_disc(0.9) within group (order by wait_time_first_care_team)
 		filter(where is_first_message_in_opening_hours)
 	as first_response_time_90p
 	, median(time_to_resolved_pending)

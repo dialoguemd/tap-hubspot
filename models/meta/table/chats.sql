@@ -99,12 +99,14 @@ select md5(messaging.episode_id || messaging.date_day_est) as chat_id
 
 	, case
 		when state_changes.first_set_active < messaging.first_message_nurse
+			and initiator = 'patient'
 		then extract('epoch' from messaging.first_message_nurse
 			- state_changes.first_set_active) / 60.0
 		else null
 		end as frt_nurse
 	, case
 		when state_changes.first_set_active < messaging.first_message_care_team
+			and initiator = 'patient'
 		then extract('epoch' from messaging.first_message_care_team
 			- state_changes.first_set_active) / 60.0
 		else null
