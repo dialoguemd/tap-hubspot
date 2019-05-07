@@ -7,17 +7,19 @@ models:
       - name: response_id
         tests:
           - not_null
-
       - name: question_id
         tests:
           - not_null
           - relationships:
               to: ref('typeform_responses')
               field: question_id
-
     tests:
       - unique:
           column_name: "concat(response_id, question_id)"
+      - dbt_utils.recency:
+          datepart: day
+          field: form_submitted_at
+          interval: 14
 
   - name: typeform_questions
     columns:
