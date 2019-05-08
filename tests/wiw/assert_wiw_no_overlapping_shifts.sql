@@ -1,6 +1,9 @@
 with
 	wiw_shifts as (
         select * from {{ ref('wiw_shifts') }}
+        # Don't test future shifts because they're more likely to be
+        # overlapping or for some other reason not finalized
+        where start_time < current_date
     )
 
 select wiw_shifts.wiw_user_id

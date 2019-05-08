@@ -154,6 +154,8 @@ models:
                     'Outcome Navigation', 'Outcome Rx renewal - Out of scope',
                     'Outcome Rx renewal - Blood pressure',
                     'Outcome Rx renewal - Mental Health',
+                    'Outcome WIC PHYSIO',
+                    'Outcome Nurse Counselling'
                   ]
         - name: dispatch_recommendation_timestamp
           tests:
