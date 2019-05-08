@@ -90,18 +90,46 @@ with
                 scheduled_interviews.stage_name in
                 ('Hiring Manager Screening', 'Hiring manager screen', 'Pitch', 'Screening')
             ) as has_screening
+            , min(
+                case when scheduled_interviews.stage_name in
+                    ('Hiring Manager Screening', 'Hiring manager screen', 'Pitch', 'Screening')
+                then scheduled_at
+                else null
+                end
+            ) as screening_at
             , bool_or(
                 scheduled_interviews.stage_name in
                 ('Case Study', 'Technical Interview', 'Technical interview')
             ) as has_case_study
+            , min(
+                case when scheduled_interviews.stage_name in
+                    ('Case Study', 'Technical Interview', 'Technical interview')
+                then scheduled_at
+                else null
+                end
+            ) as case_study_at
             , bool_or(
                 scheduled_interviews.stage_name in
                 ('Topgrading')
             ) as has_topgrading
+            , min(
+                case when scheduled_interviews.stage_name in
+                    ('Topgrading')
+                then scheduled_at
+                else null
+                end
+            ) as topgrading_at
             , bool_or(
                 scheduled_interviews.stage_name in
                 ('Reference Check', 'Reference check')
             ) as has_reference_check
+            , min(
+                case when scheduled_interviews.stage_name in
+                    ('Reference Check', 'Reference check')
+                then scheduled_at
+                else null
+                end
+            ) as reference_check_at
         from scheduled_interviews
         group by 1
     )
@@ -148,6 +176,10 @@ select applications.candidate_id
         OR applications.status = 'hired', False) as has_topgrading
     , coalesce(interviews_cte.has_reference_check
         OR applications.status = 'hired', False) as has_reference_check
+    , screening_at
+    , case_study_at
+    , topgrading_at
+    , reference_check_at
 from applications
 left join sources_cte
     using (source_id)
