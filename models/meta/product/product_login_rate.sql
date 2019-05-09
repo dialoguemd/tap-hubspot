@@ -16,5 +16,5 @@ select date_day
 from active_users
 left join login_fetch_complete
 	on active_users.user_id = login_fetch_complete.user_id
-	and active_users.date_day = date_trunc('day', login_fetch_complete.received_at)
+	and active_users.date_day = date_trunc('day', login_fetch_complete.timestamp)
 group by 1
