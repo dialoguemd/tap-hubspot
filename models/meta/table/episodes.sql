@@ -149,12 +149,16 @@ select
 	, episodes_chats_summary.is_first_message_in_opening_hours
 
 	, episodes_video_consultations.first_video_consultation_started_at
-	, episodes_video_consultations.includes_video_consultation
+	, coalesce(
+		episodes_video_consultations.includes_video_consultation,
+		false) as includes_video_consultation
 	, episodes_video_consultations.video_consultation_count
 	, episodes_video_consultations.video_consultation_length
 
 	{% for spec in ['gp', 'np', 'psy', 'nutr', 'psy_therapist'] %}
-	, episodes_video_consultations.includes_video_consultation_{{spec}}
+	, coalesce(
+		episodes_video_consultations.includes_video_consultation_{{spec}},
+		false) as includes_video_consultation_{{spec}}
 	, episodes_video_consultations.video_consultation_{{spec}}_count
 	, episodes_video_consultations.video_consultation_{{spec}}_length
 	{% endfor %}
