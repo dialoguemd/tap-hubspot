@@ -2,52 +2,118 @@
 version: 2
 
 models:
-  - name: delighted_nps_patient_survey
+  - name: delighted_survey_decision_maker
+    description: NPS survey responses from client decision makers
     columns:
-      - name: email
+      - name: survey_id
         tests:
           - not_null
-
+          - unique
       - name: score
         tests:
           - not_null
-
       - name: category
         tests:
-          - not_null
+          - accepted_values:
+              values: ['promoter', 'detractor', 'passive']
 
-      - name: timestamp
-        tests:
-          - not_null
-
-      - name: date_week
-        tests:
-          - not_null
-
-      - name: date_month
-        tests:
-          - not_null
-
-    tests:
-      - dbt_utils.recency:
-          field: timestamp
-          datepart: hour
-          interval: 24
-
-  - name: delighted_nps_dm_survey
+  - name: delighted_survey_employer
+    description: deprecated account of NPS survey responses from clients
     columns:
-      - name: email
+      - name: survey_id
         tests:
           - not_null
-
+          - unique
       - name: score
         tests:
           - not_null
-
       - name: category
+        tests:
+          - accepted_values:
+              values: ['promoter', 'detractor', 'passive']
+
+  - name: delighted_survey_patient_en
+    description: NPS survey responses from English patients
+    columns: 
+      - name: survey_id
+        tests:
+          - not_null
+          - unique
+      - name: score
+        tests:
+          - not_null
+      - name: category
+        tests:
+          - accepted_values:
+              values: ['promoter', 'detractor', 'passive']
+
+  - name: delighted_survey_patient_fr
+    description: NPS survey responses from French patients
+    columns:
+      - name: survey_id
+        tests:
+          - not_null
+          - unique
+      - name: score
+        tests:
+          - not_null
+      - name: category
+        tests:
+          - accepted_values:
+              values: ['promoter', 'detractor', 'passive']
+
+  - name: delighted_survey_tags_patient_en
+    description: tags associated with NPS survey responses from English
+      patients; one record per tag and all tags have a survey_id for joining
+    columns:
+      - name: survey_id
+        tests:
+          - not_null
+      - name: tag
         tests:
           - not_null
 
-      - name: timestamp
+  - name: delighted_survey_tags_patient_fr
+    description: tags associated with NPS survey responses from French
+      patients; one record per tag and all tags have a survey_id for joining
+    columns:
+      - name: survey_id
+        tests:
+          - not_null
+      - name: tag
+        tests:
+          - not_null
+
+  - name: delighted_survey_additional_answers_patient_en
+    description: additional questions and answers associated with NPS survey
+      responses from English patients; one record per tag and all tags have a
+      survey_id for joining
+
+      TODO unpackage json objects into more easily used columns
+    columns:
+      - name: survey_id
+        tests:
+          - not_null
+      - name: question
+        tests:
+          - not_null
+      - name: value
+        tests:
+          - not_null
+
+  - name: delighted_survey_additional_answers_patient_fr
+    description: additional questions and answers associated with NPS survey
+      responses from English patients; one record per tag and all tags have a
+      survey_id for joining
+
+      TODO unpackage json objects into more easily used columns
+    columns:
+      - name: survey_id
+        tests:
+          - not_null
+      - name: question
+        tests:
+          - not_null
+      - name: value
         tests:
           - not_null

@@ -4,7 +4,7 @@ with
 	)
 
 	, delighted_nps as (
-		select * from {{ ref('delighted_nps_dm_survey') }}
+		select * from {{ ref('delighted_survey_decision_maker') }}
 	)
 
 	, organizations as (
@@ -16,7 +16,6 @@ with
 			, organization_id
 			, score
 			, category
-			, tags
 			, comment
 			, timestamp
 			, updated_at
@@ -28,7 +27,6 @@ with
 			, organization_id
 			, score
 			, category
-			, tags
 			, comment
 			, timestamp
 			, updated_at

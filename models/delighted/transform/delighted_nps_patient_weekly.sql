@@ -1,6 +1,6 @@
 with
 	nps_survey as (
-		select * from {{ ref('delighted_nps_patient_survey') }}
+		select * from {{ ref('delighted_survey_patient') }}
 	)
 
 select date_week

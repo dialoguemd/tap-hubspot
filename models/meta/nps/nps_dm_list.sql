@@ -14,7 +14,7 @@ with
     )
 
     , nps_survey_dm as (
-        select * from {{ ref('delighted_nps_dm_survey') }}
+        select * from {{ ref('delighted_survey_decision_maker') }}
     )
 
     , sf_contacts as (

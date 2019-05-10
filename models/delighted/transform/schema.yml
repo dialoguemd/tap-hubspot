@@ -56,3 +56,22 @@ models:
       - name: respondent_count
         tests:
           - not_null
+
+  - name: delighted_survey_additional_answers_patient
+    columns:
+      - name: survey_id
+        tests:
+          - not_null
+
+  - name: delighted_survey_patient
+    columns:
+      - name: survey_id
+        tests:
+          - not_null
+          - unique
+
+  - name: delighted_survey_tags_patient
+    columns:
+      - name: survey_id
+        tests:
+          - not_null

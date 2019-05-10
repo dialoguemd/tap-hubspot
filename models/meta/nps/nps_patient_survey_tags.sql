@@ -3,43 +3,25 @@ with
         select * from {{ ref('nps_patient_survey')}}
     )
 
-    , unnested as (
-        select survey_id
-            , episode_id
-            , user_id
-            , category
-            , comment
-            , timestamp as created_at
-            , unnest(tags) as tag
-            , organization_name
-            , family_member_type
-            , language
-            , residence_province
-            , gender
-        from nps
+    , tags as (
+        select * from {{ ref('delighted_survey_tags_patient')}}
     )
 
-select survey_id
-    , episode_id
-    , user_id
-    , category
-    , comment
-    , created_at
-    , case
-        when tag like '+ %' then trim(leading '+ ' from tag)
-        when tag like '- %' then trim(leading '- ' from tag)
-        else null
-        end as tag
-    , case
-        when tag like '+ %' then 'positive'
-        when tag like '- %' then 'negative'
-        else null
-        end as sentiment
-    , organization_name
-    , family_member_type
-    , language
-    , residence_province
-    , gender
-from unnested
-where tag like '+ %'
-    or tag like '- %'
+select tags.survey_id
+    , nps.episode_id
+    , nps.user_id
+    , nps.category
+    , nps.comment
+    , nps.timestamp as created_at
+    , tags.tag
+    , tags.sentiment
+    , nps.organization_name
+    , nps.contract_id
+    , nps.family_member_type
+    , nps.language
+    , nps.residence_province
+    , nps.gender
+from tags
+left join nps
+    using (survey_id)
+where tags.sentiment is not null

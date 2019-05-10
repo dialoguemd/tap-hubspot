@@ -397,26 +397,6 @@ models:
             saas_cost between .2 and .8
             or date_day_est < '2019-01-01'
 
-  - name: nps_patient_survey
-    columns:
-      - name: user_id
-        tests:
-          - not_null
-
-      - name: score
-        tests:
-          - not_null
-
-      - name: category
-        tests:
-          - not_null
-          - accepted_values:
-              values: ['promoter', 'passive', 'detractor']
-
-      - name: organization_id
-        tests:
-          - not_null
-
   - name: accounts
     columns:
       - name: account_id

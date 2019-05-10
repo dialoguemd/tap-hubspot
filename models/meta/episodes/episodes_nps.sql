@@ -1,5 +1,5 @@
 with delighted_nps_patient_survey as (
-        select * from {{ ref('delighted_nps_patient_survey') }}
+        select * from {{ ref('delighted_survey_patient') }}
     )
 
     , all_nps as (

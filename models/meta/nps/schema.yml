@@ -2,16 +2,50 @@
 version: 2
 
 models:
-  - name: nps_patient_survey_with_user_id
+  - name: nps_patient_survey
+    description: |
+      patient surveys with details from user contracts and episodes
     columns:
       - name: user_id
         tests:
           - not_null
-
       - name: score
         tests:
           - not_null
+      - name: category
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['promoter', 'passive', 'detractor']
+    tests:
+      - unique:
+          #add family_member_type for cases where a user has multiple contracts
+          column_name: "concat(survey_id, contract_id)"
 
+
+  - name: nps_dm_survey
+    description: |
+      patient surveys with details from user contracts and episodes
+    columns:
+      - name: score
+        tests:
+          - not_null
+      - name: category
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['promoter', 'passive', 'detractor']
+
+  - name: nps_patient_survey_with_user_id
+    description: |
+      model for joining nps surveys with scribe users by joining on emails
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+      - name: score
+        tests:
+          - not_null
       - name: category
         tests:
           - not_null
@@ -19,12 +53,14 @@ models:
               values: ['promoter', 'passive', 'detractor']
 
   - name: nps_dm_list
+    description: |
+      model to be used by the Delighted Sending Lambda; it identifies the
+      decision makers to whom NPS needs to be sent
     columns:
       - name: email
         tests:
           - not_null
           - unique
-
       - name: contact_type
         tests:
           - not_null
@@ -32,44 +68,39 @@ models:
               values: ['HR + DM (do not use - old)', 'Decision-Maker',
                 'HR Contact (User)', 'C-suite Executive', 'HR Primary Contact',
                 'Account support', 'Decision Maker']
-
       - name: organization_id
         tests:
           - not_null
-
       - name: month_since_billing_start_date
         tests:
           - not_null
-
       - name: locale
         tests:
           - not_null
           - accepted_values:
               values: ['en-dialogue-2', 'fr-dialogue-2']
-
       - name: delighted_email_subject
         tests:
           - not_null
-
       - name: delighted_intro_message
         tests:
           - not_null
 
   - name: nps_patient_list
+    description: |
+      model to be used by the Delighted Sending Lambda; it identifies the
+      patients to whom NPS needs to be sent
     columns:
       - name: user_id
         tests:
           - not_null
-
       - name: email
         tests:
           - not_null
-
       - name: episode_id
         tests:
           - not_null
           - unique
-
       - name: locale
         tests:
           - not_null
@@ -77,13 +108,14 @@ models:
               values: ['en', 'fr']
 
   - name: nps_patient_survey_tags
-    description: an unnested model with one record per tag per nps response
+    description: |
+      an unnested model with one record per tag per nps response; only shows
+      tags that have sentiment (positive/negative)
     columns:
       - name: survey_id
         tests:
           - not_null
-
     tests:
       - unique:
           #add family_member_type for cases where a user has multiple contracts
-          column_name: "concat(survey_id, tag, family_member_type)"
+          column_name: "concat(survey_id, tag, contract_id)"
