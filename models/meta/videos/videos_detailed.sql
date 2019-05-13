@@ -7,6 +7,10 @@ with
 		select * from {{ ref('careplatform_video_stream_ended') }}
 	)
 
+	, video_call_ended as (
+		select * from {{ ref('careplatform_video_end_call') }}
+	)
+
 	, video_end as (
 		select episode_id
 			, practitioner_id as careplatform_user_id
@@ -14,6 +18,16 @@ with
 		from video_stream_ended
 		-- Only include videos since the April 2018 refactor
 		where timestamp_est > '2018-04-10'
+			and timestamp_est <= '2019-05-10 18:21:55'
+
+		union all
+
+		select episode_id
+			, user_id as careplatform_user_id
+			, timestamp_est
+		from video_call_ended
+		-- Only include videos since the May 2019 refactor
+		where timestamp_est > '2019-05-10 18:21:55'
 	)
 
 select md5(

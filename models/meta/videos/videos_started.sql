@@ -11,6 +11,10 @@ with
 		select * from {{ ref('careplatform_video_stream_created') }}
 	)
 
+	, video_start as (
+		select * from {{ ref('careplatform_video_start_call') }}
+	)
+
 	, episodes_subject as (
 		select * from {{ ref('episodes_subject') }}
 	)
@@ -29,12 +33,23 @@ with
 
 	, videos as (
 		select timestamp
+			, timestamp_est
+			, null as patient_id
+			, episode_id
+			, user_id as careplatform_user_id
+		from video_start
+		where timestamp > '2019-05-10 18:21:55'
+
+		union all
+
+		select timestamp
 			, timezone('America/Montreal',timestamp) as timestamp_est
 			, patient_id
 			, episode_id
 			, practitioner_id as careplatform_user_id
 		from video_stream_created
 		where timestamp > '2018-04-10'
+			and timestamp <= '2019-05-10 18:21:55'
 
 		union all
 
