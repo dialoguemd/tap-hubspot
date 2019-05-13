@@ -31,3 +31,103 @@ models:
       - name: user_id
         tests:
           - not_null
+
+  - name: patientapp_screen_consent
+    description: |
+      at this screen the user sees the consent form that is to be accepted
+      before they consult on the app
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+  - name: patientapp_screen_info_warning_invited_email_error
+    description: |
+      at this screen the user sees that there has been an error where their
+      invited email was not found
+    columns:
+      - name: anonymous_id
+        tests:
+          - not_null
+
+  - name: patientapp_screen_info_warning_need_help
+    description: |
+      at this screen the user sees the need help page
+    columns:
+      - name: anonymous_id
+        tests:
+          - not_null
+
+  - name: patientapp_screen_info_warning_unique_id_error
+    description: |
+      at this screen the user sees a warning because their id isn't unique
+    columns:
+      - name: anonymous_id
+        tests:
+          - not_null
+
+  - name: patientapp_screen_info_warning_unknown_error
+    description: |
+      at this screen the user sees a warning for an unknown error
+    columns:
+      - name: anonymous_id
+        tests:
+          - not_null
+
+  - name: patientapp_screen_new_profile
+    description: |
+      at this screen the user has created their new profile and now can add
+      additional details
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+  - name: patientapp_screen_signup_date_of_birth
+    description: |
+      this is the first screen a user sees in the sign up flow; it asks for
+      the user's firt and last name and their birthday; they can also navigate
+      to another screen to sign up by Group ID on this page
+    columns:
+      - name: anonymous_id
+        tests:
+          - not_null
+
+  - name: patientapp_screen_signup_email
+    description: |
+      after inputting their info on the first sign up page the user will be
+      redirected to this page with a flow_id indicating how they arrived
+    columns:
+      - name: anonymous_id
+        tests:
+          - not_null
+
+  - name: patientapp_screen_signup_employee_id
+    description: |
+      at this screen the user enters their employee id and other user details;
+      this user does hits this screen instead of the signup_email screen
+    columns:
+      - name: anonymous_id
+        tests:
+          - not_null
+
+  - name: patientapp_screen_signup_group_id
+    description: |
+      at this screen the user enters their group id to then be able to
+      continue signing up
+    columns:
+      - name: anonymous_id
+        tests:
+          - not_null
+
+  - name: patientapp_aliases
+    description: |
+      Segment's alias table for associating anonymous ids with user ids
+    columns:
+      - name: anonymous_id
+        tests:
+          - not_null
+          - unique
+      - name: user_id
+        tests:
+          - not_null

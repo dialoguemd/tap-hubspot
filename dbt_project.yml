@@ -76,6 +76,8 @@ models:
               materialized: view
       meta:
           materialized: table
+      patientapp:
+          materialized: table
       salesforce:
           materialized: table
       scribe:

@@ -1,0 +1,36 @@
+version: 2
+
+## TODO add more testing to these models
+
+models:
+  - name: funnel_sign_up_dob_match
+    description: |
+      a model for analyzing the steps of the DOB matched funnel
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+  - name: funnel_sign_up_no_dob_match
+    description: |
+      a model for analyzing the steps of the no DOB matched funnel
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+  - name: funnel_sign_up_employee_id
+    description: |
+      a model for analyzing the steps of the employee id funnel
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+  - name: funnel_sign_up_group_id
+    description: |
+      a model for analyzing the steps of the group id funnel
+    columns:
+      - name: user_id
+        tests:
+          - not_null

@@ -1,0 +1,45 @@
+
+version: 2
+
+models:
+  - name: patientapp_screen_signup_dob_aliased
+    description: |
+      patientapp_screen_signup_dob with aliases from anonymous id to user_id
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+  - name: patientapp_screen_signup_email_dob_aliased
+    description: |
+      patientapp_screen_signup_email with aliases from anonymous id to user_id
+      and filtered for those who had a DOB match based on flow_id
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+  - name: patientapp_screen_signup_email_no_dob_aliased
+    description: |
+      patientapp_screen_signup_email with aliases from anonymous id to user_id
+      and filtered for those who did not have a DOB match based on flow_id
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+  - name: patientapp_screen_signup_employee_id_aliased
+    description: |
+      patientapp_screen_signup_employee_id with aliases from anonymous id to user_id
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+  - name: patientapp_screen_signup_group_id_aliased
+    description: |
+      patientapp_screen_signup_group_id with aliases from anonymous id to user_id
+    columns:
+      - name: user_id
+        tests:
+          - not_null

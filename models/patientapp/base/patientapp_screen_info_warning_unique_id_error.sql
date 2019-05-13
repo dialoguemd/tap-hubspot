@@ -1,0 +1,1 @@
+select * from patientapp.screen_info_warning_unique_id_error
