@@ -13,13 +13,17 @@
 {% macro funnel_analysis(events, id_for_aggregation) %}
 
 with
-	unioned as (
+	user_contract as (
+		select * from {{ ref('user_contract') }}
+	)
+
+	, unioned as (
 
 		{% for event in events %}
 
 		select {{id_for_aggregation}}
 			, timestamp
-			, '{{event}}' as event_name
+			, {{loop.index}} || '. {{event}}' as event_name
 			, {{loop.index}} as event_rank
 		from {{target.schema}}.{{event}}
 
@@ -40,20 +44,23 @@ with
 		group by 1
 	)
 
-select *
-	, lag(timestamp)
-		over (partition by {{id_for_aggregation}} order by timestamp)
+select unioned.timestamp
+	, unioned.event_name
+	, unioned.event_rank
+	, linearity.*
+	, lag(unioned.timestamp)
+		over (partition by unioned.{{id_for_aggregation}} order by unioned.timestamp)
 		as previous_timestamp
-	, extract(epoch from (timestamp - lag(timestamp)
-		over (partition by {{id_for_aggregation}} order by timestamp)))
+	, extract(epoch from (unioned.timestamp - lag(unioned.timestamp)
+		over (partition by unioned.{{id_for_aggregation}} order by unioned.timestamp)))
 		as time_delta_from_last_event
 	, case 
 	{% for event in events %}
 
-		when event_rank = {{loop.index}}
+		when unioned.event_rank = {{loop.index}}
 
 		{% for i in range(1, loop.index) %}
-			and has_event_rank_{{i}}
+			and linearity.has_event_rank_{{i}}
 		{% endfor %}
 
 			then true
@@ -61,9 +68,23 @@ select *
 	{% endfor %}
 		else false
 		end as has_preceding_events
+	{%- if id_for_aggregation == 'user_id' %}
+	, user_contract.organization_id
+	, user_contract.organization_name
+	, user_contract.account_id
+	, user_contract.account_name
+	, user_contract.gender
+	, user_contract.language
+	, user_contract.residence_province
+	{% endif -%}
 from unioned
 left join linearity
 	using ({{id_for_aggregation}})
-where {{id_for_aggregation}} is not null
+{%- if id_for_aggregation == 'user_id' %}
+left join user_contract
+	on unioned.user_id = user_contract.user_id
+	and unioned.timestamp <@ user_contract.during
+{% endif -%}
+where unioned.{{id_for_aggregation}} is not null
 
 {% endmacro %}
