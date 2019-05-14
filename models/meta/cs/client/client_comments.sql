@@ -16,7 +16,8 @@ with
 				over (partition by organization_id, language order by timestamp desc)
 				as short_comment_third_most_recent
 		from nps_survey
-		where comment_char_length between 50 and 150
+		where organization_id is not null
+			and comment_char_length between 50 and 150
 			-- TODO: replace with tag regex for testimonials
 			-- and lower(tags::text) like '%appreciation%'
 	)
@@ -34,7 +35,8 @@ with
 				over (partition by organization_id, language order by timestamp desc)
 				as long_comment_third_most_recent
 		from nps_survey
-		where comment_char_length between 150 and 500
+		where  organization_id is not null
+			and comment_char_length between 150 and 500
 			-- TODO: replace with tag regex for testimonials
 			-- and lower(tags::text) like '%appreciation%'
 	)
