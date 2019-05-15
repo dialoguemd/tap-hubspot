@@ -14,6 +14,10 @@ with
 		select * from {{ ref('episodes_saas_costs') }}
 	)
 
+	, bonjour_sante_costs as (
+		select * from {{ ref('episodes_bonjour_sante_costs') }}
+	)
+
 	, staff_costs as (
 		select chats_summary.episode_id
 
@@ -43,7 +47,10 @@ with
 		group by 1
 	)
 
-select coalesce(staff_costs.episode_id, saas_costs.episode_id) as episode_id
+select coalesce(
+		staff_costs.episode_id,
+		saas_costs.episode_id,
+		bonjour_sante_costs.episode_id) as episode_id
 
 	{% for role in roles %}
 		{% if role != 'total' %}
@@ -66,23 +73,30 @@ select coalesce(staff_costs.episode_id, saas_costs.episode_id) as episode_id
 
 	, coalesce(staff_costs.total_cost_total, 0)
 		+ coalesce(saas_costs.saas_cost, 0)
+		+ coalesce(bonjour_sante_costs.bonjour_sante_cost, 0)
 		as total_cost_total
 	, coalesce(staff_costs.total_cost_ops_total, 0)
 		+ coalesce(saas_costs.saas_cost, 0)
+		+ coalesce(bonjour_sante_costs.bonjour_sante_cost, 0)
 		as total_cost_ops_total
 
 	{% for days in days_lag %}
 
 	, coalesce(total_cost_{{days}}_days, 0)
 		+ coalesce(saas_costs.saas_cost, 0)
+		+ coalesce(bonjour_sante_costs.bonjour_sante_cost, 0)
 		as total_cost_{{days}}_days
 	, coalesce(total_cost_ops_{{days}}_days, 0)
 		+ coalesce(saas_costs.saas_cost, 0)
+		+ coalesce(bonjour_sante_costs.bonjour_sante_cost, 0)
 		as total_cost_ops_{{days}}_days
 
 	{% endfor %}
 
 	, saas_costs.saas_cost
+	, bonjour_sante_costs.bonjour_sante_cost
 from staff_costs
 full join saas_costs
+	using (episode_id)
+full join bonjour_sante_costs
 	using (episode_id)

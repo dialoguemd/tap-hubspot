@@ -118,11 +118,31 @@ models:
           tests:
               - not_null
 
+  - name: episodes_bonjour_sante_costs
+    description: |
+      Bonjour Sante cost associated to each episode day
+
+      Computed by splitting the monthly Bonjour Sante costs over the number of
+      unique days in which the Bonjour Sante template was sent (i.e. if the
+      template is sent twice in one day it counts as 1 but if it's sent on two
+      separate days it counts as two)
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+              - relationships:
+                  to: ref('messaging_channels')
+                  field: episode_id
+        - name: bonjour_sante_cost
+          tests:
+              - not_null
+
   - name: episodes_costs
     description: |
       All costs associated to an episodes
 
-      Includes time spent by CC, NC, NP, GP and SAAS costs
+      Includes time spent by CC, NC, NP, GP, SAAS costs, and Bonjour Sante costs
     columns:
         - name: episode_id
           tests:
