@@ -30,6 +30,7 @@ with
 		select episode_id
 			, cc_code
 			, cc_label_en
+			, cc_confidence
 			, timestamp
 			, timezone('America/Montreal', timestamp) as timestamp_est
 		from ccs_parsed_rank
@@ -76,6 +77,7 @@ select
 {% endfor %}
 
 	, cc_parsed_first.cc_code as cc_code_parsed
+	, cc_parsed_first.cc_confidence as cc_code_parsed_confidence
 	, cc_manual_first.cc_code as cc_code_manual
 
 	, cc_parsed_first.timestamp_est as cc_code_parsed_timestamp_est

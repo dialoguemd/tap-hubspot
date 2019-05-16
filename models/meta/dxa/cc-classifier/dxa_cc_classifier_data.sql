@@ -45,7 +45,7 @@ with symptoms as (
     )
 
 select symptoms.episode_id
-    , episodes_chief_complaint.cc_code as shift_manager_label
+    , episodes_chief_complaint.cc_code_manual as shift_manager_label
     , min(cc_confirmed.value) as patient_confirmation_label
     , min(doctor_validated.doctor_label) as doctor_label
     , min(symptoms.descript) as descript

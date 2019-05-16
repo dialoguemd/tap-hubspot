@@ -228,6 +228,7 @@ select
 	, episodes_chief_complaint.cc_label_en
 	, episodes_chief_complaint.timestamp as dxa_triggered_at
 	, episodes_chief_complaint.cc_code_parsed
+	, episodes_chief_complaint.cc_code_parsed_confidence
 	, episodes_chief_complaint.cc_code_manual
 	, episodes_chief_complaint.cc_code_parsed_timestamp_est
 	, episodes_chief_complaint.cc_code_manual_timestamp_est

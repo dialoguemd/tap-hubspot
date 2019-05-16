@@ -17,7 +17,7 @@ select question_tid
     , reply_value
     , question_category
     , reply_label_first as cc_code
-    , reply_labels <> 'cc_confirmation_other' as is_cc_confirmed
+    , reply_label_first <> 'cc_confirmation_other' as is_cc_confirmed
 from question_replied
 where qnaire_name = 'cc_confirmation'
 	and question_name = 'cc_confirmation'
