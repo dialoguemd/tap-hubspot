@@ -102,10 +102,10 @@ archive:
     - source_schema: analytics
       target_schema: archive{{ var("schema_suffix", "_dev") }}
       tables:
-        - source_table: chats
-          target_table: chats_archived
-          updated_at: date_day_est
-          unique_key: chat_id
+        # - source_table: chats
+        #   target_table: chats_archived
+        #   updated_at: date_day_est
+        #   unique_key: chat_id
 
         - source_table: nps_patient_list
           target_table: nps_patient_list_archived
