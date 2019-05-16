@@ -31,7 +31,6 @@ models:
       - name: timestamp
         tests:
           - not_null
-
     tests:
       - unique:
           column_name: "concat(episode_id, timestamp)"
@@ -46,7 +45,18 @@ models:
       - name: outcome
         tests:
           - not_null
-
+          - relationships:
+              to: ref('careplatform_dimension_outcome')
+              field: outcome
+      - name: outcome_category
+        tests:
+          - not_null
+          - relationships:
+              to: ref('careplatform_dimension_outcome')
+              field: outcome_category
+      - name: is_valid_outcome
+        tests:
+          - not_null
     tests:
       - unique:
           column_name: "concat(episode_id, timestamp)"

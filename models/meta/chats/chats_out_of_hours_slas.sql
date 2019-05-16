@@ -52,8 +52,7 @@ with
 		where not chats.is_first_message_in_opening_hours
 			and chats.chat_type = 'New Episode'
 			and chats.initiator = 'patient'
-			and (episodes_outcomes.outcome
-				not in ('test', 'episode_duplicate', 'admin')
+			and (episodes_outcomes.is_valid_outcome
 				or episodes_outcomes.outcome is null)
 	)
 

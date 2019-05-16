@@ -23,17 +23,7 @@ with episodes as (
 				) as resolved_at_day
 			, row_number() over(partition by user_id order by first_set_resolved_pending_at asc) as rank
 		from episodes
-		where outcome
-				not in ('inappropriate_profile'
-						, 'follow_up'
-						, 'patient_thanks'
-						, 'episode_duplicate'
-						, 'new_dependant'
-						, 'test'
-						, 'audit'
-						, 'admin'
-						, 'closed_after_follow_up'
-						, 'patient_unresponsive')
+		where is_valid_outcome
 			and issue_type
 				not in ('test'
 						, 'admin')

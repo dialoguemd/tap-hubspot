@@ -110,3 +110,27 @@ models:
     tests:
       - unique:
           column_name: "concat(user_id, timestamp)"
+
+  - name: careplatform_dimension_outcome
+    columns:
+      - name: outcome_raw
+        tests:
+          - not_null
+          - unique
+      - name: outcome
+        tests:
+          - not_null
+      - name: outcome_category
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Diagnostic', 'Unsuitable episode', 'Other',
+                'Navigation']
+      - name: is_valid_outcome
+        description: |
+          True if the outcome is an episode resolution reason.
+
+          Values like `closed_after_follow_up` are set to false as they are not
+          the main consultation outcome
+        tests:
+          - not_null

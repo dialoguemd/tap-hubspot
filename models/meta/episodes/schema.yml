@@ -183,3 +183,36 @@ models:
         - name: dispatch_recommendation_timestamp_est
           tests:
               - not_null
+
+  - name: episodes_outcomes
+    description: |
+      Episode outcome set by the care team in the care platform
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+        - name: outcome
+          tests:
+              - not_null
+              - relationships:
+                  to: ref('careplatform_dimension_outcome')
+                  field: outcome
+        - name: outcome_category
+          tests:
+              - not_null
+              - relationships:
+                  to: ref('careplatform_dimension_outcome')
+                  field: outcome_category
+        - name: first_outcome
+          tests:
+              - not_null
+              - relationships:
+                  to: ref('careplatform_dimension_outcome')
+                  field: outcome
+        - name: first_outcome_category
+          tests:
+              - not_null
+              - relationships:
+                  to: ref('careplatform_dimension_outcome')
+                  field: outcome_category

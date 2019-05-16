@@ -57,9 +57,7 @@ inner join organizations
 where posts_daily.date_day >= current_date - interval '7 days'
 	and recent_nps_respondents.user_id is null
 	and episodes.set_resolved_pending
-	and episodes.outcome not in (
-		'admin', 'audit', 'episode_duplicate', 'inappropriate_profile',
-		'new_dependant', 'patient_unresponsive', 'test')
+	and episodes.is_valid_outcome
 group by 1,2,3,4
 having
 	min(posts_daily.date_day) = current_date - interval '7 days'

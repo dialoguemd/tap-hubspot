@@ -1,0 +1,35 @@
+outcome_raw,outcome,outcome_category,is_valid_outcome
+care_plan,care_plan,Diagnostic,true
+prescription_pharmacy,md_np_appointment,Diagnostic,true
+prescription_delivery,md_np_appointment,Diagnostic,true
+referral_specialist,referral_specialist,Diagnostic,true
+advice,nurse_counselling,Diagnostic,true
+ubisoft_appointment,ubisoft,Diagnostic,true
+virtual_appointment,md_np_appointment,Diagnostic,true
+md_np_appointment,md_np_appointment,Diagnostic,true
+nurse_counselling,nurse_counselling,Diagnostic,true
+ubisoft,ubisoft,Diagnostic,true
+referral_walk_in,walkin_clinic,Navigation,true
+referral_er,er,Navigation,true
+navigation,navigation_only,Navigation,true
+walking_clinic,walkin_clinic,Navigation,true
+navigation_only,navigation_only,Navigation,true
+er,er,Navigation,true
+patient_unresponsive,unresponsive,Unsuitable episode,false
+inappropriate_profile,not_suitable,Unsuitable episode,true
+patient_thanks,patient_thanks,Unsuitable episode,false
+closed_after_follow_up,closed_after_fu,Unsuitable episode,false
+follow_up,closed_after_fu,Unsuitable episode,false
+international_consult,not_suitable,Unsuitable episode,true
+episode_duplicate,not_suitable,Unsuitable episode,true
+new_dependant,not_suitable,Unsuitable episode,true
+closed_after_fu,closed_after_fu,Unsuitable episode,false
+unresponsive,unresponsive,Unsuitable episode,false
+not_suitable,not_suitable,Unsuitable episode,true
+referral_without_navigation,referral_without_navigation,Other,true
+admin,admin,Other,false
+test,testing_app,Other,true
+audit,quality_review,Other,false
+other,other,Other,false
+testing_app,testing_app,Other,true
+quality_review,quality_review,Other,false

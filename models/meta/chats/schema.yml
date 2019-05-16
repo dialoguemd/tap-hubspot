@@ -21,6 +21,18 @@ models:
       - name: date_day_est
         tests:
           - not_null
+      - name: first_outcome
+        tests:
+            - not_null
+            - relationships:
+                to: ref('careplatform_dimension_outcome')
+                field: outcome
+      - name: last_outcome
+        tests:
+            - not_null
+            - relationships:
+                to: ref('careplatform_dimension_outcome')
+                field: outcome
     tests:
       - unique:
           column_name: "concat(date_day_est, episode_id)"

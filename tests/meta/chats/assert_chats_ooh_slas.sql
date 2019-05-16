@@ -22,6 +22,7 @@ with
 
 select *
 from aggregate
-where (answered_next_day_rate < .93
-    or answered_within_3_opened_hours_rate < .93)
+-- test calibrated on 2019-05-15
+where (answered_next_day_rate < .92
+    or answered_within_3_opened_hours_rate < .92)
     and date_trunc('week', current_date) > date_week

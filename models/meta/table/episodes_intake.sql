@@ -75,7 +75,7 @@ with
 			end as intake_completed_at
 			-- triage groups for post-dxa recommendation training
 			, case
-				when outcomes.outcome = 'ubisoft_appointment'
+				when outcomes.outcome = 'ubisoft'
 				then 'treated_at_ubisoft_clinic'
 				when video_summary.includes_video_consultation_gp
 				then 'treated_by_gp'
@@ -85,12 +85,12 @@ with
 					and outcomes.outcome_category = 'Diagnostic'
 				then 'treated_by_nurse'
 				-- Split into locations for referral
-				when outcomes.outcomes_ordered::text like '%referral_er%'
+				when 'er' = ANY(outcomes.outcomes_ordered)
 				then 'referral_er'
-				when outcomes.outcomes_ordered::text like '%referral_walk_in%'
-					or outcomes.outcomes_ordered::text like '%referral_without_navigation%'
+				when 'walkin_clinic' = ANY(outcomes.outcomes_ordered)
+					or 'referral_without_navigation' = ANY(outcomes.outcomes_ordered)
 				then 'referral_walk_in'
-				when outcomes.outcomes_ordered::text like '%navigation%'
+				when 'navigation_only' = ANY(outcomes.outcomes_ordered)
 				then 'navigation'
 				else 'other'
 		    end as triage_outcome
