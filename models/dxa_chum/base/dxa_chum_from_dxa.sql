@@ -12,7 +12,7 @@ select id, date, file_number, t, a, age, gender, cc, cc_nlp, language
 		when extract('hour' from date::timestamp) < 16 then 'J'
 		else 'S'
 	end as quart_de_travail_arrivee
-	, completion_rate = 100 as is_completed
+	, completion_rate::int = 100 as is_completed
 	, case when cc is null then null else print_delay / 60.0 end as print_delay
 	, extract(epoch from duration) as duration
 from {{ ref('data_dxa_chum_from_dxa') }}
