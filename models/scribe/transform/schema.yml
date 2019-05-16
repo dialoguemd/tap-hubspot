@@ -120,16 +120,43 @@ models:
         tests:
           - not_null
           - unique
-
-      - name: qc_perc
+      - name: quebec_perc
         tests:
           - not_null
-
-      - name: on_perc
+      - name: ontario_perc
         tests:
           - not_null
-
-      - name: roc_perc
+      - name: prince_edward_island_perc
+        tests:
+          - not_null
+      - name: alberta_perc
+        tests:
+          - not_null
+      - name: ontario_perc
+        tests:
+          - not_null
+      - name: british_columbia_perc
+        tests:
+          - not_null
+      - name: saskatchewan_perc
+        tests:
+          - not_null
+      - name: manitoba_perc
+        tests:
+          - not_null
+      - name: quebec_perc
+        tests:
+          - not_null
+      - name: nova_scotia_perc
+        tests:
+          - not_null
+      - name: new_brunswick_perc
+        tests:
+          - not_null
+      - name: newfoundland_and_labrador_perc
+        tests:
+          - not_null
+      - name: yukon_perc
         tests:
           - not_null
 
@@ -184,16 +211,43 @@ models:
       - name: date_week
         tests:
           - not_null
-
-      - name: mrr_qc
+      - name: mrr_quebec
         tests:
           - not_null
-
-      - name: mrr_on
+      - name: mrr_ontario
         tests:
           - not_null
-
-      - name: mrr_roc
+      - name: mrr_prince_edward_island
+        tests:
+          - not_null
+      - name: mrr_alberta
+        tests:
+          - not_null
+      - name: mrr_ontario
+        tests:
+          - not_null
+      - name: mrr_british_columbia
+        tests:
+          - not_null
+      - name: mrr_saskatchewan
+        tests:
+          - not_null
+      - name: mrr_manitoba
+        tests:
+          - not_null
+      - name: mrr_quebec
+        tests:
+          - not_null
+      - name: mrr_nova_scotia
+        tests:
+          - not_null
+      - name: mrr_new_brunswick
+        tests:
+          - not_null
+      - name: mrr_newfoundland_and_labrador
+        tests:
+          - not_null
+      - name: mrr_yukon
         tests:
           - not_null
 

@@ -1,16 +1,22 @@
+{% set provinces = ['Prince Edward Island', 'Alberta', 'Ontario',
+	'British Columbia', 'Saskatchewan', 'Manitoba', 'Quebec', 'Nova Scotia',
+	'New Brunswick', 'Newfoundland and Labrador', 'Yukon'] %}
+
 with
 	user_contract as (
 		select * from {{ ref('scribe_user_contract_detailed') }}
 	)
 
 select organization_id
-    , 1.0 * count(*) filter(where residence_province = 'Quebec')
-    	/ count(*) as qc_perc
-    , 1.0 * count(*) filter(where residence_province = 'Ontario')
-    	/ count(*) as on_perc
-    , 1.0 * count(*) filter(where residence_province not in ('Quebec', 'Ontario'))
-    	/ count(*) as roc_perc
+
+	{% for province in provinces %}
+
+	, 1.0 * count(*) filter(where residence_province = '{{province}}')
+		/ count(*) as {{ province.lower() | replace(" ","_") }}_perc
+
+	{% endfor %}
+
 from user_contract
 where is_signed_up
-    and is_employee
+	and is_employee
 group by 1
