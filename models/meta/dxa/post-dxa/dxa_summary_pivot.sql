@@ -36,17 +36,55 @@ with bool as (
 	)
 
 select episodes.triage_outcome
-	, case when episodes.triage_outcome in
-		('treated_by_gp',
-			'treated_by_np',
-			'treated_by_nurse') then 'virtual'
-		when episodes.triage_outcome in
-		('referral_walk_in',
-			'referral_er',
-			'navigation',
-			'treated_at_ubisoft_clinic') then 'referral'
-		else 'other'
-		end as triage_outcome_simplified
+	, case
+		when episodes.dispatch_recommendation like 'Outcome WIC%'
+		then 'referral'
+		when episodes.dispatch_recommendation like 'Outcome Rx%'
+		then 'virtual'
+		when episodes.dispatch_recommendation in (
+			'Outcome Nurse Counselling', 'Outcome NP or MD'
+		)
+		then 'virtual'
+		when episodes.dispatch_recommendation in (
+			'Outcome ER', 'Outcome Navigation'
+		)
+		then episodes.dispatch_recommendation
+		when episodes.triage_outcome in ('treated_by_gp', 'treated_by_np')
+		then 'virtual'
+		when episodes.triage_outcome = 'referral_walk_in'
+		then 'referral'
+		when episodes.triage_outcome = 'referral_er'
+		then 'referral'
+		when episodes.triage_outcome = 'navigation'
+		then 'referral'
+		when episodes.triage_outcome = 'treated_at_ubisoft_clinic'
+		then 'referral'
+		when episodes.triage_outcome = 'treated_by_nurse'
+		then 'virtual'
+		else 'N/A'
+		end as dispatch_recommendation_simplified
+	, case
+		when episodes.dispatch_recommendation like 'Outcome WIC%'
+		then 'Outcome WIC'
+		when episodes.dispatch_recommendation like 'Outcome Rx%'
+		then 'Outcome Rx'
+		when episodes.dispatch_recommendation is not null
+		then episodes.dispatch_recommendation
+		when episodes.triage_outcome in ('treated_by_gp', 'treated_by_np')
+		then 'Outcome NP or MD'
+		when episodes.triage_outcome = 'referral_walk_in'
+		then 'Outcome WIC'
+		when episodes.triage_outcome = 'referral_er'
+		then 'Outcome ER'
+		when episodes.triage_outcome = 'navigation'
+		then 'Outcome Navigation'
+		when episodes.triage_outcome = 'treated_at_ubisoft_clinic'
+		then 'Outcome WIC Ubisoft clinic'
+		when episodes.triage_outcome = 'treated_by_nurse'
+		then 'Outcome Nurse Counselling'
+		else 'Other'
+		end as dispatch_recommendation_merged
+	, episodes.dispatch_recommendation
 	, episodes.episode_id
 	, episodes.outcome
 	, episodes.outcomes_ordered
