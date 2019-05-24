@@ -259,8 +259,10 @@ models:
             - not_null
         - name: survey_id
           tests:
-            - unique
             - not_null
+    tests:
+      - unique:
+          column_name: "concat(survey_id, contract_id)"
 
   - name: cs_episodes_by_issue_type_monthly
     description: a monthly count of episodes grouped by issue type, organization,
