@@ -84,8 +84,8 @@ with channels as (
 		select * from {{ ref('scribe_users') }}
 	)
 
-	, cc_confirmed as (
-		select * from {{ ref('countdown_cc_confirmed') }}
+	, episodes_cc_confirmed as (
+		select * from {{ ref('episodes_cc_confirmed') }}
 	)
 
 select
@@ -342,15 +342,15 @@ select
 		) / 60
 		as dispatch_time_first_patient_message
 
-	, cc_confirmed.cc_code as cc_code_confirmed
-	, cc_confirmed.is_cc_confirmed
+	, episodes_cc_confirmed.cc_code as cc_code_confirmed
+	, episodes_cc_confirmed.is_cc_confirmed
 
 from channels
 
 -- Jinja loop for repetitive joins
 {% for table in [
-		"cc_confirmed",
 		"episodes_appointment_booking",
+		"episodes_cc_confirmed",
 		"episodes_chats_summary",
 		"episodes_chief_complaint",
 		"episodes_costs",

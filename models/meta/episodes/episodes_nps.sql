@@ -10,6 +10,7 @@ with delighted_nps_patient_survey as (
             , row_number() over (partition by episode_id order by timestamp desc) as rank
          from delighted_nps_patient_survey
          where score is not null
+            and episode_id is not null
     )
 
 select episode_id

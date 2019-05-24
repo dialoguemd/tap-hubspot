@@ -15,13 +15,26 @@ models:
               - not_null
               - unique
 
-  - name: countdown_episode_started_sequence
-
+  - name: countdown_cc_confirmed
+    description: |
+      User answer to the chief complaint classification question
     columns:
-        - name: episode_id
-          tests:
-              - not_null
-              - unique
+      - name: episode_id
+        tests:
+          - not_null
+      - name: cc_code
+        tests:
+          - not_null
+
+  - name: countdown_episode_started_sequence
+    description: |
+      An episode-level aggregation of question replies to the initial
+      questionnaires sent to the patient
+    columns:
+      - name: episode_id
+        tests:
+          - not_null
+          - unique
 
   - name: countdown_symptoms_replied
     description: combines all symptom replies into one unified model

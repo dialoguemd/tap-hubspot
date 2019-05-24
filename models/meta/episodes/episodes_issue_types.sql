@@ -9,6 +9,7 @@ with careplatform_episode_properties_updated as (
             , row_number() over(partition by episode_id order by updated_at desc) as rank
         from careplatform_episode_properties_updated
         where episode_property_type = 'issue_type'
+            and episode_id is not null
     )
 
     , episode_issue_type as (

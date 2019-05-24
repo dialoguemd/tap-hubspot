@@ -2,6 +2,8 @@ version: 2
 
 models:
   - name: episodes_kpis
+    description: active time spent by various functions aggregated within daily,
+      7-day, and all-time timeframes at the episode level
     columns:
         - name: episode_id
           tests:
@@ -100,6 +102,85 @@ models:
           tests:
               - not_null
 
+  - name: episodes_created_sequence_detailed
+    description: answers to the initial episodes creation qnaire sequence
+      aggregated at the episode level
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+
+  - name: episodes_intake
+    description: intake groupings calculated on a per episode basis; this is
+      derived from a variety of other episode models
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+        - name: treatment_category
+          tests:
+              - not_null
+
+  - name: episodes_issue_types
+    description: the most recent issue type and details for a given episode
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+        - name: issue_type
+          tests:
+              - not_null
+
+  - name: episodes_nps
+    description: the most recent NPS score for a given episode
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+        - name: score
+          tests:
+              - not_null
+
+  - name: episodes_outcomes
+    description: outcome details aggregated at the episode level
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+        - name: outcome
+          tests:
+              - not_null
+        - name: outcome_category
+          tests:
+              - not_null
+
+  - name: episodes_priority_levels
+    description: priority level details aggregated at the episode level
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+        - name: priority_level
+          tests:
+              - not_null
+
+  - name: episodes_ratings
+    description: the most recent 5-star rating for a given episode
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+        - name: rating
+          tests:
+              - not_null
+
   - name: episodes_saas_costs
     description: |
       SAAS cost associated to each episode
@@ -118,6 +199,33 @@ models:
           tests:
               - not_null
 
+  - name: episodes_subject
+    description: this models corrects the user id associated with the episode
+      by referring to who the subject identified is rather than the user who
+      is interacting in the episode (this is important for identifying child
+      users)
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+        - name: episode_subject
+          tests:
+              - not_null
+
+  - name: episodes_video_consultations
+    description: facts about video consultations with various specializations
+      excluding Nurse Clinican and Care Coordinator aggregated at the episode
+      level
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+        - name: video_consultation_count
+          tests:
+              - not_null
+
   - name: episodes_bonjour_sante_costs
     description: |
       Bonjour Sante cost associated to each episode day
@@ -126,6 +234,7 @@ models:
       unique days in which the Bonjour Sante template was sent (i.e. if the
       template is sent twice in one day it counts as 1 but if it's sent on two
       separate days it counts as two)
+
     columns:
         - name: episode_id
           tests:
@@ -135,6 +244,18 @@ models:
                   to: ref('messaging_channels')
                   field: episode_id
         - name: bonjour_sante_cost
+
+  - name: episodes_cc_confirmed
+    description: the first cc to be confirmed for a given episode
+    columns:
+        - name: episode_id
+          tests:
+              - not_null
+              - unique
+        - name: cc_code
+          tests:
+              - not_null
+        - name: is_cc_confirmed
           tests:
               - not_null
 

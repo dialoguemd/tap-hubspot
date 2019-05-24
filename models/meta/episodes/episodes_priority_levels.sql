@@ -12,6 +12,7 @@ with careplatform_episode_properties_updated as (
                 ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as current
         from careplatform_episode_properties_updated
         where episode_property_type = 'priority_level'
+            and episode_id is not null
     )
 
     , episode_priority as (
