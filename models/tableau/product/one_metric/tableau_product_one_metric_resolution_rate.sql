@@ -46,7 +46,7 @@ select episodes.episode_id
 		- user_contract.signed_up_at) as days_signed_up_at_first_resolve
 	, extract('day' from current_date
 		- user_contract.signed_up_at) as days_signed_up
-	, row_number() over (partition by episodes.user_id
+	, row_number() over (partition by episodes.patient_id
 		order by episodes.first_set_resolved_pending_at desc) as rank
 	, valid_pairs.valid_pairs is not null as fully_resolved
 from episodes
