@@ -27,10 +27,6 @@ with
 		{% endif %}
 	)
 
-	, test_users as (
-		select * from {{ ref('scribe_test_users') }}
-	)
-
 	, unioned as (
 		select *
 		from messaging_posts
@@ -70,6 +66,5 @@ select post_id
 	max(timezone('America/Montreal', created_at))
 	) as created_at_day_est
 from unioned
-left join test_users using (user_id)
-where test_users.user_id is null
-group by 1,2,3,4,5,6,7,8,9,10,11,12
+{{ exclude_test_users() }}
+{{ dbt_utils.group_by(12) }}

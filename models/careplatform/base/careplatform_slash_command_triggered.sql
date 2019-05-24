@@ -10,3 +10,4 @@ select episode_id
 	, timestamp
 	, {{ to_est() }}
 from careplatform.executed_command
+{{ exclude_test_users() }}

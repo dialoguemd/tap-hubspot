@@ -12,10 +12,6 @@ with countdown_question_replied as (
       select * from {{ ref('countdown_question_replied') }}
   )
 
-  , test_users as (
-      select * from {{ ref('scribe_test_users') }}
-  )
-
   ,answers as (
   select qnaire_tid
           , user_id
@@ -72,7 +68,5 @@ select answers.qnaire_tid
           then 'Moderate stress'
         else 'High stress' end as stress_grouping
 from answers
-left join test_users
-  using (user_id)
-where test_users.user_id is null
+{{ exclude_test_users() }}
 group by 1,2,3
