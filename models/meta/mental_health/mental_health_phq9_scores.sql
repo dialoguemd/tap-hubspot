@@ -1,3 +1,9 @@
+{%
+    set partition =
+        '(partition by episodes.patient_id, episodes.issue_type
+            order by completed.timestamp)'
+%}
+
 with
     qnaire_completed as (
         select * from {{ ref('countdown_qnaire_completed') }}
@@ -64,45 +70,42 @@ select episodes.patient_id as user_id
     , phq.qnaire_tid
     , completed.timestamp
     , first_value(completed.timestamp)
-                over (partition by episodes.user_id
-                    order by completed.timestamp) as first_phq9_timestamp
+                over {{partition}} as first_phq9_timestamp
     , first_value(phq.score)
-        over (partition by episodes.user_id order by completed.timestamp)
+        over {{partition}}
         as initial_phq9_score
     , phq.score
     , coalesce(
         extract(epoch from completed.timestamp -
             lag(completed.timestamp)
-                over (partition by episodes.user_id
-                    order by completed.timestamp)
+                over {{partition}}
         ) / 86400, 0) as days_since_most_recent_phq9
     , coalesce(
         extract(epoch from completed.timestamp -
             first_value(completed.timestamp)
-                over (partition by episodes.user_id
-                    order by completed.timestamp)
+                over {{partition}}
         ) / 86400, 0) as days_since_first_phq9
     , row_number()
-        over (partition by episodes.user_id, episodes.issue_type order by completed.timestamp)
+        over {{partition}}
         as rank
     , coalesce(
         case when (lag(phq.score)
-            over (partition by episodes.user_id order by completed.timestamp)) = 0
+            over {{partition}}) = 0
             then 0
         else (phq.score - (lag(phq.score)
-            over (partition by episodes.user_id order by completed.timestamp)))
+            over {{partition}}))
             * 1.0 / (lag(phq.score)
-            over (partition by episodes.user_id order by completed.timestamp))
+            over {{partition}})
         end, 0)
         as difference_from_most_recent_score
     , coalesce(
         case when (first_value(phq.score)
-            over (partition by episodes.user_id order by completed.timestamp)) = 0
+            over {{partition}}) = 0
             then null
         else (phq.score - (first_value(phq.score)
-            over (partition by episodes.user_id order by completed.timestamp)))
+            over {{partition}}))
             * 1.0 / (first_value(phq.score)
-            over (partition by episodes.user_id order by completed.timestamp))
+            over {{partition}})
         end, 0)
         as difference_from_first_score
     , gad.score as initial_gad7_score
