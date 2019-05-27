@@ -42,7 +42,7 @@ select episodes.triage_outcome
 		when episodes.dispatch_recommendation like 'Outcome Rx%'
 		then 'virtual'
 		when episodes.dispatch_recommendation in (
-			'Outcome Nurse Counselling', 'Outcome NP or MD'
+			'Outcome Nurse Counselling', 'Outcome NP or MD / OC'
 		)
 		then 'virtual'
 		when episodes.dispatch_recommendation in (
@@ -71,7 +71,7 @@ select episodes.triage_outcome
 		when episodes.dispatch_recommendation is not null
 		then episodes.dispatch_recommendation
 		when episodes.triage_outcome in ('treated_by_gp', 'treated_by_np')
-		then 'Outcome NP or MD'
+		then 'Outcome NP or MD / OC'
 		when episodes.triage_outcome = 'referral_walk_in'
 		then 'Outcome WIC'
 		when episodes.triage_outcome = 'referral_er'

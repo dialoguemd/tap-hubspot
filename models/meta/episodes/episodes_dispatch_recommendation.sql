@@ -3,6 +3,10 @@ with
 		select * from {{ ref('careplatform_slash_command_triggered') }}
 	)
 
+	, dim_dispatch_recommendation as (
+		select * from {{ ref('dimension_dispatch_recommendation') }}
+	)
+
 	, ranked as (
 		select episode_id
 			, timestamp as dispatch_recommendation_timestamp
@@ -13,9 +17,12 @@ with
 		where command_id like 'Outcome%'
 	)
 
-select episode_id
-	, dispatch_recommendation
-	, dispatch_recommendation_timestamp
-	, dispatch_recommendation_timestamp_est
+select ranked.episode_id
+	, dim_dispatch_recommendation.dispatch_recommendation
+	, ranked.dispatch_recommendation_timestamp
+	, ranked.dispatch_recommendation_timestamp_est
 from ranked
-where rank = 1
+left join dim_dispatch_recommendation
+	on ranked.dispatch_recommendation
+		= dim_dispatch_recommendation.dispatch_recommendation_raw
+where ranked.rank = 1

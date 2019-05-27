@@ -289,15 +289,9 @@ models:
         - name: dispatch_recommendation
           tests:
               - not_null
-              - accepted_values:
-                  values: ['Outcome ER', 'Outcome NP or MD', 'Outcome WIC',
-                    'Outcome WIC Ubisoft clinic', 'Outcome Counselling',
-                    'Outcome Navigation', 'Outcome Rx renewal - Out of scope',
-                    'Outcome Rx renewal - Blood pressure',
-                    'Outcome Rx renewal - Mental Health',
-                    'Outcome WIC PHYSIO',
-                    'Outcome Nurse Counselling'
-                  ]
+              - relationships:
+                  to: ref('dimension_dispatch_recommendation')
+                  field: dispatch_recommendation
         - name: dispatch_recommendation_timestamp
           tests:
               - not_null
