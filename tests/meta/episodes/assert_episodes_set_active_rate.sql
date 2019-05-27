@@ -12,7 +12,7 @@ with
 
 select *
 from active_fraction
-where fraction > 0.23
+where fraction > 0.25
     and date_week > '2018-01-01'
     and date_week < date_trunc('week', current_timestamp)
 -- This test was calibrated on 2019-04-17
