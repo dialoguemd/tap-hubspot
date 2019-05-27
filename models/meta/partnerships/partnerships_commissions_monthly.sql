@@ -28,11 +28,12 @@ with
 			, opportunities.partner_contact_name
 			, opportunities.partner_account_id
 			, opportunities.partner_name
-			, opportunities.close_date
+			, min(opportunities.close_date) as close_date
 		from churn_monthly
 		inner join opportunities
 			using (account_id)
 		where opportunities.is_won
+		{{ dbt_utils.group_by(13) }}
 	)
 
 select md5(account_id || date_month) as account_month_id
