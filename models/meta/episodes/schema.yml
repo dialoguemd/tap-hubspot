@@ -240,9 +240,10 @@ models:
           tests:
               - not_null
               - unique
-              - relationships:
-                  to: ref('messaging_channels')
-                  field: episode_id
+              # TODO: readd when we determine a solution to DM-366
+              # - relationships:
+              #     to: ref('messaging_channels')
+              #     field: episode_id
         - name: bonjour_sante_cost
 
   - name: episodes_cc_confirmed
@@ -269,9 +270,10 @@ models:
           tests:
               - not_null
               - unique
-              - relationships:
-                  to: ref('messaging_channels')
-                  field: episode_id
+              # TODO: readd when we determine a solution to DM-366
+              # - relationships:
+              #     to: ref('messaging_channels')
+              #     field: episode_id
 
   - name: episodes_dispatch_recommendation
     description: |
