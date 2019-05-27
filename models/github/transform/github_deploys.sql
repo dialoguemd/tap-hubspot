@@ -14,6 +14,8 @@ select prs.number
 	, prs.created_at
 	, prs.merged_at
 	, prs.base_branch
+	, prs.description
+	, prs.author_name
 	, coalesce(prs.repo_name,
 		split_part(
 			replace(prs.html_url, 'https://github.com/dialoguemd/', ''),
