@@ -136,72 +136,117 @@ with
         group by 1
     )
 
-select applications.candidate_id
-    , applications.applied_at
-    , coalesce(
-        applications.rejected_at,
-        offers.resolved_at) as application_closed_at
-    , applications.status as application_status
-    , applications.prospect as application_prospect
-    , users.first_name || ' ' || users.last_name as recruiter
-    , sources_cte.source_name
-    , coalesce(
-        sources_cte.source_grouping_name
-        , 'Other'
-        ) as source_grouping_name
-    , jobs.status as job_status
-    , jobs.opened_at as job_opened_at
-    , jobs.closed_at as job_closed_at
-    , jobs.name as job_name
-    , departments.name as department_name
-    , rejection_reasons_cte.rejection_reason
-    , rejection_reasons_cte.rejection_reason_grouping
-    , offices.name as office_name
-    , offers.sent_at as offer_sent_at
-    , offers.resolved_at as offer_resolved_at
-    , coalesce(
-        offers.status,
-        'no_offer'
-        ) as offer_status
-    , interviews_cte.interviews_count
-    , coalesce(interviews_cte.has_screening
-        OR interviews_cte.has_case_study
-        OR interviews_cte.has_topgrading
-        OR interviews_cte.has_reference_check
-        OR applications.status = 'hired', False) as has_screening
-    , coalesce(interviews_cte.has_case_study
-        OR interviews_cte.has_topgrading
-        OR interviews_cte.has_reference_check
-        OR applications.status = 'hired', False) as has_case_study
-    , coalesce(interviews_cte.has_topgrading
-        OR interviews_cte.has_reference_check
-        OR applications.status = 'hired', False) as has_topgrading
-    , coalesce(interviews_cte.has_reference_check
-        OR applications.status = 'hired', False) as has_reference_check
-    , screening_at
-    , case_study_at
-    , topgrading_at
-    , reference_check_at
-from applications
-left join sources_cte
-    using (source_id)
-left join applications_jobs
-    on applications.id = applications_jobs.application_id
-left join jobs
-    on applications_jobs.job_id = jobs.id
-left join departments
-    on jobs.department_id = departments.id
-left join interviews_cte
-    on applications.id = interviews_cte.application_id
-left join jobs_offices
-    on jobs.id = jobs_offices.job_id
-left join offices
-    on jobs_offices.office_id = offices.id
-left join offers
-    on applications.id = offers.application_id
-left join rejection_reasons_cte
-    using (rejection_reason_id)
-left join candidates
-    on applications.candidate_id = candidates.id
-left join users
-    on candidates.recruiter_id = users.id
+    , joined as (
+        select applications.candidate_id
+            , applications.applied_at
+            , coalesce(
+                applications.rejected_at,
+                offers.resolved_at) as application_closed_at
+            , applications.status as application_status
+            , applications.prospect as application_prospect
+            , users.first_name || ' ' || users.last_name as recruiter
+            , sources_cte.source_name
+            , coalesce(
+                sources_cte.source_grouping_name
+                , 'Other'
+                ) as source_grouping_name
+            , jobs.status as job_status
+            , jobs.opened_at as job_opened_at
+            , jobs.closed_at as job_closed_at
+            , jobs.name as job_name
+            , departments.name as department_name
+            , rejection_reasons_cte.rejection_reason
+            , rejection_reasons_cte.rejection_reason_grouping
+            , offices.name as office_name
+            , offers.sent_at as offer_sent_at
+            , offers.resolved_at as offer_resolved_at
+            , coalesce(
+                offers.status,
+                'no_offer'
+                ) as offer_status
+            , interviews_cte.interviews_count
+            , coalesce(interviews_cte.has_screening
+                OR interviews_cte.has_case_study
+                OR interviews_cte.has_topgrading
+                OR interviews_cte.has_reference_check
+                OR applications.status = 'hired', False) as has_screening
+            , coalesce(interviews_cte.has_case_study
+                OR interviews_cte.has_topgrading
+                OR interviews_cte.has_reference_check
+                OR applications.status = 'hired', False) as has_case_study
+            , coalesce(interviews_cte.has_topgrading
+                OR interviews_cte.has_reference_check
+                OR applications.status = 'hired', False) as has_topgrading
+            , coalesce(interviews_cte.has_reference_check
+                OR applications.status = 'hired', False) as has_reference_check
+            , case
+                when applications.status = 'hired' then 'hired'
+                when applications.status = 'rejected' then 'rejected'
+                when interviews_cte.has_reference_check then 'reference_check'
+                when interviews_cte.has_topgrading then 'topgrading'
+                when interviews_cte.has_case_study then 'case_study'
+                when interviews_cte.has_screening then 'screening'
+                else 'new'
+                end as application_stage
+            , screening_at
+            , case_study_at
+            , topgrading_at
+            , reference_check_at
+        from applications
+        left join sources_cte
+            using (source_id)
+        left join applications_jobs
+            on applications.id = applications_jobs.application_id
+        left join jobs
+            on applications_jobs.job_id = jobs.id
+        left join departments
+            on jobs.department_id = departments.id
+        left join interviews_cte
+            on applications.id = interviews_cte.application_id
+        left join jobs_offices
+            on jobs.id = jobs_offices.job_id
+        left join offices
+            on jobs_offices.office_id = offices.id
+        left join offers
+            on applications.id = offers.application_id
+        left join rejection_reasons_cte
+            using (rejection_reason_id)
+        left join candidates
+            on applications.candidate_id = candidates.id
+        left join users
+            on candidates.recruiter_id = users.id
+    )
+
+select *
+    , case
+        when application_stage = 'new' and department_name in ('Tech', 'Product') then 0
+        when application_stage = 'new' and department_name = 'Medical Operations' then 0
+        when application_stage = 'new' and department_name = 'Sales' then 0
+        when application_stage = 'new' then 0
+        when application_stage = 'screening' and department_name in ('Tech', 'Product') then 0.108695652173913
+        when application_stage = 'screening' and department_name = 'Medical Operations' then 0.226190476190476
+        when application_stage = 'screening' and department_name = 'Sales' then 0.0443548387096774
+        when application_stage = 'screening' then 0.0892857142857143
+        when application_stage = 'case_study' and department_name in ('Tech', 'Product') then 0.283018867924528
+        when application_stage = 'case_study' and department_name = 'Medical Operations' then 0.539007092198582
+        when application_stage = 'case_study' and department_name = 'Sales' then 0.20952380952381
+        when application_stage = 'case_study' then 0.357142857142857
+        when application_stage = 'topgrading' and department_name in ('Tech', 'Product') then 0.535714285714286
+        when application_stage = 'topgrading' and department_name = 'Medical Operations' then 0.554744525547445
+        when application_stage = 'topgrading' and department_name = 'Sales' then 0.372881355932203
+        when application_stage = 'topgrading' then 0.476190476190476
+        when application_stage = 'reference_check' and department_name in ('Tech', 'Product') then 0.9375
+        when application_stage = 'reference_check' and department_name = 'Medical Operations' then 1
+        when application_stage = 'reference_check' and department_name = 'Sales' then 0.88
+        when application_stage = 'reference_check' then 0.909090909090909
+        when application_stage = 'hired' and department_name in ('Tech', 'Product') then 1
+        when application_stage = 'hired' and department_name = 'Medical Operations' then 1
+        when application_stage = 'hired' and department_name = 'Sales' then 1
+        when application_stage = 'hired' then 1
+        when application_stage = 'rejected' and department_name in ('Tech', 'Product') then 0
+        when application_stage = 'rejected' and department_name = 'Medical Operations' then 0
+        when application_stage = 'rejected' and department_name = 'Sales' then 0
+        when application_stage = 'rejected' then 0
+        else 0
+        end as hire_likehlihood
+from joined
