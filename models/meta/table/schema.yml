@@ -122,33 +122,26 @@ models:
         tests:
           - not_null
           - unique
-
       - name: organization_name
         tests:
           - not_null
-
       - name: account_id
         tests:
           - not_null
-
       - name: account_name
         tests:
           - not_null
-
       - name: account_industry
         tests:
           - not_null
-
       - name: features
         tests:
           - not_null
-
       - name: has_mental_health
         tests:
           - not_null
           - accepted_values:
               values: [true, false]
-
       - name: has_24_7
         tests:
           - not_null
@@ -198,26 +191,60 @@ models:
           datepart: month
           interval: 1
 
+  - name: active_users_unfiltered
+    columns:
+      - name: dau_id
+        tests:
+          - not_null
+      - name: patient_id
+        tests:
+          - not_null
+      - name: organization_id
+        tests:
+          - not_null
+      - name: contract_id
+        tests:
+          - not_null
+      - name: date_day
+        tests:
+          - not_null
+      - name: family_member_type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Employee', 'Dependent', 'Child']
+    tests:
+      - unique:
+          column_name: "concat(date_day, patient_id, contract_id)"
 
   - name: active_users
     columns:
       - name: dau_id
         tests:
           - not_null
-
       - name: patient_id
         tests:
           - not_null
-
+      - name: organization_id
+        tests:
+          - not_null
+      - name: contract_id
+        tests:
+          - not_null
       - name: date_day
         tests:
           - not_null
-
+      - name: set_active
+        tests:
+          - not_null
       - name: family_member_type
         tests:
           - not_null
           - accepted_values:
               values: ['Employee', 'Dependent', 'Child']
+    tests:
+      - unique:
+          column_name: "concat(date_day, patient_id, contract_id)"
 
   - name: active_users_weekly
     columns:
@@ -225,31 +252,24 @@ models:
         tests:
           - not_null
           - unique
-
       - name: waus
         tests:
           - not_null
-
       - name: daus
         tests:
           - not_null
-
       - name: daus_chat
         tests:
           - not_null
-
       - name: daus_video_gp_np
         tests:
           - not_null
-
       - name: waus_paid
         tests:
           - not_null
-
       - name: daus_paid
         tests:
           - not_null
-
       - name: daus_chat_paid
         tests:
           - not_null
@@ -260,35 +280,27 @@ models:
         tests:
           - not_null
           - unique
-
       - name: maus
         tests:
           - not_null
-
       - name: daus
         tests:
           - not_null
-          
       - name: daus_chat
         tests:
           - not_null
-          
       - name: daus_video_gp_np
         tests:
           - not_null
-          
       - name: maus_paid
         tests:
           - not_null
-          
       - name: daus_paid
         tests:
           - not_null
-          
       - name: daus_chat_paid
         tests:
           - not_null
-          
       - name: daus_video_gp_np_paid
         tests:
           - not_null
@@ -403,7 +415,6 @@ models:
         tests:
           - not_null
           - unique
-
       - name: account_name
         tests:
           - not_null
@@ -417,7 +428,6 @@ models:
         tests:
             - not_null
             - unique
-
       - name: main_specialization
         tests:
           - not_null
@@ -451,53 +461,42 @@ models:
       - name: contract_id
         tests:
           - not_null
-
       - name: user_id
         tests:
           - not_null
-
       - name: organization_id
         tests:
           - not_null
-
       - name: participant_id
         tests:
           - not_null
-
       - name: during
         tests:
           - not_null
-
       - name: organization_is_paid
         tests:
           - not_null
-
       - name: is_employee
         tests:
           - not_null
-
       - name: is_child
         tests:
           - not_null
-
       - name: family_member_type
         tests:
           - not_null
           - accepted_values:
               values: ['Employee', 'Child', 'Dependent']
-
       - name: language
         tests:
           - not_null
           - accepted_values:
               values: ['FR', 'EN']
-
       - name: gender
         tests:
           # TODO remove N/A once there are no active users without gender set
           - accepted_values:
               values: ['M', 'F', 'N/A']
-
       - name: residence_province
         tests:
           - not_null
@@ -506,33 +505,26 @@ models:
               'Saskatchewan', 'British Columbia', 'Manitoba', 'Quebec',
               'New Brunswick', 'Nova Scotia', 'Yukon',
               'Newfoundland and Labrador']
-
       - name: residence_province_code
         tests:
           - not_null
-
       - name: residence_province
         tests:
           - not_null
-
       - name: account_id
         tests:
           - not_null
-
       - name: account_name
         tests:
           - not_null
-
       - name: features
         tests:
           - not_null
-
       - name: has_mental_health
         tests:
           - not_null
           - accepted_values:
               values: [true, false]
-
       - name: has_24_7
         tests:
           - not_null
