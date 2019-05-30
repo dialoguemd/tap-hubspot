@@ -24,7 +24,9 @@ with
 			using (organization_id, date_day)
 	)
 
-select joined.*
+select date_trunc('month', date_day) as date_month
+	, date_trunc('week', date_day) as date_week
+	, joined.*
 	{% for field in
 		['invited_employee_count',
 		'signed_up_employee_rate',

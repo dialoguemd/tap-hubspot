@@ -154,3 +154,44 @@ having count(*) > 1
 * Every Segment schema should be tested for recency using the DBT Utils package
 * Data tests are organized in the `/tests` directory and in subdirectories matching to their source or model directory (e.g. `scribe` or `meta/costs`; due to the relatively small count of data tests there is no need to distinguish between base and transform)
 * TODO: Bond and trend tests shold be used when possible
+
+#### Static Historical Testing
+Static Historical Testing compares a historical snapshot of metrics with computed metrics as they are at testing. This allows for a full-refresh to be tested appropriately and for core tables to be tested for changes in history (perhaps due to a change or corruption of a source data set).
+
+They do this by grouping by various dimensions, calculating various facts, and then comparing those facts with the possibility of allowing for a degree of sensitivity (e.g. comparing DAUs within 5% of what they were historically for various organizations, this allows for small changes possibly to things like user_contracts while also asserting that historical reporting has remained roughly the same.)
+
+These tests are configured by creating a snapshot CTAS model (stored in `analysis/static_historicals`) and a test file (stored in `tests/historical_equivalency`).
+
+The CTAS model is not compiled and run by DBT, so it's plain old SQL. This model is formed by grouping by dimensions and summing or counting various facts, depending on their type (i.e. sum numerical values and count IDs).
+
+```
+CREATE TABLE
+        static_historicals.chats
+    AS (
+
+    with
+        data as (
+            select * from analytics.chats
+            where date_week < date_trunc('week', current_timestamp)
+        )
+
+    select date_week
+        , chat_type
+        , count(distinct user_id) as user_count
+        , count(distinct episode_id) as episode_count
+        , count(distinct patient_id) as patient_count
+        , current_timestamp as archived_at
+    from data
+    group by 1,2
+)
+```
+
+The test model is classic Jinja. Define the facts, dimensions, and then fill in the definition with them, the model name, and a sensitivity (recommended would be 0.05).
+
+```
+{% set facts = ['user', 'episode', 'patient'] %}
+
+{% set dimensions = ['date_week', 'chat_type'] %}
+
+{{ historical_equivalency_count_test(facts, dimensions, 'chats', 0.05) }}
+```
