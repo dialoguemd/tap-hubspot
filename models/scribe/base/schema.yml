@@ -172,9 +172,10 @@ models:
         tests:
           - not_null
           - unique
+          ## scribe_plans_detailed uses these to define various booleans
           - accepted_values:
               values: ['nurse', 'family', '24_7', 'mental_health', 'biogeniq',
-                'merck', 'caution']
+                'merck', 'caution', 'mental_health_family', 'intake']
 
   - name: scribe_organization_administrator
     description: |

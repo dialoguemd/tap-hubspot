@@ -15,7 +15,8 @@ with
 		select plan_feature_junction.plan_id
 			, string_agg(features.feature_name, ', ') as features
 			, bool_or(features.feature_name = '24_7') as has_24_7
-			, bool_or(features.feature_name = 'mental_health') as has_mental_health
+			, bool_or(features.feature_name in ('mental_health', 'mental_health_family'))
+				as has_mental_health
 		from plan_feature_junction
 		left join features
 			using (feature_id)
