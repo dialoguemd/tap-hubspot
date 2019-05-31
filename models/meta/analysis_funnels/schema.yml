@@ -34,3 +34,33 @@ models:
       - name: user_id
         tests:
           - not_null
+
+  - name: funnel_sign_up_need_help_exit
+    description: |
+      a model for analyzing who hit dob, email, and then need help
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+  - name: funnel_sign_up_dob_email_back_to_dob
+    description: |
+      a model for analyzing who went from dob to email and then back to dob
+
+      note that this is not the general use case for a funnel (funnels should be
+      DAGs) but will work if you filter on a nonzero time_delta_from_last_event
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+
+  - name: funnel_sign_up_dob_group_id_back_to_dob
+    description: |
+      a model for analyzing who went from dob to email and then back to dob
+
+      note that this is not the general use case for a funnel (funnels should be
+      DAGs) but will work if you filter on a nonzero time_delta_from_last_event
+    columns:
+      - name: user_id
+        tests:
+          - not_null

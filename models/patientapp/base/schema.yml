@@ -32,6 +32,18 @@ models:
         tests:
           - not_null
 
+  - name: patientapp_log_button_clicked
+    description: |
+      this event is fired when a user clicks certain buttons in the app,
+      especially those in the sign up flow
+    columns:
+      - name: anonymous_id
+        tests:
+          - not_null
+      - name: button_name
+        tests:
+          - not_null
+
   - name: patientapp_screen_consent
     description: |
       at this screen the user sees the consent form that is to be accepted

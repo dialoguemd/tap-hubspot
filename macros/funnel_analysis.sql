@@ -9,6 +9,10 @@
 ## event flows and by time_delta_from_last_event to exclude events that may
 ## have taken longer to occur than expected.
 
+## Note that the standard use case for this macro is with a DAG-style funnel.
+## This could work for a non-DAG funnel but it's hacky and you will have to
+## always filter on a nonzero time_delta_from_last_event.
+
 
 {% macro funnel_analysis(events, id_for_aggregation) %}
 
