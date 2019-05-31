@@ -1,0 +1,104 @@
+select {{ expand_date(ts_field='date') }}
+	, currencyrate
+	, amount as line_amount
+	, reference
+	, isreconciled
+	, status
+	, paymenttype as payment_type
+	, updateddateutc
+	, nullif(account__code, '') as account_code
+	, account__type as account_type
+	, account__updateddateutc
+	, account__reportingcodename
+	, account__systemaccount
+	, account__bankaccounttype
+	, account__taxtype as tax_type
+	, account__description
+	, account__class
+	, account__accountid
+	, account__bankaccountnumber
+	, account__status
+	, account__showinexpenseclaims
+	, account__currencycode
+	, account__reportingcode
+	, account__enablepaymentstoaccount
+	, account__hasattachments
+	, invoice__type
+	, invoice__contact__contactid
+	, invoice__contact__contactnumber
+	, invoice__contact__accountnumber
+	, invoice__contact__contactstatus
+	, invoice__contact__name
+	, invoice__contact__firstname
+	, invoice__contact__lastname
+	, invoice__contact__emailaddress
+	, invoice__contact__skypeusername
+	, invoice__contact__bankaccountdetails
+	, invoice__contact__taxnumber
+	, invoice__contact__accountsreceivabletaxtype
+	, invoice__contact__accountspayabletaxtype
+	, invoice__contact__issupplier
+	, invoice__contact__iscustomer
+	, invoice__contact__defaultcurrency
+	, invoice__contact__updateddateutc
+	, invoice__contact__xeronetworkkey
+	, invoice__contact__salesdefaultaccountcode
+	, invoice__contact__purchasesdefaultaccountcode
+	, invoice__contact__trackingcategoryname
+	, invoice__contact__trackingcategoryoption
+	, invoice__contact__paymentterms__sales__day
+	, invoice__contact__paymentterms__sales__type
+	, invoice__contact__paymentterms__bills__day
+	, invoice__contact__paymentterms__bills__type
+	, invoice__contact__website
+	, invoice__contact__brandingtheme__createddateutc
+	, invoice__contact__brandingtheme__sortorder
+	, invoice__contact__brandingtheme__name
+	, invoice__contact__brandingtheme__brandingthemeid
+	, invoice__contact__batchpayments__details
+	, invoice__contact__batchpayments__reference
+	, invoice__contact__batchpayments__code
+	, invoice__contact__batchpayments__bankaccountnumber
+	, invoice__contact__batchpayments__bankaccountname
+	, invoice__contact__discount
+	, invoice__contact__balances__accountsreceivable__outstanding
+	, invoice__contact__balances__accountsreceivable__overdue
+	, invoice__contact__balances__accountspayable__outstanding
+	, invoice__contact__balances__accountspayable__overdue
+	, invoice__contact__hasattachments
+	, invoice__contact__hasvalidationerrors
+	, invoice__date
+	, invoice__duedate
+	, invoice__status
+	, invoice__lineamounttypes as line_amount_types
+	, invoice__subtotal
+	, invoice__totaltax as tax_amount
+	, invoice__total
+	, invoice__totaldiscount
+	, invoice__updateddateutc
+	, invoice__currencycode
+	, invoice__currencyrate
+	, invoice__invoiceid
+	, invoice__invoicenumber
+	, invoice__reference
+	, invoice__brandingthemeid
+	, invoice__url
+	, invoice__senttocontact
+	, invoice__expectedpaymentdate
+	, invoice__plannedpaymentdate
+	, invoice__hasattachments
+	, invoice__amountdue
+	, invoice__amountpaid
+	, invoice__fullypaidondate
+	, invoice__amountcredited
+	, invoice__duedatestring
+	, invoice__isdiscounted
+	, invoice__haserrors
+	, invoice__datestring
+	, creditnote__creditnotenumber
+	, bankamount
+	, hasvalidationerrors
+	, paymentid as payment_id
+	, hasaccount
+	, batchpaymentid
+from tap_xero.payments

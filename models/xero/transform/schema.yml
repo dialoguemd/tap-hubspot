@@ -9,19 +9,15 @@ models:
       - name: date_month
         tests:
           - not_null
-
       - name: account_group
         tests:
           - not_null
           - accepted_values:
               values: ['N/A', 'Sales Expenses', 'Customer Success',
               'General Administration', 'Health Team', 'Marketing Expenses',
-              'Technology', 'New Services', 'Partnerships', 'Human Ressources']
-
-      - name: account_name
-        tests:
-          - not_null
-
+              'Technology', 'New Services', 'Partnerships', 'Human Ressources',
+              'Health Platform', 'Mental Health', 'Physical Clinic'
+            ]
       - name: amount
         tests:
           - not_null
@@ -44,3 +40,116 @@ models:
       - name: cost_ae
         tests:
           - not_null
+
+  - name: xero_payments_detailed
+    description: |
+      Payments made through Xero
+    columns:
+      - name: line_amount_excl_tax
+        tests:
+          - not_null
+
+  - name: xero_bank_transactions_line_items_detailed
+    description: |
+      Spend and receive money transactions, overpayments and prepayments
+      Each record represents a bank transaction line item
+    columns:
+      - name: line_item_id
+        tests:
+          - not_null
+          - unique
+      - name: bank_transaction_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('xero_bank_transactions')
+              field: bank_transaction_id
+      - name: account_code
+        tests:
+          - relationships:
+              to: ref('xero_accounts')
+              field: account_code
+      - name: line_amount_excl_tax
+        tests:
+          - not_null
+
+  - name: xero_invoices_line_items_detailed
+    description: |
+      Line items of Xero invoices
+    columns:
+      - name: invoice_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('xero_invoices')
+              field: invoice_id
+      - name: account_code
+        tests:
+          - relationships:
+              to: ref('xero_accounts')
+              field: account_code
+      - name: line_amount_excl_tax
+        tests:
+          - not_null
+
+  - name: xero_manual_journals_journal_lines_detailed
+    description: |
+      Line items of Xero manual journal entries
+    columns:
+      - name: manual_journal_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('xero_manual_journals')
+              field: manual_journal_id
+      - name: account_code
+        tests:
+          - not_null
+          - relationships:
+              to: ref('xero_accounts')
+              field: account_code
+      - name: line_amount_excl_tax
+        tests:
+          - not_null
+
+  - name: xero_expenses_detailed
+    description: |
+      Xero expenses going in the P&L report with account grouping
+
+      Expenses include invoices, manual journal entries, bank transactions and
+      payments
+    columns:
+      - name: account_group
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['N/A', 'Sales Expenses', 'Customer Success',
+              'General Administration', 'Health Team', 'Marketing Expenses',
+              'Technology', 'New Services', 'Partnerships', 'Human Ressources',
+              'Health Platform', 'Mental Health', 'Physical Clinic'
+            ]
+      - name: account_budget_category
+        tests:
+          - not_null
+
+  - name: xero_budget_monthly_detailed
+    columns:
+      - name: date_month
+        tests:
+          - not_null
+
+      - name: account_budget_category
+        tests:
+          - not_null
+
+      - name: amount
+        tests:
+          - not_null
+
+      - name: budget_department
+        tests:
+          - not_null
+
+    tests:
+        - unique:
+            column_name: "concat(date_month, account_budget_category)"

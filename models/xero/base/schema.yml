@@ -74,3 +74,152 @@ models:
       - name: budget_department
         tests:
           - not_null
+
+  - name: xero_invoices
+    columns:
+      - name: invoice_id
+        tests:
+          - not_null
+          - unique
+      - name: status
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['DRAFT', 'PAID', 'VOIDED', 'DELETED', 'AUTHORISED']
+      - name: invoice_type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['ACCREC', 'ACCPAY']
+      - name: line_amount_types
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['NoTax', 'Inclusive', 'Exclusive']
+
+  - name: xero_invoices_line_items
+    columns:
+      - name: invoice_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('xero_invoices')
+              field: invoice_id
+      - name: account_code
+        tests:
+          - relationships:
+              to: ref('xero_accounts')
+              field: account_code
+
+  - name: xero_manual_journals
+    columns:
+      - name: manual_journal_id
+        tests:
+          - not_null
+          - unique
+      - name: status
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['POSTED', 'VOIDED']
+      - name: line_amount_types
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['NoTax', 'Inclusive', 'Exclusive']
+
+  - name: xero_manual_journals_journal_lines
+    columns:
+      - name: manual_journal_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('xero_manual_journals')
+              field: manual_journal_id
+      - name: account_code
+        tests:
+          - not_null
+          - relationships:
+              to: ref('xero_accounts')
+              field: account_code
+
+  - name: xero_bank_transactions
+    columns:
+      - name: bank_transaction_id
+        tests:
+          - not_null
+          - unique
+      - name: bank_transaction_type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['RECEIVE', 'SPEND', 'RECEIVE-TRANSFER',
+                'RECEIVE-OVERPAYMENT', 'SPEND-OVERPAYMENT', 'SPEND-TRANSFER']
+      - name: line_amount_types
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['NoTax', 'Inclusive', 'Exclusive']
+      - name: line_amount
+          - not_null
+      - name: tax_amount
+          - not_null
+      - name: status
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['DELETED', 'AUTHORISED']
+
+  - name: xero_bank_transactions_line_items
+    columns:
+      - name: line_item_id
+        tests:
+          - not_null
+          - unique
+      - name: bank_transaction_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('xero_bank_transactions')
+              field: bank_transaction_id
+      - name: account_code
+        tests:
+          - relationships:
+              to: ref('xero_accounts')
+              field: account_code
+
+  - name: xero_payments
+    columns:
+      - name: payment_id
+        tests:
+          - unique
+          - not_null
+      - name: payment_type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['ACCPAYPAYMENT', 'ACCRECPAYMENT']
+      - name: status
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['AUTHORISED', 'DELETED']
+      - name: account_code
+        tests:
+          - relationships:
+              to: ref('xero_accounts')
+              field: account_code
+
+  - name: xero_accounts
+    columns:
+      - name: account_id
+        tests:
+          - not_null
+          - unique
+      - name: account_code
+        tests:
+          - unique
+      - name: account_name
+        tests:
+          - not_null
+          - unique
