@@ -1,5 +1,5 @@
 packages:
   - git: "https://github.com/fishtown-analytics/dbt-utils.git"
-    revision: 0.1.22
+    revision: 0.1.23
   - git: "https://github.com/fishtown-analytics/postgres.git"
     revision: 0.1.0
