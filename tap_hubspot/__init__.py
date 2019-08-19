@@ -1212,7 +1212,7 @@ def main_impl():
     if args.config:
         LOGGER.info("Config json found")
         config = load_file(args.config)
-    elif "wiw_config" in env:
+    elif "hubspot_config" in env:
         LOGGER.info("Env var config found")
         config = json.loads(env["hubspot_config"])
     else:
