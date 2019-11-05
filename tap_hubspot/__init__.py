@@ -9,11 +9,14 @@ import sys
 
 import attr
 import backoff
+import dialogue.logging
 import pytz
 import requests
 import singer
 import singer.messages
 import singer.metrics as metrics
+import structlog
+from dialogue.logging.util import wrap_dict
 from singer import (
     UNIX_MILLISECONDS_INTEGER_DATETIME_PARSING,
     Transformer,
@@ -22,8 +25,14 @@ from singer import (
     transform,
     utils,
 )
+from structlog import get_logger
 
-LOGGER = singer.get_logger()
+dialogue.logging.configure()
+# TODO: fix dialogue.logging to use this context_class by default
+structlog.configure(context_class=wrap_dict(dict))
+
+LOGGER = get_logger()
+
 SESSION = requests.Session()
 
 env = os.environ.copy()
@@ -1083,7 +1092,7 @@ def do_sync(STATE, catalogs):
 
     STATE = singer.set_currently_syncing(STATE, None)
     singer.write_state(STATE)
-    LOGGER.info("Sync completed")
+    LOGGER.info("Sync completed :)")
 
 
 class Context(object):

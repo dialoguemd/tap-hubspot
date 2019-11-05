@@ -1,13 +1,21 @@
 import logging
 import unittest
 
+import dialogue.logging
 import singer
 import singer.bookmarks
+import structlog
+from dialogue.logging.util import wrap_dict
+from structlog import get_logger
 
 import tap_hubspot
 from tap_hubspot.tests import utils
 
-LOGGER = singer.get_logger()
+dialogue.logging.configure()
+# TODO: fix dialogue.logging to use this context_class by default
+structlog.configure(context_class=wrap_dict(dict))
+
+LOGGER = get_logger()
 
 
 def set_offset_with_exception(state, tap_stream_id, offset_key, offset_value):

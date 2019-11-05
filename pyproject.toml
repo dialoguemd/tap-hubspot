@@ -5,12 +5,14 @@ description = "a Singer tap for extracting data from Hubspot"
 authors = ["Dialogue <hackers@dialogue.co>"]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.7"
 attrs = "^19.1"
-singer-python = "5.5.1"
+singer-python = "^5.8"
 requests = "^2.22"
 requests_mock = "^1.6"
 nose = "^1.3"
+structlog = "^19.1"
+"dialogue.logging" = "^2.6.1"
 
 [tool.poetry.dev-dependencies]
 pylama = "^7.7"

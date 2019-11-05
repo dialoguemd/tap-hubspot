@@ -1,11 +1,19 @@
 import os
 
+import dialogue.logging
 import singer
 import singer.bookmarks
+import structlog
+from dialogue.logging.util import wrap_dict
+from structlog import get_logger
 
 import tap_hubspot
 
-LOGGER = singer.get_logger()
+dialogue.logging.configure()
+# TODO: fix dialogue.logging to use this context_class by default
+structlog.configure(context_class=wrap_dict(dict))
+
+LOGGER = get_logger()
 
 caught_records = {}
 caught_bookmarks = []

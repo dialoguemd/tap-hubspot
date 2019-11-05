@@ -2,13 +2,21 @@ import os
 import pprint
 import unittest
 
+import dialogue.logging
 import singer.bookmarks
 import singer.messages
+import structlog
+from dialogue.logging.util import wrap_dict
+from structlog import get_logger
 
 import tap_hubspot
 from tap_hubspot.tests import utils
 
-LOGGER = singer.get_logger()
+dialogue.logging.configure()
+# TODO: fix dialogue.logging to use this context_class by default
+structlog.configure(context_class=wrap_dict(dict))
+
+LOGGER = get_logger()
 
 
 class Bookmarks(unittest.TestCase):
