@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tap-hubspot"
-version = "0.0.2"
+version = "0.1.0"
 description = "a Singer tap for extracting data from Hubspot"
 authors = ["Dialogue <hackers@dialogue.co>"]
 
