@@ -1,5 +1,33 @@
 # Changelog
 
+## 2.7.0
+  * Fields nested under `properties` are copied to top level and prepended with `property_` [#107](https://github.com/singer-io/tap-hubspot/pull/107)
+
+## 2.6.5
+  * For `deals` stream, use `includeAllProperties` flag instead of appending all properties to request url [#112](https://github.com/singer-io/tap-hubspot/pull/112)
+
+## 2.6.4
+  * When making `deals` requests, only attach `properties` if selected [#102](https://github.com/singer-io/tap-hubspot/pull/102)
+
+## 2.6.3
+  * Use the metadata library better
+
+## 2.6.2
+  * Revert the revert. Go back to v2.6.0.
+
+## 2.6.1
+  * Revert v2.6.0 to v.2.5.2
+
+## 2.6.0
+  * Replaced `annotated_schema` with Singer `metadata`
+  * Added integration tests to CircleCI
+
+## 2.5.2
+  * Companies and Engagements have a new pattern to catch records that are updated during a long-running sync. Rather than using a lookback window, the bookmark value will be limited to the `min(current_sync_start, max_bk_seen)` [#98](https://github.com/singer-io/tap-hubspot/pull/98)
+
+## 2.4.0
+  * The owners stream can optionally fetch "inactive owners" [#92](https://github.com/singer-io/tap-hubspot/pull/92)
+
 ## 2.3.0
   * Engagements will now track how long the stream takes to sync, and look back on the next run by that amount to cover potentially missed updates due to asynchronous updates during the previous sync [#91](https://github.com/singer-io/tap-hubspot/pull/91)
 
