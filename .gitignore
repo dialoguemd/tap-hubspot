@@ -8,6 +8,8 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+.venv
+bin
 env/
 build/
 develop-eggs/
@@ -98,3 +100,11 @@ config.json
 .autoenv.zsh
 *~
 env-vars*
+.vscode
+man
+
+# json files
+my-config.json
+pg_config.json
+pg_config_ssh.json
+output.json
