@@ -1027,9 +1027,9 @@ STREAMS = [
     ),
     Stream("deals", sync_deals, ["dealId"], "hs_lastmodifieddate", "FULL_TABLE"),
     Stream("deal_pipelines", sync_deal_pipelines, ["pipelineId"], None, "FULL_TABLE"),
-    #Stream(
-        #"engagements", sync_engagements, ["engagement_id"], "lastUpdated", "FULL_TABLE"
-    #),
+    # Stream(
+    # "engagements", sync_engagements, ["engagement_id"], "lastUpdated", "FULL_TABLE"
+    # ),
 ]
 
 
