@@ -94,7 +94,8 @@ ENV/
 
 # Custom stuff
 env.sh
-config.json
+*config.json
+*config_ssh.json
 .autoenv.zsh
 *~
 env-vars*

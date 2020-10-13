@@ -1014,7 +1014,7 @@ class Stream(object):
 STREAMS = [
     # Do these first as they are incremental
     # Stream('subscription_changes', sync_subscription_changes, ['timestamp', 'portalId', 'recipient'], 'startTimestamp', 'INCREMENTAL'),
-    Stream("email_events", sync_email_events, ["id"], "startTimestamp", "INCREMENTAL"),
+    # Stream("email_events", sync_email_events, ["id"], "startTimestamp", "INCREMENTAL"),
     # Do these last as they are full table
     Stream("forms", sync_forms, ["guid"], "updatedAt", "FULL_TABLE"),
     Stream("workflows", sync_workflows, ["id"], "updatedAt", "FULL_TABLE"),
@@ -1027,9 +1027,9 @@ STREAMS = [
     ),
     Stream("deals", sync_deals, ["dealId"], "hs_lastmodifieddate", "FULL_TABLE"),
     Stream("deal_pipelines", sync_deal_pipelines, ["pipelineId"], None, "FULL_TABLE"),
-    Stream(
-        "engagements", sync_engagements, ["engagement_id"], "lastUpdated", "FULL_TABLE"
-    ),
+    #Stream(
+        #"engagements", sync_engagements, ["engagement_id"], "lastUpdated", "FULL_TABLE"
+    #),
 ]
 
 
